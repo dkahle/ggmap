@@ -1,0 +1,15 @@
+Version 0.7
+-------------------------------------------------------------------------
+Changes - Examples not run at R CMD check.
+
+Version 0.6
+-------------------------------------------------------------------------
+Changes - ggimage and ggmap now properly reshape using the reshape2 package.
+
+Version 0.5
+-------------------------------------------------------------------------
+Changes - ggimage changed to display coord_equal by default.
+
+Version 0.1
+-------------------------------------------------------------------------
+PACKAGE GENESIS.
