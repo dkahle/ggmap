@@ -11,10 +11,10 @@
 #' @seealso \code{\link{ggmap}} 
 #' @export
 #' @examples
-#'  
+#' 
+#' \dontrun{ 
 #' (HoustonMap <- ggmapplot(ggmap()))
 #' 
-#' \dontrun{
 #' require(MASS)
 #' mu <- c(-95.3632715, 29.7632836); nDataSets <- sample(4:10,1)
 #' chkpts <- NULL

@@ -1,3 +1,12 @@
+Version 0.8
+-------------------------------------------------------------------------
+Changes - 
+1. Further updated examples for a more efficient R CMD check.
+2. ggmap now calls geocode (see below) for geocoding.
+
+Additions - 
+1. The geocoding subroutine of ggmap has been converted to its own function called geocode, which is exported.
+
 Version 0.7
 -------------------------------------------------------------------------
 Changes - Examples not run at R CMD check.

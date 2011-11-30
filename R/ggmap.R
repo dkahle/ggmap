@@ -22,11 +22,11 @@
 #' @examples
 #'
 #' 
-#' 
+#' \dontrun{ 
 #' WashingtonMap_df <- ggmap(location = 'washington')
 #' str(WashingtonMap_df)
-#' # ggmapplot(WashingtonMap_df)
-#' 
+#' ggmapplot(WashingtonMap_df)
+#' }
 #' 
 ggmap <- function(
   location = 'houston',
@@ -43,20 +43,7 @@ ggmap <- function(
   source <- match.arg(source)
   
   # location and url formatting
-  if(!missing(location)){
-  	location_splt <- strsplit(location, split = ' ')[[1]]
-    url_string <- paste('http://maps.google.com/maps/geo?q=', 
-      paste(location_splt, collapse = ',+'), sep = '')
-    site   <- readLines(url(url_string))	
-    site   <- site[which(regexpr('coordinates', site) > 0)]
-    if(is.na(site[1])) stop('location geocoding error.')
-    site   <- strsplit(site, '\\[')[[1]][2]
-    site   <- strsplit(site, ',')[[1]][1:2]
-    latlon <- as.numeric(site)	
-    center <- c(lat = latlon[2], lon = latlon[1])
-    closeAllConnections()
-  }
-	   
+  if(!missing(location)) center <- geocode(location)	   
 	   
   # get google map if desired, otherwise get metadata from google  
   if(verbose) message('grabbing map... ', appendLF = FALSE)

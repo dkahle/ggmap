@@ -8,7 +8,8 @@
 #' @export
 #' @examples
 #' library(ggplot2)
-#' df <- expand.grid(x = 1:100,y = 1:100)[sample(100^2,.75*100^2),]
+#' n <- 50
+#' df <- expand.grid(x = 1:n,y = 1:n)[sample(n^2,.5*n^2),]
 #' qplot(x, y, data = df, geom = 'tile')
 #' qplot(x, y, data = df, geom = 'tile') + theme_nothing()
 theme_nothing <- function (base_size = 12){
