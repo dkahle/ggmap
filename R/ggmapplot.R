@@ -147,11 +147,16 @@ ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, ...){
     stop('ggmapplot plots objects of class ggmap, see ?ggmap', call. = FALSE)	
   }
 
-  # make base plot
-  p <- ggplot() + geom_tile(aes(x = lon, y = lat, fill = fill), data = ggmap)
-
+  if (inherits(ggmap, "raster")) {
+    p <- ggplot() + geom_raster(aes(xmin = ll.lon, xmax = ur.lon, ymin = ll.lat, ymax = ur.lat), data = attr(ggmap, "bb"), image = ggmap)
+    
+  } else {
+    # make base plot
+    p <- ggplot() + geom_tile(aes(x = lon, y = lat, fill = fill), data = ggmap)
+  }
+  
   # set scales
-  p <- p + scale_fill_identity(legend = FALSE) + coord_equal() 
+  p <- p + scale_fill_identity(guide = FALSE) + coord_equal() 
     
   # fullpage?
   if(fullpage) p <- p + theme_nothing()
