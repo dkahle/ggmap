@@ -33,7 +33,7 @@ ggmap <- function(
   center = c(lat = 29.7632836, lon = -95.3632715), regularize = TRUE,
   type = c('color','bw'), rgbcoefs = c(0, 1, 0), zoom = 10, 
   maptype = 'terrain', source = c('google', 'osm'), verbose = FALSE,
-  destfile = 'ggmapTemp.jpg', n_pix = 640, scale = 20000, ...
+  destfile = 'ggmapTemp.jpg', n_pix = 640, scale = 20000, raster = TRUE, ...
 ){
   require(reshape2)
   require(plyr)
@@ -67,21 +67,28 @@ ggmap <- function(
     m <- GetMap.OSM(lonR = lonR, latR = latR, scale = scale, destfile = destfile, verbose = FALSE)
   }  
   if(verbose) message('done.')  
-  
+
+  if (raster) {
+    map <- as.raster(m$myTile)
+    attr(map, "bb") <- data.frame(m$BBOX)
+    class(map) <- unique(c("ggmap", "raster", class(map)))
+    return(map)
+  }
   
   # color map
-  if(verbose) message('coloring map... ', appendLF = FALSE) 
-  if(type == 'color'){
-    map <- apply(m$myTile, 1:2, function(v) .Internal(rgb(v[1], v[2], v[3], 1, 1, NULL)))    
-  } else if(type == 'bw') {
-  	nrow <- nrow(m$myTile)
-  	ncol <- ncol(m$myTile)  	
-    map <- grey(rgb2grey(m$myTile, coefs = rgbcoefs))
-    map <- matrix(map, nrow = nrow, ncol = ncol)
-  } 
-  if(verbose) message('done.')     
-  
-  
+  if (raster == FALSE) {
+    if(verbose) message('coloring map... ', appendLF = FALSE) 
+    if(type == 'color'){
+      map <- apply(m$myTile, 1:2, function(v) .Internal(rgb(v[1], v[2], v[3], 1, 1, NULL)))    
+    } else if(type == 'bw') {
+      nrow <- nrow(m$myTile)
+      ncol <- ncol(m$myTile)  	
+      map <- grey(rgb2grey(m$myTile, coefs = rgbcoefs))
+      map <- matrix(map, nrow = nrow, ncol = ncol)
+    }
+    if(verbose) message('done.')
+  }
+
   # reshape map for plotting
   if(verbose) message('formatting map... ', appendLF = FALSE)  
   m_map <- reshape2::melt(map)
