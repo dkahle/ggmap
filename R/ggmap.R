@@ -23,7 +23,7 @@
 #'
 #' 
 #' \dontrun{ 
-#' WashingtonMap_df <- ggmap(location = 'washington')
+#' WashingtonMap_df <- ggmap(location = 'washington', verbose = TRUE)
 #' str(WashingtonMap_df)
 #' ggmapplot(WashingtonMap_df)
 #' }
@@ -35,9 +35,9 @@ ggmap <- function(
   maptype = 'terrain', source = c('google', 'osm'), verbose = FALSE,
   destfile = 'ggmapTemp.jpg', n_pix = 640, scale = 20000, ...
 ){
-  require(reshape2)
-  require(plyr)
-  require(RgoogleMaps)
+  #require(reshape2, quietly = TRUE)
+  #require(plyr, quietly = TRUE)
+  #require(RgoogleMaps, quietly = TRUE)
   
   type   <- match.arg(type)	
   source <- match.arg(source)
@@ -72,7 +72,7 @@ ggmap <- function(
   # color map
   if(verbose) message('coloring map... ', appendLF = FALSE) 
   if(type == 'color'){
-    map <- apply(m$myTile, 1:2, function(v) .Internal(rgb(v[1], v[2], v[3], 1, 1, NULL)))    
+    map <- apply(m$myTile, 1:2, function(v) rgb(v[1], v[2], v[3]))
   } else if(type == 'bw') {
   	nrow <- nrow(m$myTile)
   	ncol <- ncol(m$myTile)  	

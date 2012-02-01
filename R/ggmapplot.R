@@ -33,7 +33,7 @@
 #' HoustonMap + 
 #'   stat_density2d(aes(x = lon, y = lat, size = ..density.., colour = class), 
 #'     geom = 'point', alpha = I(1/2), data = chkpts, contour = FALSE) + 
-#'   scale_size(to = c(.1, .75), legend = FALSE)
+#'   scale_size(range = c(.1, .75), guide = 'none')
 #' 
 #' HoustonMap <- ggmapplot(ggmap(maptype = 'satellite'), fullpage = TRUE) 
 #' HoustonMap +
@@ -94,12 +94,12 @@
 #' zipsLabels <- ddply(zips, .(zip), function(df){
 #'   df[1,c("area", "perimeter", "zip", "lonCent", "latCent")]
 #' })
-#' if(substr(.Platform$pkgType,1,3) == 'mac'){device <- 'quartz'} else {device <- 'x11'}
+#' if(.Platform$OS.type == 'unix'){device <- 'quartz'} else {device <- 'x11'}
 #' eval(call(device, width = 6, height = 5.2))
 #' ggmapplot(ggmap(maptype = 'satellite', zoom = 9), fullpage = TRUE) +
 #'   geom_text(aes(x = lonCent, y = latCent, label = zip, size = area), 
 #'     data = zipsLabels, colour = I('red')) +
-#'   scale_size(to = c(1.5,6))
+#'   scale_size(range = c(1.5,6))
 #' 
 #' 
 #' 
@@ -117,7 +117,7 @@
 #' )
 #' 
 #' # contour plot
-#' if(length(grep('apple', R.version$platform)) > 0){device <- 'quartz'} else {device <- 'x11'}
+#' if(.Platform$OS.type == 'unix'){device <- 'quartz'} else {device <- 'x11'}
 #' eval(call(device, width = 9.25, height = 7.5))
 #' 
 #' ggmapplot(houston) + theme_bw() +
@@ -132,13 +132,13 @@
 #' ggmapplot(houston, fullpage = TRUE) +
 #'   stat_density2d(aes(x = lon, y = lat, colour = ..level..), 
 #'     bins = I(6), fill = NA, alpha = I(1/2), size = I(1.5), data = violent_crimes) +
-#'   scale_colour_gradient2(legend = FALSE, 
+#'   scale_colour_gradient2(guide = 'none', 
 #'     low = 'darkblue', mid = 'orange', high = 'red', midpoint = 35) + 
 #'   xlim(lon_range) + ylim(lat_range)
 #' 
 #' } 
 ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, ...){
-  require(ggplot2)
+  #require(ggplot2, quietly = TRUE)
   
   # dummies to trick R CMD check   
   lon <- NULL; rm(lon); lat <- NULL; rm(lat); fill <- NULL; rm(fill);   
@@ -151,7 +151,7 @@ ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, ...){
   p <- ggplot() + geom_tile(aes(x = lon, y = lat, fill = fill), data = ggmap)
 
   # set scales
-  p <- p + scale_fill_identity(legend = FALSE) + coord_equal() 
+  p <- p + scale_fill_identity(guide = 'none') + coord_equal() 
     
   # fullpage?
   if(fullpage) p <- p + theme_nothing()

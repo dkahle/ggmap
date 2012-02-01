@@ -10,12 +10,14 @@
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @export
 #' @examples
+#' 
+#' \dontrun{
 #' img <- matrix(1:16, 4, 4)
 #' image(img)
 #' ggimage(t(img[,4:1]), fullpage = FALSE) + 
-#'   scale_fill_gradientn(colour = heat.colors(10), legend = FALSE)
+#'   scale_fill_gradientn(colours = heat.colors(10), guide = 'none')
 #' 
-#' \dontrun{
+#' 
 #' data(hadley)
 #' ggimage(hadley, verbose = TRUE) 
 #' 
@@ -30,8 +32,8 @@
 #' }
 #'
 ggimage <- function(mat, fullpage = TRUE, verbose = FALSE, coord_equal = TRUE){
-  require(ggplot2)
-  require(reshape2)
+  #require(ggplot2)
+  #require(reshape2)
   
   # dummies to trick R CMD check   
   column <- NULL; rm(column); row <- NULL; rm(row); fill <- NULL; rm(fill); 
@@ -46,17 +48,17 @@ ggimage <- function(mat, fullpage = TRUE, verbose = FALSE, coord_equal = TRUE){
   	if(verbose) message('done.')    
     names(mat) <- c('row','column','fill')
     plot <- qplot(column, -row, data = mat, geom = 'tile', fill = fill) +
-      scale_fill_gradient(low = 'black', high = 'white', legend = FALSE)
+      scale_fill_gradient(low = 'black', high = 'white', guide = 'none')
   }
   
   if(length(dim(mat)) == 3){
   	if(verbose) message('creating color image... ', appendLF = FALSE)
-  	mat <- apply(mat, 1:2, function(v) .Internal(rgb(v[1], v[2], v[3], 1, 1, NULL)))    
+  	mat <- apply(mat, 1:2, function(v) rgb(v[1], v[2], v[3])) 
   	if(verbose) message('done.')
     mat <- reshape2::melt(mat)
     names(mat) <- c('row', 'column', 'fill')
     plot <- qplot(column, -row, data = mat, geom = 'tile', fill = fill) +
-      scale_fill_identity(legend = FALSE)  	
+      scale_fill_identity(guide = FALSE)  	
   }
 
   if(fullpage) plot <- plot + theme_nothing()

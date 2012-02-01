@@ -4,6 +4,7 @@ ggimage and ggmapplot are now based on geom_raster (new in ggplot2 as of version
 
 
 
+
 Version 0.8
 -------------------------------------------------------------------------
 Changes - 
