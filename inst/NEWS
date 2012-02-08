@@ -1,6 +1,8 @@
 Version 1.0
 -------------------------------------------------------------------------
 ggimage and ggmapplot are now based on geom_raster (new in ggplot2 as of version 0.9.0).  This affects the following changes :
+1. package now depends on proto.
+2. 
 
 
 

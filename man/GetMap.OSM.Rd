@@ -13,24 +13,32 @@
 
   \item{latR}{latitude range}
 
-  \item{scale}{see \code{\link{GetMap.OSM}}}
+  \item{scale}{see \code{\link{GetMap.OSM}} in package
+  RgoogleMaps}
 
-  \item{destfile}{see \code{\link{GetMap.OSM}}}
+  \item{destfile}{see \code{\link{GetMap.OSM}} in package
+  RgoogleMaps}
 
-  \item{format}{see \code{\link{GetMap.OSM}}}
+  \item{format}{see \code{\link{GetMap.OSM}} in package
+  RgoogleMaps}
 
-  \item{RETURNIMAGE}{see \code{\link{GetMap.OSM}}}
+  \item{RETURNIMAGE}{see \code{\link{GetMap.OSM}} in
+  package RgoogleMaps}
 
-  \item{GRAYSCALE}{see \code{\link{GetMap.OSM}}}
+  \item{GRAYSCALE}{see \code{\link{GetMap.OSM}} in package
+  RgoogleMaps}
 
-  \item{NEWMAP}{see \code{\link{GetMap.OSM}}}
+  \item{NEWMAP}{see \code{\link{GetMap.OSM}} in package
+  RgoogleMaps}
 
-  \item{verbose}{see \code{\link{GetMap.OSM}}}
+  \item{verbose}{see \code{\link{GetMap.OSM}} in package
+  RgoogleMaps}
 
-  \item{...}{see \code{\link{GetMap.OSM}}}
+  \item{...}{see \code{\link{GetMap.OSM}} in package
+  RgoogleMaps}
 }
 \value{
-  see \code{\link{GetMap.OSM}}
+  see \code{\link{GetMap.OSM}} in package RgoogleMaps
 }
 \description{
   This is virtually identical to the function

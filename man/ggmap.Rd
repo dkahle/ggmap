@@ -8,7 +8,7 @@
     rgbcoefs = c(0, 1, 0), zoom = 10, maptype = "terrain",
     source = c("google", "osm"), verbose = FALSE,
     destfile = "ggmapTemp.jpg", n_pix = 640, scale = 20000,
-    ...)
+    raster = TRUE, ...)
 }
 \arguments{
   \item{location}{a character string containing the name of
@@ -44,6 +44,8 @@
 
   \item{scale}{numeric; scale of OpenStreetMap, see
   ?GetMap}
+
+  \item{raster}{logical; use geom_raster?}
 
   \item{...}{...}
 }

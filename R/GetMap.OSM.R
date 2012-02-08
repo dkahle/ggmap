@@ -4,15 +4,15 @@
 #' 
 #' @param lonR longitude range
 #' @param latR latitude range
-#' @param scale see \code{\link{GetMap.OSM}}
-#' @param destfile see \code{\link{GetMap.OSM}}
-#' @param format see \code{\link{GetMap.OSM}}
-#' @param RETURNIMAGE see \code{\link{GetMap.OSM}}
-#' @param GRAYSCALE see \code{\link{GetMap.OSM}}
-#' @param NEWMAP see \code{\link{GetMap.OSM}}
-#' @param verbose see \code{\link{GetMap.OSM}}
-#' @param ... see \code{\link{GetMap.OSM}}
-#' @return see \code{\link{GetMap.OSM}}
+#' @param scale see \code{\link{GetMap.OSM}} in package RgoogleMaps
+#' @param destfile see \code{\link{GetMap.OSM}} in package RgoogleMaps
+#' @param format see \code{\link{GetMap.OSM}} in package RgoogleMaps
+#' @param RETURNIMAGE see \code{\link{GetMap.OSM}} in package RgoogleMaps
+#' @param GRAYSCALE see \code{\link{GetMap.OSM}} in package RgoogleMaps
+#' @param NEWMAP see \code{\link{GetMap.OSM}} in package RgoogleMaps
+#' @param verbose see \code{\link{GetMap.OSM}} in package RgoogleMaps
+#' @param ... see \code{\link{GetMap.OSM}} in package RgoogleMaps
+#' @return see \code{\link{GetMap.OSM}} in package RgoogleMaps
 #' @author Markus Loecher, Sense Networks \email{markus@@sensenetworks.com}
 #' @seealso \code{\link{GetMap.OSM}} in package RgoogleMaps
 #'

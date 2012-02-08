@@ -106,49 +106,79 @@
 #' 
 #' # Crime data example
 #' 
-#' # get map
-#' houston <- ggmap(location = 'houston', zoom = 11)
-#' lat_range <- range(houston$lat)
-#' lon_range <- range(houston$lon)
-#' 
-#' # restrict to violent crimes
+#' # format data
 #' violent_crimes <- subset(crime,
-#'   offense != 'Auto Theft' & offense != 'Theft' & offense != 'Burglary'
+#'   offense != 'auto theft' & offense != 'theft' & offense != 'burglary'
 #' )
 #' 
-#' # contour plot
+#' violent_crimes$offense <- factor(violent_crimes$offense, 
+#'   levels = c('robbery', 'aggravated assault', 'rape', 'murder')
+#' )
+#' levels(violent_crimes$offense) <- c('robbery', 'aggravated assault', 'rape', 'murder')
+#' 
+#' 
+#' # get map and bounding box
+#' houston <- ggmap(location = 'houston', zoom = 14)
+#' lat_range <- as.numeric(attr(houston, 'bb')[c('ll.lat','ur.lat')])
+#' lon_range <- as.numeric(attr(houston, 'bb')[c('ll.lon','ur.lon')])
+#' 
+#' 
+#' # open nicely sized device
 #' if(.Platform$OS.type == 'unix'){device <- 'quartz'} else {device <- 'x11'}
-#' eval(call(device, width = 9.25, height = 7.5))
+#' eval(call(device, width = 9.25, height = 7.25))
+#' 
+#' 
+#' # make bubble chart
+#'  ggmapplot(houston) + theme_bw() +
+#'    geom_point(aes(x = lon, y = lat, colour = offense, size = offense), data = violent_crimes) +
+#'    scale_x_continuous('Longitude', limits = lon_range) + 
+#'    scale_y_continuous('Latitude', limits = lat_range) +
+#'    opts(title = 'Violent Crime Bubble Map of Downtown Houston') +
+#'    scale_colour_discrete('Offense', labels = c('Robery','Aggravated\nAssault','Rape','Murder')) +
+#'    scale_size_discrete('Offense', labels = c('Robery','Aggravated\nAssault','Rape','Murder'))   
+#'    
+#' 
+#' 
+#' # make contour plot
+#' violent_crimes <- subset(violent_crimes,
+#'   lat_range[1] <= lat & lat <= lat_range[2] &
+#'   lon_range[1] <= lon & lon <= lon_range[2]
+#' )
 #' 
 #' ggmapplot(houston) + theme_bw() +
-#'   stat_density2d(aes(x = lon, y = lat, colour = ..level..), 
-#'     bins = I(6), fill = NA, alpha = I(1/2), size = I(.75), data = violent_crimes) +
-#'   scale_colour_gradient2('Violent\nCrime\nDensity', 
-#'     low = 'darkblue', mid = 'orange', high = 'red', midpoint = 35) + 
-#'   scale_x_continuous('Longitude', limits = lon_range) + 
+#'   stat_density2d(aes(x = lon, y = lat, colour = ..level..),
+#'     bins = I(20), fill = NA, alpha = I(1/2), size = I(.75), data = violent_crimes) +
+#'   scale_colour_gradient2('Violent\nCrime\nDensity',
+#'     low = 'darkblue', mid = 'orange', high = 'red', midpoint = 35) +
+#'   scale_x_continuous('Longitude', limits = lon_range) +
 #'   scale_y_continuous('Latitude', limits = lat_range) +
-#'   opts(title = 'Violent Crime Contour Map of Houston')
-#'   
-#' ggmapplot(houston, fullpage = TRUE) +
-#'   stat_density2d(aes(x = lon, y = lat, colour = ..level..), 
-#'     bins = I(6), fill = NA, alpha = I(1/2), size = I(1.5), data = violent_crimes) +
-#'   scale_colour_gradient2(guide = 'none', 
-#'     low = 'darkblue', mid = 'orange', high = 'red', midpoint = 35) + 
-#'   xlim(lon_range) + ylim(lat_range)
+#'   opts(title = 'Violent Crime Contour Map of Downtown Houston')
+#' 
+#' 
+#' 
+#' 
+#' 
 #' 
 #' } 
 ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, ...){
-  #require(ggplot2, quietly = TRUE)
   
   # dummies to trick R CMD check   
   lon <- NULL; rm(lon); lat <- NULL; rm(lat); fill <- NULL; rm(fill);   
+  ll.lon <- NULL; rm(ll.lon); ur.lon <- NULL; rm(ur.lon); 
+  ll.lat <- NULL; rm(ll.lat); ur.lat <- NULL; rm(ur.lat);      
   
   if(class(ggmap)[1] != 'ggmap'){
     stop('ggmapplot plots objects of class ggmap, see ?ggmap', call. = FALSE)	
   }
 
-  # make base plot
-  p <- ggplot() + geom_tile(aes(x = lon, y = lat, fill = fill), data = ggmap)
+  # make raster plot or tile plot
+  if (inherits(ggmap, "raster")) { # raster
+    p <- ggplot() + 
+      geom_raster(aes(xmin = ll.lon, xmax = ur.lon, ymin = ll.lat, ymax = ur.lat), 
+        data = attr(ggmap, "bb"), image = ggmap)    
+  } else { # tile
+    p <- ggplot() + geom_tile(aes(x = lon, y = lat, fill = fill), data = ggmap)
+  }
 
   # set scales
   p <- p + scale_fill_identity(guide = 'none') + coord_equal() 

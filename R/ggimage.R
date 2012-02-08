@@ -32,8 +32,6 @@
 #' }
 #'
 ggimage <- function(mat, fullpage = TRUE, verbose = FALSE, coord_equal = TRUE){
-  #require(ggplot2)
-  #require(reshape2)
   
   # dummies to trick R CMD check   
   column <- NULL; rm(column); row <- NULL; rm(row); fill <- NULL; rm(fill); 

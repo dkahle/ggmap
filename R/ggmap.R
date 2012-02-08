@@ -14,6 +14,7 @@
 #' @param destfile character; name of file to save downloaded map
 #' @param n_pix numeric; number of pixels in map
 #' @param scale numeric; scale of OpenStreetMap, see ?GetMap
+#' @param raster logical; use geom_raster?
 #' @param ... ...
 #' @return a data.frame with columns latitude, longitude, and fill
 #' @author David Kahle \email{david.kahle@@gmail.com}
@@ -33,11 +34,8 @@ ggmap <- function(
   center = c(lat = 29.7632836, lon = -95.3632715), regularize = TRUE,
   type = c('color','bw'), rgbcoefs = c(0, 1, 0), zoom = 10, 
   maptype = 'terrain', source = c('google', 'osm'), verbose = FALSE,
-  destfile = 'ggmapTemp.jpg', n_pix = 640, scale = 20000, ...
+  destfile = 'ggmapTemp.jpg', n_pix = 640, scale = 20000, raster = TRUE, ...
 ){
-  #require(reshape2, quietly = TRUE)
-  #require(plyr, quietly = TRUE)
-  #require(RgoogleMaps, quietly = TRUE)
   
   type   <- match.arg(type)	
   source <- match.arg(source)
@@ -67,20 +65,29 @@ ggmap <- function(
     m <- GetMap.OSM(lonR = lonR, latR = latR, scale = scale, destfile = destfile, verbose = FALSE)
   }  
   if(verbose) message('done.')  
+
   
-  
-  # color map
-  if(verbose) message('coloring map... ', appendLF = FALSE) 
-  if(type == 'color'){
-    map <- apply(m$myTile, 1:2, function(v) rgb(v[1], v[2], v[3]))
-  } else if(type == 'bw') {
-  	nrow <- nrow(m$myTile)
-  	ncol <- ncol(m$myTile)  	
-    map <- grey(rgb2grey(m$myTile, coefs = rgbcoefs))
-    map <- matrix(map, nrow = nrow, ncol = ncol)
-  } 
-  if(verbose) message('done.')     
-  
+  # raster?  color map if not
+  if(raster){
+    map <- as.raster(m$myTile)
+    attr(map, "bb") <- if(source == 'google'){ data.frame(m$BBOX) } else { 
+      data.frame(ll.lat = m$BBOX$ll[1], ll.lon = m$BBOX$ll[2], ur.lat = m$BBOX$ur[1], ur.lon = m$BBOX$ur[2])	
+    }
+    class(map) <- unique(c("ggmap", "raster", class(map)))
+    return(map)
+  } else {
+    if(verbose) message('coloring map... ', appendLF = FALSE) 
+    if(type == 'color'){
+      map <- apply(m$myTile, 1:2, function(v) .Internal(rgb(v[1], v[2], v[3], 1, 1, NULL)))    
+    } else if(type == 'bw') {
+      nrow <- nrow(m$myTile)
+      ncol <- ncol(m$myTile)  	
+      map <- grey(rgb2grey(m$myTile, coefs = rgbcoefs))
+      map <- matrix(map, nrow = nrow, ncol = ncol)
+    }
+    if(verbose) message('done.')
+  }  
+     
   
   # reshape map for plotting
   if(verbose) message('formatting map... ', appendLF = FALSE)  

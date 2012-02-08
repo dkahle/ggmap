@@ -118,35 +118,58 @@ ggmapplot(ggmap(maptype = 'satellite', zoom = 9), fullpage = TRUE) +
 
 # Crime data example
 
-# get map
-houston <- ggmap(location = 'houston', zoom = 11)
-lat_range <- range(houston$lat)
-lon_range <- range(houston$lon)
-
-# restrict to violent crimes
+# format data
 violent_crimes <- subset(crime,
-  offense != 'Auto Theft' & offense != 'Theft' & offense != 'Burglary'
+  offense != 'auto theft' & offense != 'theft' & offense != 'burglary'
 )
 
-# contour plot
+violent_crimes$offense <- factor(violent_crimes$offense,
+  levels = c('robbery', 'aggravated assault', 'rape', 'murder')
+)
+levels(violent_crimes$offense) <- c('robbery', 'aggravated assault', 'rape', 'murder')
+
+
+# get map and bounding box
+houston <- ggmap(location = 'houston', zoom = 14)
+lat_range <- as.numeric(attr(houston, 'bb')[c('ll.lat','ur.lat')])
+lon_range <- as.numeric(attr(houston, 'bb')[c('ll.lon','ur.lon')])
+
+
+# open nicely sized device
 if(.Platform$OS.type == 'unix'){device <- 'quartz'} else {device <- 'x11'}
-eval(call(device, width = 9.25, height = 7.5))
+eval(call(device, width = 9.25, height = 7.25))
+
+
+# make bubble chart
+ ggmapplot(houston) + theme_bw() +
+   geom_point(aes(x = lon, y = lat, colour = offense, size = offense), data = violent_crimes) +
+   scale_x_continuous('Longitude', limits = lon_range) +
+   scale_y_continuous('Latitude', limits = lat_range) +
+   opts(title = 'Violent Crime Bubble Map of Downtown Houston') +
+   scale_colour_discrete('Offense', labels = c('Robery','Aggravated\\nAssault','Rape','Murder')) +
+   scale_size_discrete('Offense', labels = c('Robery','Aggravated\\nAssault','Rape','Murder'))
+
+
+
+# make contour plot
+violent_crimes <- subset(violent_crimes,
+  lat_range[1] <= lat & lat <= lat_range[2] &
+  lon_range[1] <= lon & lon <= lon_range[2]
+)
 
 ggmapplot(houston) + theme_bw() +
   stat_density2d(aes(x = lon, y = lat, colour = ..level..),
-    bins = I(6), fill = NA, alpha = I(1/2), size = I(.75), data = violent_crimes) +
+    bins = I(20), fill = NA, alpha = I(1/2), size = I(.75), data = violent_crimes) +
   scale_colour_gradient2('Violent\\nCrime\\nDensity',
     low = 'darkblue', mid = 'orange', high = 'red', midpoint = 35) +
   scale_x_continuous('Longitude', limits = lon_range) +
   scale_y_continuous('Latitude', limits = lat_range) +
-  opts(title = 'Violent Crime Contour Map of Houston')
+  opts(title = 'Violent Crime Contour Map of Downtown Houston')
 
-ggmapplot(houston, fullpage = TRUE) +
-  stat_density2d(aes(x = lon, y = lat, colour = ..level..),
-    bins = I(6), fill = NA, alpha = I(1/2), size = I(1.5), data = violent_crimes) +
-  scale_colour_gradient2(guide = 'none',
-    low = 'darkblue', mid = 'orange', high = 'red', midpoint = 35) +
-  xlim(lon_range) + ylim(lat_range)
+
+
+
+
 
 }
 }
