@@ -3,7 +3,7 @@
 \title{Plot a ggmap.}
 \usage{
   ggmapplot(ggmap, fullpage = FALSE, regularize = TRUE,
-    ...)
+    base_layer, maprange = FALSE, expand = FALSE, ...)
 }
 \arguments{
   \item{ggmap}{an object of class ggmap (from function
@@ -14,6 +14,15 @@
 
   \item{regularize}{logical; should the longitude and
   latitude coordinates be regularized?}
+
+  \item{base_layer}{a ggplot(aes(...), ...) call; see
+  examples}
+
+  \item{maprange}{logical for use with base_layer; should
+  the map define the x and y limits?}
+
+  \item{expand}{should the map extend to the edge of the
+  panel? used with base_layer and maprange=TRUE.}
 
   \item{...}{...}
 }
@@ -234,6 +243,51 @@ qplot(lon, lat, data = df, geom = 'boxplot', fill = class)
 HoustonMap +
   geom_boxplot(aes(x = lon, y = lat, fill = class), data = df)
 
+
+# using the base_layer argument
+df <- data.frame(
+  x = rnorm(100, -95.36258, .05),
+  y = rnorm(100,  29.76196, .05)
+)
+ggmapplot(ggmap(), base_layer = ggplot(aes(x = x, y = y), data = df)) +
+  geom_point(colour = 'red')
+
+# using the maprange argument
+ggmapplot(ggmap(), maprange = TRUE,
+  base_layer = ggplot(aes(x = x, y = y), data = df)) +
+  geom_point(colour = 'red')
+
+
+
+# faceting is available via the base_layer argument
+df <- data.frame(
+  x = rnorm(10*100, -95.36258, .1),
+  y = rnorm(10*100,  29.76196, .1),
+  year = rep(paste('year',format(1:10)), each = 100)
+)
+ggmapplot(ggmap(), base_layer = ggplot(aes(x = x, y = y), data = df)) +
+  geom_point() +  facet_wrap(~ year)
+
+
+# a neat example
+df <- data.frame(
+  x = rnorm(10*100, -95.36258, .05),
+  y = rnorm(10*100,  29.76196, .05),
+  year = rep(paste('year',format(1:10)), each = 100)
+)
+for(k in 0:9){
+  df$x[1:100 + 100*k] <- df$x[1:100 + 100*k] + sqrt(.05)*cos(2*pi*k/10)
+  df$y[1:100 + 100*k] <- df$y[1:100 + 100*k] + sqrt(.05)*sin(2*pi*k/10)
+}
+
+options('device')$device(width = 10.93, height = 7.47)
+ggmapplot(ggmap(), maprange = TRUE, expand = TRUE,
+  base_layer = ggplot(aes(x = x, y = y), data = df)) +
+  stat_density2d(aes(fill = ..level.., alpha = ..level..),
+    bins = 4, geom = 'polygon') +
+  scale_fill_gradient2(low = 'white', mid = 'orange', high = 'red', midpoint = 10) +
+  scale_alpha(range = c(.2, .75), guide = FALSE) +
+  facet_wrap(~ year)
 
 
 

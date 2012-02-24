@@ -5,6 +5,9 @@
 #' @param ggmap an object of class ggmap (from function ggmap)
 #' @param fullpage logical; should the map take up the entire viewport?
 #' @param regularize logical; should the longitude and latitude coordinates be regularized?
+#' @param base_layer a ggplot(aes(...), ...) call; see examples
+#' @param maprange logical for use with base_layer; should the map define the x and y limits?
+#' @param expand should the map extend to the edge of the panel? used with base_layer and maprange=TRUE.
 #' @param ... ...
 #' @return a ggplot object
 #' @author David Kahle \email{david.kahle@@gmail.com}
@@ -223,11 +226,56 @@
 #'   geom_boxplot(aes(x = lon, y = lat, fill = class), data = df)
 #' 
 #' 
+#' # using the base_layer argument
+#' df <- data.frame(
+#'   x = rnorm(100, -95.36258, .05),
+#'   y = rnorm(100,  29.76196, .05)
+#' )
+#' ggmapplot(ggmap(), base_layer = ggplot(aes(x = x, y = y), data = df)) +
+#'   geom_point(colour = 'red')
+#'
+#' # using the maprange argument
+#' ggmapplot(ggmap(), maprange = TRUE,
+#'   base_layer = ggplot(aes(x = x, y = y), data = df)) +
+#'   geom_point(colour = 'red')
 #' 
+#' 
+#' 
+#' # faceting is available via the base_layer argument
+#' df <- data.frame(
+#'   x = rnorm(10*100, -95.36258, .1),
+#'   y = rnorm(10*100,  29.76196, .1),
+#'   year = rep(paste('year',format(1:10)), each = 100)
+#' )
+#' ggmapplot(ggmap(), base_layer = ggplot(aes(x = x, y = y), data = df)) +
+#'   geom_point() +  facet_wrap(~ year)
+#' 
+#' 
+#' # a neat example
+#' df <- data.frame(
+#'   x = rnorm(10*100, -95.36258, .05),
+#'   y = rnorm(10*100,  29.76196, .05),
+#'   year = rep(paste('year',format(1:10)), each = 100)
+#' )
+#' for(k in 0:9){
+#'   df$x[1:100 + 100*k] <- df$x[1:100 + 100*k] + sqrt(.05)*cos(2*pi*k/10)
+#'   df$y[1:100 + 100*k] <- df$y[1:100 + 100*k] + sqrt(.05)*sin(2*pi*k/10)  
+#' }
+#' 
+#' options('device')$device(width = 10.93, height = 7.47)
+#' ggmapplot(ggmap(), maprange = TRUE, expand = TRUE,
+#'   base_layer = ggplot(aes(x = x, y = y), data = df)) +
+#'   stat_density2d(aes(fill = ..level.., alpha = ..level..), 
+#'     bins = 4, geom = 'polygon') +
+#'   scale_fill_gradient2(low = 'white', mid = 'orange', high = 'red', midpoint = 10) +    
+#'   scale_alpha(range = c(.2, .75), guide = FALSE) +    
+#'   facet_wrap(~ year)
+#'   
+#'   
 #' 
 #' 
 #' } 
-ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, ...){
+ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, base_layer, maprange = FALSE, expand = FALSE, ...){
   
   # dummies to trick R CMD check   
   lon <- NULL; rm(lon); lat <- NULL; rm(lat); fill <- NULL; rm(fill);   
@@ -239,24 +287,50 @@ ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, ...){
   }
 
   # make raster plot or tile plot
-  if (inherits(ggmap, "raster")) { # raster
-  	
-    fourCorners <- expand.grid(
-  	  lon = as.numeric(attr(ggmap, "bb")[,c('ll.lon','ur.lon')]),
-  	  lat = as.numeric(attr(ggmap, "bb")[,c('ll.lat','ur.lat')])  	  
-  	)  	
-  	p <- ggplot(aes(x = lon, y = lat), data = fourCorners) + 
-  	  geom_blank() +
-  	  annotation_raster(ggmap, 
-  	    xmin = attr(ggmap, "bb")$ll.lon, 
-  	    xmax = attr(ggmap, "bb")$ur.lon, 
-  	    ymin = attr(ggmap, "bb")$ll.lat, 
-  	    ymax = attr(ggmap, "bb")$ur.lat
-  	  )
-  	  
-  } else { # tile
-    p <- ggplot() + geom_tile(aes(x = lon, y = lat, fill = fill), data = ggmap) +
-      scale_fill_identity(guide = 'none')
+  if(missing(base_layer)){
+    if(inherits(ggmap, "raster")){ # raster  	
+      # make base layer data.frame
+      fourCorners <- expand.grid(
+    	lon = as.numeric(attr(ggmap, "bb")[,c('ll.lon','ur.lon')]),
+  	    lat = as.numeric(attr(ggmap, "bb")[,c('ll.lat','ur.lat')])  	  
+      )  	
+    	
+      # shorthand notation
+      xmin <- attr(ggmap, "bb")$ll.lon
+      xmax <- attr(ggmap, "bb")$ur.lon 
+      ymin <- attr(ggmap, "bb")$ll.lat 
+  	  ymax <- attr(ggmap, "bb")$ur.lat    
+  	    	
+      p <- ggplot(aes(x = lon, y = lat), data = fourCorners) + 
+  	    geom_blank() +
+  	    annotation_raster(ggmap, xmin, xmax, ymin, ymax)
+  	    
+    } else { # tile, depricated    	
+      p <- ggplot() + geom_tile(aes(x = lon, y = lat, fill = fill), data = ggmap) +
+        scale_fill_identity(guide = 'none')
+      message('geom_tile method is depricated, use rasters.')
+    }
+  } else { # base_layer provided making facets possible
+    # get call
+  	stopifnot(inherits(ggmap, "raster"))
+    args <- as.list(match.call()[-1])
+    base <- deparse(args$base_layer) # "ggplot(aes(), data = blah)"
+    
+    # shorthand notation
+    xmin <- attr(ggmap, "bb")$ll.lon
+    xmax <- attr(ggmap, "bb")$ur.lon 
+  	ymin <- attr(ggmap, "bb")$ll.lat 
+  	ymax <- attr(ggmap, "bb")$ur.lat    
+    str2parse <- paste(base, 'geom_blank()', 
+      'annotation_raster(ggmap, xmin, xmax, ymin, ymax)',
+      sep = ' + '
+    )
+
+    p <- eval(parse(textConnection(str2parse)))   	
+    if(maprange) p <- p + xlim(xmin, xmax) + ylim(ymin, ymax)    
+    if(expand) p <- p + 
+      scale_x_continuous(expand = c(0,0)) +
+      scale_y_continuous(expand = c(0,0))      
   }
 
   # set scales
