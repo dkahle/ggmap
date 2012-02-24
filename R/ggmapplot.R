@@ -13,7 +13,8 @@
 #' @examples
 #' 
 #' \dontrun{ 
-#' (HoustonMap <- ggmapplot(ggmap()))
+#' hdf <- ggmap()
+#' (HoustonMap <- ggmapplot(hdf)
 #' 
 #' require(MASS)
 #' mu <- c(-95.3632715, 29.7632836); nDataSets <- sample(4:10,1)
@@ -33,7 +34,8 @@
 #' HoustonMap + 
 #'   stat_density2d(aes(x = lon, y = lat, size = ..density.., colour = class), 
 #'     geom = 'point', alpha = I(1/2), data = chkpts, contour = FALSE) + 
-#'   scale_size(range = c(.1, .75), guide = 'none')
+#'   scale_size(range = c(.1, .75), guide = 'none')  
+#'  
 #' 
 #' HoustonMap <- ggmapplot(ggmap(maptype = 'satellite'), fullpage = TRUE) 
 #' HoustonMap +
@@ -94,8 +96,7 @@
 #' zipsLabels <- ddply(zips, .(zip), function(df){
 #'   df[1,c("area", "perimeter", "zip", "lonCent", "latCent")]
 #' })
-#' if(.Platform$OS.type == 'unix'){device <- 'quartz'} else {device <- 'x11'}
-#' eval(call(device, width = 6, height = 5.2))
+#' options('device')$device(width = 7.7, height = 6.7)
 #' ggmapplot(ggmap(maptype = 'satellite', zoom = 9), fullpage = TRUE) +
 #'   geom_text(aes(x = lonCent, y = latCent, label = zip, size = area), 
 #'     data = zipsLabels, colour = I('red')) +
@@ -121,15 +122,13 @@
 #' houston <- ggmap(location = 'houston', zoom = 14)
 #' lat_range <- as.numeric(attr(houston, 'bb')[c('ll.lat','ur.lat')])
 #' lon_range <- as.numeric(attr(houston, 'bb')[c('ll.lon','ur.lon')])
-#' 
-#' 
-#' # open nicely sized device
-#' if(.Platform$OS.type == 'unix'){device <- 'quartz'} else {device <- 'x11'}
-#' eval(call(device, width = 9.25, height = 7.25))
-#' 
+#' HoustonMap <- ggmapplot(houston) 
+#' theme_set(theme_bw())
 #' 
 #' # make bubble chart
-#'  ggmapplot(houston) + theme_bw() +
+#' options('device')$device(width = 9.25, height = 7.25)
+#' 
+#' HoustonMap +
 #'    geom_point(aes(x = lon, y = lat, colour = offense, size = offense), data = violent_crimes) +
 #'    scale_x_continuous('Longitude', limits = lon_range) + 
 #'    scale_y_continuous('Latitude', limits = lat_range) +
@@ -145,7 +144,7 @@
 #'   lon_range[1] <= lon & lon <= lon_range[2]
 #' )
 #' 
-#' ggmapplot(houston) + theme_bw() +
+#' HoustonMap +
 #'   stat_density2d(aes(x = lon, y = lat, colour = ..level..),
 #'     bins = I(20), fill = NA, alpha = I(1/2), size = I(.75), data = violent_crimes) +
 #'   scale_colour_gradient2('Violent\nCrime\nDensity',
@@ -154,6 +153,74 @@
 #'   scale_y_continuous('Latitude', limits = lat_range) +
 #'   opts(title = 'Violent Crime Contour Map of Downtown Houston')
 #' 
+#' # the fill aesthetic is now available -
+#' HoustonMap +
+#'   stat_density2d(aes(x = lon, y = lat, fill = ..level..),
+#'     bins = I(6), alpha = I(1/5), geom = 'polygon', data = violent_crimes, ) +
+#'   scale_fill_gradient('Violent\nCrime\nDensity') +
+#'   scale_x_continuous('Longitude', limits = lon_range) +
+#'   scale_y_continuous('Latitude', limits = lat_range) +
+#'   opts(title = 'Violent Crime Contour Map of Downtown Houston') +
+#'   guides(fill = guide_colorbar(override.aes = list(alpha = 1)))
+#'     
+#'     
+#' options('device')$device(width = 9.25, height = 7.25)
+#' HoustonMap +
+#'   stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
+#'     bins = I(6), geom = 'polygon', data = violent_crimes) +
+#'   scale_fill_gradient2('Violent\nCrime\nDensity',
+#'     low = 'white', mid = 'orange', high = 'red', midpoint = 500) +
+#'   scale_x_continuous('Longitude', limits = lon_range) +
+#'   scale_y_continuous('Latitude', limits = lat_range) +
+#'   scale_alpha(range = c(.1, .45), guide = FALSE) +
+#'   opts(title = 'Violent Crime Contour Map of Downtown Houston') +
+#'   guides(fill = guide_colorbar(barwidth = 1.5, barheight = 10))    
+#' 
+#' # we can also add insets
+#' HoustonMap +
+#'   stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
+#'     bins = I(6), geom = 'polygon', data = violent_crimes) +
+#'   scale_fill_gradient2('Violent\nCrime\nDensity',
+#'     low = 'white', mid = 'orange', high = 'red', midpoint = 500) +
+#'   scale_x_continuous('Longitude', limits = lon_range) +
+#'   scale_y_continuous('Latitude', limits = lat_range) +
+#'   scale_alpha(range = c(.1, .45), guide = FALSE) +
+#'   opts(title = 'Violent Crime Contour Map of Downtown Houston') +
+#'   guides(fill = guide_colorbar(barwidth = 1.5, barheight = 10)) +
+#'   annotation_custom(
+#'     grob = ggplotGrob(ggplot() +
+#'       stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
+#'         bins = I(6), geom = 'polygon', data = violent_crimes) +
+#'       scale_fill_gradient2('Violent\nCrime\nDensity',
+#'         low = 'white', mid = 'orange', high = 'red', midpoint = 500, guide = FALSE) +
+#'       scale_x_continuous('Longitude', limits = lon_range) +
+#'       scale_y_continuous('Latitude', limits = lat_range) +
+#'       scale_alpha(range = c(.1, .45), guide = FALSE) +
+#'       theme_inset()
+#'     ), 
+#'     xmin = attr(houston,'bb')$ll.lon + 
+#'       (7/10) * (attr(houston,'bb')$ur.lon - attr(houston,'bb')$ll.lon),
+#'     xmax = Inf,
+#'     ymin = -Inf,
+#'     ymax = attr(houston,'bb')$ll.lat + 
+#'       (3/10) * (attr(houston,'bb')$ur.lat - attr(houston,'bb')$ll.lat)   
+#'   )  
+#' 
+#' 
+#' 
+#' df <- data.frame(
+#'   lon = rep(seq(-95.39, -95.35, length.out = 8), each = 20),
+#'   lat = sapply(
+#'     rep(seq(29.74, 29.78, length.out = 8), each = 20), 
+#'     function(x) rnorm(1, x, .002)
+#'   ),
+#'   class = rep(letters[1:8], each = 20)
+#' )  
+#' 
+#' qplot(lon, lat, data = df, geom = 'boxplot', fill = class)
+#' 
+#' HoustonMap +
+#'   geom_boxplot(aes(x = lon, y = lat, fill = class), data = df)
 #' 
 #' 
 #' 
@@ -173,15 +240,27 @@ ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, ...){
 
   # make raster plot or tile plot
   if (inherits(ggmap, "raster")) { # raster
-    p <- ggplot() + 
-      geom_raster(aes(xmin = ll.lon, xmax = ur.lon, ymin = ll.lat, ymax = ur.lat), 
-        data = attr(ggmap, "bb"), image = ggmap)    
+  	
+    fourCorners <- expand.grid(
+  	  lon = as.numeric(attr(ggmap, "bb")[,c('ll.lon','ur.lon')]),
+  	  lat = as.numeric(attr(ggmap, "bb")[,c('ll.lat','ur.lat')])  	  
+  	)  	
+  	p <- ggplot(aes(x = lon, y = lat), data = fourCorners) + 
+  	  geom_blank() +
+  	  annotation_raster(ggmap, 
+  	    xmin = attr(ggmap, "bb")$ll.lon, 
+  	    xmax = attr(ggmap, "bb")$ur.lon, 
+  	    ymin = attr(ggmap, "bb")$ll.lat, 
+  	    ymax = attr(ggmap, "bb")$ur.lat
+  	  )
+  	  
   } else { # tile
-    p <- ggplot() + geom_tile(aes(x = lon, y = lat, fill = fill), data = ggmap)
+    p <- ggplot() + geom_tile(aes(x = lon, y = lat, fill = fill), data = ggmap) +
+      scale_fill_identity(guide = 'none')
   }
 
   # set scales
-  p <- p + scale_fill_identity(guide = 'none') + coord_equal() 
+  p <- p + coord_equal() 
     
   # fullpage?
   if(fullpage) p <- p + theme_nothing()

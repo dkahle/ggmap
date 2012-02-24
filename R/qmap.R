@@ -14,8 +14,20 @@
 #' qmap(location = 'waco')
 #' qmap(location = 'waco', scale = 17)
 #' qmap(location = 'waco', scale = 17, fullpage = TRUE, verbose = TRUE)
+#'
+#' qmap(location = 'paris', source = 'osm', scale = 600000)
+#' qmap(location = 'paris', source = 'osm', scale = 400000)
+#' qmap(location = 'paris', source = 'osm', scale = 200000)
 #' }
 #' 
 qmap <- function(...){
-  ggmapplot(ggmap(...), ...)
+  args <- as.list(match.call(expand.dots = TRUE)[-1])	
+  
+  if('fullpage' %in% names(args)){
+    fullpage <- args$fullpage
+  } else {
+  	fullpage <- TRUE
+  }
+    
+  ggmapplot(ggmap(...), fullpage = fullpage)
 }

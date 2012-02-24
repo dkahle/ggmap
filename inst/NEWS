@@ -1,8 +1,22 @@
+Version 1.1
+-------------------------------------------------------------------------
+Changes -
+  ggimage and ggmapplot are now properly based on annotation_raster.  the custom geom_raster (and related dependence) has been removed.  dependence on proto removed.
+
+Additions -
+  1. theme_inset which allows for easy inset theming (exported)
+  2. ggmap now takes latitude longitude ranges for OpenStreetMaps 
+
+Fixes -
+  1. qmap now properly sets the fullpage(=TRUE) argument when unspecified.
+
+
+
+
 Version 1.0
 -------------------------------------------------------------------------
-ggimage and ggmapplot are now based on geom_raster (new in ggplot2 as of version 0.9.0).  This affects the following changes :
-1. package now depends on proto.
-2. 
+ggimage and ggmapplot are now based on geom_raster (new in ggplot2 as of version 0.9.0).
+
 
 
 

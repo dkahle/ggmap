@@ -2,7 +2,7 @@
 \alias{ggmap}
 \title{Grab a map.}
 \usage{
-  ggmap(location = "houston",
+  ggmap(location = "houston", lonR, latR,
     center = c(lat = 29.7632836, lon = -95.3632715),
     regularize = TRUE, type = c("color", "bw"),
     rgbcoefs = c(0, 1, 0), zoom = 10, maptype = "terrain",
@@ -13,6 +13,10 @@
 \arguments{
   \item{location}{a character string containing the name of
   the location of interest}
+
+  \item{lonR}{longitude range (only for OpenStreetMaps)}
+
+  \item{latR}{latitude range (only for OpenStreetMaps)}
 
   \item{center}{named numeric vector of latitude and
   longitude specifying the center of the image}
@@ -62,6 +66,12 @@
 WashingtonMap_df <- ggmap(location = 'washington', verbose = TRUE)
 str(WashingtonMap_df)
 ggmapplot(WashingtonMap_df)
+
+lonR <- c(-97.12008, -97.11836)
+latR <- c(31.54765, 31.54911)
+osm <- ggmap(latR = latR, lonR = lonR, source = 'osm', scale = 1000)
+ggmapplot(osm)
+
 }
 }
 \author{

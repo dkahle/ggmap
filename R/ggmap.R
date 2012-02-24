@@ -3,6 +3,8 @@
 #' ggmap is a smart function which queries the Google Maps server or OpenStreetMap server for a map at a certain location at a certain spatial zoom.
 #' 
 #' @param location a character string containing the name of the location of interest
+#' @param lonR longitude range (only for OpenStreetMaps)
+#' @param latR latitude range (only for OpenStreetMaps)
 #' @param center named numeric vector of latitude and longitude specifying the center of the image
 #' @param regularize logical; should the map grid be regularized?
 #' @param type 'color' for a color map, 'bw' for a black and white map
@@ -27,10 +29,16 @@
 #' WashingtonMap_df <- ggmap(location = 'washington', verbose = TRUE)
 #' str(WashingtonMap_df)
 #' ggmapplot(WashingtonMap_df)
+#'
+#' lonR <- c(-97.12008, -97.11836)
+#' latR <- c(31.54765, 31.54911)
+#' osm <- ggmap(latR = latR, lonR = lonR, source = 'osm', scale = 1000) 
+#' ggmapplot(osm)
+#' 
 #' }
 #' 
 ggmap <- function(
-  location = 'houston',
+  location = 'houston', lonR, latR,
   center = c(lat = 29.7632836, lon = -95.3632715), regularize = TRUE,
   type = c('color','bw'), rgbcoefs = c(0, 1, 0), zoom = 10, 
   maptype = 'terrain', source = c('google', 'osm'), verbose = FALSE,
@@ -39,6 +47,11 @@ ggmap <- function(
   
   type   <- match.arg(type)	
   source <- match.arg(source)
+  if(!missing(lonR) && !missing(latR)){
+    stopifnot(is.numeric(c(lonR, latR)))
+    lonR <- sort(lonR)
+    latR <- sort(latR)
+  }
   
   # location and url formatting
   if(!missing(location)) center <- geocode(location)	   
@@ -52,8 +65,10 @@ ggmap <- function(
     
   # OpenStreetMap?
   if(source == 'osm'){
-    lonR <- unname(sapply(m$BBOX, function(x) x[2]))
-    latR <- unname(sapply(m$BBOX, function(x) x[1]))    
+  	if(missing(lonR) || missing(latR)){
+      lonR <- unname(sapply(m$BBOX, function(x) x[2]))
+      latR <- unname(sapply(m$BBOX, function(x) x[1]))    
+    }
     if(substr(destfile, nchar(destfile)-3, nchar(destfile)) == '.jpg'){
       destfile <- substr(destfile, 1, nchar(destfile) - 4)
       destfile <- paste(destfile, 'png', sep = '.')
@@ -62,7 +77,15 @@ ggmap <- function(
       destfile <- substr(destfile, 1, nchar(destfile) - 5)
       destfile <- paste(destfile, 'png', sep = '.')
     }    
-    m <- GetMap.OSM(lonR = lonR, latR = latR, scale = scale, destfile = destfile, verbose = FALSE)
+    m <- try(
+      GetMap.OSM(lonR = lonR, latR = latR, scale = scale, 
+        destfile = destfile, verbose = FALSE), 
+      silent = TRUE
+    )    
+    if(class(m) == 'try-error'){
+      stop('map grabbing failed - scale misspecification likely.',
+        call. = FALSE)
+    }    
   }  
   if(verbose) message('done.')  
 
@@ -71,7 +94,10 @@ ggmap <- function(
   if(raster){
     map <- as.raster(m$myTile)
     attr(map, "bb") <- if(source == 'google'){ data.frame(m$BBOX) } else { 
-      data.frame(ll.lat = m$BBOX$ll[1], ll.lon = m$BBOX$ll[2], ur.lat = m$BBOX$ur[1], ur.lon = m$BBOX$ur[2])	
+      data.frame(
+        ll.lat = m$BBOX$ll[1], ll.lon = m$BBOX$ll[2], 
+        ur.lat = m$BBOX$ur[1], ur.lon = m$BBOX$ur[2]
+      )	
     }
     class(map) <- unique(c("ggmap", "raster", class(map)))
     return(map)

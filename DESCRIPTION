@@ -1,8 +1,8 @@
 Package: ggmap
 Type: Package
 Title: A package for spatial visualization with Google Maps and OpenStreetMap
-Version: 1.0
-Date: 2012-02-01
+Version: 1.1
+Date: 2012-02-23
 Author: David Kahle <david.kahle@gmail.com>, Hadley Wickham
     <h.wickham@gmail.com>
 Maintainer: David Kahle <david.kahle@gmail.com>
@@ -15,8 +15,7 @@ Depends:
     ggplot2 (>= 0.9.0),
     plyr,
     reshape2,
-    grid,
-    proto
+    grid
 Suggests:
     MASS
 License: MIT
@@ -32,4 +31,4 @@ Collate:
     'qmap.R'
     'theme_nothing.R'
     'zips.R'
-    'geom-raster.R'
+    'theme_inset.R'
