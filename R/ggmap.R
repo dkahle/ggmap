@@ -92,6 +92,7 @@ ggmap <- function(
   
   # raster?  color map if not
   if(raster){
+  	if(type == 'bw') m$myTile <- rgb2grey(m$myTile, coefs = rgbcoefs)
     map <- as.raster(m$myTile)
     attr(map, "bb") <- if(source == 'google'){ data.frame(m$BBOX) } else { 
       data.frame(
@@ -104,7 +105,7 @@ ggmap <- function(
   } else {
     if(verbose) message('coloring map... ', appendLF = FALSE) 
     if(type == 'color'){
-      map <- apply(m$myTile, 1:2, function(v) .Internal(rgb(v[1], v[2], v[3], 1, 1, NULL)))    
+      map <- apply(m$myTile, 1:2, function(v) rgb(v[1], v[2], v[3], 1, 1, NULL))
     } else if(type == 'bw') {
       nrow <- nrow(m$myTile)
       ncol <- ncol(m$myTile)  	

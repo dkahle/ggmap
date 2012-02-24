@@ -9,6 +9,7 @@ Additions -
 
 Fixes -
   1. qmap now properly sets the fullpage(=TRUE) argument when unspecified.
+  2. ggmap now properly provides a black and white image when specified.
 
 
 
