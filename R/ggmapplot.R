@@ -279,6 +279,29 @@
 #'   scale_alpha(range = c(.2, .75), guide = FALSE) +    
 #'   facet_wrap(~ year)
 #'   
+#'
+#' # crime by month
+#' levels(violent_crimes$month) <- paste(
+#'   toupper(substr(levels(violent_crimes$month),1,1)),
+#'   substr(levels(violent_crimes$month),2,20), sep = ''
+#' )
+#' houston <- ggmap(location = 'houston', zoom = 14, source = 'osm', type = 'bw')
+#' lon_range <- as.numeric(attr(houston, 'bb')[c('ll.lon','ur.lon')])
+#' HoustonMap <- ggmapplot(houston, 
+#'   base_layer = ggplot(aes(x = lon, y = lat), data = violent_crimes)
+#'   ) 
+#' options('device')$device(width = 8.62, height = 7.48)  
+#' HoustonMap +
+#'   stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
+#'     bins = I(5), geom = 'polygon', data = violent_crimes) +
+#'   scale_fill_gradient2('Violent\nCrime\nDensity',
+#'     low = 'white', mid = 'orange', high = 'red', midpoint = 500) +
+#'   scale_x_continuous('Longitude', limits = lon_range) +
+#'   scale_y_continuous('Latitude', limits = lat_range) +
+#'   facet_wrap(~ month) +
+#'   scale_alpha(range = c(.2, .55), guide = FALSE) +
+#'   opts(title = 'Violent Crime Contour Map of Downtown Houston by Month') +
+#'   guides(fill = guide_colorbar(barwidth = 1.5, barheight = 10))
 #'   
 #' 
 #' 
