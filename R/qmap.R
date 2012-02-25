@@ -25,31 +25,31 @@ qmap <- function(location, ...){
   args <- as.list(match.call(expand.dots = TRUE)[-1])	
   
   if('fullpage' %in% names(args)){
-    fullpage <- args$fullpage
+    fullpage <- eval(args$fullpage)
   } else {
   	fullpage <- TRUE
   }  
   
   if('zoom' %in% names(args)){
-    zoom <- args$zoom
+    zoom <- eval(args$zoom)
   } else {
   	zoom <- 10
   }  
   
   if('scale' %in% names(args)){
-    scale <- args$scale
+    scale <- eval(args$scale)
   } else {
   	scale <- OSM_scale_lookup(zoom)
   }    
   
   if('source' %in% names(args)){
-    source <- args$source
+    source <- eval(args$source)
   } else {
     source <- 'google'
   }      
   
   if('type' %in% names(args)){
-    type <- args$type
+    type <- eval(args$type)
   } else {
     type <- 'color'
   }        
@@ -62,10 +62,11 @@ qmap <- function(location, ...){
 
   latlon <- FALSE
   if(all(c('lonR','latR') %in% names(args))){ 
-    lonR <- args$lonR
-    latR <- args$latR     
+    lonR <- eval(args$lonR)
+    latR <- eval(args$latR)
     latlon <- TRUE 
   }
+
   
   if(latlon){ # osm latlon
   	p <- ggmapplot( 

@@ -46,10 +46,9 @@ ggmapplot(ggmap(zoom = 19, source = 'osm', scale =     1750), fullpage = TRUE)
 ggmapplot(ggmap(zoom = 20, source = 'osm', scale =     1000), fullpage = TRUE)
 
 # the USA
-   lonR <- c(1.01,.99)*c(-124.733056,-66.949895)
-   latR <- c(.99,1.01)*c(24.52083, 49.384472)
-ggmapplot(ggmap(lonR = lonR, latR = latR, zoom =  4,
-  source = 'osm', scale = 32500000), fullpage = TRUE)
+lonR <- c(1.01,.99)*c(-124.73,-66.95)
+latR <- c(.99,1.01)*c(24.52, 49.38)
+qmap(lonR = lonR, latR = latR, source = 'osm', scale = 325E5)
 
 }
 }
