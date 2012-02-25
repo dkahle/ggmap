@@ -7,8 +7,8 @@
     regularize = TRUE, type = c("color", "bw"),
     rgbcoefs = c(0, 1, 0), zoom = 10, maptype = "terrain",
     source = c("google", "osm"), verbose = FALSE,
-    destfile = "ggmapTemp.jpg", n_pix = 640, scale = 20000,
-    raster = TRUE, ...)
+    destfile = "ggmapTemp.jpg", n_pix = 640,
+    scale = OSM_scale_lookup(zoom), raster = TRUE, ...)
 }
 \arguments{
   \item{location}{a character string containing the name of

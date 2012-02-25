@@ -42,16 +42,18 @@ ggmap <- function(
   center = c(lat = 29.7632836, lon = -95.3632715), regularize = TRUE,
   type = c('color','bw'), rgbcoefs = c(0, 1, 0), zoom = 10, 
   maptype = 'terrain', source = c('google', 'osm'), verbose = FALSE,
-  destfile = 'ggmapTemp.jpg', n_pix = 640, scale = 20000, raster = TRUE, ...
+  destfile = 'ggmapTemp.jpg', n_pix = 640, scale = OSM_scale_lookup(zoom), 
+  raster = TRUE, ...
 ){
   
   type   <- match.arg(type)	
   source <- match.arg(source)
   if(!missing(lonR) && !missing(latR)){
-    stopifnot(is.numeric(c(lonR, latR)))
+    stopifnot(is.null(c(lonR, latR)) || is.numeric(c(lonR, latR)))
     lonR <- sort(lonR)
     latR <- sort(latR)
   }
+
   
   # location and url formatting
   if(!missing(location)) center <- geocode(location)	   
@@ -114,7 +116,7 @@ ggmap <- function(
     }
     if(verbose) message('done.')
   }  
-     
+
   
   # reshape map for plotting
   if(verbose) message('formatting map... ', appendLF = FALSE)  

@@ -15,7 +15,8 @@ Depends:
     ggplot2 (>= 0.9.0),
     plyr,
     reshape2,
-    grid
+    grid,
+    proto
 Suggests:
     MASS
 License: MIT
@@ -32,3 +33,4 @@ Collate:
     'theme_nothing.R'
     'zips.R'
     'theme_inset.R'
+    'OSM_scale_lookup.R'

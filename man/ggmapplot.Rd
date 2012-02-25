@@ -261,8 +261,8 @@ ggmapplot(ggmap(), maprange = TRUE,
 
 # faceting is available via the base_layer argument
 df <- data.frame(
-  x = rnorm(10*100, -95.36258, .1),
-  y = rnorm(10*100,  29.76196, .1),
+  x = rnorm(10*100, -95.36258, .075),
+  y = rnorm(10*100,  29.76196, .075),
   year = rep(paste('year',format(1:10)), each = 100)
 )
 ggmapplot(ggmap(), base_layer = ggplot(aes(x = x, y = y), data = df)) +
@@ -285,6 +285,14 @@ ggmapplot(ggmap(), maprange = TRUE, expand = TRUE,
   base_layer = ggplot(aes(x = x, y = y), data = df)) +
   stat_density2d(aes(fill = ..level.., alpha = ..level..),
     bins = 4, geom = 'polygon') +
+  scale_fill_gradient2(low = 'white', mid = 'orange', high = 'red', midpoint = 10) +
+  scale_alpha(range = c(.2, .75), guide = FALSE) +
+  facet_wrap(~ year)
+
+ggmapplot(ggmap(), maprange = TRUE, expand = TRUE,
+  base_layer = ggplot(aes(x = x, y = y), data = df)) +
+  stat_density2d(aes(fill = ..level.., alpha = ..level..),
+    bins = 20, geom = 'polygon') +
   scale_fill_gradient2(low = 'white', mid = 'orange', high = 'red', midpoint = 10) +
   scale_alpha(range = c(.2, .75), guide = FALSE) +
   facet_wrap(~ year)

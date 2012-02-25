@@ -2,6 +2,7 @@
 #'
 #' qmap is a wrapper for \code{\link{ggmapplot}} and \code{\link{ggmap}}.
 #' 
+#' @param location character; location of interest
 #' @param ... stuff to pass to \code{\link{ggmapplot}} and \code{\link{ggmap}}.
 #' @return a ggplot object
 #' @author David Kahle \email{david.kahle@@gmail.com}
@@ -12,22 +13,79 @@
 #' 
 #' \dontrun{
 #' qmap(location = 'waco')
-#' qmap(location = 'waco', scale = 17)
-#' qmap(location = 'waco', scale = 17, fullpage = TRUE, verbose = TRUE)
+#' qmap(location = 'waco', zoom = 14)
+#' qmap(location = 'waco', zoom = 14, source = 'osm')
+#' qmap(location = 'waco', zoom = 14, source = 'osm', scale = 20000)
+#' qmap(location = 'waco', zoom = 14, maptype = 'satellite')
+#' qmap(location = 'waco', zoom = 14, maptype = 'hybrid')
 #'
-#' qmap(location = 'paris', source = 'osm', scale = 600000)
-#' qmap(location = 'paris', source = 'osm', scale = 400000)
-#' qmap(location = 'paris', source = 'osm', scale = 200000)
 #' }
 #' 
-qmap <- function(...){
+qmap <- function(location, ...){
   args <- as.list(match.call(expand.dots = TRUE)[-1])	
   
   if('fullpage' %in% names(args)){
     fullpage <- args$fullpage
   } else {
   	fullpage <- TRUE
+  }  
+  
+  if('zoom' %in% names(args)){
+    zoom <- args$zoom
+  } else {
+  	zoom <- 10
+  }  
+  
+  if('scale' %in% names(args)){
+    scale <- args$scale
+  } else {
+  	scale <- OSM_scale_lookup(zoom)
+  }    
+  
+  if('source' %in% names(args)){
+    source <- args$source
+  } else {
+    source <- 'google'
+  }      
+  
+  if('type' %in% names(args)){
+    type <- args$type
+  } else {
+    type <- 'color'
+  }        
+  
+  if('maptype' %in% names(args)){
+    maptype <- args$maptype
+  } else {
+    maptype <- 'terrain'
+  }          
+
+  latlon <- FALSE
+  if(all(c('lonR','latR') %in% names(args))){ 
+    lonR <- args$lonR
+    latR <- args$latR     
+    latlon <- TRUE 
   }
-    
-  ggmapplot(ggmap(...), fullpage = fullpage)
+  
+  if(latlon){ # osm latlon
+  	p <- ggmapplot( 
+      ggmap(location = location, zoom = zoom, scale = scale, source = source,
+        latR = latR, lonR = lonR, type = type), 
+      fullpage = fullpage
+    )  	
+  } else if(source == 'google'){
+  	p <- ggmapplot(
+      ggmap(location = location, zoom = zoom, source = source, type = type,
+        maptype = maptype), 
+      fullpage = fullpage
+    )
+  } else { # osm zoom
+  	p <- ggmapplot(
+      ggmap(location = location, zoom = zoom, scale = scale, 
+        source = source, type = type), 
+      fullpage = fullpage
+    )
+  }
+  
+  p
 }

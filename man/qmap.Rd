@@ -2,9 +2,11 @@
 \alias{qmap}
 \title{Quick map plot}
 \usage{
-  qmap(...)
+  qmap(location, ...)
 }
 \arguments{
+  \item{location}{character; location of interest}
+
   \item{...}{stuff to pass to \code{\link{ggmapplot}} and
   \code{\link{ggmap}}.}
 }
@@ -18,12 +20,12 @@
 \examples{
 \dontrun{
 qmap(location = 'waco')
-qmap(location = 'waco', scale = 17)
-qmap(location = 'waco', scale = 17, fullpage = TRUE, verbose = TRUE)
+qmap(location = 'waco', zoom = 14)
+qmap(location = 'waco', zoom = 14, source = 'osm')
+qmap(location = 'waco', zoom = 14, source = 'osm', scale = 20000)
+qmap(location = 'waco', zoom = 14, maptype = 'satellite')
+qmap(location = 'waco', zoom = 14, maptype = 'hybrid')
 
-qmap(location = 'paris', source = 'osm', scale = 600000)
-qmap(location = 'paris', source = 'osm', scale = 400000)
-qmap(location = 'paris', source = 'osm', scale = 200000)
 }
 }
 \author{

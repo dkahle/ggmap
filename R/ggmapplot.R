@@ -243,8 +243,8 @@
 #' 
 #' # faceting is available via the base_layer argument
 #' df <- data.frame(
-#'   x = rnorm(10*100, -95.36258, .1),
-#'   y = rnorm(10*100,  29.76196, .1),
+#'   x = rnorm(10*100, -95.36258, .075),
+#'   y = rnorm(10*100,  29.76196, .075),
 #'   year = rep(paste('year',format(1:10)), each = 100)
 #' )
 #' ggmapplot(ggmap(), base_layer = ggplot(aes(x = x, y = y), data = df)) +
@@ -267,6 +267,14 @@
 #'   base_layer = ggplot(aes(x = x, y = y), data = df)) +
 #'   stat_density2d(aes(fill = ..level.., alpha = ..level..), 
 #'     bins = 4, geom = 'polygon') +
+#'   scale_fill_gradient2(low = 'white', mid = 'orange', high = 'red', midpoint = 10) +    
+#'   scale_alpha(range = c(.2, .75), guide = FALSE) +    
+#'   facet_wrap(~ year)
+#'
+#' ggmapplot(ggmap(), maprange = TRUE, expand = TRUE,
+#'   base_layer = ggplot(aes(x = x, y = y), data = df)) +
+#'   stat_density2d(aes(fill = ..level.., alpha = ..level..), 
+#'     bins = 20, geom = 'polygon') +
 #'   scale_fill_gradient2(low = 'white', mid = 'orange', high = 'red', midpoint = 10) +    
 #'   scale_alpha(range = c(.2, .75), guide = FALSE) +    
 #'   facet_wrap(~ year)
@@ -341,3 +349,36 @@ ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, base_layer, ma
   
   p
 }
+
+
+annotation_raster <- function (raster, xmin, xmax, ymin, ymax) { 
+  raster <- as.raster(raster)
+  GeomRasterAnn$new(geom_params = list(raster = raster, xmin = xmin, 
+    xmax = xmax, ymin = ymin, ymax = ymax), stat = "identity", 
+    position = "identity", data = NULL, inherit.aes = TRUE)
+}
+
+GeomRasterAnn <- proto(ggplot2:::GeomRaster, {
+  objname <- "raster_ann"
+  reparameterise <- function(., df, params) {
+    df
+  }
+
+  
+  draw_groups <- function(., data, scales, coordinates, raster, xmin, xmax,
+    ymin, ymax, ...) {
+    if (!inherits(coordinates, "cartesian")) {
+      stop("annotation_raster only works with Cartesian coordinates", 
+        call. = FALSE)
+    }
+    corners <- data.frame(x = c(xmin, xmax), y = c(ymin, ymax))
+    data <- coord_transform(coordinates, corners, scales)
+
+    x_rng <- range(data$x, na.rm = TRUE)
+    y_rng <- range(data$y, na.rm = TRUE)
+        
+    rasterGrob(raster, x_rng[1], y_rng[1], 
+      diff(x_rng), diff(y_rng), default.units = "native", 
+      just = c("left","bottom"), interpolate = TRUE)
+  }
+})
