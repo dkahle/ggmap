@@ -200,14 +200,14 @@
 #'       scale_y_continuous('Latitude', limits = lat_range) +
 #'       scale_alpha(range = c(.1, .45), guide = FALSE) +
 #'       theme_inset()
-#'     ), 
-#'     xmin = attr(houston,'bb')$ll.lon + 
+#'     ),
+#'     xmin = attr(houston,'bb')$ll.lon +
 #'       (7/10) * (attr(houston,'bb')$ur.lon - attr(houston,'bb')$ll.lon),
 #'     xmax = Inf,
 #'     ymin = -Inf,
-#'     ymax = attr(houston,'bb')$ll.lat + 
-#'       (3/10) * (attr(houston,'bb')$ur.lat - attr(houston,'bb')$ll.lat)   
-#'   )  
+#'     ymax = attr(houston,'bb')$ll.lat +
+#'       (3/10) * (attr(houston,'bb')$ur.lat - attr(houston,'bb')$ll.lat)
+#'   )
 #' 
 #' 
 #' 
@@ -286,7 +286,6 @@
 #'   substr(levels(violent_crimes$month),2,20), sep = ''
 #' )
 #' houston <- ggmap(location = 'houston', zoom = 14, source = 'osm', type = 'bw')
-#' lon_range <- as.numeric(attr(houston, 'bb')[c('ll.lon','ur.lon')])
 #' HoustonMap <- ggmapplot(houston, 
 #'   base_layer = ggplot(aes(x = lon, y = lat), data = violent_crimes)
 #'   ) 
@@ -359,9 +358,7 @@ ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, base_layer, ma
 
     p <- eval(parse(textConnection(str2parse)))   	
     if(maprange) p <- p + xlim(xmin, xmax) + ylim(ymin, ymax)    
-    if(expand) p <- p + 
-      scale_x_continuous(expand = c(0,0)) +
-      scale_y_continuous(expand = c(0,0))      
+
   }
 
   # set scales
@@ -369,6 +366,11 @@ ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, base_layer, ma
     
   # fullpage?
   if(fullpage) p <- p + theme_nothing()
+  
+  # expand?
+  if(expand) p <- p + 
+    scale_x_continuous(expand = c(0,0)) +
+    scale_y_continuous(expand = c(0,0))        
   
   p
 }

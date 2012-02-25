@@ -43,5 +43,6 @@ theme_inset <- function (base_size = 12){
   t$axis.ticks.margin <- unit(0, "lines") 
   t$panel.margin <- unit(0, "lines")
   t$plot.margin <- unit(c(.5, .5, 0, 0), "lines")
+  t$legend.position <- 'none'
   t
 }

@@ -304,7 +304,6 @@ levels(violent_crimes$month) <- paste(
   substr(levels(violent_crimes$month),2,20), sep = ''
 )
 houston <- ggmap(location = 'houston', zoom = 14, source = 'osm', type = 'bw')
-lon_range <- as.numeric(attr(houston, 'bb')[c('ll.lon','ur.lon')])
 HoustonMap <- ggmapplot(houston,
   base_layer = ggplot(aes(x = lon, y = lat), data = violent_crimes)
   )
