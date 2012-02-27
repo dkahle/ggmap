@@ -25,9 +25,15 @@
 }
 \examples{
 \dontrun{
-df <- data.frame(xvar = 2:10, yvar = 2:10)
+df <- data.frame(xvar = 1:10, yvar = 1:10)
 qplot(xvar, yvar, data = df) + annotate(geom = 'point', x = 3, y = 6)
 gglocator(4)
+
+qplot(xvar, yvar, data = df) +
+  scale_x_continuous(expand = c(0,0)) +
+  scale_y_continuous(expand = c(0,0))
+gglocator(1, xexpand = c(0,0), yexpand = c(0,0))
+
 }
 }
 \author{
