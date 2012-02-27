@@ -5,6 +5,7 @@ Additions -
   1. ggmapplot now accepts arguments base_layer, maprange, and expand.  base_layer is a ggplot(aes(.), .)  call which allows the user to specify the base layer of the plot which, when left unspecified, defaults to the four corners of the map.  maprange allows the user to set the x and y axis limits to the boundary of the map, and expand eliminates the white border space placed around the map.  this also allows for faceting the map plots, see ggmapplot examples.
   2. qmap's arguments properly handled.
   3. OSM_scale_lookup used for better scale choices with OpenStreetMaps.
+  4. gglocator added following ggplot2 forum discussion by Tyler Rinker.
 
 
 

@@ -78,7 +78,9 @@ ggmapplot(baylor) + theme_bw() +
     colour = I('red'), size = 6) +
   labs(x = 'Longitude', y = 'Latitude') + opts(title = 'Baylor University')
 
-
+# the following is helpful to place the annotation boxes
+clicks <- gglocator(2)
+expand.grid(lon = clicks$lon, lat = clicks$lat)
 
 
 baylor <- ggmap('baylor university', zoom = 16,

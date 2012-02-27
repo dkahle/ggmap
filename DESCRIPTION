@@ -13,6 +13,7 @@ Depends:
     RgoogleMaps,
     ReadImages,
     ggplot2 (>= 0.9.0),
+    scales,
     plyr,
     reshape2,
     grid,
@@ -34,3 +35,4 @@ Collate:
     'zips.R'
     'theme_inset.R'
     'OSM_scale_lookup.R'
+    'gglocator.R'

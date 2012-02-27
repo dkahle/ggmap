@@ -1,5 +1,6 @@
 export(geocode)
 export(ggimage)
+export(gglocator)
 export(ggmap)
 export(ggmapplot)
 export(OSM_scale_lookup)
