@@ -1,8 +1,8 @@
 Package: ggmap
 Type: Package
 Title: A package for spatial visualization with Google Maps and OpenStreetMap
-Version: 1.2
-Date: 2012-02-24
+Version: 1.3
+Date: 2012-03-09
 Author: David Kahle <david.kahle@gmail.com>, Hadley Wickham
     <h.wickham@gmail.com>
 Maintainer: David Kahle <david.kahle@gmail.com>

@@ -56,7 +56,10 @@ ggmap <- function(
 
   
   # location and url formatting
-  if(!missing(location)) center <- geocode(location)	   
+  if(!missing(location)){
+    center <- as.numeric(geocode(location))
+    names(center) <- c('lon','lat')
+  }
 	   
   # get google map if desired, otherwise get metadata from google  
   if(verbose) message('grabbing map... ', appendLF = FALSE)

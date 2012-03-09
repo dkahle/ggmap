@@ -359,9 +359,10 @@ ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, base_layer, ma
     )
 
     p <- eval(parse(textConnection(str2parse)))   	
-    if(maprange) p <- p + xlim(xmin, xmax) + ylim(ymin, ymax)    
-
   }
+  
+  # enforce maprange
+  if(maprange) p <- p + xlim(xmin, xmax) + ylim(ymin, ymax)      
 
   # set scales
   p <- p + coord_equal() 

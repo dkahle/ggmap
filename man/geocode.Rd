@@ -19,6 +19,7 @@
 geocode('Baylor University')
 geocode('1600 Pennsylvania Avenue, Washington DC')
 geocode('the eiffel tower')
+geocode(c('the white house', 'the vatican'))
 }
 }
 \author{

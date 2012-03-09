@@ -13,9 +13,11 @@
 #' geocode('Baylor University')
 #' geocode('1600 Pennsylvania Avenue, Washington DC')
 #' geocode('the eiffel tower')
+#' geocode(c('the white house', 'the vatican'))
 #' }
 #' 
 geocode <- function(location){
+  if(length(location) > 1) return(ldply(as.list(location), geocode))
   location_splt <- strsplit(location, split = ' ')[[1]]
   url_string <- paste('http://maps.google.com/maps/geo?q=', 
     paste(location_splt, collapse = ',+'), sep = '')
@@ -25,7 +27,7 @@ geocode <- function(location){
   site   <- strsplit(site, '\\[')[[1]][2]
   site   <- strsplit(site, ',')[[1]][1:2]
   latlon <- as.numeric(site)	
-  center <- c(lon = latlon[1], lat = latlon[2])
+  center <- data.frame(lon = latlon[1], lat = latlon[2])
   closeAllConnections()
   center
 }
