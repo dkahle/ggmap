@@ -35,7 +35,7 @@
 \examples{
 \dontrun{
 hdf <- ggmap()
-(HoustonMap <- ggmapplot(hdf)
+(HoustonMap <- ggmapplot(hdf))
 
 require(MASS)
 mu <- c(-95.3632715, 29.7632836); nDataSets <- sample(4:10,1)
@@ -51,11 +51,6 @@ qplot(lon, lat, data = chkpts, colour = class)
 
 HoustonMap +
   geom_point(aes(x = lon, y = lat, colour = class), data = chkpts, alpha = .5)
-
-HoustonMap +
-  stat_density2d(aes(x = lon, y = lat, size = ..density.., colour = class),
-    geom = 'point', alpha = I(1/2), data = chkpts, contour = FALSE) +
-  scale_size(range = c(.1, .75), guide = 'none')
 
 
 HoustonMap <- ggmapplot(ggmap(maptype = 'satellite'), fullpage = TRUE)
@@ -103,9 +98,8 @@ ggmapplot(baylor, fullpage = TRUE)
 
 
 
-# some playing around with the scale parameter is typically needed here.  see ?GetMap.OSM
 baylorosm <- ggmap(center = c(lat = 31.54838, lon = -97.11922), source = 'osm',
-  verbose = TRUE, zoom = 16, scale = 10000)
+  verbose = TRUE, zoom = 16)
 ggmapplot(baylorosm, fullpage = TRUE)
 
 
@@ -113,7 +107,7 @@ ggmapplot(baylorosm, fullpage = TRUE)
 data(zips)
 ggmapplot(ggmap(maptype = 'satellite', zoom = 9), fullpage = TRUE) +
   geom_path(aes(x = lon, y = lat, group = plotOrder), data = zips, colour = I('red'), size = I(.4))
-# adjust device size to get rid of horizontal lines
+# discrepancy likely due to different projections.  on to-do.
 
 library(plyr)
 zipsLabels <- ddply(zips, .(zip), function(df){
@@ -169,28 +163,30 @@ violent_crimes <- subset(violent_crimes,
 
 HoustonMap +
   stat_density2d(aes(x = lon, y = lat, colour = ..level..),
-    bins = I(20), fill = NA, alpha = I(1/2), size = I(.75), data = violent_crimes) +
+    bins = 4, fill = NA, alpha = .5, size = 2, data = violent_crimes) +
   scale_colour_gradient2('Violent\\nCrime\\nDensity',
     low = 'darkblue', mid = 'orange', high = 'red', midpoint = 35) +
   scale_x_continuous('Longitude', limits = lon_range) +
   scale_y_continuous('Latitude', limits = lat_range) +
   opts(title = 'Violent Crime Contour Map of Downtown Houston')
+  # note current ggplot2 issue of the color of contours
 
 # the fill aesthetic is now available -
 HoustonMap +
   stat_density2d(aes(x = lon, y = lat, fill = ..level..),
-    bins = I(6), alpha = I(1/5), geom = 'polygon', data = violent_crimes, ) +
+    bins = 6, alpha = 1/5, geom = 'polygon', data = violent_crimes, ) +
   scale_fill_gradient('Violent\\nCrime\\nDensity') +
   scale_x_continuous('Longitude', limits = lon_range) +
   scale_y_continuous('Latitude', limits = lat_range) +
   opts(title = 'Violent Crime Contour Map of Downtown Houston') +
   guides(fill = guide_colorbar(override.aes = list(alpha = 1)))
+  # note current issue of the cliped contours
 
 
 options('device')$device(width = 9.25, height = 7.25)
 HoustonMap +
   stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
-    bins = I(6), geom = 'polygon', data = violent_crimes) +
+    bins = 6, geom = 'polygon', data = violent_crimes) +
   scale_fill_gradient2('Violent\\nCrime\\nDensity',
     low = 'white', mid = 'orange', high = 'red', midpoint = 500) +
   scale_x_continuous('Longitude', limits = lon_range) +
@@ -202,7 +198,7 @@ HoustonMap +
 # we can also add insets
 HoustonMap +
   stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
-    bins = I(6), geom = 'polygon', data = violent_crimes) +
+    bins = 6, geom = 'polygon', data = violent_crimes) +
   scale_fill_gradient2('Violent\\nCrime\\nDensity',
     low = 'white', mid = 'orange', high = 'red', midpoint = 500) +
   scale_x_continuous('Longitude', limits = lon_range) +
@@ -210,7 +206,7 @@ HoustonMap +
   scale_alpha(range = c(.1, .45), guide = FALSE) +
   opts(title = 'Violent Crime Contour Map of Downtown Houston') +
   guides(fill = guide_colorbar(barwidth = 1.5, barheight = 10)) +
-  annotation_custom(
+  ggmap:::annotation_custom(
     grob = ggplotGrob(ggplot() +
       stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
         bins = I(6), geom = 'polygon', data = violent_crimes) +

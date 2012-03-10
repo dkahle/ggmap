@@ -5,7 +5,9 @@ New Features -
   1. geocode now accepts a vector of arguments and returns a data.frame of lat/lons. (thanks to tony tran for suggestion.)
 
 Fixes -
-  1. qmap and ggmapplot now deals properly with maprange.R CMD 
+  1. qmap and ggmapplot now deals properly with maprange.
+ *2. the coordinate system is now properly set to a mercator projection.
+  3. custom version of annotation_custom added (not exported) to allow for placement in and plotting of overlays with mercator projection.
 
 
 

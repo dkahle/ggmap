@@ -17,7 +17,7 @@
 #' 
 #' \dontrun{ 
 #' hdf <- ggmap()
-#' (HoustonMap <- ggmapplot(hdf)
+#' (HoustonMap <- ggmapplot(hdf))
 #' 
 #' require(MASS)
 #' mu <- c(-95.3632715, 29.7632836); nDataSets <- sample(4:10,1)
@@ -33,11 +33,6 @@
 #'
 #' HoustonMap + 
 #'   geom_point(aes(x = lon, y = lat, colour = class), data = chkpts, alpha = .5)
-#'
-#' HoustonMap + 
-#'   stat_density2d(aes(x = lon, y = lat, size = ..density.., colour = class), 
-#'     geom = 'point', alpha = I(1/2), data = chkpts, contour = FALSE) + 
-#'   scale_size(range = c(.1, .75), guide = 'none')  
 #'  
 #' 
 #' HoustonMap <- ggmapplot(ggmap(maptype = 'satellite'), fullpage = TRUE) 
@@ -85,9 +80,8 @@
 #' 
 #' 
 #' 
-#' # some playing around with the scale parameter is typically needed here.  see ?GetMap.OSM
 #' baylorosm <- ggmap(center = c(lat = 31.54838, lon = -97.11922), source = 'osm', 
-#'   verbose = TRUE, zoom = 16, scale = 10000)
+#'   verbose = TRUE, zoom = 16)
 #' ggmapplot(baylorosm, fullpage = TRUE)
 #' 
 #' 
@@ -95,7 +89,7 @@
 #' data(zips)
 #' ggmapplot(ggmap(maptype = 'satellite', zoom = 9), fullpage = TRUE) +
 #'   geom_path(aes(x = lon, y = lat, group = plotOrder), data = zips, colour = I('red'), size = I(.4))
-#' # adjust device size to get rid of horizontal lines  
+#' # discrepancy likely due to different projections.  on to-do.
 #' 
 #' library(plyr)
 #' zipsLabels <- ddply(zips, .(zip), function(df){
@@ -151,28 +145,30 @@
 #' 
 #' HoustonMap +
 #'   stat_density2d(aes(x = lon, y = lat, colour = ..level..),
-#'     bins = I(20), fill = NA, alpha = I(1/2), size = I(.75), data = violent_crimes) +
+#'     bins = 4, fill = NA, alpha = .5, size = 2, data = violent_crimes) +
 #'   scale_colour_gradient2('Violent\nCrime\nDensity',
 #'     low = 'darkblue', mid = 'orange', high = 'red', midpoint = 35) +
 #'   scale_x_continuous('Longitude', limits = lon_range) +
 #'   scale_y_continuous('Latitude', limits = lat_range) +
 #'   opts(title = 'Violent Crime Contour Map of Downtown Houston')
+#'   # note current ggplot2 issue of the color of contours
 #' 
 #' # the fill aesthetic is now available -
 #' HoustonMap +
 #'   stat_density2d(aes(x = lon, y = lat, fill = ..level..),
-#'     bins = I(6), alpha = I(1/5), geom = 'polygon', data = violent_crimes, ) +
+#'     bins = 6, alpha = 1/5, geom = 'polygon', data = violent_crimes, ) +
 #'   scale_fill_gradient('Violent\nCrime\nDensity') +
 #'   scale_x_continuous('Longitude', limits = lon_range) +
 #'   scale_y_continuous('Latitude', limits = lat_range) +
 #'   opts(title = 'Violent Crime Contour Map of Downtown Houston') +
 #'   guides(fill = guide_colorbar(override.aes = list(alpha = 1)))
+#'   # note current issue of the cliped contours
 #'     
 #'     
 #' options('device')$device(width = 9.25, height = 7.25)
 #' HoustonMap +
 #'   stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
-#'     bins = I(6), geom = 'polygon', data = violent_crimes) +
+#'     bins = 6, geom = 'polygon', data = violent_crimes) +
 #'   scale_fill_gradient2('Violent\nCrime\nDensity',
 #'     low = 'white', mid = 'orange', high = 'red', midpoint = 500) +
 #'   scale_x_continuous('Longitude', limits = lon_range) +
@@ -184,7 +180,7 @@
 #' # we can also add insets
 #' HoustonMap +
 #'   stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
-#'     bins = I(6), geom = 'polygon', data = violent_crimes) +
+#'     bins = 6, geom = 'polygon', data = violent_crimes) +
 #'   scale_fill_gradient2('Violent\nCrime\nDensity',
 #'     low = 'white', mid = 'orange', high = 'red', midpoint = 500) +
 #'   scale_x_continuous('Longitude', limits = lon_range) +
@@ -192,7 +188,7 @@
 #'   scale_alpha(range = c(.1, .45), guide = FALSE) +
 #'   opts(title = 'Violent Crime Contour Map of Downtown Houston') +
 #'   guides(fill = guide_colorbar(barwidth = 1.5, barheight = 10)) +
-#'   annotation_custom(
+#'   ggmap:::annotation_custom(
 #'     grob = ggplotGrob(ggplot() +
 #'       stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
 #'         bins = I(6), geom = 'polygon', data = violent_crimes) +
@@ -365,7 +361,7 @@ ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, base_layer, ma
   if(maprange) p <- p + xlim(xmin, xmax) + ylim(ymin, ymax)      
 
   # set scales
-  p <- p + coord_equal() 
+  p <- p + coord_map(project = 'mercator') 
     
   # fullpage?
   if(fullpage) p <- p + theme_nothing()
@@ -385,6 +381,8 @@ ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, base_layer, ma
 }
 
 
+# custom versions of the following ggplot2 functions
+
 annotation_raster <- function (raster, xmin, xmax, ymin, ymax) { 
   raster <- as.raster(raster)
   GeomRasterAnn$new(geom_params = list(raster = raster, xmin = xmin, 
@@ -401,10 +399,10 @@ GeomRasterAnn <- proto(ggplot2:::GeomRaster, {
   
   draw_groups <- function(., data, scales, coordinates, raster, xmin, xmax,
     ymin, ymax, ...) {
-    if (!inherits(coordinates, "cartesian")) {
-      stop("annotation_raster only works with Cartesian coordinates", 
-        call. = FALSE)
-    }
+    #if (!inherits(coordinates, "cartesian")) {
+    #  stop("annotation_raster only works with Cartesian coordinates", 
+    #    call. = FALSE)
+    #}
     corners <- data.frame(x = c(xmin, xmax), y = c(ymin, ymax))
     data <- coord_transform(coordinates, corners, scales)
 
@@ -416,3 +414,43 @@ GeomRasterAnn <- proto(ggplot2:::GeomRaster, {
       just = c("left","bottom"), interpolate = TRUE)
   }
 })
+
+
+
+annotation_custom <- function (grob, xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf) { 
+  GeomCustomAnn$new(geom_params = list(grob = grob, xmin = xmin, 
+    xmax = xmax, ymin = ymin, ymax = ymax), stat = "identity", 
+    position = "identity", data = NULL, inherit.aes = TRUE)
+}
+
+GeomCustomAnn <- proto(ggplot2:::Geom, {
+  objname <- "custom_ann"
+  
+  draw_groups <- function(., data, scales, coordinates, grob, xmin, xmax,
+                          ymin, ymax, ...) {
+    #if (!inherits(coordinates, "cartesian")) {
+    #  stop("annotation_custom only works with Cartesian coordinates", 
+    #    call. = FALSE)
+    #}
+
+    if(is.infinite(xmin)) xmin <- scales$x.range[1]
+    if(is.infinite(xmax)) xmax <- scales$x.range[2]
+    if(is.infinite(ymin)) ymin <- scales$y.range[1]
+    if(is.infinite(ymax)) ymax <- scales$y.range[2]           
+    
+    corners <- data.frame(x = c(xmin, xmax), y = c(ymin, ymax))
+    data <- coord_transform(coordinates, corners, scales)
+
+    x_rng <- range(data$x, na.rm = TRUE)
+    y_rng <- range(data$y, na.rm = TRUE)
+
+    vp <- viewport(x = mean(x_rng), y = mean(y_rng),
+                   width = diff(x_rng), height = diff(y_rng),
+                   just = c("center","center"))
+    editGrob(grob, vp = vp)
+  }
+  
+  default_aes <- function(.) 
+    aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf)  
+})
+
