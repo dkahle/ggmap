@@ -17,7 +17,8 @@ Depends:
     plyr,
     reshape2,
     grid,
-    proto
+    proto,
+    rjson
 Suggests:
     MASS
 License: MIT
@@ -36,3 +37,5 @@ Collate:
     'theme_inset.R'
     'OSM_scale_lookup.R'
     'gglocator.R'
+    'mapdist.R'
+    'revgeocode.R'

@@ -320,6 +320,24 @@ HoustonMap +
 
 
 
+
+# neat example with distances
+qmap('baylor university', zoom = 14, source = 'osm') +
+  geom_point(data = geocode('marrs mclean science, baylor university'))
+
+origin <- 'marrs mclean science, baylor university'
+gc_origin <- geocode(origin)
+destinations <- c('pat neff hall, baylor university', 'salvation army waco texas',
+  'sams club waco texas', 'HEB #087 waco texas')
+gc_dests <- geocode(destinations)
+(dist <- mapdist(origin, destinations, mode = 'walking'))
+
+
+
+
+
+
+
 }
 }
 \author{
