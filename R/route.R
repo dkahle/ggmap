@@ -62,6 +62,26 @@
 #'     xmin = -96.5, xmax = -94.5, ymin = 30.35, ymax = 32.2)
 #'   
 #' routeQueryCheck()
+#' 
+#' 
+#' 
+#'   
+#' (route_df <- route(
+#'   "marrs mclean science, baylor university", 
+#'   "220 south 3rd street, waco, tx 76701", # ninfa's 
+#'   alternatives = TRUE))
+#'   
+#' options('device')$device(width = 11.65, height = 4.17)  
+#' qmap('424 clay avenue, waco, tx', zoom = 16, maprange = TRUE, maptype = 'satellite', 
+#'     base_layer = ggplot(aes(x = startLon, y = startLat), data = route_df)) + 
+#'   geom_segment(
+#'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat, colour = route), 
+#'     alpha = 3/4, size = 3, data = route_df
+#'   ) +
+#'   scale_x_continuous(breaks = pretty(c(-97.1325,-97.119),4), lim = c(-97.1325,-97.119)) +
+#'   facet_wrap(~ route) + theme_bw() +
+#'   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes')
+#' 
 #'   
 #' 
 #' 
@@ -87,10 +107,10 @@ route <- function(from, to, mode = c('driving','walking','bicycling'),
   
   # format url
   origin <- from
-  origin <- gsub(' ', '', origin)
+  origin <- gsub(' ', '+', origin)
   origin <- paste('origin=', origin, sep = '')      
   destination <- to
-  destination <- gsub(' ', '', destination)  
+  destination <- gsub(' ', '+', destination)  
   destination <- paste('destination=', destination, sep = '')    
   mode4url <- paste('mode=', mode, sep = '')   
   unit4url <- paste('units=', 'metric', sep = '')       
