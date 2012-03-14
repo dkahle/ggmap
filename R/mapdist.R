@@ -1,6 +1,6 @@
 #' Compute map distances using Google
 #'
-#' Compute map distances using Google Maps.
+#' Compute map distances using Google Maps
 #' 
 #' @param from name of origin addresses in a data frame (vector accepted)
 #' @param to name of destination addresses in a data frame (vector accepted)
@@ -9,9 +9,11 @@
 #' @param messaging turn messaging on/off
 #' @param sensor whether or not the geocoding request comes from a device with a location sensor
 #' @param language language
+#' @param override_limit override the current query count (.GoogleDistQueryCount)
 #' @return a data frame (output='simple') or all of the geocoded information (output='all')
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @details if parameters from and to are specified as geographic coordinates, they are reverse geocoded with revgeocode.  note that the google maps api limits to 2500 queries a day.
+#' @details if parameters from and to are specified as geographic coordinates, they are reverse geocoded with revgeocode.  note that the google maps api limits to 2500 element queries a day.
+#' @seealso \url{http://code.google.com/apis/maps/documentation/distancematrix/}
 #' @export
 #' @examples
 #'
@@ -24,8 +26,8 @@
 #' mapdist(from, to, mode = 'bicycling')
 #' mapdist(from, to, mode = 'walking')
 #'
-#' from <- c('houston', 'dallas')
-#' to <- c('waco, texas', 'houston')
+#' from <- c('houston', 'houston', 'dallas')
+#' to <- c('waco, texas', 'san antonio', 'houston')
 #' mapdist(from, to)
 #'
 #' mapdist('the white house', 'washington monument', mode = 'walking')
@@ -33,29 +35,23 @@
 #' # geographic coordinates are accepted as well
 #' (wh <- as.numeric(geocode('the white house')))
 #' (wm <- as.numeric(geocode('washington monument')))
-#' mapdist(wh, wm, mode = 'walking', messaging = TRUE)
-#' mapdist('the white house', wm, mode = 'walking', messaging = TRUE)
+#' mapdist(wh, wm, mode = 'walking')
+#' mapdist('the white house', wm, mode = 'walking')
+#' distQueryCheck()
 #' 
 #' }
 #' 
 mapdist <- function(from, to, mode = c('driving','walking','bicycling'), 
-  output = c('simple','addresses','all'), messaging = FALSE, sensor = TRUE, language = 'en-EN')
+  output = c('simple','all'), messaging = FALSE, sensor = TRUE, 
+  language = 'en-EN', override_limit = FALSE)
 {
   require(rjson)
   require(plyr)
 	
   # check parameters
-  if(is.numeric(from) && length(from) == 2){
-    if(messaging) message('reverse geocoding "from" argument... ', appendLF = FALSE)  	
-    from <- revgeocode(from)
-    if(messaging) message('done.')
-  }
+  if(is.numeric(from) && length(from) == 2) from <- revgeocode(from)
   stopifnot(is.character(from))
-  if(is.numeric(to) && length(to) == 2){
-    if(messaging) message('reverse geocoding "to" argument... ', appendLF = FALSE)  	
-    to <- revgeocode(to)
-    if(messaging) message('done.')
-  }
+  if(is.numeric(to) && length(to) == 2) to <- revgeocode(to)
   stopifnot(is.character(to))  
   from_to_df <- data.frame(from = from, to = to, stringsAsFactors = FALSE)
   origins <- from_to_df$from 
@@ -64,51 +60,133 @@ mapdist <- function(from, to, mode = c('driving','walking','bicycling'),
   output <- match.arg(output)  
   stopifnot(is.logical(messaging))
   stopifnot(is.logical(sensor))  
+  
+  out <- dlply(from_to_df, .(from), function(df){
+  	
+  	# format url
+    origin <- df$from[1]
+    origin <- gsub(',', '', origin)
+    origin <- gsub(' ', '+', origin)
+    origin <- paste('origins=', origin, sep = '')      
+    destinations <- df$to
+    destinations <- gsub(',', '', destinations)
+    destinations <- gsub(' ', '+', destinations)  
+    destinations <- paste('destinations=', paste(destinations, collapse = '|'), sep = '')    
+    mode4url <- paste('mode=', mode, sep = '')   
+    lang4url <- paste('language=', language, sep = '')   
+    sensor4url <- paste('sensor=', tolower(as.character(sensor)), sep = '')   
+    posturl <- paste(origin, destinations, mode4url, sensor4url, sep = '&')    
+    url_string <- paste("http://maps.googleapis.com/maps/api/distancematrix/json?", 
+      posturl, sep = "")
+    url_string <- URLencode(url_string)
     
-  # look up
-  origins <- gsub(',', '', origins)
-  origins <- gsub(' ', '+', origins)
-  origins <- paste('origins=', paste(origins, collapse = '|'), sep = '')
-  destinations <- gsub(',', '', destinations)
-  destinations <- gsub(' ', '+', destinations)  
-  destinations <- paste('destinations=', paste(destinations, collapse = '|'), sep = '')
+    # check/update google query limit
+    check_dist_query_limit(url_string, elem = nrow(df), 
+      override = override_limit, messaging = messaging)    
 
-  mode4url <- paste('mode=', mode, sep = '') 
   
-  lang4url <- paste('language=', language, sep = '')   
-  
-  if(sensor){ sensor <- 'true' } else { sensor <- 'false' }
-  sensor4url <- paste('sensor=', sensor, sep = '') 
-  
-  posturl <- paste(origins, destinations, mode4url, sensor4url, sep = '&')  
-  
-  url_string <- paste("http://maps.googleapis.com/maps/api/distancematrix/json?", 
-    posturl, sep = "")
-  url_string <- URLencode(url_string)
-  tree <- fromJSON(paste(readLines(url(url_string)), collapse = ''))
-  closeAllConnections()
-  if(output == 'all') return(tree)
-  
-  # format output
-  count <- 1
-  out <- ldply(tree$rows, function(l){
-  	e <- l$elements[[count]] 
-  	count <<- count + 1
-  	data.frame(
-  	  m = e$distance$value,
-  	  km = e$distance$value/1000,
-  	  miles = 0.0006214 * e$distance$value,
-  	  seconds = e$duration$value,
-  	  minutes = e$duration$value / 60,
-  	  hours = e$duration$value / 3600	  
-  	)
+    # distance lookup
+    if(messaging) message('trying url ', url_string)
+    tree <- fromJSON(paste(readLines(url(url_string)), collapse = ''))
+    closeAllConnections()      
+    
+    # label destinations
+    names( tree$rows[[1]][[1]] ) <- df$to
+    
+    # return
+    tree$rows[[1]][[1]]
   })
   
-  # 'simple' return
-  return(out) 
+  # return all
+  if(output == 'all') return(out)
   
-  # 'addresses' return  
-  out$from <- tolower(tree$origin_addresses)
-  out$to <- tolower(tree$destination_addresses)  
-  return(out)   
+  
+  
+  # format output
+  out <-
+    ldply(out, function(oneFromList){
+      ldply(oneFromList, function(oneToList){
+        data.frame(
+          m = oneToList$distance$value,
+  	      km = oneToList$distance$value/1000,
+          miles = 0.0006214 * oneToList$distance$value,
+          seconds = oneToList$duration$value,
+          minutes = oneToList$duration$value / 60,
+  	      hours = oneToList$duration$value / 3600	  
+        )    
+      })
+    })
+  names(out) <- c('from', 'to', names(out)[3:ncol(out)])
+  
+  # 'simple' return
+  suppressMessages(join(from_to_df, out))    
+}
+
+
+
+
+check_dist_query_limit <- function(url_string, elems, override, messaging){  
+  .GoogleDistQueryCount <- NULL; rm(.GoogleDistQueryCount); # R CMD check trick
+  	
+  if(exists('.GoogleDistQueryCount', .GlobalEnv)){
+    	
+    .GoogleDistQueryCount <<- 
+      subset(.GoogleDistQueryCount, time >= Sys.time() - 24*60*60)
+    
+    # 2500 per 24 hours
+    if(sum(.GoogleDistQueryCount$elements) + elems > 2500){
+      message('query max exceeded, see ?mapdist.  current total = ', 
+        sum(.GoogleDistQueryCount$elements))
+      if(!override) stop('google query limit exceeded.', call. = FALSE)
+    }
+    
+    # 100 per 10 seconds
+    if(with(.GoogleDistQueryCount, 
+      sum(elements[time >= Sys.time() - 10]) + elems > 100
+    )){
+      if(messaging) message('waiting 10 seconds for another 100 queries...', appendLF=F)
+      Sys.sleep(10) # can do better
+      if(messaging) message(' done')      
+    }    
+      
+    # append to .GoogleDistQueryCount
+    .GoogleDistQueryCount <<- rbind(.GoogleDistQueryCount, 
+      data.frame(time = Sys.time(),  url = url_string, 
+        elements = elems, stringsAsFactors = FALSE)
+    )
+    
+    	
+  } else {
+    	
+    .GoogleDistQueryCount <<- 
+      data.frame(time = Sys.time(),  url = url_string, 
+        elements = elems, stringsAsFactors = FALSE)
+      
+  }
+}
+
+
+
+#' Check Google Maps Distance Matrix API query limit
+#'
+#' Check Google Maps Distance Matrix API query limit
+#' 
+#' @return a data frame
+#' @author David Kahle \email{david.kahle@@gmail.com}
+#' @seealso \url{http://code.google.com/apis/maps/documentation/distancematrix/}
+#' @export
+#' @examples
+#' distQueryCheck()
+distQueryCheck <- function(){
+  .GoogleDistQueryCount <- NULL; rm(.GoogleDistQueryCount); # R CMD check trick	
+  if(exists('.GoogleDistQueryCount', .GlobalEnv)){    	
+  	remaining <- 2500-sum(
+  	  subset(.GoogleDistQueryCount, time >= Sys.time() - 24*60*60)$elements
+  	  )
+    message(remaining, ' distance queries remaining.')
+  } else {
+  	remaining <- 2500
+    message(remaining, ' distance queries remaining.')
+  }	
+  invisible(remaining)
 }

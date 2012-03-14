@@ -26,6 +26,16 @@ qmap(location = 'waco', zoom = 14, source = 'osm', scale = 20000)
 qmap(location = 'waco', zoom = 14, maptype = 'satellite')
 qmap(location = 'waco', zoom = 14, maptype = 'hybrid')
 
+wh <- geocode('the white house')
+qmap('the white house', base_layer = ggplot(aes(x=lon, y=lat), data = wh)) +
+  geom_point()
+qmap('the white house', maprange = TRUE,
+  base_layer = ggplot(aes(x=lon, y=lat), data = wh)) +
+  geom_point()
+
+
+
+
 }
 }
 \author{

@@ -3,8 +3,10 @@ Version 1.3
 
 New Features -
   1. a total overhaul of the geocode function (with backwards compatability).  geocode can now return many more features such as the address (for when the location is lazy-specified, e.g. "the white house"), a bounding box, and political administrative bodies.
-  2. a reverse geocode function called "revgeocode" is now available.
-  3. mapdist - a function to compute distances on maps using the google maps api.  distances in meters, km, and miles are returned as well as travel times in seconds, minutes and hours based on mode of transportation (driving, bicycling, or walking).
+  2. revgeocode - a reverse geocoder using google maps.
+  3. mapdist - a function to compute distances on maps using the google maps api.  distances in meters, km, and miles are returned as well as travel times in seconds, minutes and hours based on mode of transportation (driving, bicycling, or walking).  google query limit monitored with function distQueryCheck.
+  4. route - a function to grab directions from google.  google query limit monitored with function routeQueryCheck.
+  5. qmap now accepts base_layer argument.
 
 Fixes -
   1. qmap and ggmapplot now deals properly with maprange.

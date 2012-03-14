@@ -4,8 +4,9 @@
 \usage{
   mapdist(from, to,
     mode = c("driving", "walking", "bicycling"),
-    output = c("simple", "addresses", "all"),
-    messaging = FALSE, sensor = TRUE, language = "en-EN")
+    output = c("simple", "all"), messaging = FALSE,
+    sensor = TRUE, language = "en-EN",
+    override_limit = FALSE)
 }
 \arguments{
   \item{from}{name of origin addresses in a data frame
@@ -24,19 +25,22 @@
   from a device with a location sensor}
 
   \item{language}{language}
+
+  \item{override_limit}{override the current query count
+  (.GoogleDistQueryCount)}
 }
 \value{
   a data frame (output='simple') or all of the geocoded
   information (output='all')
 }
 \description{
-  Compute map distances using Google Maps.
+  Compute map distances using Google Maps
 }
 \details{
   if parameters from and to are specified as geographic
   coordinates, they are reverse geocoded with revgeocode.
-  note that the google maps api limits to 2500 queries a
-  day.
+  note that the google maps api limits to 2500 element
+  queries a day.
 }
 \examples{
 \dontrun{
@@ -47,8 +51,8 @@ mapdist(from, to)
 mapdist(from, to, mode = 'bicycling')
 mapdist(from, to, mode = 'walking')
 
-from <- c('houston', 'dallas')
-to <- c('waco, texas', 'houston')
+from <- c('houston', 'houston', 'dallas')
+to <- c('waco, texas', 'san antonio', 'houston')
 mapdist(from, to)
 
 mapdist('the white house', 'washington monument', mode = 'walking')
@@ -56,12 +60,16 @@ mapdist('the white house', 'washington monument', mode = 'walking')
 # geographic coordinates are accepted as well
 (wh <- as.numeric(geocode('the white house')))
 (wm <- as.numeric(geocode('washington monument')))
-mapdist(wh, wm, mode = 'walking', messaging = TRUE)
-mapdist('the white house', wm, mode = 'walking', messaging = TRUE)
+mapdist(wh, wm, mode = 'walking')
+mapdist('the white house', wm, mode = 'walking')
+distQueryCheck()
 
 }
 }
 \author{
   David Kahle \email{david.kahle@gmail.com}
+}
+\seealso{
+  \url{http://code.google.com/apis/maps/documentation/distancematrix/}
 }
 

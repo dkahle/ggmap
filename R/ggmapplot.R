@@ -309,10 +309,63 @@
 #' 
 #' origin <- 'marrs mclean science, baylor university'
 #' gc_origin <- geocode(origin)
-#' destinations <- c('pat neff hall, baylor university', 'salvation army waco texas',
-#'   'sams club waco texas', 'HEB #087 waco texas')
-#' gc_dests <- geocode(destinations)
-#' (dist <- mapdist(origin, destinations, mode = 'walking'))
+#' destinations <- data.frame(
+#'   place = c("Administration", "Baseball Stadium", "Basketball Arena", 
+#'     "Salvation Army", "HEB Grocery", "Cafe Cappuccino", "Ninfa's Mexican", 
+#'     "Dr Pepper Museum", "Buzzard Billy's", "Mayborn Museum","Flea Market"
+#'   ),
+#'   address = c("pat neff hall, baylor university", "baylor ballpark", 
+#'     "ferrell center", "1225 interstate 35 s, waco, tx", 
+#'     "1102 speight avenue, waco, tx", "100 n 6th st # 100, waco, tx", 
+#'     "220 south 3rd street, waco, tx", "300 south 5th street, waco, tx",
+#'     "100 north jack kultgen expressway, waco, tx",
+#'     "1300 south university parks drive, waco, tx",
+#'     "2112 state loop 491, waco, tx"
+#'   ),
+#'   stringsAsFactors = FALSE 
+#' )
+#' gc_dests <- geocode(destinations$address)
+#' (dist <- mapdist(origin, destinations$address, mode = 'bicycling'))
+#' 
+#' dist <- within(dist, {
+#'   place = destinations$place
+#'   fromlon = gc_origin$lon
+#'   fromlat = gc_origin$lat    
+#'   tolon = gc_dests$lon
+#'   tolat = gc_dests$lat  
+#' }) 
+#' dist$minutes <- cut(dist$minutes, c(0,3,5,7,10,Inf), labels = c('0-3','3-5', '5-7', '7-10', '10+'))
+#' 
+#' qmap('baylor university', zoom = 14, maprange = TRUE, fullpage = TRUE,
+#'   base_layer = ggplot(aes(x = lon, y = lat), data = gc_origin)) +
+#'   geom_rect(aes(
+#'     x = tolon, y = tolat,
+#'     xmin = tolon-.000275*nchar(place), xmax = tolon+.000275*nchar(place), 
+#'     ymin = tolat-.0005, ymax = tolat+.0005, fill = minutes, colour = 'black'
+#'   ), alpha = .7, data = dist) +
+#'   geom_text(aes(x = tolon, y = tolat, label = place, colour = 'white'), size = 3, data = dist) +
+#'   geom_rect(aes(
+#'     xmin = lon-.004, xmax = lon+.004, 
+#'     ymin = lat-.00075, ymax = lat+.00075, colour = 'black'
+#'   ), alpha = .5, fill = I('green'), data = gc_origin) +  
+#'   geom_text(aes(x = lon, y = lat, label = 'My Office', colour = 'black'), size = 5) +
+#'   scale_fill_manual('Minutes\nAway\nby Bike',
+#'     values = colorRampPalette(c(muted('green'), 'blue', 'red'))(5)) +
+#'   scale_colour_identity(guide = 'none') +
+#'   opts(
+#'     legend.position = c(.8,.85), 
+#'     legend.background = theme_rect(colour = 'black', fill = 'black', size = 4),
+#'     legend.direction = 'horizontal',
+#'     legend.key.size = unit(1.4, 'lines')
+#'   ) +
+#'   guides(
+#'     fill = guide_legend(
+#'       title.theme = theme_text(colour = 'white'),
+#'       label.theme = theme_text(colour = 'white'),
+#'       label.position = 'bottom',
+#'       override.aes = list(alpha = 1)
+#'     )
+#'   )
 #'  
 #' 
 #'   
@@ -322,7 +375,7 @@
 #' 
 #' } 
 ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, base_layer, maprange = FALSE, expand = FALSE, ...){
-  
+
   # dummies to trick R CMD check   
   lon <- NULL; rm(lon); lat <- NULL; rm(lat); fill <- NULL; rm(fill);   
   ll.lon <- NULL; rm(ll.lon); ur.lon <- NULL; rm(ur.lon); 
@@ -333,7 +386,7 @@ ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, base_layer, ma
   }
 
   # make raster plot or tile plot
-  if(missing(base_layer)){
+  if(missing(base_layer) || base_layer == 'auto'){
     if(inherits(ggmap, "raster")){ # raster  	
       # make base layer data.frame
       fourCorners <- expand.grid(
@@ -361,6 +414,8 @@ ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, base_layer, ma
   	stopifnot(inherits(ggmap, "raster"))
     args <- as.list(match.call()[-1])
     base <- deparse(args$base_layer) # "ggplot(aes(), data = blah)"
+    # if passed from another function
+    if(base == 'base_layer') base <- deparse(eval(args$base_layer))
     
     # shorthand notation
     xmin <- attr(ggmap, "bb")$ll.lon

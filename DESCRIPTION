@@ -39,3 +39,4 @@ Collate:
     'gglocator.R'
     'mapdist.R'
     'revgeocode.R'
+    'route.R'
