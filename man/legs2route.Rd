@@ -1,0 +1,63 @@
+\name{legs2route}
+\alias{legs2route}
+\title{Convert a leg-structured route to a route-structured route}
+\usage{
+  legs2route(legsdf)
+}
+\arguments{
+  \item{legsdf}{a legs-structured route, see
+  \code{\link{route}}}
+}
+\description{
+  Convert a leg-structured route to a route-structured
+  route
+}
+\examples{
+\dontrun{
+
+(legs_df <- route('houston','galveston'))
+legs2route(legs_df)
+(legs_df <- route(
+  "marrs mclean science, baylor university",
+  "220 south 3rd street, waco, tx 76701", # ninfa's
+  alternatives = TRUE))
+
+legs2route(legs_df)
+
+
+
+
+from <- 'houson, texas'
+to <- 'waco, texas'
+legs_df <- route(from, to)
+
+
+qmap('college station, texas', zoom = 8) +
+  geom_segment(
+    aes(x = startLon, y = startLat, xend = endLon, yend = endLat),
+    colour = 'red', size = 1.5, data = legs_df
+  )
+# notice boxy ends
+
+qmap('college station, texas', zoom = 8) +
+  geom_leg(
+    aes(x = startLon, y = startLat, xend = endLon, yend = endLat),
+    colour = 'red', size = 1.5, data = legs_df
+  )
+# notice overshooting ends
+
+route_df <- legs2route(legs_df)
+qmap('college station, texas', zoom = 8) +
+  geom_path(
+    aes(x = lon, y = lat),
+    colour = 'red', size = 1.5, data = route_df, lineend = "round"
+  )
+
+
+
+}
+}
+\seealso{
+  geom_path in ggplot2
+}
+

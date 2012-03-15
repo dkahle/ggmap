@@ -4,6 +4,7 @@
 \usage{
   route(from, to,
     mode = c("driving", "walking", "bicycling"),
+    structure = c("legs", "route"),
     output = c("simple", "all"), alternatives = FALSE,
     messaging = FALSE, sensor = TRUE,
     override_limit = FALSE)
@@ -16,6 +17,8 @@
   (vector accepted)}
 
   \item{output}{amount of output}
+
+  \item{structure}{structure of output, see examples}
 
   \item{mode}{driving, bicycling, or walking}
 
@@ -42,22 +45,22 @@
 
 from <- 'houson, texas'
 to <- 'waco, texas'
-route_df <- route(from, to)
+legs_df <- route(from, to)
 qmap('college station, texas', zoom = 8) +
   geom_segment(
     aes(x = startLon, y = startLat, xend = endLon, yend = endLat),
-    colour = 'red', size = 1.5, data = route_df
+    colour = 'red', size = 1.5, data = legs_df
   )
 
 qmap('college station, texas', zoom = 6) +
   geom_segment(
     aes(x = startLon, y = startLat, xend = endLon, yend = endLat),
-    colour = 'red', size = 1.5, data = route_df
+    colour = 'red', size = 1.5, data = legs_df
   )
 
 theme_set(theme_bw())
-route_df <- route(from, to, alternatives = TRUE)
-p <- qplot(route, minutes, data = route_df, geom = 'bar',
+legs_df <- route(from, to, alternatives = TRUE)
+p <- qplot(route, minutes, data = legs_df, geom = 'bar',
     stat = 'identity', fill = factor(leg)) +
   scale_fill_discrete(guide = 'none') +
   labs(x = 'Route', y = 'Time (Minutes)', fill = 'Leg') +
@@ -75,7 +78,7 @@ options('device')$device(width = 7.56, height = 6.84)
 qmap('college station, texas', zoom = 8, maptype = 'satellite', fullpage = FALSE) +
   geom_segment(
     aes(x = startLon, y = startLat, xend = endLon, yend = endLat, colour = route),
-    alpha = 3/4, size = 1.75, data = route_df
+    alpha = 3/4, size = 1.75, data = legs_df
   ) +
   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes') +
   opts(title = 'Approximate Routes from Houston to Waco') +
@@ -87,23 +90,26 @@ routeQueryCheck()
 
 
 
-(route_df <- route(
+(legs_df <- route(
   "marrs mclean science, baylor university",
   "220 south 3rd street, waco, tx 76701", # ninfa's
   alternatives = TRUE))
 
 options('device')$device(width = 11.65, height = 4.17)
 qmap('424 clay avenue, waco, tx', zoom = 16, maprange = TRUE, maptype = 'satellite',
-    base_layer = ggplot(aes(x = startLon, y = startLat), data = route_df)) +
-  geom_segment(
+    base_layer = ggplot(aes(x = startLon, y = startLat), data = legs_df)) +
+  geom_leg(
     aes(x = startLon, y = startLat, xend = endLon, yend = endLat, colour = route),
-    alpha = 3/4, size = 3, data = route_df
+    alpha = 3/4, size = 2, data = legs_df
   ) +
   scale_x_continuous(breaks = pretty(c(-97.1325,-97.119),4), lim = c(-97.1325,-97.119)) +
   facet_wrap(~ route) + theme_bw() +
   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes')
 
-
+(route_df <- route(
+  "marrs mclean science, baylor university",
+  "220 south 3rd street, waco, tx 76701", # ninfa's
+  alternatives = TRUE, structure = 'route'))
 
 
 }
@@ -112,6 +118,8 @@ qmap('424 clay avenue, waco, tx', zoom = 16, maprange = TRUE, maptype = 'satelli
   David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-  \url{https://developers.google.com/maps/documentation/directions/}
+  \url{https://developers.google.com/maps/documentation/directions/},
+  \code{\link{legs2route}}, \code{\link{routeQueryCheck}},
+  \code{\link{geom_leg}}
 }
 

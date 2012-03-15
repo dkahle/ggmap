@@ -11,7 +11,9 @@
   Check Google Maps Directions API query limit
 }
 \examples{
+\dontrun{
 routeQueryCheck()
+}
 }
 \author{
   David Kahle \email{david.kahle@gmail.com}

@@ -5,6 +5,7 @@
 #' @param from name of origin addresses in a data frame (vector accepted)
 #' @param to name of destination addresses in a data frame (vector accepted)
 #' @param output amount of output
+#' @param structure structure of output, see examples
 #' @param mode driving, bicycling, or walking
 #' @param alternatives should more than one route be provided?
 #' @param messaging turn messaging on/off
@@ -12,7 +13,7 @@
 #' @param override_limit override the current query count (.GoogleRouteQueryCount)
 #' @return a data frame (output='simple') or all of the geocoded information (output='all')
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \url{https://developers.google.com/maps/documentation/directions/}
+#' @seealso \url{https://developers.google.com/maps/documentation/directions/}, \code{\link{legs2route}}, \code{\link{routeQueryCheck}}, \code{\link{geom_leg}}
 #' @export
 #' @examples
 #'
@@ -21,22 +22,22 @@
 #' 
 #' from <- 'houson, texas'
 #' to <- 'waco, texas'
-#' route_df <- route(from, to)
+#' legs_df <- route(from, to)
 #' qmap('college station, texas', zoom = 8) +
 #'   geom_segment(
 #'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat), 
-#'     colour = 'red', size = 1.5, data = route_df
+#'     colour = 'red', size = 1.5, data = legs_df
 #'   )
 #' 
 #' qmap('college station, texas', zoom = 6) +
 #'   geom_segment(
 #'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat), 
-#'     colour = 'red', size = 1.5, data = route_df
+#'     colour = 'red', size = 1.5, data = legs_df
 #'   )
 #'
 #' theme_set(theme_bw())
-#' route_df <- route(from, to, alternatives = TRUE)
-#' p <- qplot(route, minutes, data = route_df, geom = 'bar', 
+#' legs_df <- route(from, to, alternatives = TRUE)
+#' p <- qplot(route, minutes, data = legs_df, geom = 'bar', 
 #'     stat = 'identity', fill = factor(leg)) +
 #'   scale_fill_discrete(guide = 'none') +
 #'   labs(x = 'Route', y = 'Time (Minutes)', fill = 'Leg') +
@@ -54,7 +55,7 @@
 #' qmap('college station, texas', zoom = 8, maptype = 'satellite', fullpage = FALSE) +
 #'   geom_segment(
 #'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat, colour = route), 
-#'     alpha = 3/4, size = 1.75, data = route_df
+#'     alpha = 3/4, size = 1.75, data = legs_df
 #'   ) +
 #'   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes') +
 #'   opts(title = 'Approximate Routes from Houston to Waco') +
@@ -66,30 +67,33 @@
 #' 
 #' 
 #'   
-#' (route_df <- route(
+#' (legs_df <- route(
 #'   "marrs mclean science, baylor university", 
 #'   "220 south 3rd street, waco, tx 76701", # ninfa's 
 #'   alternatives = TRUE))
 #'   
 #' options('device')$device(width = 11.65, height = 4.17)  
 #' qmap('424 clay avenue, waco, tx', zoom = 16, maprange = TRUE, maptype = 'satellite', 
-#'     base_layer = ggplot(aes(x = startLon, y = startLat), data = route_df)) + 
-#'   geom_segment(
+#'     base_layer = ggplot(aes(x = startLon, y = startLat), data = legs_df)) + 
+#'   geom_leg(
 #'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat, colour = route), 
-#'     alpha = 3/4, size = 3, data = route_df
+#'     alpha = 3/4, size = 2, data = legs_df
 #'   ) +
 #'   scale_x_continuous(breaks = pretty(c(-97.1325,-97.119),4), lim = c(-97.1325,-97.119)) +
 #'   facet_wrap(~ route) + theme_bw() +
 #'   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes')
 #' 
-#'   
+#' (route_df <- route(
+#'   "marrs mclean science, baylor university", 
+#'   "220 south 3rd street, waco, tx 76701", # ninfa's 
+#'   alternatives = TRUE, structure = 'route'))
 #' 
 #' 
 #' }
 #' 
 route <- function(from, to, mode = c('driving','walking','bicycling'), 
-  output = c('simple','all'), alternatives = FALSE, messaging = FALSE, sensor = TRUE,
-  override_limit = FALSE)
+  structure = c('legs','route'), output = c('simple','all'), alternatives = FALSE, 
+  messaging = FALSE, sensor = TRUE, override_limit = FALSE)
 {
   require(rjson)
   require(plyr)
@@ -100,6 +104,7 @@ route <- function(from, to, mode = c('driving','walking','bicycling'),
   if(is.numeric(to) && length(to) == 2) to <- revgeocode(to)
   stopifnot(is.character(to))  
   mode <- match.arg(mode)    
+  structure <- match.arg(structure)      
   output <- match.arg(output)  
   stopifnot(is.logical(alternatives))  
   stopifnot(is.logical(messaging))
@@ -171,8 +176,20 @@ route <- function(from, to, mode = c('driving','walking','bicycling'),
   if(nRoutes > 1) out$route <- routeLabel
 
   # return output = 'simple'  
-  out
+  if(structure == 'legs'){
+    return(out)
+  } else {
+  	return(legs2route(out))
+  }
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -226,7 +243,9 @@ check_route_query_limit <- function(url_string, elems, override, messaging){
 #' @seealso \url{https://developers.google.com/maps/documentation/directions/}
 #' @export
 #' @examples
+#' \dontrun{
 #' routeQueryCheck()
+#' }
 routeQueryCheck <- function(){
   .GoogleRouteQueryCount <- NULL; rm(.GoogleRouteQueryCount); # R CMD check trick	
   if(exists('.GoogleRouteQueryCount', .GlobalEnv)){    	
@@ -240,3 +259,185 @@ routeQueryCheck <- function(){
   }	
   invisible(remaining)
 }
+
+
+
+
+
+#' Single line segments with rounded ends
+#'
+#' Single line segments with rounded ends
+#' 
+#' @param mapping mapping
+#' @param data data
+#' @param stat stat
+#' @param position position
+#' @param arrow arrow
+#' @param ... ...
+#' @seealso geom_segment in ggplot2, inspired by \url{http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/}, \code{\link{route}}
+#' @details only intended for use in ggmaps package.  only designed for mercator projection.
+#' @export
+#' @examples
+#' 
+#' \dontrun{
+#'
+#' (legs_df <- route(
+#' "marrs mclean science, baylor university", 
+#'   "220 south 3rd street, waco, tx 76701", # ninfa's 
+#'   alternatives = TRUE))
+#' 
+#' options('device')$device(width = 11.65, height = 4.17)  
+#' qmap('424 clay avenue, waco, tx', zoom = 16, maprange = TRUE, maptype = 'satellite', 
+#'   base_layer = ggplot(aes(x = startLon, y = startLat), data = legs_df)) + 
+#'   geom_segment(
+#'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat, colour = route), 
+#'     alpha = 3/4, size = 3, data = legs_df
+#'   ) +
+#'   scale_x_continuous(breaks = pretty(c(-97.1325,-97.119),4), lim = c(-97.1325,-97.119)) +
+#'   facet_wrap(~ route) + theme_bw() +
+#'   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes')
+#'   
+#' qmap('424 clay avenue, waco, tx', zoom = 16, maprange = TRUE, maptype = 'satellite', 
+#'   base_layer = ggplot(aes(x = startLon, y = startLat), data = legs_df)) + 
+#'   geom_leg(
+#'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat, colour = route),
+#'     alpha = 3/4, size = 2, data = legs_df
+#'   ) +
+#'   scale_x_continuous(breaks = pretty(c(-97.1325,-97.119),4), lim = c(-97.1325,-97.119)) +
+#'   facet_wrap(~ route) + theme_bw() +
+#'   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes') +
+#'   coord_map()
+#'  
+#' } 
+#'   
+geom_leg <- function (mapping = NULL, data = NULL, stat = "identity", position = "identity", arrow = NULL, ...) { 
+  GeomLeg$new(mapping = mapping, data = data, stat = stat, position = position, arrow = arrow, ...)
+}
+
+GeomLeg <- proto(ggplot2:::GeomSegment, {
+  objname <- "leg"
+
+  draw <- function(., data, scales, coordinates, arrow=NULL, ...) {	
+
+    coords <- coord_transform(coordinates, data, scales)	
+    coords <- within(coords,{
+      xend <- rescale(xend, 0:1, scales$x.range)
+      yend <- rescale(yend, 0:1, scales$y.range)      
+    })
+    
+    with(coords, 
+      segmentsGrob(x, y, xend, yend, default.units="native",
+      gp = gpar(col=alpha(colour, alpha), lwd=size * .pt, 
+        lty=linetype, lineend = "round"), 
+      arrow = arrow)
+    )
+  }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' Convert a leg-structured route to a route-structured route
+#'
+#' Convert a leg-structured route to a route-structured route
+#' 
+#' @param legsdf a legs-structured route, see \code{\link{route}}
+#' @seealso geom_path in ggplot2
+#' @export
+#' @examples
+#'
+#' \dontrun{
+#'
+#' (legs_df <- route('houston','galveston'))
+#' legs2route(legs_df)
+#
+#' (legs_df <- route(
+#'   "marrs mclean science, baylor university", 
+#'   "220 south 3rd street, waco, tx 76701", # ninfa's 
+#'   alternatives = TRUE))
+#' 
+#' legs2route(legs_df)
+#' 
+#' 
+#' 
+#' 
+#' from <- 'houson, texas'
+#' to <- 'waco, texas'
+#' legs_df <- route(from, to)
+#' 
+#' 
+#' qmap('college station, texas', zoom = 8) +
+#'   geom_segment(
+#'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat), 
+#'     colour = 'red', size = 1.5, data = legs_df
+#'   ) 
+#' # notice boxy ends  
+#' 
+#' qmap('college station, texas', zoom = 8) +
+#'   geom_leg(
+#'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat), 
+#'     colour = 'red', size = 1.5, data = legs_df
+#'   )
+#' # notice overshooting ends
+#' 
+#' route_df <- legs2route(legs_df)
+#' qmap('college station, texas', zoom = 8) +
+#'   geom_path(
+#'     aes(x = lon, y = lat), 
+#'     colour = 'red', size = 1.5, data = route_df, lineend = "round"
+#'   )
+#'   
+#'
+#'
+#' }
+#'   
+legs2route <- function(legsdf){
+  require(plyr)
+  
+  if(!('route' %in% names(legsdf))) legsdf$route <- 'A'
+  
+  out <- ddply(legsdf, .(route), function(df){
+  	out <- df[,-which(names(df) %in% c('startLon','startLat','endLon','endLat'))] 	
+    out$lon <- df$startLon
+    out$lat <- df$startLat    
+    out <- rbind(out, NA)  	
+    out$lon[nrow(out)] <- tail(df$endLon,1)
+    out$lat[nrow(out)] <- tail(df$endLat,1)    
+    out$route[nrow(out)] <- tail(df$route,1)        
+    out
+  })
+  
+  if(length(unique(legsdf$route)) == 1) out <- out[,-which(names(out) == 'route')]  
+  out
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
