@@ -45,17 +45,17 @@
 
 from <- 'houson, texas'
 to <- 'waco, texas'
-legs_df <- route(from, to)
+route_df <- route(from, to, structure = 'route')
 qmap('college station, texas', zoom = 8) +
-  geom_segment(
-    aes(x = startLon, y = startLat, xend = endLon, yend = endLat),
-    colour = 'red', size = 1.5, data = legs_df
+  geom_path(
+    aes(x = lon, y = lat),  colour = 'red', size = 1.5,
+    data = route_df, lineend = 'round'
   )
 
 qmap('college station, texas', zoom = 6) +
-  geom_segment(
-    aes(x = startLon, y = startLat, xend = endLon, yend = endLat),
-    colour = 'red', size = 1.5, data = legs_df
+  geom_path(
+    aes(x = lon, y = lat), colour = 'red', size = 1.5,
+    data = route_df, lineend = 'round'
   )
 
 theme_set(theme_bw())
@@ -74,11 +74,12 @@ p <- qplot(route, minutes, data = legs_df, geom = 'bar',
     plot.title = theme_text(colour = 'white')
   )
 
+route_df <- legs2route(legs_df)
 options('device')$device(width = 7.56, height = 6.84)
-qmap('college station, texas', zoom = 8, maptype = 'satellite', fullpage = FALSE) +
-  geom_segment(
-    aes(x = startLon, y = startLat, xend = endLon, yend = endLat, colour = route),
-    alpha = 3/4, size = 1.75, data = legs_df
+qmap('college station, texas', zoom = 8, maptype = 'hybrid', fullpage = FALSE) +
+  geom_path(
+    aes(x = lon, y = lat, colour = route),
+    alpha = 3/4, size = 1.75, data = route_df, lineend='round'
   ) +
   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes') +
   opts(title = 'Approximate Routes from Houston to Waco') +
@@ -91,12 +92,12 @@ routeQueryCheck()
 
 
 (legs_df <- route(
-  "marrs mclean science, baylor university",
-  "220 south 3rd street, waco, tx 76701", # ninfa's
+  'marrs mclean science, baylor university',
+  '220 south 3rd street, waco, tx 76701', # ninfa's
   alternatives = TRUE))
 
 options('device')$device(width = 11.65, height = 4.17)
-qmap('424 clay avenue, waco, tx', zoom = 16, maprange = TRUE, maptype = 'satellite',
+qmap('424 clay avenue, waco, tx', zoom = 16, maprange = TRUE, maptype = 'hybrid',
     base_layer = ggplot(aes(x = startLon, y = startLat), data = legs_df)) +
   geom_leg(
     aes(x = startLon, y = startLat, xend = endLon, yend = endLat, colour = route),
@@ -104,14 +105,7 @@ qmap('424 clay avenue, waco, tx', zoom = 16, maprange = TRUE, maptype = 'satelli
   ) +
   scale_x_continuous(breaks = pretty(c(-97.1325,-97.119),4), lim = c(-97.1325,-97.119)) +
   facet_wrap(~ route) + theme_bw() +
-  labs(x = 'Longitude', y = 'Latitude', colour = 'Routes')
-
-(route_df <- route(
-  "marrs mclean science, baylor university",
-  "220 south 3rd street, waco, tx 76701", # ninfa's
-  alternatives = TRUE, structure = 'route'))
-
-
+  labs(x = 'Longitude', y = 'Latitude', colour = 'Routes')#'
 }
 }
 \author{
