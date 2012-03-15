@@ -86,9 +86,12 @@
 #' 
 #' 
 #' 
-#' data(zips)
-#' ggmapplot(ggmap(maptype = 'satellite', zoom = 9), fullpage = TRUE) +
-#'   geom_path(aes(x = lon, y = lat, group = plotOrder), data = zips, colour = I('red'), size = I(.4))
+#' data(zips)  
+#' ggmapplot(ggmap(maptype = 'satellite', zoom = 8), fullpage = TRUE) +
+#'   geom_polygon(aes(x = lon, y = lat, group = plotOrder), 
+#'     data = zips, colour = NA, fill = 'red', alpha = .2) +
+#'   geom_path(aes(x = lon, y = lat, group = plotOrder), 
+#'     data = zips, colour = 'white', alpha = .4, size = .4)  
 #' # discrepancy likely due to different projections.  on to-do.
 #' 
 #' library(plyr)
