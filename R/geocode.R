@@ -52,14 +52,19 @@ geocode <- function (location, output = c('latlon','latlona','more','all'), mess
   url_string <- URLencode(url_string)
   gc <- fromJSON(paste(readLines(url(url_string)), collapse = ''))
   closeAllConnections()
-  if(output == 'all') return(gc)
+  if(output == 'all') return(gc)  
 
   # did geocode fail?
   if(gc$Status$code == 602){
     warning(paste('geocode failed - bad address? location = "', 
-      location, '"', sep = ''))
+      location, '"', sep = ''), call. = FALSE)
     return(data.frame(lon = NA, lat = NA))	
   }
+  if(gc$Status$code == 620){
+    warning(paste('geocode failed - bad address? location = "', 
+      location, '"', sep = ''), call. = FALSE)
+    return(data.frame(lon = NA, lat = NA))	
+  }  
     
   # more than one location found?
   if(length(gc$Placemark) > 1 && messaging){
