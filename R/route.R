@@ -82,7 +82,7 @@
 #'   ) +
 #'   scale_x_continuous(breaks = pretty(c(-97.1325,-97.119),4), lim = c(-97.1325,-97.119)) +
 #'   facet_wrap(~ route) + theme_bw() +
-#'   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes')#' 
+#'   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes')
 #' }
 #' 
 route <- function(from, to, mode = c('driving','walking','bicycling'), 
@@ -121,7 +121,7 @@ route <- function(from, to, mode = c('driving','walking','bicycling'),
   url_string <- URLencode(url_string)
     
   # check/update google query limit
-  check_route_query_limit(url_string, elem = 1, 
+  check_route_query_limit(url_string, elems = 1, 
     override = override_limit, messaging = messaging)    
 
   

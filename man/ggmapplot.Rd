@@ -394,6 +394,30 @@ qmap('baylor university', zoom = 14, maprange = TRUE, fullpage = TRUE,
 
 
 
+
+
+states <- map_data('state')
+arrests <- USArrests
+names(arrests) <- tolower(names(arrests))
+arrests$region <- tolower(rownames(USArrests))
+
+choro <- merge(states, arrests, sort = FALSE, by = 'region')
+choro <- choro[order(choro$order), ]
+
+qmap('the united states', zoom = 3, maptype = 'satellite', fullpage = FALSE) +
+  geom_polygon(aes(x = long, y = lat, colour = 'white',
+      group = group, fill = assault),
+    alpha = .4, size = .25, data = choro) +
+  scale_fill_gradient('Assaults', low = 'yellow', high = 'red') +
+  scale_colour_identity(guide = 'none') +
+  scale_x_continuous('Longitude', expand = c(0,0)) +
+  scale_y_continuous('Latitude', expand = c(0,0)) +
+  guides(fill = guide_colorbar())
+
+
+
+
+
 }
 }
 \author{

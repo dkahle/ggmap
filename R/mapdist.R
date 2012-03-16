@@ -81,7 +81,7 @@ mapdist <- function(from, to, mode = c('driving','walking','bicycling'),
     url_string <- URLencode(url_string)
     
     # check/update google query limit
-    check_dist_query_limit(url_string, elem = nrow(df), 
+    check_dist_query_limit(url_string, elems = nrow(df), 
       override = override_limit, messaging = messaging)    
 
   
