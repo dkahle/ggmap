@@ -30,7 +30,7 @@
 \examples{
 \dontrun{
 
-gc <- as.numeric(geocode('Baylor University'))
+( gc <- as.numeric(geocode('Baylor University')) )
 revgeocode(gc)
 revgeocode(gc, output = 'more')
 revgeocode(gc, output = 'all')

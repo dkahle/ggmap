@@ -52,8 +52,8 @@ qmap('424 clay avenue, waco, tx', zoom = 16, maprange = TRUE, maptype = 'satelli
   ) +
   scale_x_continuous(breaks = pretty(c(-97.1325,-97.119),4), lim = c(-97.1325,-97.119)) +
   facet_wrap(~ route) + theme_bw() +
-  labs(x = 'Longitude', y = 'Latitude', colour = 'Routes') +
-  coord_map()
+  labs(x = 'Longitude', y = 'Latitude', colour = 'Routes')
+
 
 }
 }

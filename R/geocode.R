@@ -19,7 +19,7 @@
 #' geocode('1600 Pennsylvania Avenue, Washington DC', messaging = TRUE)
 #' geocode('the white house', messaging = TRUE)
 #' geocode('the eiffel tower')
-#' geocode(c('baylor university', 'salvation army waco', 'HEB #087 waco'))
+#' geocode(c('baylor university', 'salvation army waco'))
 #' geocode(c('baylor university', 'the vatican'))
 #' geocode(c('baylor university', 'the vatican'), output = 'latlona')
 #' geocode(c('baylor university', 'the vatican'), output = 'more')
@@ -27,7 +27,6 @@
 #' }
 #' 
 geocode <- function (location, output = c('latlon','latlona','more','all'), messaging = FALSE){
-  require(rjson)
 	
   # check parameters
   stopifnot(is.character(location))
@@ -36,7 +35,6 @@ geocode <- function (location, output = c('latlon','latlona','more','all'), mess
 	
   # vectorize for many locations (divide and conquer)
   if(length(location) > 1){ 
-  	require(plyr)
     s <- 'google restricts requests to 2500 requests a day.'
     if(length(location) > 2500) stop(s, call. = F)
     if(length(location) > 200 && messaging) message(paste('Reminder', s, sep = ' : '))      

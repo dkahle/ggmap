@@ -14,7 +14,6 @@
 #' 
 #' \dontrun{
 #' 	
-#' ggmapplot(ggmap(zoom =  2, source = 'osm', scale =175000000), fullpage = TRUE)	
 #' ggmapplot(ggmap(zoom =  3, source = 'osm', scale = 47500000), fullpage = TRUE)		
 #' ggmapplot(ggmap(zoom =  4, source = 'osm', scale = 32500000), fullpage = TRUE)		
 #' ggmapplot(ggmap(zoom =  5, source = 'osm', scale = 15000000), fullpage = TRUE)	

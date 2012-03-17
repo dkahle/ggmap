@@ -16,6 +16,9 @@
 }
 \examples{
 library(ggplot2)
+\dontrun{
+
+
 n <- 50
 df <- expand.grid(x = 1:n,y = 1:n)[sample(n^2,.5*n^2),]
 qplot(x, y, data = df, geom = 'tile')
@@ -38,6 +41,8 @@ qplot(1:10, 1:10) +
     grob = ggplotGrob(qplot(1:10,1:10) + theme_inset()),
     8, Inf, -Inf, 2
   )
+
+}
 }
 \author{
   David Kahle \email{david.kahle@gmail.com}

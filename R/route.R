@@ -89,8 +89,6 @@ route <- function(from, to, mode = c('driving','walking','bicycling'),
   structure = c('legs','route'), output = c('simple','all'), alternatives = FALSE, 
   messaging = FALSE, sensor = TRUE, override_limit = FALSE)
 {
-  require(rjson)
-  require(plyr)
 	
   # check parameters
   if(is.numeric(from) && length(from) == 2) from <- revgeocode(from)
@@ -299,8 +297,8 @@ routeQueryCheck <- function(){
 #'   ) +
 #'   scale_x_continuous(breaks = pretty(c(-97.1325,-97.119),4), lim = c(-97.1325,-97.119)) +
 #'   facet_wrap(~ route) + theme_bw() +
-#'   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes') +
-#'   coord_map()
+#'   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes')
+#'   
 #'  
 #' } 
 #'   
@@ -403,7 +401,6 @@ GeomLeg <- proto(ggplot2:::GeomSegment, {
 #' }
 #'   
 legs2route <- function(legsdf){
-  require(plyr)
   
   if(!('route' %in% names(legsdf))) legsdf$route <- 'A'
   

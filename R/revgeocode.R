@@ -16,7 +16,7 @@
 #' 
 #' \dontrun{
 #'	
-#' gc <- as.numeric(geocode('Baylor University'))
+#' ( gc <- as.numeric(geocode('Baylor University')) )
 #' revgeocode(gc)
 #' revgeocode(gc, output = 'more')
 #' revgeocode(gc, output = 'all')
@@ -24,7 +24,6 @@
 #' }
 #' 
 revgeocode <- function(location, output = c('address','more','all'), messaging = FALSE, sensor = TRUE){
-  require(rjson)
 	
   # check parameters
   stopifnot(is.numeric(location) && length(location) == 2)

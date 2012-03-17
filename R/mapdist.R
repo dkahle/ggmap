@@ -45,8 +45,6 @@ mapdist <- function(from, to, mode = c('driving','walking','bicycling'),
   output = c('simple','all'), messaging = FALSE, sensor = TRUE, 
   language = 'en-EN', override_limit = FALSE)
 {
-  require(rjson)
-  require(plyr)
 	
   # check parameters
   if(is.numeric(from) && length(from) == 2) from <- revgeocode(from)

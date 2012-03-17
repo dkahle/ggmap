@@ -60,7 +60,7 @@ HoustonMap +
 ggmapplot(ggmap('Paris', verbose = TRUE), fullpage = TRUE)
 
 
-
+library(grid)
 baylor <- ggmap('baylor university', zoom = 15,
   maptype = 'satellite', regularize = FALSE, verbose = TRUE)
 
@@ -357,6 +357,7 @@ dist <- within(dist, {
 })
 dist$minutes <- cut(dist$minutes, c(0,3,5,7,10,Inf), labels = c('0-3','3-5', '5-7', '7-10', '10+'))
 
+library(scales)
 qmap('baylor university', zoom = 14, maprange = TRUE, fullpage = TRUE,
   base_layer = ggplot(aes(x = lon, y = lat), data = gc_origin)) +
   geom_rect(aes(
@@ -404,15 +405,20 @@ arrests$region <- tolower(rownames(USArrests))
 choro <- merge(states, arrests, sort = FALSE, by = 'region')
 choro <- choro[order(choro$order), ]
 
+legs_df <- route('mexico city', 'anchorage, alaska', alternatives = TRUE)
+route_df <- legs2route(legs_df)
+
 qmap('the united states', zoom = 3, maptype = 'satellite', fullpage = FALSE) +
   geom_polygon(aes(x = long, y = lat, colour = 'white',
       group = group, fill = assault),
     alpha = .4, size = .25, data = choro) +
+  geom_path(aes(x = lon, y = lat, linetype = route), data = route_df, lineend = 'round') +
   scale_fill_gradient('Assaults', low = 'yellow', high = 'red') +
   scale_colour_identity(guide = 'none') +
   scale_x_continuous('Longitude', expand = c(0,0)) +
   scale_y_continuous('Latitude', expand = c(0,0)) +
-  guides(fill = guide_colorbar())
+  guides(fill = guide_colorbar()) +
+  labs(linetype = 'Route')
 
 
 

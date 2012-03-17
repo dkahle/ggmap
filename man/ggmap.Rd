@@ -1,5 +1,8 @@
+\docType{package}
 \name{ggmap}
 \alias{ggmap}
+\alias{ggmap-package}
+\alias{package-ggmap}
 \title{Grab a map.}
 \usage{
   ggmap(location = "houston", lonR, latR,
@@ -60,6 +63,11 @@
   ggmap is a smart function which queries the Google Maps
   server or OpenStreetMap server for a map at a certain
   location at a certain spatial zoom.
+
+  ggmap integrates ggplot2 and RgoogleMaps to create an
+  elegant, consistent, and modular framework for spatial
+  graphics. More information about each function can be
+  found in its help documentation.
 }
 \examples{
 \dontrun{

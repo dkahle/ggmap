@@ -42,7 +42,7 @@
 #' ggmapplot(ggmap('Paris', verbose = TRUE), fullpage = TRUE)
 #'
 #'
-#'
+#' library(grid)
 #' baylor <- ggmap('baylor university', zoom = 15,
 #'   maptype = 'satellite', regularize = FALSE, verbose = TRUE)
 #'
@@ -339,6 +339,7 @@
 #' }) 
 #' dist$minutes <- cut(dist$minutes, c(0,3,5,7,10,Inf), labels = c('0-3','3-5', '5-7', '7-10', '10+'))
 #' 
+#' library(scales)
 #' qmap('baylor university', zoom = 14, maprange = TRUE, fullpage = TRUE,
 #'   base_layer = ggplot(aes(x = lon, y = lat), data = gc_origin)) +
 #'   geom_rect(aes(
