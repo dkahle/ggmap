@@ -3,6 +3,7 @@ Version 1.4
 
 Changes -
   1. ggmap now imports all packages save ggplot2 instead of depending on them.
+  2. ggmapplot no longer uses a textConnection for parsing base_layer.
 
 
 Version 1.3

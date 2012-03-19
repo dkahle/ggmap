@@ -460,7 +460,7 @@ ggmapplot <- function(ggmap, fullpage = FALSE, regularize = TRUE, base_layer, ma
       sep = ' + '
     )
 
-    p <- eval(parse(textConnection(str2parse)))   	
+    p <- eval(parse(text = str2parse))
   }
   
   # enforce maprange
