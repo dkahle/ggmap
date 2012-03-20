@@ -6,6 +6,7 @@
 #' @param output amount of output
 #' @param messaging turn messaging on/off
 #' @param sensor whether or not the geocoding request comes from a device with a location sensor
+#' @param override_limit override the current query count (.GoogleGeocodeQueryCount)
 #' @return depends (at least an address)
 #' @details note that the google maps api limits to 2500 queries a day.
 #' @author David Kahle \email{david.kahle@@gmail.com}
@@ -20,10 +21,13 @@
 #' revgeocode(gc)
 #' revgeocode(gc, output = 'more')
 #' revgeocode(gc, output = 'all')
+#' geocodeQueryCheck()
 #'
 #' }
 #' 
-revgeocode <- function(location, output = c('address','more','all'), messaging = FALSE, sensor = TRUE){
+revgeocode <- function(location, output = c('address','more','all'), 
+  messaging = FALSE, sensor = TRUE, override_limit = FALSE)
+{
 	
   # check parameters
   stopifnot(is.numeric(location) && length(location) == 2)
@@ -31,13 +35,19 @@ revgeocode <- function(location, output = c('address','more','all'), messaging =
   stopifnot(is.logical(messaging))
   stopifnot(is.logical(sensor))  
     
-  # geocode
+  # format url
   loc4url <- paste(rev(location), collapse = ',')
   if(sensor){ sensor <- 'true' } else { sensor <- 'false' }
   sensor4url <- paste('&sensor=', sensor, sep = '') # includes &
   url_string <- paste("http://maps.googleapis.com/maps/api/geocode/json?latlng=", 
     loc4url, sensor4url, sep = "")
   url_string <- URLencode(url_string)
+  
+  # check/update google query limit
+  check_geocode_query_limit(url_string, elems = 1, 
+    override = override_limit, messaging = messaging)        
+  
+  # geocode
   rgc <- fromJSON(paste(readLines(url(url_string)), collapse = ''))
   closeAllConnections()
   if(output == 'all') return(rgc)
