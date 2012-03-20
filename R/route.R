@@ -195,7 +195,7 @@ check_route_query_limit <- function(url_string, elems, override, messaging){
     
     # 2500 per 24 hours
     if(sum(.GoogleRouteQueryCount$elements) + elems > 2500){
-      message('query max exceeded, see ?mapdist.  current total = ', 
+      message('query max exceeded, see ?route.  current total = ', 
         sum(.GoogleRouteQueryCount$elements))
       if(!override) stop('google query limit exceeded.', call. = FALSE)
     }

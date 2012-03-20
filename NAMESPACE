@@ -1,5 +1,6 @@
 export(distQueryCheck)
 export(geocode)
+export(geocodeQueryCheck)
 export(geom_leg)
 export(ggimage)
 export(gglocator)

@@ -2,7 +2,7 @@ Package: ggmap
 Type: Package
 Title: A package for spatial visualization with Google Maps and OpenStreetMap
 Version: 1.4
-Date: 2012-03-17
+Date: 2012-03-19
 Author: David Kahle <david.kahle@gmail.com>, Hadley Wickham
     <h.wickham@gmail.com>
 Maintainer: David Kahle <david.kahle@gmail.com>
@@ -21,7 +21,8 @@ Imports:
     grid,
     rjson
 Suggests:
-    MASS
+    MASS,
+    stringr
 License: MIT
 LazyData: true
 Collate:

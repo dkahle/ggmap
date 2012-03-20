@@ -5,6 +5,8 @@
 #' @param location a character string specifying a location of interest (e.g. "Baylor University")
 #' @param output amount of output
 #' @param messaging turn messaging on/off
+#' @param sensor whether or not the geocoding request comes from a device with a location sensor
+#' @param override_limit override the current query count (.GoogleGeocodeQueryCount)
 #' @return depends (at least a data.frame with variables lon and lat)
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @details note that the google maps api limits to 2500 queries a day.
@@ -24,9 +26,19 @@
 #' geocode(c('baylor university', 'the vatican'), output = 'latlona')
 #' geocode(c('baylor university', 'the vatican'), output = 'more')
 #' geocode('the eiffel tower', output = 'all')
+#' geocodeQueryCheck()
+#'
+#' # careful in running this...
+#' library(stringr)
+#' ads <- unique(crime$address)[1:120]
+#' ads <- paste(ads, ', houston, texas', sep = '')
+#' ads <- str_trim(ads)
+#' gc <- geocode(ads)
 #' }
 #' 
-geocode <- function (location, output = c('latlon','latlona','more','all'), messaging = FALSE){
+geocode <- function (location, output = c('latlon','latlona','more','all'), 
+  messaging = FALSE, sensor = TRUE, override_limit = FALSE)
+{
 	
   # check parameters
   stopifnot(is.character(location))
@@ -45,82 +57,164 @@ geocode <- function (location, output = c('latlon','latlona','more','all'), mess
     }
   }
     
-  # geocode
-  url_string <- paste("http://maps.google.com/maps/geo?q=", location, sep = "")
+  # format url
+  sensor4url <- paste('sensor=', tolower(as.character(sensor)), sep = '')   
+  loc <- location
+  location <- gsub(' ', '+', location)
+  posturl <- paste(location, sensor4url, sep = '&')        
+  url_string <- paste('http://maps.googleapis.com/maps/api/geocode/json?address=', posturl, sep = "")
   url_string <- URLencode(url_string)
+  if(messaging) message(paste('contacting ', url_string, '...', sep = ''), appendLF = F)
+  
+  # check/update google query limit
+  check_geocode_query_limit(url_string, elems = 1, 
+    override = override_limit, messaging = messaging)      
+  
+  # geocode
   gc <- fromJSON(paste(readLines(url(url_string)), collapse = ''))
-  closeAllConnections()
+  if(messaging) message(' done.')  
+  closeAllConnections()  
   if(output == 'all') return(gc)  
 
   # did geocode fail?
-  if(gc$Status$code == 602){
-    warning(paste('geocode failed - bad address? location = "', 
+  #print(gc$status)
+  if(gc$status != 'OK'){
+    warning(paste('geocode failed with status ', gc$status, ', location = "', 
       location, '"', sep = ''), call. = FALSE)
     return(data.frame(lon = NA, lat = NA))	
   }
-  if(gc$Status$code == 620){
-    warning(paste('geocode failed - bad address? location = "', 
-      location, '"', sep = ''), call. = FALSE)
-    return(data.frame(lon = NA, lat = NA))	
-  }  
-    
+
   # more than one location found?
-  if(length(gc$Placemark) > 1 && messaging){
+  if(length(gc$results) > 1 && messaging){
     message(paste(
-      'more than one location found for "', location, '", using address\n  "', 
-      gc$Placemark[[1]]$address, '"\n', sep = ''))
+      'more than one location found for "', loc, '", using address\n  "', 
+      tolower(gc$results[[1]]$formatted_address), '"\n', sep = ''))
   }
     
   # format geocoded data
-  gcPm <- gc$Placemark[[1]]  
-  with(gcPm, {gcdf <<- data.frame(
-    lon = Point$coordinates[1],
-    lat = Point$coordinates[2],
-    z = Point$coordinates[3],  	
-    address = tolower(address),
-    north = ExtendedData$LatLonBox$north,
-    south = ExtendedData$LatLonBox$south,
-    east = ExtendedData$LatLonBox$east,
-    west = ExtendedData$LatLonBox$west         
-  )})
-  if(output == 'latlon') return(gcdf[,c('lon','lat')])
-  if(output == 'latlona') return(gcdf[,c('lon','lat','address')])  
-  
-  # add in 'more' details, country
-  gcPmAdC <- gcPm$AddressDetails$Country  
-  if(length(gcPmAdC$CountryName) > 0){
-  	gcdf$country <- gcPmAdC$CountryName
-  } else {
-  	gcdf$country <- NA
-  }  
-  
-  if(length(gcPmAdC$CountryNameCode) > 0){
-  	gcdf$countryCode <- gcPmAdC$CountryNameCode
-  } else {
-  	gcdf$countryCode <- NA
-  }    
-
-  # add in 'more' details, (sub)administrative areas
-  gcPmAdCAa <- gcPmAdC$AdministrativeArea
-  if(length(gcPmAdCAa$AdministrativeAreaName) > 0){
-  	gcdf$admin <- gcPmAdCAa$AdministrativeAreaName
-  } else {
-  	gcdf$admin <- NA
+  NULLtoNA <- function(x){
+    if(is.null(x)) return(NA)
+    x
   }
-
-  gcPmAdCAaSaa <- gcPmAdCAa$SubAdministrativeArea
-  if(length(gcPmAdCAaSaa$Locality$LocalityName) > 0){
-  	gcdf$locality <- gcPmAdCAaSaa$Locality$LocalityName
-  } else {
-  	gcdf$locality <- NA
-  }  
   
-  if(length(gcPmAdCAaSaa$SubAdministrativeAreaName) > 0){
-  	gcdf$subadmin <- gcPmAdCAaSaa$SubAdministrativeAreaName
-  } else {
-  	gcdf$subadmin <- NA
-  }      
+  gcdf <- with(gc$results[[1]], {
+  	data.frame(
+      lon = NULLtoNA(geometry$location$lng),
+      lat = NULLtoNA(geometry$location$lat),
+      type = tolower(NULLtoNA(types[1])),      
+      loctype = tolower(NULLtoNA(geometry$location_type)),
+      address = tolower(NULLtoNA(formatted_address)),
+      north = NULLtoNA(geometry$viewport$northeast$lat),
+      south = NULLtoNA(geometry$viewport$southwest$lat),
+      east = NULLtoNA(geometry$viewport$northeast$lng),
+      west = NULLtoNA(geometry$viewport$southwest$lng)
+    )
+  })
+  
+  if(output == 'latlon') return(gcdf[,c('lon','lat')])
+  if(output == 'latlona') return(gcdf[,c('lon','lat','address')])    
+  
+  # even more?
+  attrdf <- ldply(gc$results[[1]]$address_components, function(l){
+    as.data.frame(l, stringsAsFactors = FALSE)[1,]
+  })
+  attrdf <- attrdf[,c('types','long_name')]
+  gcdf <- within(gcdf,{
+    point_of_interest <- 
+      tolower(NULLtoNA(attrdf$long_name[attrdf$types == 'point_of_interest']))
+    streetNo <- 
+      as.numeric(NULLtoNA(attrdf$long_name[attrdf$types == 'street_number']))    
+    street <- 
+      tolower(NULLtoNA(attrdf$long_name[attrdf$types == 'route']))
+    locality <- 
+      tolower(NULLtoNA(attrdf$long_name[attrdf$types == 'locality']))    
+    administrative_area_level_1 <- 
+      tolower(NULLtoNA(attrdf$long_name[attrdf$types == 'administrative_area_level_1']))                    
+    administrative_area_level_2 <- 
+      tolower(NULLtoNA(attrdf$long_name[attrdf$types == 'administrative_area_level_2']))                
+    country <- 
+      tolower(NULLtoNA(attrdf$long_name[attrdf$types == 'country']))      
+    postal_code <- 
+      tolower(NULLtoNA(attrdf$long_name[attrdf$types == 'postal_code']))          
+  })
   
   # return output = 'more'
   return(gcdf)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+check_geocode_query_limit <- function(url_string, elems, override, messaging){  
+  .GoogleGeocodeQueryCount <- NULL; rm(.GoogleGeocodeQueryCount); # R CMD check trick
+  	
+  if(exists('.GoogleGeocodeQueryCount', .GlobalEnv)){
+    	
+    .GoogleGeocodeQueryCount <<- 
+      subset(.GoogleGeocodeQueryCount, time >= Sys.time() - 24*60*60)
+    
+    # 2500 per 24 hours
+    if(sum(.GoogleGeocodeQueryCount$elements) + elems > 2500){
+      message('query max exceeded, see ?geocode.  current total = ', 
+        sum(.GoogleGeocodeQueryCount$elements))
+      if(!override) stop('google query limit exceeded.', call. = FALSE)
+    }
+    
+    # 10 per 1 second?
+    if(with(.GoogleGeocodeQueryCount, 
+      sum(elements[time >= Sys.time() - 10]) + elems > 10
+    )){
+      message('.', appendLF=F)
+      Sys.sleep(1) # can do better
+    }    
+      
+    # append to .GoogleGeocodeQueryCount
+    .GoogleGeocodeQueryCount <<- rbind(.GoogleGeocodeQueryCount, 
+      data.frame(time = Sys.time(),  url = url_string, 
+        elements = elems, stringsAsFactors = FALSE)
+    )
+    
+    	
+  } else {
+    	
+    .GoogleGeocodeQueryCount <<- 
+      data.frame(time = Sys.time(),  url = url_string, 
+        elements = elems, stringsAsFactors = FALSE)
+      
+  }
+}
+
+
+
+#' Check Google Geocoding API query limit
+#'
+#' Check Google Geocoding API query limit
+#' 
+#' @return a data frame
+#' @author David Kahle \email{david.kahle@@gmail.com}
+#' @seealso \url{https://developers.google.com/maps/documentation/geocoding/}
+#' @export
+#' @examples
+#' geocodeQueryCheck()
+geocodeQueryCheck <- function(){
+  .GoogleGeocodeQueryCount <- NULL; rm(.GoogleGeocodeQueryCount); # R CMD check trick	
+  if(exists('.GoogleGeocodeQueryCount', .GlobalEnv)){    	
+  	remaining <- 2500-sum(
+  	  subset(.GoogleGeocodeQueryCount, time >= Sys.time() - 24*60*60)$elements
+  	  )
+    message(remaining, ' geocoding queries remaining.')
+  } else {
+  	remaining <- 2500
+    message(remaining, ' geocoding queries remaining.')
+  }	
+  invisible(remaining)
 }

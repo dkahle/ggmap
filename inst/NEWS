@@ -4,6 +4,10 @@ Version 1.4
 Changes -
   1. ggmap now imports all packages save ggplot2 instead of depending on them.
   2. ggmapplot no longer uses a textConnection for parsing base_layer.
+  3. geocode fixes/changes :
+    a. gcdf is no longer a global variable
+    b. now based properly on google geocoding api (like mapdist and route)
+    c. geocodeQueryCheck watches your query limit with hidden global variable .GoogleGeocodeQueryCount
 
 
 Version 1.3
