@@ -5,64 +5,53 @@
 \alias{package-ggmap}
 \title{Grab a map.}
 \usage{
-  ggmap(location = "houston", lonR, latR,
-    center = c(lat = 29.7632836, lon = -95.3632715),
-    regularize = TRUE, type = c("color", "bw"),
-    rgbcoefs = c(0, 1, 0), zoom = 10, maptype = "terrain",
-    source = c("google", "osm"), verbose = FALSE,
-    destfile = "ggmapTemp.jpg", n_pix = 640,
-    scale = OSM_scale_lookup(zoom), raster = TRUE, ...)
+  ggmap(location = c(lon = -95.3632715, lat = 29.7632836),
+    zoom = 10, scale = "auto",
+    maptype = c("terrain", "satellite", "roadmap", "hybrid", "toner", "watercolor"),
+    messaging = FALSE, urlonly = FALSE,
+    filename = "ggmapTemp", crop = TRUE,
+    color = c("color", "bw"),
+    source = c("google", "osm", "stamen"))
 }
 \arguments{
-  \item{location}{a character string containing the name of
-  the location of interest}
+  \item{location}{either be an address, longitude/latitude
+  pair, or left/bottom/right/top bounding box}
 
-  \item{lonR}{longitude range (only for OpenStreetMaps)}
+  \item{zoom}{map zoom, an integer from 0 (whole world) to
+  21 (building), default value 10 (city).  openstreetmaps
+  limits a zoom of 18, and the limit on stamen maps depends
+  on the maptype}
 
-  \item{latR}{latitude range (only for OpenStreetMaps)}
+  \item{scale}{scale, see \code{\link{get_openstreetmap}}}
 
-  \item{center}{named numeric vector of latitude and
-  longitude specifying the center of the image}
+  \item{maptype}{character string providing map theme.
+  options available are 'terrain', 'satellite', 'roadmap',
+  and 'hybrid' (google maps) or 'terrain', 'watercolor',
+  and 'toner' (stamen maps)}
 
-  \item{regularize}{logical; should the map grid be
-  regularized?}
+  \item{source}{Google Maps ('google'), OpenStreetMap
+  ('osm'), Stamen Maps ('stamen')}
 
-  \item{type}{'color' for a color map, 'bw' for a black and
-  white map}
+  \item{messaging}{turn messaging on/off}
 
-  \item{rgbcoefs}{when 'bw' is specified, conversions
-  coefficients to use.  see ?ReadImages::rgb2grey}
+  \item{urlonly}{return url only}
 
-  \item{zoom}{level of zoom, an integer 0 (whole world) to
-  19 (higest zoom), default value 10}
+  \item{filename}{destination file for download (file
+  extension added according to format)}
 
-  \item{maptype}{any of 'roadmap', 'mobile', 'satellite',
-  'terrain', 'hybrid', 'mapmaker-roadmap',
-  'mapmaker-hybrid'}
+  \item{crop}{(stamen maps) crop tiles to bounding box}
 
-  \item{source}{'google' or 'osm' (OpenStreetMaps)}
-
-  \item{verbose}{logical; should function message user?}
-
-  \item{destfile}{character; name of file to save
-  downloaded map}
-
-  \item{n_pix}{numeric; number of pixels in map}
-
-  \item{scale}{numeric; scale of OpenStreetMap, see
-  ?GetMap}
-
-  \item{raster}{logical; use geom_raster?}
-
-  \item{...}{...}
+  \item{color}{color or black-and-white}
 }
 \value{
   a data.frame with columns latitude, longitude, and fill
 }
 \description{
-  ggmap is a smart function which queries the Google Maps
-  server or OpenStreetMap server for a map at a certain
-  location at a certain spatial zoom.
+  ggmap is a smart function which queries the Google Maps,
+  OpenStreetMap, or Stamen Maps server for a map at a
+  certain location at a certain spatial zoom.  it is a
+  wrapper for get_googlemap, get_openstreetmap, and
+  get_stamenmap functions.
 
   ggmap integrates ggplot2 and RgoogleMaps to create an
   elegant, consistent, and modular framework for spatial
@@ -71,14 +60,38 @@
 }
 \examples{
 \dontrun{
-WashingtonMap_df <- ggmap(location = 'washington', verbose = TRUE)
-str(WashingtonMap_df)
-ggmapplot(WashingtonMap_df)
+map <- ggmap()
+ggmapplot(map, fullpage = TRUE)
 
-lonR <- c(-97.12008, -97.11836)
-latR <- c(31.54765, 31.54911)
-osm <- ggmap(latR = latR, lonR = lonR, source = 'osm', scale = 1000)
-ggmapplot(osm)
+map <- ggmap(maptype = 'roadmap')
+ggmapplot(map, fullpage = TRUE)
+
+map <- ggmap(maptype = 'hybrid')
+ggmapplot(map, fullpage = TRUE)
+
+map <- ggmap(maptype = 'satellite')
+ggmapplot(map, fullpage = TRUE)
+
+map <- ggmap(source = 'osm')
+ggmapplot(map, fullpage = TRUE)
+
+map <- ggmap(source = 'stamen')
+ggmapplot(map, fullpage = TRUE)
+
+map <- ggmap(source = 'stamen', maptype = 'watercolor')
+ggmapplot(map, fullpage = TRUE)
+
+map <- ggmap(source = 'stamen', maptype = 'toner')
+ggmapplot(map, fullpage = TRUE)
+
+
+
+map <- ggmap(location = 'texas', zoom = 6, source = 'stamen')
+ggmapplot(map, fullpage = TRUE)
+
+map <- ggmap(location = 'united states', zoom = 4, source = 'stamen')
+ggmapplot(map, fullpage = TRUE)
+
 
 }
 }

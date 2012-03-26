@@ -39,12 +39,12 @@
 #' HoustonMap +
 #'   stat_density2d(aes(x = lon, y = lat, colour = class), data = chkpts, bins = 5)
 #'
-#' ggmapplot(ggmap('Paris', verbose = TRUE), fullpage = TRUE)
+#' ggmapplot(ggmap('Paris', messaging = TRUE), fullpage = TRUE)
 #'
 #'
 #' library(grid)
 #' baylor <- ggmap('baylor university', zoom = 15,
-#'   maptype = 'satellite', regularize = FALSE, verbose = TRUE)
+#'   maptype = 'satellite', regularize = FALSE, messaging = TRUE)
 #'
 #' ggmapplot(baylor) + theme_bw() +
 #'   annotate('rect', xmin=-97.11920, ymin=31.5439, xmax=-97.101, ymax=31.5452, 
@@ -61,7 +61,7 @@
 #'
 #'
 #' baylor <- ggmap('baylor university', zoom = 16,
-#'   maptype = 'satellite', regularize = FALSE, verbose = TRUE)
+#'   maptype = 'satellite', regularize = FALSE, messaging = TRUE)
 #'
 #' ggmapplot(baylor, fullpage = TRUE) +  
 #'   annotate('rect', xmin=-97.1164, ymin=31.5441, xmax=-97.1087, ymax=31.5449,   
@@ -75,13 +75,13 @@
 #'
 #'  
 #' baylor <- ggmap(center = c(lat = 31.54838, lon = -97.11922), zoom = 19,
-#'   maptype = 'satellite', regularize = FALSE, verbose = TRUE)
+#'   maptype = 'satellite', regularize = FALSE, messaging = TRUE)
 #' ggmapplot(baylor, fullpage = TRUE)
 #' 
 #' 
 #' 
 #' baylorosm <- ggmap(center = c(lat = 31.54838, lon = -97.11922), source = 'osm', 
-#'   verbose = TRUE, zoom = 16)
+#'   messaging = TRUE, zoom = 16)
 #' ggmapplot(baylorosm, fullpage = TRUE)
 #' 
 #' 

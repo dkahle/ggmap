@@ -1,4 +1,4 @@
-Version 1.4
+Version 2.0
 -------------------------------------------------------------------------
 
 Changes -
@@ -8,6 +8,11 @@ Changes -
     a. gcdf is no longer a global variable
     b. now based properly on google geocoding api (like mapdist and route)
     c. geocodeQueryCheck watches your query limit with hidden global variable .GoogleGeocodeQueryCount
+  4. verbose argument in function ggmap now deprecated, use messaging
+  5. the ggmap function has been totally overhauled.  it is no longer based on the RgoogleMaps functions GetMap and GetMap.OSM but on functions get_googlemap, get_openstreetmap, and get_stamenmap.  
+
+Additions -
+  1. stamen maps are now available (with styles terrain, watercolor, and toner).
 
 
 Version 1.3

@@ -4,7 +4,7 @@
 #' consistent, and modular framework for spatial graphics. More information 
 #' about each function can be found in its help documentation.
 #'
-#' @import proto scales RgoogleMaps ReadImages plyr reshape2 grid rjson
+#' @import proto scales RgoogleMaps png plyr reshape2 grid rjson
 #' @docType package
 #' @name ggmap
 #' @aliases ggmap package-ggmap
