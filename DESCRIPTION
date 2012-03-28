@@ -28,10 +28,8 @@ LazyData: true
 Collate:
     'crime.R'
     'geocode.R'
-    'GetMap.OSM.R'
     'ggimage.R'
     'ggmap.R'
-    'ggmapplot.R'
     'hadley.R'
     'qmap.R'
     'theme_nothing.R'
@@ -46,3 +44,7 @@ Collate:
     'get_googlemap.R'
     'get_openstreetmap.R'
     'get_stamenmap.R'
+    'LonLat2XY.R'
+    'XY2LonLat.R'
+    'get_cloudmademap.R'
+    'get_map.R'

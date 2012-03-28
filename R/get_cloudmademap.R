@@ -1,62 +1,77 @@
-#' Get a Stamen Map
+#' Get a CloudMade map
 #'
-#' get_stamenmap accesses a tile server for Stamen Maps and downloads/stiches map tiles/formats a map image.
+#' get_cloudmademap accesses a tile server for Stamen Maps and downloads/stiches map tiles/formats a map image.
 #' 
 #' @param bbox a bounding box in the format c(lowerleftlon, lowerleftlat, upperrightlon, upperrightlat).
 #' @param zoom a zoom level
-#' @param maptype terrain, watercolor, or toner
+#' @param api_key character string containing cloud made api key, see details
+#' @param maptype an integer of what cloud made calls style, see details
+#' @param highres double resolution
 #' @param crop crop raw map tiles to specified bounding box
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
 #' @param filename destination file for download (file extension added according to format)
 #' @param color color or black-and-white
 #' @param checkargs check arguments
-#' @details accesses stamen maps.
+#' @details accesses cloud made maps.  this function requires an api which can be obtained for free from \url{http://cloudmade.com/user/show}.  
+#' thousands of maptypes ("styles"), including create-your-own options, are available from \url{http://maps.cloudmade.com/editor}
 #' @return a map image as a 2d-array of colors as hexadecimal strings representing pixel fill values.
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \url{http://maps.stamen.com/#watercolor}, \code{\link{ggmap}}
+#' @seealso \url{http://maps.cloudmade.com/}, \code{\link{ggmap}}
 #' @export
 #' @examples
 #'
 #' 
 #' \dontrun{ 
 #' 	
-#' gc <- geocode('duncan hall, rice university')
-#' google <- get_googlemap('rice university', zoom = 15)
-#' ggmap(google) +
-#'   geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 2)
+#' # in what follows, enter your own api key
+#' api_key <- '<your api key here>'
 #' 
-#' bbox <- as.numeric(attr(google, 'bb'))[c(2,1,4,3)]
-#' names(bbox) <- c('left','bottom','right','top')
-#' stamen <- get_stamenmap(bbox, zoom = 15)
-#' ggmap(stamen) +
-#'   geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 2)
+#' map <- get_cloudmademap(api_key = api_key)
+#' ggmap(map)
 #' 
-#' osm <- get_openstreetmap(bbox, scale = OSM_scale_lookup(15))
-#' ggmap(osm) +
-#'   geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 2)
+#' map <- get_cloudmademap(maptype = 997, api_key = api_key)
+#' ggmap(map)
+#' 
+#' map <- get_cloudmademap(maptype = 31643, api_key = api_key)
+#' ggmap(map)
+#' 
+#' map <- get_cloudmademap(maptype = 31408, api_key = api_key)
+#' ggmap(map)
+#' 
+#' map <- get_cloudmademap(maptype = 15434, api_key = api_key)
+#' ggmap(map)
+#' 
+#' map <- get_cloudmademap(maptype = 9203, api_key = api_key)
+#' ggmap(map)
+#' 
+#' map <- get_cloudmademap(maptype = 53428, api_key = api_key)
+#' ggmap(map)
+#' 
+#' map <- get_cloudmademap(maptype = 15153, api_key = api_key)
+#' ggmap(map)
+#' 
+#' map <- get_cloudmademap(maptype = 7877, api_key = api_key)
+#' ggmap(map)
 #' 
 #' 
-#' ggmap(get_stamenmap(bbox, zoom = 15, maptype = 'watercolor'))+
-#'   geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 2)
 #' 
-#' ggmap(get_stamenmap(bbox, zoom = 15, maptype = 'toner'))+
-#'   geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 2)
+#' 
 #' 
 #' }
 #' 
-get_stamenmap <- function(
+get_cloudmademap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344), 
-  zoom = 10, maptype = c('terrain','watercolor','toner'), crop = TRUE, messaging = FALSE, 
+  zoom = 10, api_key, maptype = 1, highres = TRUE, crop = TRUE, messaging = FALSE, 
   urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'), checkargs = TRUE
 ){
   
   # argument checking (no checks for language, region, markers, path, visible, style)
   args <- as.list(match.call(expand.dots = TRUE)[-1])  
-  if(checkargs) get_stamenmap_checkargs(args)
-  maptype <- match.arg(maptype)    
+  if(checkargs) get_cloudmademap_checkargs(args) 
   color <- match.arg(color)  
   if(is.null(names(bbox))) names(bbox) <- c('left','bottom','right','top')
+  if(highres) maptype <- paste(maptype, '@2x', sep = '')
 
   # determine tiles to get
   fourCorners <- expand.grid(
@@ -78,8 +93,8 @@ get_stamenmap <- function(
   
   
   # make urls
-  base_url <- 'http://tile.stamen.com/'
-  base_url <- paste(base_url, maptype, '/', zoom, sep = '')
+  base_url <- 'http://b.tile.cloudmade.com/'
+  base_url <- paste(base_url, api_key, '/', maptype, '/', 256, '/', zoom, sep = '')
   urls <- paste(base_url, 
     apply(tilesNeeded, 1, paste, collapse = '/'), sep = '/')
   urls <- paste(urls, '.png', sep = '')
@@ -131,6 +146,7 @@ get_stamenmap <- function(
     right = max(tileBboxes$right),
     top = max(tileBboxes$top)
   )
+
   
   # format map and return if not cropping
   if(!crop){  
@@ -185,7 +201,7 @@ get_stamenmap <- function(
 
 
 
-get_stamenmap_checkargs <- function(args){
+get_cloudmademap_checkargs <- function(args){
   eargs <- lapply(args, eval)
   argsgiven <- names(args)
 
@@ -205,6 +221,28 @@ get_stamenmap_checkargs <- function(args){
         stop('scale must be a postive integer 0-18, see ?get_stamenmap.', call. = F)
       }    
     }
+    
+    # maptype arg
+    if('maptype' %in% argsgiven){    
+      if(!(is.numeric(maptype) && length(maptype) == 1 && 
+          maptype == round(maptype) && maptype > 0)){
+        stop('maptype must be a positive integer, see ?get_cloudmademap.', call.=F)  	
+      }
+    }    
+    
+    # api_key arg
+    if('api_key' %in% argsgiven){    
+      if(!(is.character(api_key) && length(api_key) == 1)){
+        stop('api_key improperly specified, see ?get_cloudmademap.', call.=F)  	
+      }
+    } else {
+      stop('api_key must be specified, see ?get_cloudmademap.')
+    }      
+    
+    # highres arg
+    if('highres' %in% argsgiven){    
+      stopifnot(is.logical(highres))      
+    }    
     
     # messaging arg
     if('messaging' %in% argsgiven){    

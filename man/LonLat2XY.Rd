@@ -1,0 +1,41 @@
+\name{LonLat2XY}
+\alias{LonLat2XY}
+\title{Convert a lon/lat coordinate to a tile coordinate}
+\usage{
+  LonLat2XY(lon_deg, lat_deg, zoom, xpix = 256, ypix = 256)
+}
+\arguments{
+  \item{lon_deg}{longitude in degrees}
+
+  \item{lat_deg}{latitude in degrees}
+
+  \item{zoom}{zoom}
+
+  \item{xpix}{width of tile in pixels}
+
+  \item{ypix}{length of tile in pixels}
+}
+\value{
+  a data frame with columns X, Y, x, y
+}
+\description{
+  Convert a lon/lat coordinate to a tile coordinate for a
+  given zoom.  Decimal tile coordinates (x, y) are
+  reported.
+}
+\examples{
+\dontrun{
+gc <- geocode('baylor university')
+LonLat2XY(gc$lon, gc$lat, 10)
+
+}
+}
+\author{
+  David Kahle \email{david.kahle@gmail.com}, based on
+  function LatLon2XY by Markus Loecher, Sense Networks
+  \email{markus@sensenetworks.com} in package RgoogleMaps
+}
+\seealso{
+  \url{http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
+}
+

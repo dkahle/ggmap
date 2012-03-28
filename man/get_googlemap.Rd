@@ -1,6 +1,6 @@
 \name{get_googlemap}
 \alias{get_googlemap}
-\title{Get a Google Map.}
+\title{Get a Google Map}
 \usage{
   get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836),
     zoom = 10, size = c(640, 640), scale = 2,
@@ -109,19 +109,19 @@ d <- function(x=-95.36, y=29.76, n,r,a){
 }
 df <- d(n=50,r=3,a=.3)
 map <- get_googlemap(markers = df, path = df,, scale = 2)
-ggmapplot(map)
-ggmapplot(map, fullpage = TRUE) +
+ggmap(map)
+ggmap(map, fullpage = TRUE) +
   geom_point(aes(x = lon, y = lat), data = df, size = 3, colour = 'black') +
   geom_path(aes(x = lon, y = lat), data = df)
 
 gc <- geocode('waco, texas')
 center <- as.numeric(gc)
-ggmapplot(get_googlemap(center = center, color = 'bw', scale = 2), fullpage = T)
+ggmap(get_googlemap(center = center, color = 'bw', scale = 2), fullpage = T)
 
 # the scale argument can be seen in the following
 # (make your graphics device as large as possible)
-ggmapplot(get_googlemap(center, scale = 1), fullpage = TRUE) # pixelated
-ggmapplot(get_googlemap(center, scale = 2), fullpage = TRUE) # fine
+ggmap(get_googlemap(center, scale = 1), fullpage = TRUE) # pixelated
+ggmap(get_googlemap(center, scale = 2), fullpage = TRUE) # fine
 
 
 }
@@ -131,6 +131,6 @@ ggmapplot(get_googlemap(center, scale = 2), fullpage = TRUE) # fine
 }
 \seealso{
   \url{https://developers.google.com/maps/documentation/staticmaps/},
-  \code{\link{ggmapplot}}
+  \code{\link{ggmap}}
 }
 

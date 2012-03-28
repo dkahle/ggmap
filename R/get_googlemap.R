@@ -1,4 +1,4 @@
-#' Get a Google Map.
+#' Get a Google Map
 #'
 #' get_googlemap accesses the Google Static Maps API version 2 to download a static map.
 #' 
@@ -22,7 +22,7 @@
 #' @param checkargs check arguments
 #' @return a map image as a 2d-array of colors as hexadecimal strings representing pixel fill values.
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \url{https://developers.google.com/maps/documentation/staticmaps/}, \code{\link{ggmapplot}}
+#' @seealso \url{https://developers.google.com/maps/documentation/staticmaps/}, \code{\link{ggmap}}
 #' @export
 #' @examples
 #'
@@ -45,19 +45,19 @@
 #' }
 #' df <- d(n=50,r=3,a=.3)
 #' map <- get_googlemap(markers = df, path = df,, scale = 2)
-#' ggmapplot(map)
-#' ggmapplot(map, fullpage = TRUE) + 
+#' ggmap(map)
+#' ggmap(map, fullpage = TRUE) + 
 #'   geom_point(aes(x = lon, y = lat), data = df, size = 3, colour = 'black') +
 #'   geom_path(aes(x = lon, y = lat), data = df)
 #' 
 #' gc <- geocode('waco, texas')
 #' center <- as.numeric(gc)
-#' ggmapplot(get_googlemap(center = center, color = 'bw', scale = 2), fullpage = T)
+#' ggmap(get_googlemap(center = center, color = 'bw', scale = 2), fullpage = T)
 #' 
 #' # the scale argument can be seen in the following
 #' # (make your graphics device as large as possible)
-#' ggmapplot(get_googlemap(center, scale = 1), fullpage = TRUE) # pixelated
-#' ggmapplot(get_googlemap(center, scale = 2), fullpage = TRUE) # fine
+#' ggmap(get_googlemap(center, scale = 1), fullpage = TRUE) # pixelated
+#' ggmap(get_googlemap(center, scale = 2), fullpage = TRUE) # fine
 #' 
 #' 
 #' }
@@ -187,12 +187,12 @@ get_googlemap <- function(
   # map spatial info
   if(is.character(center)) center <- as.numeric(geocode(center))
   ll <- XY2LatLon(
-    list(lat = center[[2]], lon = center[[1]], zoom = zoom),
+    list(lat = center[2], lon = center[1], zoom = zoom),
     -size[1]/2 + 0.5,
     -size[2]/2 - 0.5
   )
   ur <- XY2LatLon(
-    list(lat = center[[2]], lon = center[[1]], zoom = zoom),
+    list(lat = center[2], lon = center[1], zoom = zoom),
     size[1]/2 + 0.5,
     size[2]/2 - 0.5
   )  
@@ -231,22 +231,24 @@ get_googlemap_checkargs <- function(args){
   with(eargs,{
   	
     # center arg
-    if(!(
-      (is.numeric(center) && length(center) == 2) || 
-      (is.character(center) && length(center) == 1)
-    )){
-      stop('center of map misspecified, see ?get_googlemap.', call. = F)
-    }
-    if(all(is.numeric(center))){ 
-      lon <- center[1]; lat <- center[2]
-      if(lon < -180 || lon > 180){
-        stop('longitude of center must be between -180 and 180 degrees.',
-          ' note ggmap uses lon/lat, not lat/lon.', call. = F)
+    if('center' %in% argsgiven){     
+      if(!(
+        (is.numeric(center) && length(center) == 2) || 
+        (is.character(center) && length(center) == 1)
+      )){
+        stop('center of map misspecified, see ?get_googlemap.', call. = F)
       }
-      if(lat < -90 || lat > 90){
-        stop('latitude of center must be between -90 and 90 degrees.',
-          ' note ggmap uses lon/lat, not lat/lon.', call. = F)
-      }    
+      if(all(is.numeric(center))){ 
+        lon <- center[1]; lat <- center[2]
+        if(lon < -180 || lon > 180){
+          stop('longitude of center must be between -180 and 180 degrees.',
+            ' note ggmap uses lon/lat, not lat/lon.', call. = F)
+        }
+        if(lat < -90 || lat > 90){
+          stop('latitude of center must be between -90 and 90 degrees.',
+            ' note ggmap uses lon/lat, not lat/lon.', call. = F)
+        }    
+      }
     }
   
     # zoom arg

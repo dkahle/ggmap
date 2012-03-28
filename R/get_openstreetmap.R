@@ -1,4 +1,4 @@
-#' Get an OpenStreetMap.
+#' Get an OpenStreetMap
 #'
 #' get_openstreetmap accesses a tile server for OpenStreetMap and downloads/formats a map image.
 #' 
@@ -14,14 +14,14 @@
 #' the scale argument is a tricky number to properly specify.  \code{\link{OSM_scale_lookup}} can help; but the best way to get in the correct range is to go to \url{http://www.openstreetmap.org/}, navigate to the map of interest, click export at the top of the page, click 'map image' and then copy down the scale listed.
 #' @return a map image as a 2d-array of colors as hexadecimal strings representing pixel fill values.
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \url{http://www.openstreetmap.org/}, \code{\link{ggmapplot}}
+#' @seealso \url{http://www.openstreetmap.org/}, \code{\link{ggmap}}
 #' @export
 #' @examples
 #'
 #' 
 #' \dontrun{ 
 #' osm <- get_openstreetmap(checkargs=FALSE)
-#' ggmapplot(osm)
+#' ggmap(osm)
 #' 
 #' 
 #' }
@@ -111,15 +111,19 @@ get_openstreetmap_checkargs <- function(args){
   with(eargs,{
   	
     # bbox arg
-    if(!(is.numeric(bbox) && length(bbox) == 4)){
-      stop('bounding box improperly specified.  see ?get_openstreetmap', call. = F)
+    if('bbox' %in% argsgiven){     
+      if(!(is.numeric(bbox) && length(bbox) == 4)){
+        stop('bounding box improperly specified.  see ?get_openstreetmap', call. = F)
+      }
     }
    
     # scale arg
-    if(!(is.numeric(scale) && length(scale) == 1 && 
-    scale == round(scale) && scale > 0)){
-      stop('scale must be a postive integer.', call. = F)
-    }    
+    if('scale' %in% argsgiven){     
+      if(!(is.numeric(scale) && length(scale) == 1 && 
+      scale == round(scale) && scale > 0)){
+        stop('scale must be a postive integer.', call. = F)
+      }    
+    }
     
     # messaging arg
     if('messaging' %in% argsgiven){    

@@ -1,6 +1,6 @@
 \name{get_stamenmap}
 \alias{get_stamenmap}
-\title{Get a Stamen Map.}
+\title{Get a Stamen Map}
 \usage{
   get_stamenmap(bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
     zoom = 10,
@@ -44,23 +44,27 @@
 \examples{
 \dontrun{
 
-gc <- geocode('rice university')
-stamen <- get_stamenmap(crop = TRUE)
-ggmapplot(stamen) +
-  geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 3)
+gc <- geocode('duncan hall, rice university')
+google <- get_googlemap('rice university', zoom = 15)
+ggmap(google) +
+  geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 2)
 
-osm <- get_openstreetmap(checkargs = FALSE)
-ggmapplot(osm) +
-  geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 3)
+bbox <- as.numeric(attr(google, 'bb'))[c(2,1,4,3)]
+names(bbox) <- c('left','bottom','right','top')
+stamen <- get_stamenmap(bbox, zoom = 15)
+ggmap(stamen) +
+  geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 2)
 
-google <- get_googlemap(checkargs = FALSE)
-ggmapplot(google) +
-  geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 3)
+osm <- get_openstreetmap(bbox, scale = OSM_scale_lookup(15))
+ggmap(osm) +
+  geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 2)
 
-ggmapplot(get_stamenmap(maptype = 'watercolor'))
-ggmapplot(get_stamenmap(maptype = 'watercolor', color = 'bw'))
 
-ggmapplot(get_stamenmap(maptype = 'toner'))
+ggmap(get_stamenmap(bbox, zoom = 15, maptype = 'watercolor'))+
+  geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 2)
+
+ggmap(get_stamenmap(bbox, zoom = 15, maptype = 'toner'))+
+  geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 2)
 
 }
 }
@@ -69,6 +73,6 @@ ggmapplot(get_stamenmap(maptype = 'toner'))
 }
 \seealso{
   \url{http://maps.stamen.com/#watercolor},
-  \code{\link{ggmapplot}}
+  \code{\link{ggmap}}
 }
 

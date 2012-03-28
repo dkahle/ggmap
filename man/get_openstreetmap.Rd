@@ -1,6 +1,6 @@
 \name{get_openstreetmap}
 \alias{get_openstreetmap}
-\title{Get an OpenStreetMap.}
+\title{Get an OpenStreetMap}
 \usage{
   get_openstreetmap(bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
     scale = 606250,
@@ -56,7 +56,7 @@
 \examples{
 \dontrun{
 osm <- get_openstreetmap(checkargs=FALSE)
-ggmapplot(osm)
+ggmap(osm)
 
 
 }
@@ -65,7 +65,6 @@ ggmapplot(osm)
   David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-  \url{http://www.openstreetmap.org/},
-  \code{\link{ggmapplot}}
+  \url{http://www.openstreetmap.org/}, \code{\link{ggmap}}
 }
 

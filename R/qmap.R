@@ -1,12 +1,12 @@
 #' Quick map plot
 #'
-#' qmap is a wrapper for \code{\link{ggmapplot}} and \code{\link{ggmap}}.
+#' qmap is a wrapper for \code{\link{ggmap}} and \code{\link{get_map}}.
 #' 
 #' @param location character; location of interest
-#' @param ... stuff to pass to \code{\link{ggmapplot}} and \code{\link{ggmap}}.
+#' @param ... stuff to pass to \code{\link{ggmap}} and \code{\link{get_map}}.
 #' @return a ggplot object
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \code{\link{ggmapplot}} and \code{\link{ggmap}}.
+#' @seealso \code{\link{ggmap}} and \code{\link{get_map}}.
 #' @export
 #' @examples
 #'
@@ -21,11 +21,14 @@
 #' qmap(location = 'baylor university', zoom = 14, maptype = 'toner', source = 'stamen')
 #' qmap(location = 'baylor university', zoom = 14, maptype = 'watercolor', source = 'stamen')
 #' 
+#' api_key <- '<your api key here>'
+#' qmap(location = 'baylor university', zoom = 14, maptype = 15434, 
+#'   source = 'cloudmade', api_key = api_key)
+#' 
 #' wh <- geocode('the white house')
 #' qmap('the white house', maprange = TRUE,
 #'   base_layer = ggplot(aes(x=lon, y=lat), data = wh)) +
 #'   geom_point()
-#' 
 #' 
 #' 
 #' 
@@ -48,12 +51,12 @@ qmap <- function(location = 'houston', ...){
     location_stop <- FALSE      	
   }  
   if(location_stop){
-    stop('improper location specification, see ?ggmap.', call. = F)
+    stop('improper location specification, see ?get_map.', call. = F)
   }	
 	
   args <- as.list(match.call(expand.dots = TRUE)[-1])	
   
-  # ggmap args
+  # get_map args
   ##################  
   
   if('zoom' %in% names(args)){
@@ -67,12 +70,6 @@ qmap <- function(location = 'houston', ...){
   } else {
   	scale <- 'auto'
   }    
-
-  if('maptype' %in% names(args)){
-    maptype <- eval(args$maptype)
-  } else {
-    maptype <- 'terrain'
-  }  
   
   if('messaging' %in% names(args)){
     messaging <- eval(args$messaging)
@@ -104,11 +101,31 @@ qmap <- function(location = 'houston', ...){
     source <- 'google'
   }        
   
+  if('maptype' %in% names(args)){
+    maptype <- eval(args$maptype)
+  } else {
+  	if(source != 'cloudmade'){
+      maptype <- 'terrain'
+    } else {
+      maptype <- 1	
+    }
+  }    
+  
   if('crop' %in% names(args)){
     crop <- eval(args$crop)
   } else {
     crop <- TRUE
   }          
+  
+  if('api_key' %in% names(args)){
+    api_key <- eval(args$api_key)
+  } else {
+    if(source == 'cloudmade'){
+      stop('an api key must be specified for cloudmade maps, see ?get_cloudmademap.',
+      call. = F)
+    }
+    api_key <- NULL
+  }            
   
   # deprecated
   if(all(c('lonR','latR') %in% names(args))){ 
@@ -127,7 +144,7 @@ qmap <- function(location = 'houston', ...){
   }    
   
   
-  # ggmapplot args
+  # ggmap args
   ##################
   
   if('fullpage' %in% names(args)){
@@ -150,9 +167,9 @@ qmap <- function(location = 'houston', ...){
   
   
   # return
-  ggmapplot(
-    ggmap(location = location, zoom = zoom, scale = scale, source = source, 
-      color = color, maptype = maptype), 
+  ggmap(
+    get_map(location = location, zoom = zoom, scale = scale, source = source, 
+      color = color, maptype = maptype, api_key = api_key), 
     fullpage = fullpage, maprange = maprange, base_layer = base_layer
   )     
 }
