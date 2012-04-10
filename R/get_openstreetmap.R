@@ -57,7 +57,7 @@ get_openstreetmap <- function(
 
   # read in file  
   destfile <- paste(filename, format, sep = '.')
-  m <- try(download.file(url, destfile = destfile, quiet = !messaging), silent = T)
+  m <- try(download.file(url, destfile = destfile, quiet = !messaging, mode = 'wb'), silent = T)
   if(class(m) == 'try-error'){
     stop('map grabbing failed - see details in ?get_openstreetmap.',
       call. = FALSE)

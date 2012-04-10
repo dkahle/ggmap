@@ -171,7 +171,7 @@ get_googlemap <- function(
   } else {
   	paste(filename,'gif',sep = '.')
   }
-  download.file(url, destfile = destfile, quiet = !messaging)
+  download.file(url, destfile = destfile, quiet = !messaging, mode = 'wb')
   map <- readPNG(destfile)
   
   # format file

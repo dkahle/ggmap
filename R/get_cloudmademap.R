@@ -107,7 +107,7 @@ get_cloudmademap <- function(
   destfile <- paste(filename, 'png', sep = '.')
   
   for(k in seq_along(urls)){
-    download.file(urls[[k]], destfile = destfile, quiet = !messaging)
+    download.file(urls[[k]], destfile = destfile, quiet = !messaging, mode = 'wb')
     tile <- readPNG(destfile)    
     if(color == 'color'){
       tile <- apply(tile, 2, rgb)
