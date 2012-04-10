@@ -6,7 +6,8 @@
 \title{Plot a ggmap object}
 \usage{
   ggmap(ggmap, fullpage = FALSE, base_layer,
-    maprange = FALSE, expand = FALSE, ...)
+    maprange = FALSE, expand = FALSE, legend = "topleft",
+    b = 0.02, ...)
 }
 \arguments{
   \item{ggmap}{an object of class ggmap (from function
@@ -23,6 +24,12 @@
 
   \item{expand}{should the map extend to the edge of the
   panel? used with base_layer and maprange=TRUE.}
+
+  \item{legend}{'bottomleft', 'bottomright', 'topleft',
+  'topright', 'none' (used with fullpage)}
+
+  \item{b}{distance from legend to corner of the plot (used
+  with legend)}
 
   \item{...}{...}
 }
@@ -98,15 +105,9 @@ ggmap(baylor, fullpage = TRUE) +
 
 
 
-baylor <- get_map(center = c(lat = 31.54838, lon = -97.11922), zoom = 19,
-  maptype = 'satellite', messaging = TRUE)
-ggmap(baylor, fullpage = TRUE)
-
-
-
-baylorosm <- get_map(center = c(lat = 31.54838, lon = -97.11922), source = 'osm',
-  messaging = TRUE, zoom = 16)
-ggmap(baylorosm, fullpage = TRUE)
+baylorosm <- get_map(location = c(lat = 31.54838, lon = -97.11922),
+  source = 'osm', zoom = 16)
+ggmap(baylorosm)
 
 
 
@@ -310,7 +311,7 @@ levels(violent_crimes$month) <- paste(
   toupper(substr(levels(violent_crimes$month),1,1)),
   substr(levels(violent_crimes$month),2,20), sep = ''
 )
-houston <- get_map(location = 'houston', zoom = 14, source = 'osm', type = 'bw')
+houston <- get_map(location = 'houston', zoom = 14, source = 'osm', color = 'bw')
 HoustonMap <- ggmap(houston,
   base_layer = ggplot(aes(x = lon, y = lat), data = violent_crimes)
   )

@@ -42,7 +42,7 @@
 #' }
 #' 
 mapdist <- function(from, to, mode = c('driving','walking','bicycling'), 
-  output = c('simple','all'), messaging = FALSE, sensor = TRUE, 
+  output = c('simple','all'), messaging = FALSE, sensor = FALSE, 
   language = 'en-EN', override_limit = FALSE)
 {
 	
@@ -59,7 +59,8 @@ mapdist <- function(from, to, mode = c('driving','walking','bicycling'),
   stopifnot(is.logical(messaging))
   stopifnot(is.logical(sensor))  
   
-  out <- dlply(from_to_df, .(from), function(df){
+  
+  getdists <- function(df){
   	
   	# format url
     origin <- df$from[1]
@@ -77,6 +78,19 @@ mapdist <- function(from, to, mode = c('driving','walking','bicycling'),
     url_string <- paste("http://maps.googleapis.com/maps/api/distancematrix/json?", 
       posturl, sep = "")
     url_string <- URLencode(url_string)
+
+
+    # check if query is too long
+    if(nchar(url_string) >= 2048){
+      n <- nrow(df)
+      half_df <- floor(n/2)
+      return(
+        rbind(
+          getdists(df[half_df,]),
+          getdists(df[(half_df+1):n,])          
+        )
+      )
+    }
     
     # check/update google query limit
     check_dist_query_limit(url_string, elems = nrow(df), 
@@ -93,7 +107,9 @@ mapdist <- function(from, to, mode = c('driving','walking','bicycling'),
     
     # return
     tree$rows[[1]][[1]]
-  })
+  }
+  
+  out <- dlply(from_to_df, .(from), getdists)
   
   # return all
   if(output == 'all') return(out)

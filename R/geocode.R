@@ -37,7 +37,7 @@
 #' }
 #' 
 geocode <- function (location, output = c('latlon','latlona','more','all'), 
-  messaging = FALSE, sensor = TRUE, override_limit = FALSE)
+  messaging = FALSE, sensor = FALSE, override_limit = FALSE)
 {
 	
   # check parameters

@@ -2,7 +2,7 @@
 #'
 #' get_map is a smart function which queries the Google Maps, OpenStreetMap, or Stamen Maps server for a map at a certain location at a certain spatial zoom.  it is a wrapper for get_googlemap, get_openstreetmap, get_stamenmap, and get_cloudmademap functions.  get_map was formerly (<2.0) called ggmap.
 #' 
-#' @param location either be an address, longitude/latitude pair, or left/bottom/right/top bounding box
+#' @param location an address, longitude/latitude pair, or left/bottom/right/top bounding box
 #' @param zoom map zoom, an integer from 0 (whole world) to 21 (building), default value 10 (city).  openstreetmaps limits a zoom of 18, and the limit on stamen maps depends on the maptype
 #' @param scale scale, see \code{\link{get_openstreetmap}}
 #' @param maptype character string providing map theme. options available are 'terrain', 'satellite', 'roadmap', and 'hybrid' (google maps), 'terrain', 'watercolor', and 'toner' (stamen maps), or a positive integer for cloudmade maps (see ?get_cloudmademap)
@@ -11,7 +11,7 @@
 #' @param urlonly return url only
 #' @param filename destination file for download (file extension added according to format)
 #' @param crop (stamen and cloudmade maps) crop tiles to bounding box
-#' @param color color or black-and-white
+#' @param color color ('color') or black-and-white ('bw')
 #' @param api_key an api key for cloudmade maps
 #' @return a data.frame with columns latitude, longitude, and fill
 #' @author David Kahle \email{david.kahle@@gmail.com}
@@ -85,6 +85,13 @@ get_map <- function(
   # preliminary argument checking
   source <- match.arg(source)  
   color <- match.arg(color)  
+  if(missing(maptype)){
+    if(source != 'cloudmade'){
+      maptype <- 'terrain'	
+    } else {
+      maptype <- 1
+    }
+  }  
   if(source == 'stamen'){
     if(!(maptype %in% c('terrain','watercolor','toner'))){
       stop('when using stamen maps, only terrain, watercolor, and toner maptypes available',
@@ -95,13 +102,7 @@ get_map <- function(
   	if(source == 'google') scale <- 2
   	if(source == 'osm') scale <- OSM_scale_lookup(zoom)
   }
-  if(missing(maptype)){
-    if(source != 'cloudmade'){
-      maptype <- 'terrain'	
-    } else {
-      maptype <- 1
-    }
-  }
+
   
   
   # location formatting
@@ -140,11 +141,11 @@ get_map <- function(
   	if(location_type != 'bbox'){
       gm <- get_googlemap(center = location, zoom = zoom, 
         filename = filename, checkargs = FALSE)
-      bbox <- as.numeric(attr(gm, 'bb'))[c(2,1,4,3)]
+      location <- as.numeric(attr(gm, 'bb'))[c(2,1,4,3)]
     }  
   	
     return(
-      get_openstreetmap(bbox = bbox, scale = scale, 
+      get_openstreetmap(bbox = location, scale = scale, 
         messaging = messaging, urlonly = urlonly, filename = filename, 
         color = color, checkargs = FALSE)
     )
@@ -156,11 +157,11 @@ get_map <- function(
   	if(location_type != 'bbox'){
       gm <- get_googlemap(center = location, zoom = zoom, 
         filename = filename, checkargs = FALSE)
-      bbox <- as.numeric(attr(gm, 'bb'))[c(2,1,4,3)]
+      location <- as.numeric(attr(gm, 'bb'))[c(2,1,4,3)]
     }     
   	
     return(
-      get_stamenmap(bbox = bbox, zoom = zoom, maptype = maptype, crop = crop,
+      get_stamenmap(bbox = location, zoom = zoom, maptype = maptype, crop = crop,
         messaging = messaging, urlonly = urlonly, filename = filename, 
         color = color, checkargs = FALSE)
     )
@@ -174,11 +175,11 @@ get_map <- function(
   	if(location_type != 'bbox'){
       gm <- get_googlemap(center = location, zoom = zoom, 
         filename = filename, checkargs = FALSE)
-      bbox <- as.numeric(attr(gm, 'bb'))[c(2,1,4,3)]
+      location <- as.numeric(attr(gm, 'bb'))[c(2,1,4,3)]
     }     
   	
     return(
-      get_cloudmademap(bbox = bbox, zoom = zoom, maptype = maptype, crop = crop,
+      get_cloudmademap(bbox = location, zoom = zoom, maptype = maptype, crop = crop,
         messaging = messaging, urlonly = urlonly, filename = filename, highres = TRUE,
         color = color, api_key = api_key, checkargs = FALSE)
     )

@@ -2,7 +2,7 @@ Package: ggmap
 Type: Package
 Title: A package for spatial visualization with Google Maps and OpenStreetMap
 Version: 2.0
-Date: 2012-03-25
+Date: 2012-03-31
 Author: David Kahle <david.kahle@gmail.com>, Hadley Wickham
     <h.wickham@gmail.com>
 Maintainer: David Kahle <david.kahle@gmail.com>
@@ -48,3 +48,6 @@ Collate:
     'XY2LonLat.R'
     'get_cloudmademap.R'
     'get_map.R'
+    'qmplot.R'
+    'make_bbox.R'
+    'wind.R'

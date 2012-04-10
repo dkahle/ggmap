@@ -139,9 +139,7 @@ qmap <- function(location = 'houston', ...){
   if('type' %in% names(args)){
   	message('type argument deprecated, use color.')
     color <- eval(args$type)
-  } else {
-    color <- 'color'
-  }    
+  }
   
   
   # ggmap args
@@ -159,17 +157,36 @@ qmap <- function(location = 'houston', ...){
     maprange <- FALSE
   }         
   
+  if('expand' %in% names(args)){
+    expand <- eval(args$expand)
+  } else {
+    expand <- TRUE
+  }           
+  
   if('base_layer' %in% names(args)){
     base_layer <- args$base_layer
   } else {
     base_layer <- 'auto'
   }              
   
+  if('legend' %in% names(args)){
+    legend <- args$legend
+  } else {
+    legend <- 'topleft'
+  }     
   
+  if('b' %in% names(args)){
+    b <- args$b
+  } else {
+    b <- .02
+  }                
+  
+
   # return
   ggmap(
     get_map(location = location, zoom = zoom, scale = scale, source = source, 
       color = color, maptype = maptype, api_key = api_key), 
-    fullpage = fullpage, maprange = maprange, base_layer = base_layer
+    fullpage = fullpage, maprange = maprange, expand = expand, 
+      base_layer = base_layer, legend = legend, b = b
   )     
 }

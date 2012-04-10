@@ -4,7 +4,7 @@
 \usage{
   revgeocode(location,
     output = c("address", "more", "all"),
-    messaging = FALSE, sensor = TRUE,
+    messaging = FALSE, sensor = FALSE,
     override_limit = FALSE)
 }
 \arguments{

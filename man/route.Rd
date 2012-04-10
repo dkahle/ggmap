@@ -6,7 +6,7 @@
     mode = c("driving", "walking", "bicycling"),
     structure = c("legs", "route"),
     output = c("simple", "all"), alternatives = FALSE,
-    messaging = FALSE, sensor = TRUE,
+    messaging = FALSE, sensor = FALSE,
     override_limit = FALSE)
 }
 \arguments{

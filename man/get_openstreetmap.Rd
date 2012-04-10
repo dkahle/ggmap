@@ -47,15 +47,25 @@
   map extent that you want, click the export tab at the top
   of the page, and copy the information into this function.
   the scale argument is a tricky number to properly
-  specify.  \code{\link{OSM_scale_lookup}} can help; but
-  the best way to get in the correct range is to go to
+  specify.  in most cases, if you get an error when
+  downloading an openstreetmap the error is attributable to
+  an improper scale specification.
+  \code{\link{OSM_scale_lookup}} can help; but the best way
+  to get in the correct range is to go to
   \url{http://www.openstreetmap.org/}, navigate to the map
   of interest, click export at the top of the page, click
-  'map image' and then copy down the scale listed.
+  'map image' and then copy down the scale listed. in some
+  cases the OSM server is unavailable.  in these cases you
+  will receive an error message for download.file with the
+  message HTTP status was '503 Service Unavailable'.  you
+  can confirm this by setting urlonly = TRUE, and then
+  entering the URL in a web browser.  the solution is
+  either (1) change sources or (2) wait for the OSM servers
+  to come back up.
 }
 \examples{
 \dontrun{
-osm <- get_openstreetmap(checkargs=FALSE)
+osm <- get_openstreetmap()
 ggmap(osm)
 
 

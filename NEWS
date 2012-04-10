@@ -7,6 +7,10 @@ NEW FEATURES
 
 * the full google static maps api is available to the user.  in particular, this allows for double the image resolution of google maps (which is also now the default).
 
+* qmplot - a version of qplot (from ggplot2) which automatically determines, downloads, and plots the result on the appropriate map.  this function is still experimental.
+
+* make_bbox - a function which determines an appropriate bounding box for a collection of longitude/latitude pairs.
+
 CHANGES
 
 * ggmap now imports all packages save ggplot2 instead of depending on them.
@@ -27,11 +31,16 @@ FUNCTION NAME CHANGES
 FIXES
 
 * bug was fixed which on some platforms caused an error in readPNG.
+* mapdist now properly handles many from queries without exceeding google's distance matrix api uri limits.  note that the api may still reject large queries - you may want to run mapdist in a for loop.
 
 NEW DEPENDS/IMPORTS/SUGGESTS
 
 * ggmap no longer imports ReadImages.
 * ggmap now suggests stringr.
+
+OTHER ADDITIONS
+
+* a new data set on wind from hurricane ike.
 
 
 

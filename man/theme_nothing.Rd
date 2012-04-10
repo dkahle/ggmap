@@ -22,7 +22,14 @@ n <- 50
 df <- expand.grid(x = 1:n,y = 1:n)[sample(n^2,.5*n^2),]
 qplot(x, y, data = df, geom = 'tile')
 qplot(x, y, data = df, geom = 'tile') + theme_nothing()
+qplot(x, y, data = df, geom = 'tile') +
+  scale_x_continuous(expand = c(0,0)) +
+  scale_y_continuous(expand = c(0,0)) +
+  theme_nothing()
 
+qplot(1:10,1:10) +
+  theme_nothing()  +
+  opts(panel.background = theme_rect(fill = 'black'))
 
 }
 }

@@ -7,6 +7,8 @@
 #' @param base_layer a ggplot(aes(...), ...) call; see examples
 #' @param maprange logical for use with base_layer; should the map define the x and y limits?
 #' @param expand should the map extend to the edge of the panel? used with base_layer and maprange=TRUE.
+#' @param legend 'bottomleft', 'bottomright', 'topleft', 'topright', 'none' (used with fullpage) 
+#' @param b distance from legend to corner of the plot (used with legend)
 #' @param ... ...
 #' @return a ggplot object
 #' @author David Kahle \email{david.kahle@@gmail.com}
@@ -72,16 +74,10 @@
 #'
 #'
 #'
-#'  
-#' baylor <- get_map(center = c(lat = 31.54838, lon = -97.11922), zoom = 19,
-#'   maptype = 'satellite', messaging = TRUE)
-#' ggmap(baylor, fullpage = TRUE)
 #' 
-#' 
-#' 
-#' baylorosm <- get_map(center = c(lat = 31.54838, lon = -97.11922), source = 'osm', 
-#'   messaging = TRUE, zoom = 16)
-#' ggmap(baylorosm, fullpage = TRUE)
+#' baylorosm <- get_map(location = c(lat = 31.54838, lon = -97.11922), 
+#'   source = 'osm', zoom = 16)
+#' ggmap(baylorosm)
 #' 
 #' 
 #' 
@@ -285,7 +281,7 @@
 #'   toupper(substr(levels(violent_crimes$month),1,1)),
 #'   substr(levels(violent_crimes$month),2,20), sep = ''
 #' )
-#' houston <- get_map(location = 'houston', zoom = 14, source = 'osm', type = 'bw')
+#' houston <- get_map(location = 'houston', zoom = 14, source = 'osm', color = 'bw')
 #' HoustonMap <- ggmap(houston, 
 #'   base_layer = ggplot(aes(x = lon, y = lat), data = violent_crimes)
 #'   ) 
@@ -406,7 +402,9 @@
 #' 
 #' 
 #' } 
-ggmap <- function(ggmap, fullpage = FALSE, base_layer, maprange = FALSE, expand = FALSE, ...){
+ggmap <- function(ggmap, fullpage = FALSE, base_layer, maprange = FALSE, 
+  expand = FALSE, legend = 'topleft', b = .02, ...)
+{
 
   # dummies to trick R CMD check   
   lon <- NULL; rm(lon); lat <- NULL; rm(lat); fill <- NULL; rm(fill);   
@@ -422,6 +420,9 @@ ggmap <- function(ggmap, fullpage = FALSE, base_layer, maprange = FALSE, expand 
   if('ggmapplot' %in% names(args)){
     warning('ggmaplot syntax deprecated, use ggmap.', call. = F)
   }
+  
+  # check legend argument
+  match.arg(legend, c('bottomleft', 'bottomright', 'topleft', 'topright', 'none'))
 
   # make raster plot or tile plot
   if(missing(base_layer) || base_layer == 'auto'){
@@ -445,7 +446,7 @@ ggmap <- function(ggmap, fullpage = FALSE, base_layer, maprange = FALSE, expand 
     } else { # tile, depricated    	
       p <- ggplot() + geom_tile(aes(x = lon, y = lat, fill = fill), data = ggmap) +
         scale_fill_identity(guide = 'none')
-      message('geom_tile method is depricated, use rasters.')
+      message('geom_tile method is deprecated, use rasters.')
     }
   } else { # base_layer provided making facets possible
     # get call
@@ -467,26 +468,50 @@ ggmap <- function(ggmap, fullpage = FALSE, base_layer, maprange = FALSE, expand 
 
     p <- eval(parse(text = str2parse))
   }
-  
+
   # enforce maprange
   if(maprange) p <- p + xlim(xmin, xmax) + ylim(ymin, ymax)      
 
   # set scales
   p <- p + coord_map(projection = 'mercator') 
-    
-  # fullpage?
-  if(fullpage) p <- p + theme_nothing()
   
   # expand?
+  if(fullpage) expand <- TRUE
+  
   if(expand){
     xmin <- attr(ggmap, "bb")$ll.lon
     xmax <- attr(ggmap, "bb")$ur.lon 
   	ymin <- attr(ggmap, "bb")$ll.lat 
   	ymax <- attr(ggmap, "bb")$ur.lat    	
-  	p <- p + xlim(xmin, xmax) + ylim(ymin, ymax) +
-      scale_x_continuous(expand = c(0,0)) +
-      scale_y_continuous(expand = c(0,0))       
+  	p <- p +
+      scale_x_continuous(lim = c(xmin, xmax), expand = c(0,0)) +
+      scale_y_continuous(lim = c(ymin, ymax), expand = c(0,0))       
   } 
+  
+  # fullpage?
+  if(fullpage){
+    p <- p + theme_nothing()
+    if(legend != 'none'){
+      if(legend == 'bottomleft'){
+        lp <- c(b,b)
+        lj <- c(0,0)
+      } else if(legend == 'topleft'){
+        lp <- c(b,1-b)
+        lj <- c(0,1)
+      } else if(legend == 'bottomright'){
+        lp <- c(1-b,b)
+        lj <- c(1,0)
+      } else if(legend == 'topright'){
+        lp <- c(1-b,1-b)
+        lj <- c(1,1)
+      }
+      p <- p + opts(
+        legend.position = lp, legend.justification = lj,
+        legend.background = theme_rect(colour = 'black', 
+          fill = 'white', size = .2, alpha = .925)        
+        )
+    }
+  }  
   
   p
 }
@@ -586,7 +611,7 @@ annotation_custom <- function (grob, xmin = -Inf, xmax = Inf, ymin = -Inf, ymax 
 }
 
 GeomCustomAnn <- proto(ggplot2:::Geom, {
-  objname <- "custom_ann"
+   objname <- "custom_ann"
   
   draw_groups <- function(., data, scales, coordinates, grob, xmin, xmax,
                           ymin, ymax, ...) {
@@ -616,3 +641,19 @@ GeomCustomAnn <- proto(ggplot2:::Geom, {
     aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf)  
 })
 
+
+
+
+
+
+
+
+theme_rect <- function (fill = NA, colour = "black", size = 0.5, 
+    linetype = 1, alpha = .5){
+  .pt <- 2 * theme_get()$legend.background()$gp$lwd
+  structure(function(x = 0.5, y = 0.5, width = 1, height = 1, ...) {
+    rectGrob(x, y, width, height, ..., gp = gpar(lwd = size * .pt, 
+      col = colour, fill = fill, lty = linetype, alpha = alpha)
+    )
+  }, class = "theme", type = "box", call = match.call())
+}

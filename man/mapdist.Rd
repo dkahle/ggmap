@@ -5,7 +5,7 @@
   mapdist(from, to,
     mode = c("driving", "walking", "bicycling"),
     output = c("simple", "all"), messaging = FALSE,
-    sensor = TRUE, language = "en-EN",
+    sensor = FALSE, language = "en-EN",
     override_limit = FALSE)
 }
 \arguments{

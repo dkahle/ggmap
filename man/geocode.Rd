@@ -4,7 +4,7 @@
 \usage{
   geocode(location,
     output = c("latlon", "latlona", "more", "all"),
-    messaging = FALSE, sensor = TRUE,
+    messaging = FALSE, sensor = FALSE,
     override_limit = FALSE)
 }
 \arguments{

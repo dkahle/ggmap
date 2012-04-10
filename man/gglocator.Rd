@@ -37,7 +37,8 @@ gglocator(1, xexpand = c(0,0), yexpand = c(0,0))
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com} and Tyler
-  Rinker with suggestions by Baptiste Auguie and DWin.
+  Tyler Rinker with help from Baptiste Auguie and
+  StackOverflow user DWin with additions and canning by
+  David Kahle \email{david.kahle@gmail.com}.
 }
 

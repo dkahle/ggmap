@@ -8,7 +8,7 @@
 #' @param xexpand expand argument in scale_x_continuous
 #' @param yexpand expand argument in scale_y_continuous
 #' @return a data frame with columns according to the x and y aesthetics
-#' @author David Kahle \email{david.kahle@@gmail.com} and Tyler Rinker with suggestions by Baptiste Auguie and DWin.
+#' @author Tyler Rinker with help from Baptiste Auguie and StackOverflow user DWin with additions and canning by David Kahle \email{david.kahle@@gmail.com}.
 #' @export
 #' @examples
 #' 

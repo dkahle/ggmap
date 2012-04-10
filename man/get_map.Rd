@@ -12,8 +12,8 @@
     api_key)
 }
 \arguments{
-  \item{location}{either be an address, longitude/latitude
-  pair, or left/bottom/right/top bounding box}
+  \item{location}{an address, longitude/latitude pair, or
+  left/bottom/right/top bounding box}
 
   \item{zoom}{map zoom, an integer from 0 (whole world) to
   21 (building), default value 10 (city).  openstreetmaps
@@ -42,7 +42,7 @@
   \item{crop}{(stamen and cloudmade maps) crop tiles to
   bounding box}
 
-  \item{color}{color or black-and-white}
+  \item{color}{color ('color') or black-and-white ('bw')}
 
   \item{api_key}{an api key for cloudmade maps}
 }
