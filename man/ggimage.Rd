@@ -2,20 +2,20 @@
 \alias{ggimage}
 \title{Plot an image using ggplot2}
 \usage{
-  ggimage(mat, fullpage = TRUE, verbose = FALSE,
-    coord_equal = TRUE)
+  ggimage(mat, fullpage = TRUE, coord_equal = TRUE,
+    scale_axes = FALSE)
 }
 \arguments{
-  \item{mat}{an image object (from e.g. read.jpeg in the
-  ReadImages package)}
+  \item{mat}{a matrix, imagematrix, array, or raster
+  (something that can be coerced by as.raster)}
 
-  \item{fullpage}{logical; should the image take up the
-  entire viewport?}
+  \item{fullpage}{should the image take up the entire
+  viewport?}
 
-  \item{verbose}{logical; message the user?}
+  \item{coord_equal}{should the axes units be equal?}
 
-  \item{coord_equal}{logical; should the axes units be
-  equal?}
+  \item{scale_axes}{should the axes be
+  [0,ncol(mat)-1]x[0,nrow(mat)-1] (F) or [0,1]x[0,1] (T)}
 }
 \value{
   a ggplot object
@@ -27,15 +27,17 @@
 \dontrun{
 img <- matrix(1:16, 4, 4)
 image(img)
-ggimage(t(img[,4:1]), fullpage = FALSE) +
-  scale_fill_gradientn(colours = heat.colors(10), guide = 'none')
+ggimage(t(img[,4:1]), fullpage = FALSE, scale_axes = TRUE)
+ggimage(t(img[,4:1]), fullpage = FALSE)
+
 
 
 data(hadley)
-ggimage(hadley, verbose = TRUE)
+ggimage(hadley)
+ggimage(hadley, coord_equal = FALSE)
 
 x <- seq(1, 438, 15); n <- length(x)
-df <- data.frame(x = x, y = 120*(scale((x - 219)^3 - 25000*x) + rnorm(n)/2 -3))
+df <- data.frame(x = x, y = -(120*(scale((x - 219)^3 - 25000*x) + rnorm(n)/2 - 3)))
 qplot(x, y, data = df, geom = c('smooth','point'))
 ggimage(hadley, fullpage = FALSE) +
   geom_smooth(aes(x = x, y = y), fill = I('gray60'), data = df,

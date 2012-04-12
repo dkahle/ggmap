@@ -2,10 +2,10 @@
 #'
 #' ggimage is the near ggplot2 equivalent of image.
 #' 
-#' @param mat an image object (from e.g. read.jpeg in the ReadImages package)
-#' @param fullpage logical; should the image take up the entire viewport?
-#' @param verbose logical; message the user?
-#' @param coord_equal logical; should the axes units be equal?
+#' @param mat a matrix, imagematrix, array, or raster (something that can be coerced by as.raster)
+#' @param fullpage should the image take up the entire viewport?
+#' @param coord_equal should the axes units be equal?
+#' @param scale_axes should the axes be [0,ncol(mat)-1]x[0,nrow(mat)-1] (F) or [0,1]x[0,1] (T)
 #' @return a ggplot object
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @export
@@ -14,15 +14,17 @@
 #' \dontrun{
 #' img <- matrix(1:16, 4, 4)
 #' image(img)
-#' ggimage(t(img[,4:1]), fullpage = FALSE) + 
-#'   scale_fill_gradientn(colours = heat.colors(10), guide = 'none')
+#' ggimage(t(img[,4:1]), fullpage = FALSE, scale_axes = TRUE)
+#' ggimage(t(img[,4:1]), fullpage = FALSE)
+#' 
 #' 
 #' 
 #' data(hadley)
-#' ggimage(hadley, verbose = TRUE) 
+#' ggimage(hadley) 
+#' ggimage(hadley, coord_equal = FALSE) 
 #' 
 #' x <- seq(1, 438, 15); n <- length(x)
-#' df <- data.frame(x = x, y = 120*(scale((x - 219)^3 - 25000*x) + rnorm(n)/2 -3))
+#' df <- data.frame(x = x, y = -(120*(scale((x - 219)^3 - 25000*x) + rnorm(n)/2 - 3)))
 #' qplot(x, y, data = df, geom = c('smooth','point'))
 #' ggimage(hadley, fullpage = FALSE) + 
 #'   geom_smooth(aes(x = x, y = y), fill = I('gray60'), data = df,
@@ -31,34 +33,33 @@
 #'     colour = I('green'), size = I(3), fill = NA)
 #' }
 #'
-ggimage <- function(mat, fullpage = TRUE, verbose = FALSE, coord_equal = TRUE){
+ggimage <- function(mat, fullpage = TRUE, coord_equal = TRUE, scale_axes = FALSE){
+	
+  x <- NULL; rm(x); y <- NULL; rm(y);
   
-  # dummies to trick R CMD check   
-  column <- NULL; rm(column); row <- NULL; rm(row); fill <- NULL; rm(fill); 
-  
-  if(!any(class(mat) %in% c('matrix','imagematrix','array'))){
+  if(!any(class(mat) %in% c('matrix','imagematrix','array','raster'))){
   	stop('mat should be a matrix or an array.')
   }
 	
-  if(length(dim(mat)) == 2){
-    if(verbose) message('creating black and white image...', appendLF = FALSE)
-    mat <- reshape2::melt(mat)
-  	if(verbose) message('done.')    
-    names(mat) <- c('row','column','fill')
-    plot <- qplot(column, -row, data = mat, geom = 'tile', fill = fill) +
-      scale_fill_gradient(low = 'black', high = 'white', guide = 'none')
-  }
+  n <- nrow(mat)
+  p <- ncol(mat)
   
-  if(length(dim(mat)) == 3){
-  	if(verbose) message('creating color image... ', appendLF = FALSE)
-  	mat <- apply(mat, 1:2, function(v) rgb(v[1], v[2], v[3])) 
-  	if(verbose) message('done.')
-    mat <- reshape2::melt(mat)
-    names(mat) <- c('row', 'column', 'fill')
-    plot <- qplot(column, -row, data = mat, geom = 'tile', fill = fill) +
-      scale_fill_identity(guide = FALSE)  	
+  if(scale_axes) n <- p <- 2
+  
+  fourCorners <- expand.grid(x = 0:(p-1), y = 0:(n-1))
+  
+  if(max(mat) > 1 || min(mat) < 0){
+    message('rescaling mat to [0,1]...')
+    mat <- (mat - min(mat)) / (max(mat) - min(mat))
   }
 
+  raster <- as.raster(mat)
+  
+  plot <- ggplot(aes(x, y), data = fourCorners) + geom_blank() +
+    ggmap:::annotation_raster(raster, 0, p-1, 0, n-1) +
+    scale_x_continuous(expand = c(0,0)) +
+    scale_y_continuous(expand = c(0,0))  
+  
   if(fullpage) plot <- plot + theme_nothing()
   
   if(coord_equal) plot <- plot + coord_equal()

@@ -22,6 +22,8 @@ CHANGES
 * verbose argument in function ggmap now deprecated, use messaging
 * center argument in function ggmap now deprecated, use location
 * the ggmap function has been totally overhauled.  it is no longer based on the RgoogleMaps functions GetMap and GetMap.OSM but on functions get_googlemap, get_openstreetmap, get_stamenmap, and get_cloudmademap.  
+* ggimage has been rebased on ggmap:::geom_raster (a version of ggplot2's geom_raster which smooths).
+* ggmap's version of annotation_raster and annotation_custom are now exported as inset_raster and inset.
 
 FUNCTION NAME CHANGES
 

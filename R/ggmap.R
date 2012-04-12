@@ -13,7 +13,7 @@
 #' @return a ggplot object
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso \code{\link{get_map}}, \code{\link{qmap}}
-#' @export
+#' @export ggmap inset inset_raster
 #' @examples
 #' 
 #' \dontrun{ 
@@ -75,7 +75,7 @@
 #'
 #'
 #' 
-#' baylorosm <- get_map(location = c(lat = 31.54838, lon = -97.11922), 
+#' baylorosm <- get_map(location = c(lon = -97.11922, lat = 31.54838), 
 #'   source = 'osm', zoom = 16)
 #' ggmap(baylorosm)
 #' 
@@ -302,25 +302,24 @@
 #'   
 #' 
 #' # neat example with distances
-#' qmap('baylor university', zoom = 14, source = 'osm') + 
-#'   geom_point(data = geocode('marrs mclean science, baylor university'))
+#' 
 #' 
 #' origin <- 'marrs mclean science, baylor university'
 #' gc_origin <- geocode(origin)
 #' destinations <- data.frame(
-#'   place = c("Administration", "Baseball Stadium", "Basketball Arena", 
-#'     "Salvation Army", "HEB Grocery", "Cafe Cappuccino", "Ninfa's Mexican", 
+#'   place = c("Administration", "Baseball Stadium", "Basketball Arena",
+#'     "Salvation Army", "HEB Grocery", "Cafe Cappuccino", "Ninfa's Mexican",
 #'     "Dr Pepper Museum", "Buzzard Billy's", "Mayborn Museum","Flea Market"
 #'   ),
-#'   address = c("pat neff hall, baylor university", "baylor ballpark", 
-#'     "ferrell center", "1225 interstate 35 s, waco, tx", 
-#'     "1102 speight avenue, waco, tx", "100 n 6th st # 100, waco, tx", 
+#'   address = c("pat neff hall, baylor university", "baylor ballpark",
+#'     "ferrell center", "1225 interstate 35 s, waco, tx",
+#'     "1102 speight avenue, waco, tx", "100 n 6th st # 100, waco, tx",
 #'     "220 south 3rd street, waco, tx", "300 south 5th street, waco, tx",
 #'     "100 north jack kultgen expressway, waco, tx",
 #'     "1300 south university parks drive, waco, tx",
 #'     "2112 state loop 491, waco, tx"
 #'   ),
-#'   stringsAsFactors = FALSE 
+#'   stringsAsFactors = FALSE
 #' )
 #' gc_dests <- geocode(destinations$address)
 #' (dist <- mapdist(origin, destinations$address, mode = 'bicycling'))
@@ -328,45 +327,43 @@
 #' dist <- within(dist, {
 #'   place = destinations$place
 #'   fromlon = gc_origin$lon
-#'   fromlat = gc_origin$lat    
+#'   fromlat = gc_origin$lat
 #'   tolon = gc_dests$lon
-#'   tolat = gc_dests$lat  
-#' }) 
-#' dist$minutes <- cut(dist$minutes, c(0,3,5,7,10,Inf), labels = c('0-3','3-5', '5-7', '7-10', '10+'))
+#'   tolat = gc_dests$lat
+#' })
+#' dist$minutes <- cut(dist$minutes, c(0,3,5,7,10,Inf), 
+#'   labels = c('0-3','3-5', '5-7', '7-10', '10+'))
 #' 
 #' library(scales)
 #' qmap('baylor university', zoom = 14, maprange = TRUE, fullpage = TRUE,
-#'   base_layer = ggplot(aes(x = lon, y = lat), data = gc_origin)) +
+#'     base_layer = ggplot(aes(x = lon, y = lat), data = gc_origin), 
+#'     legend = 'bottomright') +
 #'   geom_rect(aes(
 #'     x = tolon, y = tolat,
-#'     xmin = tolon-.000275*nchar(place), xmax = tolon+.000275*nchar(place), 
+#'     xmin = tolon-.00028*nchar(place), xmax = tolon+.00028*nchar(place),
 #'     ymin = tolat-.0005, ymax = tolat+.0005, fill = minutes, colour = 'black'
 #'   ), alpha = .7, data = dist) +
 #'   geom_text(aes(x = tolon, y = tolat, label = place, colour = 'white'), size = 3, data = dist) +
 #'   geom_rect(aes(
-#'     xmin = lon-.004, xmax = lon+.004, 
+#'     xmin = lon-.004, xmax = lon+.004,
 #'     ymin = lat-.00075, ymax = lat+.00075, colour = 'black'
-#'   ), alpha = .5, fill = I('green'), data = gc_origin) +  
+#'   ), alpha = .5, fill = I('green'), data = gc_origin) +
 #'   geom_text(aes(x = lon, y = lat, label = 'My Office', colour = 'black'), size = 5) +
 #'   scale_fill_manual('Minutes\nAway\nby Bike',
 #'     values = colorRampPalette(c(muted('green'), 'blue', 'red'))(5)) +
 #'   scale_colour_identity(guide = 'none') +
 #'   opts(
-#'     legend.position = c(.8,.85), 
-#'     legend.background = theme_rect(colour = 'black', fill = 'black', size = 4),
 #'     legend.direction = 'horizontal',
-#'     legend.key.size = unit(1.4, 'lines')
+#'     legend.key.size = unit(2, 'lines')
 #'   ) +
 #'   guides(
 #'     fill = guide_legend(
-#'       title.theme = theme_text(colour = 'white'),
-#'       label.theme = theme_text(colour = 'white'),
+#'       title.theme = theme_text(size = 16, face = 'bold', colour = 'black'),
+#'       label.theme = theme_text(size = 14, colour = 'black'),
 #'       label.position = 'bottom',
 #'       override.aes = list(alpha = 1)
 #'     )
 #'   )
-#'  
-#' 
 #' 
 #' 
 #' 
@@ -560,39 +557,6 @@ ggmapplot <- function(ggmap, fullpage = FALSE,
 
 
 
-# custom versions of the following ggplot2 functions
-
-annotation_raster <- function (raster, xmin, xmax, ymin, ymax) { 
-  raster <- as.raster(raster)
-  GeomRasterAnn$new(geom_params = list(raster = raster, xmin = xmin, 
-    xmax = xmax, ymin = ymin, ymax = ymax), stat = "identity", 
-    position = "identity", data = NULL, inherit.aes = TRUE)
-}
-
-GeomRasterAnn <- proto(ggplot2:::GeomRaster, {
-  objname <- "raster_ann"
-  reparameterise <- function(., df, params) {
-    df
-  }
-
-  
-  draw_groups <- function(., data, scales, coordinates, raster, xmin, xmax,
-    ymin, ymax, ...) {
-    #if (!inherits(coordinates, "cartesian")) {
-    #  stop("annotation_raster only works with Cartesian coordinates", 
-    #    call. = FALSE)
-    #}
-    corners <- data.frame(x = c(xmin, xmax), y = c(ymin, ymax))
-    data <- coord_transform(coordinates, corners, scales)
-
-    x_rng <- range(data$x, na.rm = TRUE)
-    y_rng <- range(data$y, na.rm = TRUE)
-        
-    rasterGrob(raster, x_rng[1], y_rng[1], 
-      diff(x_rng), diff(y_rng), default.units = "native", 
-      just = c("left","bottom"), interpolate = TRUE)
-  }
-})
 
 
 
@@ -603,51 +567,7 @@ GeomRasterAnn <- proto(ggplot2:::GeomRaster, {
 
 
 
-
-annotation_custom <- function (grob, xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf) { 
-  GeomCustomAnn$new(geom_params = list(grob = grob, xmin = xmin, 
-    xmax = xmax, ymin = ymin, ymax = ymax), stat = "identity", 
-    position = "identity", data = NULL, inherit.aes = TRUE)
-}
-
-GeomCustomAnn <- proto(ggplot2:::Geom, {
-   objname <- "custom_ann"
-  
-  draw_groups <- function(., data, scales, coordinates, grob, xmin, xmax,
-                          ymin, ymax, ...) {
-    #if (!inherits(coordinates, "cartesian")) {
-    #  stop("annotation_custom only works with Cartesian coordinates", 
-    #    call. = FALSE)
-    #}
-
-    if(is.infinite(xmin)) xmin <- scales$x.range[1]
-    if(is.infinite(xmax)) xmax <- scales$x.range[2]
-    if(is.infinite(ymin)) ymin <- scales$y.range[1]
-    if(is.infinite(ymax)) ymax <- scales$y.range[2]           
-    
-    corners <- data.frame(x = c(xmin, xmax), y = c(ymin, ymax))
-    data <- coord_transform(coordinates, corners, scales)
-
-    x_rng <- range(data$x, na.rm = TRUE)
-    y_rng <- range(data$y, na.rm = TRUE)
-
-    vp <- viewport(x = mean(x_rng), y = mean(y_rng),
-                   width = diff(x_rng), height = diff(y_rng),
-                   just = c("center","center"))
-    editGrob(grob, vp = vp)
-  }
-  
-  default_aes <- function(.) 
-    aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf)  
-})
-
-
-
-
-
-
-
-
+# allow for an alpha value in theme_rect
 theme_rect <- function (fill = NA, colour = "black", size = 0.5, 
     linetype = 1, alpha = .5){
   .pt <- 2 * theme_get()$legend.background()$gp$lwd

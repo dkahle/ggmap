@@ -60,9 +60,9 @@
   label}
 }
 \description{
-  \code{qmplot} is a knock-off of the ggplot2 function
-  qplot for the quick plotting of maps with data.  qmplot
-  is still in its experimental stages.
+  \code{qmplot} is the ggmap equivalent to the ggplot2
+  function qplot and allows for the quick plotting of maps
+  with data/models/etc.  qmplot is still experimental.
 }
 \examples{
 \donttest{

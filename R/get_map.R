@@ -2,7 +2,7 @@
 #'
 #' get_map is a smart function which queries the Google Maps, OpenStreetMap, or Stamen Maps server for a map at a certain location at a certain spatial zoom.  it is a wrapper for get_googlemap, get_openstreetmap, get_stamenmap, and get_cloudmademap functions.  get_map was formerly (<2.0) called ggmap.
 #' 
-#' @param location an address, longitude/latitude pair, or left/bottom/right/top bounding box
+#' @param location an address, longitude/latitude pair (in that order), or left/bottom/right/top bounding box
 #' @param zoom map zoom, an integer from 0 (whole world) to 21 (building), default value 10 (city).  openstreetmaps limits a zoom of 18, and the limit on stamen maps depends on the maptype
 #' @param scale scale, see \code{\link{get_openstreetmap}}
 #' @param maptype character string providing map theme. options available are 'terrain', 'satellite', 'roadmap', and 'hybrid' (google maps), 'terrain', 'watercolor', and 'toner' (stamen maps), or a positive integer for cloudmade maps (see ?get_cloudmademap)

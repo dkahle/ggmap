@@ -51,3 +51,5 @@ Collate:
     'qmplot.R'
     'make_bbox.R'
     'wind.R'
+    'inset_raster.R'
+    'inset.R'

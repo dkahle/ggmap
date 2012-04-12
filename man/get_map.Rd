@@ -12,8 +12,8 @@
     api_key)
 }
 \arguments{
-  \item{location}{an address, longitude/latitude pair, or
-  left/bottom/right/top bounding box}
+  \item{location}{an address, longitude/latitude pair (in
+  that order), or left/bottom/right/top bounding box}
 
   \item{zoom}{map zoom, an integer from 0 (whole world) to
   21 (building), default value 10 (city).  openstreetmaps

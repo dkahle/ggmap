@@ -105,7 +105,7 @@ ggmap(baylor, fullpage = TRUE) +
 
 
 
-baylorosm <- get_map(location = c(lat = 31.54838, lon = -97.11922),
+baylorosm <- get_map(location = c(lon = -97.11922, lat = 31.54838),
   source = 'osm', zoom = 16)
 ggmap(baylorosm)
 
@@ -332,8 +332,7 @@ HoustonMap +
 
 
 # neat example with distances
-qmap('baylor university', zoom = 14, source = 'osm') +
-  geom_point(data = geocode('marrs mclean science, baylor university'))
+
 
 origin <- 'marrs mclean science, baylor university'
 gc_origin <- geocode(origin)
@@ -362,14 +361,16 @@ dist <- within(dist, {
   tolon = gc_dests$lon
   tolat = gc_dests$lat
 })
-dist$minutes <- cut(dist$minutes, c(0,3,5,7,10,Inf), labels = c('0-3','3-5', '5-7', '7-10', '10+'))
+dist$minutes <- cut(dist$minutes, c(0,3,5,7,10,Inf),
+  labels = c('0-3','3-5', '5-7', '7-10', '10+'))
 
 library(scales)
 qmap('baylor university', zoom = 14, maprange = TRUE, fullpage = TRUE,
-  base_layer = ggplot(aes(x = lon, y = lat), data = gc_origin)) +
+    base_layer = ggplot(aes(x = lon, y = lat), data = gc_origin),
+    legend = 'bottomright') +
   geom_rect(aes(
     x = tolon, y = tolat,
-    xmin = tolon-.000275*nchar(place), xmax = tolon+.000275*nchar(place),
+    xmin = tolon-.00028*nchar(place), xmax = tolon+.00028*nchar(place),
     ymin = tolat-.0005, ymax = tolat+.0005, fill = minutes, colour = 'black'
   ), alpha = .7, data = dist) +
   geom_text(aes(x = tolon, y = tolat, label = place, colour = 'white'), size = 3, data = dist) +
@@ -382,21 +383,17 @@ qmap('baylor university', zoom = 14, maprange = TRUE, fullpage = TRUE,
     values = colorRampPalette(c(muted('green'), 'blue', 'red'))(5)) +
   scale_colour_identity(guide = 'none') +
   opts(
-    legend.position = c(.8,.85),
-    legend.background = theme_rect(colour = 'black', fill = 'black', size = 4),
     legend.direction = 'horizontal',
-    legend.key.size = unit(1.4, 'lines')
+    legend.key.size = unit(2, 'lines')
   ) +
   guides(
     fill = guide_legend(
-      title.theme = theme_text(colour = 'white'),
-      label.theme = theme_text(colour = 'white'),
+      title.theme = theme_text(size = 16, face = 'bold', colour = 'black'),
+      label.theme = theme_text(size = 14, colour = 'black'),
       label.position = 'bottom',
       override.aes = list(alpha = 1)
     )
   )
-
-
 
 
 
