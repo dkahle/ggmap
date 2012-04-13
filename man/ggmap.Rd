@@ -39,11 +39,6 @@
 \description{
   ggmap plots the raster object produced by
   \code{\link{get_map}}.
-
-  ggmap integrates ggplot2 and RgoogleMaps to create an
-  elegant, consistent, and modular framework for spatial
-  graphics. More information about each function can be
-  found in its help documentation.
 }
 \examples{
 \dontrun{

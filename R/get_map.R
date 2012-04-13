@@ -114,6 +114,21 @@ get_map <- function(
   if(is.numeric(location) && length(location) == 2){
     location_type <- 'lonlat'
     location_stop <- FALSE      	
+    if(!is.null(names(location))){
+      loc_names <- names(location)
+      if(all(loc_names == c('long','lat'))){
+        names(location) <- c('lon', 'lat')
+      } else if(all(loc_names == c('lat','lon'))){
+      	message('note : locations should be specified in the lon/lat format, not lat/lon.')
+      	location <- location[c('lon','lat')]      	
+      } else if(all(loc_names == c('lat','long'))){
+      	message('note : locations should be specified in the lon/lat format, not lat/lon.')
+      	location <- location[c('long','lat')]    
+        names(location) <- c('lon', 'lat')      	  	
+      }
+    } else { # is missing name the elements lon/lat
+      names(location) <- c('lon','lat')
+    }
   }
   if(is.numeric(location) && length(location) == 4){
     location_type <- 'bbox'
