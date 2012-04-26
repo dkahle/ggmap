@@ -5,8 +5,7 @@
   get_cloudmademap(bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
     zoom = 10, api_key, maptype = 1, highres = TRUE,
     crop = TRUE, messaging = FALSE, urlonly = FALSE,
-    filename = "ggmapTemp", color = c("color", "bw"),
-    checkargs = TRUE)
+    filename = "ggmapTemp", color = c("color", "bw"), ...)
 }
 \arguments{
   \item{bbox}{a bounding box in the format c(lowerleftlon,
@@ -33,7 +32,7 @@
 
   \item{color}{color or black-and-white}
 
-  \item{checkargs}{check arguments}
+  \item{...}{...}
 }
 \value{
   a map image as a 2d-array of colors as hexadecimal

@@ -72,12 +72,12 @@ get_map <- function(
   # deprecated syntaxes
   args <- as.list(match.call(expand.dots = TRUE)[-1])  
   if('verbose' %in% names(args)){
-    warning('verbose argument deprecated, use messaging.', call. = F)
+    .Deprecated(msg = 'verbose argument deprecated, use messaging.')
     messaging <- eval(args$verbose)
   }
   
   if('center' %in% names(args)){
-    warning('center argument deprecated, use location.', call. = F)
+  	.Deprecated(msg = 'center argument deprecated, use location.')
     location <- eval(args$center)
   }
   
@@ -141,46 +141,55 @@ get_map <- function(
 
 
   # google map
-  if(source == 'google'){
+  if(source == 'google'){  	
+  	# get map/return
     return(
       get_googlemap(center = location, zoom = zoom, maptype = maptype, scale = scale,
         messaging = messaging, urlonly = urlonly, filename = filename, 
-        color = color, checkargs = FALSE)
+        color = color)
     )
   }
+
 
 
   # openstreetmap
   if(source == 'osm'){
   	
   	if(location_type != 'bbox'){
+  	  # get bounding box	
       gm <- get_googlemap(center = location, zoom = zoom, 
-        filename = filename, checkargs = FALSE)
+        filename = filename)
       location <- as.numeric(attr(gm, 'bb'))[c(2,1,4,3)]
     }  
-  	
+
+  	# get map/return  	
     return(
       get_openstreetmap(bbox = location, scale = scale, 
         messaging = messaging, urlonly = urlonly, filename = filename, 
-        color = color, checkargs = FALSE)
+        color = color)
     )
   }
   
   
+
   # stamen map
   if(source == 'stamen'){
   	if(location_type != 'bbox'){
+  	  # get bounding box	  		
       gm <- get_googlemap(center = location, zoom = zoom, 
-        filename = filename, checkargs = FALSE)
+        filename = filename)
       location <- as.numeric(attr(gm, 'bb'))[c(2,1,4,3)]
     }     
   	
+  	# get map/return  	
     return(
       get_stamenmap(bbox = location, zoom = zoom, maptype = maptype, crop = crop,
         messaging = messaging, urlonly = urlonly, filename = filename, 
-        color = color, checkargs = FALSE)
+        color = color)
     )
   }  
+  
+  
   
   # cloudmade map
   if(source == 'cloudmade'){
@@ -188,15 +197,17 @@ get_map <- function(
   	  call. = FALSE)
   	
   	if(location_type != 'bbox'){
+  	  # get bounding box	  		
       gm <- get_googlemap(center = location, zoom = zoom, 
-        filename = filename, checkargs = FALSE)
+        filename = filename)
       location <- as.numeric(attr(gm, 'bb'))[c(2,1,4,3)]
-    }     
-  	
+    }          
+
+  	# get map/return  	
     return(
       get_cloudmademap(bbox = location, zoom = zoom, maptype = maptype, crop = crop,
         messaging = messaging, urlonly = urlonly, filename = filename, highres = TRUE,
-        color = color, api_key = api_key, checkargs = FALSE)
+        color = color, api_key = api_key)
     )
   }    
 

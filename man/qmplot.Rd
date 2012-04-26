@@ -3,7 +3,8 @@
 \title{Quick map plot}
 \usage{
   qmplot(x, y, ..., data, zoom, source = "stamen",
-    fullpage = TRUE, facets = NULL, margins = FALSE,
+    darken = c(0, "black"), fullpage = TRUE,
+    expand = FALSE, facets = NULL, margins = FALSE,
     geom = "auto", stat = list(NULL),
     position = list(NULL), xlim = c(NA, NA),
     ylim = c(NA, NA), main = NULL, f = 0.05,
@@ -25,7 +26,13 @@
 
   \item{source}{map source, see \code{\link{get_map}}}
 
-  \item{fullpage}{should the map fill the device}
+  \item{darken}{darken argument in \code{\link{ggmap}}}
+
+  \item{fullpage}{should the map fill the device
+  (\code{\link{ggmap}})}
+
+  \item{expand}{should the map fill the panel
+  (\code{\link{ggmap}})}
 
   \item{facets}{faceting formula to use.  Picks
   \code{\link{facet_wrap}} or \code{\link{facet_grid}}

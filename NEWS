@@ -1,3 +1,25 @@
+ggmap 2.1
+-------------------------------------------------------------------------
+
+NEW FEATURES
+
+* new argument darken added to ggmap which allows the user to put a shaded layer on top of maps.  this makes seeing color overlays easier.
+
+CHANGES
+
+* get_[google,osm,stamen,cloudmade] functions now check their arguments in the function themselves as opposed to using an alternative function for argument checking.
+* ggmap arguments changed 
+	a. fullpage and expand collapsed into one argument called extent
+	b. b changed to padding.  using b now issues a warning. 
+thanks to Jean-Olivier Irisson for the suggestions.
+* deprecated syntaxes now properly call .Deprecated
+* ggmap documentation greatly enhanced.
+
+FIXES
+
+* qmplot now properly scales the expand on the x and y axes. (Thanks to Jean-Olivier Irisson for the suggestion.)
+
+
 ggmap 2.0
 -------------------------------------------------------------------------
 

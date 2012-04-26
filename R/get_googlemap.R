@@ -19,8 +19,8 @@
 #' @param urlonly return url only
 #' @param filename destination file for download (file extension added according to format)
 #' @param color color or black-and-white
-#' @param checkargs check arguments
 #' @return a map image as a 2d-array of colors as hexadecimal strings representing pixel fill values.
+#' @param ... ...
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso \url{https://developers.google.com/maps/documentation/staticmaps/}, \code{\link{ggmap}}
 #' @export
@@ -67,13 +67,115 @@ get_googlemap <- function(
   scale = 2, format = c('png8', 'gif', 'jpg', 'jpg-baseline','png32'), 
   maptype = c('terrain', 'satellite', 'roadmap', 'hybrid'), 
   language = 'en-EN', region, markers, path, visible, style, sensor = FALSE,
-  messaging = FALSE, urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'),
-  checkargs = TRUE
+  messaging = FALSE, urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
 ){
+	
+  # enumerate argument checking (added in lieu of checkargs function)	
+  args <- as.list(match.call(expand.dots = TRUE)[-1])  
+  argsgiven <- names(args)
+  
+  if('center' %in% argsgiven){     
+    if(!(
+      (is.numeric(center) && length(center) == 2) || 
+      (is.character(center) && length(center) == 1)
+    )){
+      stop('center of map misspecified, see ?get_googlemap.', call. = F)
+    }
+    if(all(is.numeric(center))){ 
+      lon <- center[1]; lat <- center[2]
+      if(lon < -180 || lon > 180){
+        stop('longitude of center must be between -180 and 180 degrees.',
+          ' note ggmap uses lon/lat, not lat/lon.', call. = F)
+      }
+      if(lat < -90 || lat > 90){
+        stop('latitude of center must be between -90 and 90 degrees.',
+          ' note ggmap uses lon/lat, not lat/lon.', call. = F)
+      }    
+    }
+  }
+ 
+  if('zoom' %in% argsgiven){
+    if(!(is.numeric(zoom) && zoom == round(zoom) && zoom > 0)){
+      stop('zoom must be a whole number between 1 and 21', call. = F)
+    }  
+  }
+  
+  if('size' %in% argsgiven){    
+    stopifnot(all(is.numeric(size)) && all(size == round(size)) && all(size > 0))
+  }
+    
+  if('scale' %in% argsgiven){    
+    stopifnot(scale %in% c(1,2,4))
+  }
+  
+  # format arg checked by match.arg
+  
+  # maptype arg checked by match.arg
+    
+  if('markers' %in% argsgiven){
+    markers_stop <- TRUE
+    if(is.data.frame(markers) && all(apply(markers[,1:2],2,is.numeric))) markers_stop <- FALSE
+    if(
+      class(markers) == 'list' && 
+      all(sapply(markers, function(elem){
+        is.data.frame(elem) && all(apply(elem[,1:2],2,is.numeric))
+      })) 
+    ) markers_stop <- FALSE
+    if(is.character(markers) && length(markers) == 1) markers_stop <- FALSE
+      
+    if(markers_stop) stop('improper marker specification, see ?get_googlemap.', call. = F)
+  }
+    
+  if('path' %in% argsgiven){    
+    path_stop <- TRUE
+    if(is.data.frame(path) && all(apply(path[,1:2],2,is.numeric))) path_stop <- FALSE
+    if(
+      class(path) == 'list' && 
+      all(sapply(path, function(elem){
+        is.data.frame(elem) && all(apply(elem[,1:2],2,is.numeric))
+      })) 
+    ) path_stop <- FALSE
+    if(is.character(path) && length(path) == 1) path_stop <- FALSE
+    
+    if(path_stop) stop('improper path specification, see ?get_googlemap.', call. = F)
+  }    
+    
+  if('visible' %in% argsgiven){ 
+    message('visible argument untested.')
+    visible_stop <- TRUE      
+    if(is.data.frame(visible) && all(apply(visible[,1:2],2,is.numeric))) visible_stop <- FALSE
+    if(is.character(visible)) visible_stop <- FALSE
+    if(visible_stop) stop('improper visible specification, see ?get_googlemap.', call. = F)      
+  }
+ 
+  if('style' %in% argsgiven){
+    message('style argument untested.')    	
+    style_stop <- TRUE      
+    if(is.character(style) && length(style) == 1) style_stop <- FALSE      
+    if(style_stop) stop('improper style specification, see ?get_googlemap.', call. = F)      
+  }
+      
+  if('sensor' %in% argsgiven) stopifnot(is.logical(sensor))  
+    
+  if('messaging' %in% argsgiven) stopifnot(is.logical(messaging))
+    
+  if('urlonly' %in% argsgiven) stopifnot(is.logical(urlonly))
+    
+  if('filename' %in% argsgiven){
+    filename_stop <- TRUE      
+    if(is.character(filename) && length(filename) == 1) filename_stop <- FALSE      
+    if(filename_stop) stop('improper filename specification, see ?get_googlemap.', call. = F)      
+  }      
+  
+  if('checkargs' %in% argsgiven){
+    .Deprecated(msg = 'checkargs argument deprecated, args are always checked after v2.1.')
+  }
+  
+	
   
   # argument checking (no checks for language, region, markers, path, visible, style)
-  args <- as.list(match.call(expand.dots = TRUE)[-1])  
-  if(checkargs) get_googlemap_checkargs(args)
+  #args <- as.list(match.call(expand.dots = TRUE)[-1])  
+  #if(checkargs) get_googlemap_checkargs(args)
   format <- match.arg(format)
   if(format != 'png8') stop('currently only the png format is supported.', call. = F)
   maptype <- match.arg(maptype)

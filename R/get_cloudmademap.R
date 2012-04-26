@@ -12,7 +12,7 @@
 #' @param urlonly return url only
 #' @param filename destination file for download (file extension added according to format)
 #' @param color color or black-and-white
-#' @param checkargs check arguments
+#' @param ... ...
 #' @details accesses cloud made maps.  this function requires an api which can be obtained for free from \url{http://cloudmade.com/user/show}.  
 #' thousands of maptypes ("styles"), including create-your-own options, are available from \url{http://maps.cloudmade.com/editor}
 #' @return a map image as a 2d-array of colors as hexadecimal strings representing pixel fill values.
@@ -63,12 +63,63 @@
 get_cloudmademap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344), 
   zoom = 10, api_key, maptype = 1, highres = TRUE, crop = TRUE, messaging = FALSE, 
-  urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'), checkargs = TRUE
+  urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
 ){
+	
+  # enumerate argument checking (added in lieu of checkargs function)	
+  args <- as.list(match.call(expand.dots = TRUE)[-1])  
+  argsgiven <- names(args)	
+  
+  if('bbox' %in% argsgiven){
+    if(!(is.numeric(bbox) && length(bbox) == 4)){
+      stop('bounding box improperly specified.  see ?get_openstreetmap', call. = F)
+    }
+  }
+   
+  if('zoom' %in% argsgiven){    
+    if(!(is.numeric(zoom) && length(zoom) == 1 && 
+    zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
+      stop('scale must be a postive integer 0-18, see ?get_stamenmap.', call. = F)
+    }    
+  }
+    
+  if('maptype' %in% argsgiven){    
+    if(!(is.numeric(maptype) && length(maptype) == 1 && 
+        maptype == round(maptype) && maptype > 0)){
+      stop('maptype must be a positive integer, see ?get_cloudmademap.', call.=F)  	
+    }
+  }    
+    
+  if('api_key' %in% argsgiven){    
+    if(!(is.character(api_key) && length(api_key) == 1)){
+      stop('api_key improperly specified, see ?get_cloudmademap.', call.=F)  	
+    }
+  } else {
+    stop('api_key must be specified, see ?get_cloudmademap.')
+  }      
+    
+  if('highres' %in% argsgiven) stopifnot(is.logical(highres))     
+  
+  if('messaging' %in% argsgiven) stopifnot(is.logical(messaging))
+    
+  if('urlonly' %in% argsgiven) stopifnot(is.logical(urlonly))     
+    
+  if('filename' %in% argsgiven){
+    filename_stop <- TRUE      
+    if(is.character(filename) && length(filename) == 1) filename_stop <- FALSE      
+    if(filename_stop) stop('improper filename specification, see ?get_googlemap.', call. = F)      
+  }        
+    
+  # color arg checked by match.arg    
+  
+  if('checkargs' %in% argsgiven){
+    .Deprecated(msg = 'checkargs argument deprecated, args are always checked after v2.1.')
+  }  
+      
   
   # argument checking (no checks for language, region, markers, path, visible, style)
-  args <- as.list(match.call(expand.dots = TRUE)[-1])  
-  if(checkargs) get_cloudmademap_checkargs(args) 
+  #args <- as.list(match.call(expand.dots = TRUE)[-1])  
+  #if(checkargs) get_cloudmademap_checkargs(args) 
   color <- match.arg(color)  
   if(is.null(names(bbox))) names(bbox) <- c('left','bottom','right','top')
   if(highres) maptype <- paste(maptype, '@2x', sep = '')

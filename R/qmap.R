@@ -145,10 +145,10 @@ qmap <- function(location = 'houston', ...){
   # ggmap args
   ##################
   
-  if('fullpage' %in% names(args)){
-    fullpage <- eval(args$fullpage)
+  if('extent' %in% names(args)){
+    extent <- eval(args$extent)
   } else {
-  	fullpage <- TRUE
+  	extent <- 'device'
   }  
   
   if('maprange' %in% names(args)){
@@ -156,12 +156,6 @@ qmap <- function(location = 'houston', ...){
   } else {
     maprange <- FALSE
   }         
-  
-  if('expand' %in% names(args)){
-    expand <- eval(args$expand)
-  } else {
-    expand <- TRUE
-  }           
   
   if('base_layer' %in% names(args)){
     base_layer <- args$base_layer
@@ -172,21 +166,47 @@ qmap <- function(location = 'houston', ...){
   if('legend' %in% names(args)){
     legend <- args$legend
   } else {
-    legend <- 'topleft'
+    legend <- 'right'
   }     
   
-  if('b' %in% names(args)){
-    b <- args$b
+  if('padding' %in% names(args)){
+    padding <- args$padding
   } else {
-    b <- .02
-  }                
+    padding <- .02
+  }      
+  
+  if('darken' %in% names(args)){
+    darken <- eval(args$darken)
+  } else {
+    darken <- c(0, 'black')
+  }  
+  
+  # deprecated      
+  
+  if('b' %in% names(args)){
+    .Deprecated(msg = 'b argument deperecated, use padding.')
+    padding <- args$b
+  } else {
+    padding <- .02
+  }  
+  
+  if('fullpage' %in% names(args) || 'expand' %in% names(args)){
+    .Deprecated(msg = 'fullpage and expand syntaxes deprecated, use extent.')
+    if('fullpage' %in% names(args)){fullpage <- eval(args$fullpage)}else{fullpage <- FALSE}
+    if(fullpage) extent <- 'device'
+    if('expand' %in% names(args)){expand <- eval(args$expand)}else{expand <- FALSE}
+    if(fullpage == FALSE && expand == TRUE) extent <- 'panel'
+    if(fullpage == FALSE && expand == FALSE) extent <- 'normal'
+  }          
+  
+
   
 
   # return
   ggmap(
     get_map(location = location, zoom = zoom, scale = scale, source = source, 
       color = color, maptype = maptype, api_key = api_key), 
-    fullpage = fullpage, maprange = maprange, expand = expand, 
-      base_layer = base_layer, legend = legend, b = b
+    maprange = maprange, extent = extent, base_layer = base_layer, legend = legend, 
+      padding = padding, darken = darken
   )     
 }

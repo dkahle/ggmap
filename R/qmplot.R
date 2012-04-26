@@ -11,7 +11,9 @@
 #'   one, extracting vectors from the current environment.
 #' @param zoom map zoom, see \code{\link{get_map}}
 #' @param source map source, see \code{\link{get_map}}
-#' @param fullpage should the map fill the device
+#' @param darken darken argument in \code{\link{ggmap}}
+#' @param fullpage should the map fill the device (\code{\link{ggmap}})
+#' @param expand should the map fill the panel (\code{\link{ggmap}})
 #' @param facets faceting formula to use.  Picks \code{\link{facet_wrap}} or
 #'   \code{\link{facet_grid}} depending on whether the formula is one sided
 #'   or two-sided
@@ -62,9 +64,10 @@
 #' 
 #' }
 #'
-qmplot <- function(x, y, ..., data, zoom, source = 'stamen', fullpage = TRUE, 
-  facets = NULL, margins = FALSE, geom = "auto", stat = list(NULL), position = list(NULL), 
-  xlim = c(NA, NA), ylim = c(NA, NA), main = NULL, f = 0.05,
+qmplot <- function(x, y, ..., data, zoom, source = 'stamen', darken = c(0, 'black'), 
+  fullpage = TRUE, expand = FALSE,
+  facets = NULL, margins = FALSE, geom = "auto", stat = list(NULL), 
+  position = list(NULL), xlim = c(NA, NA), ylim = c(NA, NA), main = NULL, f = 0.05, 
   xlab = deparse(substitute(x)), ylab = deparse(substitute(y)))
 {
 	
@@ -140,9 +143,15 @@ qmplot <- function(x, y, ..., data, zoom, source = 'stamen', fullpage = TRUE,
   ymin <- attr(map, "bb")$ll.lat
   ymax <- attr(map, "bb")$ur.lat  
   
+  # check darken
+  stopifnot(0 <= as.numeric(darken[1]) && as.numeric(darken[1]) <= 1)
+  if(length(darken) == 1 & is.numeric(darken)) darken <- c(darken, 'black')
+  
   # initialize plot
   p <- ggplot(data, aesthetics, environment = env) +
-    ggmap:::annotation_raster(map, xmin, xmax, ymin, ymax) +
+    inset_raster(map, xmin, xmax, ymin, ymax) + 
+    annotate('rect', xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax, 
+  	  fill = darken[2], alpha = as.numeric(darken[1])) +
     coord_map(projection = "mercator")
     
   
@@ -176,10 +185,13 @@ qmplot <- function(x, y, ..., data, zoom, source = 'stamen', fullpage = TRUE,
   if (!missing(xlim)) p <- p + xlim(xlim)
   if (!missing(ylim)) p <- p + ylim(ylim)
   
-  if(fullpage) p <- p +
-    scale_x_continuous(expand = c(0,0)) +
-    scale_x_continuous(expand = c(0,0)) + 
-    theme_nothing()
+  if(fullpage) expand <- TRUE
+  if(expand){
+    p <- p + 
+      scale_x_continuous(lim = c(xmin, xmax), expand = c(0, 0)) + 
+      scale_y_continuous(lim = c(ymin, ymax), expand = c(0, 0))
+  }
+  if(fullpage) p <- p + theme_nothing()
   
   p
 }

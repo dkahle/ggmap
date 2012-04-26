@@ -9,7 +9,7 @@
 #' @param urlonly return url only
 #' @param filename destination file for download (file extension added according to format)
 #' @param color color or black-and-white
-#' @param checkargs check arguments
+#' @param ... ...
 #' @details this is simply a wrapper for the gui web-based version at \url{http://www.openstreetmap.org/}.  if you don't know how to get the map you want, go there, navigate to the map extent that you want, click the export tab at the top of the page, and copy the information into this function.
 #' the scale argument is a tricky number to properly specify.  in most cases, if you get an error when downloading an openstreetmap the error is attributable to an improper scale specification.  \code{\link{OSM_scale_lookup}} can help; but the best way to get in the correct range is to go to \url{http://www.openstreetmap.org/}, navigate to the map of interest, click export at the top of the page, click 'map image' and then copy down the scale listed.
 #' in some cases the OSM server is unavailable.  in these cases you will receive an error message for download.file with the message HTTP status was '503 Service Unavailable'.  you can confirm this by setting urlonly = TRUE, and then entering the URL in a web browser.  the solution is either (1) change sources or (2) wait for the OSM servers to come back up.
@@ -30,12 +30,46 @@
 get_openstreetmap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344), 
   scale = 606250, format = c('png', 'jpeg', 'svg', 'pdf', 'ps'), messaging = FALSE, 
-  urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'), checkargs = TRUE
+  urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
 ){
+	
+  # enumerate argument checking (added in lieu of checkargs function)	
+  args <- as.list(match.call(expand.dots = TRUE)[-1])  
+  argsgiven <- names(args)	
+  
+  if('bbox' %in% argsgiven){     
+    if(!(is.numeric(bbox) && length(bbox) == 4)){
+      stop('bounding box improperly specified.  see ?get_openstreetmap', call. = F)
+    }
+  }
+   
+  if('scale' %in% argsgiven){     
+    if(!(is.numeric(scale) && length(scale) == 1 && 
+    scale == round(scale) && scale > 0)){
+      stop('scale must be a postive integer.', call. = F)
+    }    
+  }
+    
+  if('messaging' %in% argsgiven) stopifnot(is.logical(messaging))
+    
+  if('urlonly' %in% argsgiven) stopifnot(is.logical(urlonly))    
+    
+  if('filename' %in% argsgiven){
+    filename_stop <- TRUE      
+    if(is.character(filename) && length(filename) == 1) filename_stop <- FALSE      
+    if(filename_stop) stop('improper filename specification, see ?get_openstreetmap.', call. = F)      
+  }        
+    
+  # color arg checked by match.arg 
+  
+  if('checkargs' %in% argsgiven){
+    .Deprecated(msg = 'checkargs argument deprecated, args are always checked after v2.1.')
+  }  
+          
   
   # argument checking (no checks for language, region, markers, path, visible, style)
-  args <- as.list(match.call(expand.dots = TRUE)[-1])  
-  if(checkargs) get_openstreetmap_checkargs(args)
+  #args <- as.list(match.call(expand.dots = TRUE)[-1])  
+  #if(checkargs) get_openstreetmap_checkargs(args)
   format <- match.arg(format)
   if(format != 'png') stop('currently only the png format is supported.', call. = F)  
   color <- match.arg(color)  

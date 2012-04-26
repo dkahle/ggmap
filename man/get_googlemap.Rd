@@ -9,7 +9,7 @@
     language = "en-EN", region, markers, path, visible,
     style, sensor = FALSE, messaging = FALSE,
     urlonly = FALSE, filename = "ggmapTemp",
-    color = c("color", "bw"), checkargs = TRUE)
+    color = c("color", "bw"), ...)
 }
 \arguments{
   \item{center}{the center of the map.  this can either be
@@ -80,7 +80,7 @@
 
   \item{color}{color or black-and-white}
 
-  \item{checkargs}{check arguments}
+  \item{...}{...}
 }
 \value{
   a map image as a 2d-array of colors as hexadecimal
