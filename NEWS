@@ -3,7 +3,9 @@ ggmap 2.1
 
 NEW FEATURES
 
+* get_map now allows for bounding box specifications with source = 'google'.
 * new argument darken added to ggmap which allows the user to put a shaded layer on top of maps.  this makes seeing color overlays easier.
+* darken, mapcolor arguments added to qmplot.
 
 CHANGES
 
@@ -14,9 +16,11 @@ CHANGES
 thanks to Jean-Olivier Irisson for the suggestions.
 * deprecated syntaxes now properly call .Deprecated
 * ggmap documentation greatly enhanced.
+* get_stamenmap and get_cloudmademap now message the user if more than 20 tiles are needed.
 
 FIXES
 
+* get_map now attempts to determine an appropriate zoom when a bounding box is provided.
 * qmplot now properly scales the expand on the x and y axes. (Thanks to Jean-Olivier Irisson for the suggestion.)
 
 

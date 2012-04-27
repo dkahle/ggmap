@@ -139,6 +139,10 @@ get_cloudmademap <- function(
   ysNeeded <- Reduce(':', sort(unique(as.numeric(sapply(fourCornersTiles, function(df) df$Y)))))
   numYTiles <- length(ysNeeded)  
   tilesNeeded <- expand.grid(x = xsNeeded, y = ysNeeded)
+  if(nrow(tilesNeeded) > 40){
+    message(paste0(nrow(tilesNeeded), ' tiles needed, this may take a while ',
+      '(try a smaller zoom).'))
+  }
   xTileProgression <- rep(1:numXTiles, numYTiles)  
   yTileProgression <- rep(1:numYTiles, each = numXTiles)
   

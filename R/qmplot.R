@@ -155,19 +155,14 @@ qmplot <- function(x, y, ..., data, zoom, source = 'stamen',
 
   env <- parent.frame()
   
-  # calculate map dimensions
-  lons <- data[,deparse(substitute(x))]  
-  lon_range <- extendrange(range(lons, na.rm = TRUE))
-  lats <- data[,deparse(substitute(y))]
-  lat_range <- extendrange(range(lats, na.rm = TRUE))  
-  bbox <- c(left = lon_range[1], bottom = lat_range[1],
-    right = lon_range[2], top = lat_range[2])
-    
+  # calculate map dimensions    
   bbox <- make_bbox(
     lon = data[,deparse(substitute(x))], 
     lat = data[,deparse(substitute(y))],
     f = f
   )    
+  lon_range <- bbox[c('left','right')]
+  lat_range <- bbox[c('bottom','top')]  
   
   # compute zoom
   if(missing(zoom)){

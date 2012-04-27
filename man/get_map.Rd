@@ -3,7 +3,7 @@
 \title{Grab a map.}
 \usage{
   get_map(location = c(lon = -95.3632715, lat = 29.7632836),
-    zoom = 10, scale = "auto",
+    zoom = "auto", scale = "auto",
     maptype = c("terrain", "satellite", "roadmap", "hybrid", "toner", "watercolor"),
     messaging = FALSE, urlonly = FALSE,
     filename = "ggmapTemp", crop = TRUE,
@@ -18,9 +18,13 @@
   \item{zoom}{map zoom, an integer from 0 (whole world) to
   21 (building), default value 10 (city).  openstreetmaps
   limits a zoom of 18, and the limit on stamen maps depends
-  on the maptype}
+  on the maptype.  'auto' automatically determines the zoom
+  for bounding box specifications, and is defaulted to 10
+  with center/zoom specifications.}
 
-  \item{scale}{scale, see \code{\link{get_openstreetmap}}}
+  \item{scale}{scale argument of
+  \code{\link{get_googlemap}} or
+  \code{\link{get_openstreetmap}}}
 
   \item{maptype}{character string providing map theme.
   options available are 'terrain', 'satellite', 'roadmap',
