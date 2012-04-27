@@ -6,7 +6,7 @@
 #' @param extent how much of the plot should the map take up? 'normal', 'panel', or 'device' (default)
 #' @param base_layer a ggplot(aes(...), ...) call; see examples
 #' @param maprange logical for use with base_layer; should the map define the x and y limits?
-#' @param legend 'left', 'right' (default), 'bottom', 'top', 'bottomleft', 'bottomright', 'topleft', 'topright', 'none' (used with fullpage) 
+#' @param legend 'left', 'right' (default), 'bottom', 'top', 'bottomleft', 'bottomright', 'topleft', 'topright', 'none' (used with extent = 'device') 
 #' @param padding distance from legend to corner of the plot (used with legend, formerly b)
 #' @param darken vector of the form c(number, color), where number is in [0, 1] and color is a character string indicating the color of the darken.  0 indicates no darkening, 1 indicates a black-out.
 #' @param ... ...

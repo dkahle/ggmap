@@ -11,9 +11,11 @@
 #'   one, extracting vectors from the current environment.
 #' @param zoom map zoom, see \code{\link{get_map}}
 #' @param source map source, see \code{\link{get_map}}
-#' @param darken darken argument in \code{\link{ggmap}}
-#' @param fullpage should the map fill the device (\code{\link{ggmap}})
-#' @param expand should the map fill the panel (\code{\link{ggmap}})
+#' @param extent how much of the plot should the map take up? 'normal', 'panel', or 'device' (default)
+#' @param legend 'left', 'right' (default), 'bottom', 'top', 'bottomleft', 'bottomright', 'topleft', 'topright', 'none' (used with extent = 'device') 
+#' @param padding distance from legend to corner of the plot  (used with extent = 'device') 
+#' @param darken vector of the form c(number, color), where number is in [0, 1] and color is a character string indicating the color of the darken.  0 indicates no darkening, 1 indicates a black-out.
+#' @param mapcolor color ('color') or black-and-white ('bw')
 #' @param facets faceting formula to use.  Picks \code{\link{facet_wrap}} or
 #'   \code{\link{facet_grid}} depending on whether the formula is one sided
 #'   or two-sided
@@ -32,20 +34,53 @@
 #' @examples
 #' \donttest{
 #' qmplot(lon, lat, data = crime)
-#' qmplot(lon, lat, data = crime, colour = offense)
-#' qmplot(lon, lat, data = crime, geom = c('point','density2d'))
-#' qmplot(lon, lat, data = crime) + facet_wrap(~ offense)
-#' qmplot(lon, lat, data = crime, fullpage = FALSE) + facet_wrap(~ offense)
-#' qmplot(lon, lat, data = crime, fullpage = FALSE, colour = offense) + 
+#' 
+#' 
+#' # only violent crimes
+#' violent_crimes <- subset(crime,
+#'   offense != 'auto theft' & 
+#'   offense != 'theft' & 
+#'   offense != 'burglary'
+#' )
+#' 
+#' # rank violent crimes
+#' violent_crimes$offense <- 
+#'   factor(violent_crimes$offense,
+#'     levels = c('robbery', 'aggravated assault', 
+#'       'rape', 'murder')
+#'   )
+#' 
+#' # restrict to downtown
+#' violent_crimes <- subset(violent_crimes,
+#'   -95.39681 <= lon & lon <= -95.34188 &
+#'    29.73631 <= lat & lat <=  29.78400
+#' )
+#'
+#' theme_set(theme_bw())
+#' 
+#' qmplot(lon, lat, data = violent_crimes, colour = offense, darken = .5, 
+#'   size = I(3.5), alpha = I(.6), legend = 'topleft')
+#' 
+#' qmplot(lon, lat, data = violent_crimes, geom = c('point','density2d'))
+#' qmplot(lon, lat, data = violent_crimes) + facet_wrap(~ offense)
+#' qmplot(lon, lat, data = violent_crimes, extent = 'panel') + facet_wrap(~ offense)
+#' qmplot(lon, lat, data = violent_crimes, extent = 'panel', colour = offense) + 
 #'   facet_wrap(~ month)
+#'
+#' 
+#' 
+#' 
+#' # doesn't quite work yet....
 #' qmplot(long, lat, xend = long + delta_long, 
 #'   yend = lat + delta_lat, data = seals, geom = 'segment')
 #' 
 #'
 #' library(scales)
 #' library(grid)
-#' qmplot(lon, lat, data = wind, size = I(.5), alpha = I(.5))
-#' 
+#' options('device')$device(width = 4.98, height = 5.97)
+#' qmplot(lon, lat, data = wind, size = I(.5), alpha = I(.5)) +
+#'   opts(title = 'NOAA Wind Report Sites')   
+#'
 #' # thin down data set...
 #' s <- seq(1, 227, 8)
 #' thinwind <- subset(wind, 
@@ -54,18 +89,24 @@
 #' )
 #' 
 #' # for some reason adding arrows to the following plot bugs
-#' qmplot(lon, lat, data = thinwind, geom = 'tile', fill = spd, alpha = spd) +
+#' theme_set(theme_bw(18))
+#' options('device')$device(width = 6.13, height = 7.04)
+#' qmplot(lon, lat, data = thinwind, geom = 'tile', fill = spd, alpha = spd,
+#'     legend = 'bottomleft') +
 #'   geom_leg(aes(xend = lon + delta_lon, yend = lat + delta_lat)) +
-#'   scale_fill_gradient2(low = 'green', mid = muted('green'), high = 'red') +
-#'   scale_alpha(range = c(.1, .75))
+#'   scale_fill_gradient2('Wind Speed\nand\nDirection', 
+#'     low = 'green', mid = muted('green'), high = 'red') +
+#'   scale_alpha('Wind Speed\nand\nDirection', range = c(.1, .75)) +
+#'   guides(fill = guide_legend(), alpha = guide_legend())
 #' 
 #' 
 #' 
 #' 
 #' }
 #'
-qmplot <- function(x, y, ..., data, zoom, source = 'stamen', darken = c(0, 'black'), 
-  fullpage = TRUE, expand = FALSE,
+qmplot <- function(x, y, ..., data, zoom, source = 'stamen', 
+  extent = 'device', legend = 'right', padding = .02, darken = c(0, 'black'), 
+  mapcolor = 'color',
   facets = NULL, margins = FALSE, geom = "auto", stat = list(NULL), 
   position = list(NULL), xlim = c(NA, NA), ylim = c(NA, NA), main = NULL, f = 0.05, 
   xlab = deparse(substitute(x)), ylab = deparse(substitute(y)))
@@ -73,6 +114,10 @@ qmplot <- function(x, y, ..., data, zoom, source = 'stamen', darken = c(0, 'blac
 	
   argnames <- names(as.list(match.call(expand.dots=FALSE)[-1]))
   arguments <- as.list(match.call()[-1])
+  
+  args <- as.list(match.call(expand.dots = TRUE)[-1])  
+  argsgiven <- names(args)
+  if('mapcolour' %in% argsgiven) mapcolor <- eval(args$mapcolour)
   
   .all_aesthetics <- unlist(getAnywhere(.all_aesthetics)[1:42])  
   aesthetics <- compact(arguments[.all_aesthetics])
@@ -111,9 +156,6 @@ qmplot <- function(x, y, ..., data, zoom, source = 'stamen', darken = c(0, 'blac
   env <- parent.frame()
   
   # calculate map dimensions
-
-
-
   lons <- data[,deparse(substitute(x))]  
   lon_range <- extendrange(range(lons, na.rm = TRUE))
   lats <- data[,deparse(substitute(y))]
@@ -137,7 +179,7 @@ qmplot <- function(x, y, ..., data, zoom, source = 'stamen', darken = c(0, 'blac
   }
   
   # get map
-  map <- get_map(location = bbox, zoom = zoom, source = source)
+  map <- get_map(location = bbox, zoom = zoom, source = source, color = mapcolor)
   xmin <- attr(map, "bb")$ll.lon
   xmax <- attr(map, "bb")$ur.lon
   ymin <- attr(map, "bb")$ll.lat
@@ -153,6 +195,46 @@ qmplot <- function(x, y, ..., data, zoom, source = 'stamen', darken = c(0, 'blac
     annotate('rect', xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax, 
   	  fill = darken[2], alpha = as.numeric(darken[1])) +
     coord_map(projection = "mercator")
+    
+  # enforce extent
+  if(extent == 'normal'){
+    # nothing
+  } else if(extent == 'panel'){
+  	p <- p +
+      scale_x_continuous(lim = c(xmin, xmax), expand = c(0,0)) +
+      scale_y_continuous(lim = c(ymin, ymax), expand = c(0,0))           
+  } else if(extent == 'device'){
+  	p <- p +
+      scale_x_continuous(lim = c(xmin, xmax), expand = c(0,0)) +
+      scale_y_continuous(lim = c(ymin, ymax), expand = c(0,0)) +
+      theme_nothing()    
+      
+    # legend for full device map
+    if(legend %in% c('topleft','topright','bottomleft','bottomright')){
+      if(legend == 'bottomleft'){
+        lp <- c(padding, padding)
+        lj <- c(0,0)
+      } else if(legend == 'topleft'){
+        lp <- c(padding, 1-padding)
+        lj <- c(0,1)
+      } else if(legend == 'bottomright'){
+        lp <- c(1-padding, padding)
+        lj <- c(1,0)
+      } else if(legend == 'topright'){
+        lp <- c(1-padding, 1-padding)
+        lj <- c(1,1)
+      }
+      p <- p + opts(
+        legend.position = lp, legend.justification = lj,
+        legend.background = theme_rect(colour = 'black', 
+          fill = 'white', size = .2, alpha = .925
+        )        
+      )
+    } else if(legend %in% c('left','right','bottom','top')){
+      p <- p + opts(legend.position = legend)
+    } # else legend = 'none' as part of theme_nothing()
+  }
+      
     
   
   if (is.null(facets)) {
@@ -185,13 +267,7 @@ qmplot <- function(x, y, ..., data, zoom, source = 'stamen', darken = c(0, 'blac
   if (!missing(xlim)) p <- p + xlim(xlim)
   if (!missing(ylim)) p <- p + ylim(ylim)
   
-  if(fullpage) expand <- TRUE
-  if(expand){
-    p <- p + 
-      scale_x_continuous(lim = c(xmin, xmax), expand = c(0, 0)) + 
-      scale_y_continuous(lim = c(ymin, ymax), expand = c(0, 0))
-  }
-  if(fullpage) p <- p + theme_nothing()
+
   
   p
 }

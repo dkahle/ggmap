@@ -24,7 +24,7 @@
 
   \item{legend}{'left', 'right' (default), 'bottom', 'top',
   'bottomleft', 'bottomright', 'topleft', 'topright',
-  'none' (used with fullpage)}
+  'none' (used with extent = 'device')}
 
   \item{padding}{distance from legend to corner of the plot
   (used with legend, formerly b)}
