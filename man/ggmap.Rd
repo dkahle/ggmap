@@ -330,7 +330,7 @@ df <- data.frame(
   y = rnorm(1000,  29.76196, .2)
 )
 
-# no apparent change because ggmap inforces maprange = TRUE with extent = 'panel'
+# no apparent change because ggmap sets maprange = TRUE with extent = 'panel'
 ggmap(get_map(), base_layer = ggplot(aes(x = x, y = y), data = df)) +
   geom_point(colour = 'red')
 
