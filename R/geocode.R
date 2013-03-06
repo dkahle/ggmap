@@ -71,9 +71,10 @@ geocode <- function (location, output = c('latlon','latlona','more','all'),
     override = override_limit, messaging = messaging)      
   
   # geocode
-  gc <- fromJSON(paste(readLines(url(url_string)), collapse = ''))
+  connect <- url(url_string)
+  gc <- fromJSON(paste(readLines(connect), collapse = ''))
   if(messaging) message(' done.')  
-  closeAllConnections()  
+  close(connect)
   if(output == 'all') return(gc)  
 
   # did geocode fail?
@@ -137,6 +138,7 @@ geocode <- function (location, output = c('latlon','latlona','more','all'),
     postal_code <- 
       tolower(NULLtoNA(attrdf$long_name[attrdf$types == 'postal_code']))          
   })
+  gcdf$query <- loc
   
   # return output = 'more'
   return(gcdf)

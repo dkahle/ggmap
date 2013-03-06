@@ -1,8 +1,8 @@
 Package: ggmap
 Type: Package
 Title: A package for spatial visualization with Google Maps and OpenStreetMap
-Version: 2.1
-Date: 2012-04-29
+Version: 2.3
+Date: 2013-02-01
 Author: David Kahle <david.kahle@gmail.com>, Hadley Wickham
     <h.wickham@gmail.com>
 Maintainer: David Kahle <david.kahle@gmail.com>
@@ -11,7 +11,7 @@ Description: ggmap allows for the easy visualization of spatial data and models
     ggplot2.
 Depends:
     R (>= 2.14.0),
-    ggplot2 (>= 0.9.0)
+    ggplot2 (>= 0.9.2)
 Imports:
     proto,
     scales,
@@ -20,7 +20,8 @@ Imports:
     plyr,
     reshape2,
     grid,
-    rjson
+    rjson,
+    mapproj
 Suggests:
     MASS,
     stringr

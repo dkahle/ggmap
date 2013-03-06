@@ -3,7 +3,7 @@
 #' get_map is a smart function which queries the Google Maps, OpenStreetMap, or Stamen Maps server for a map at a certain location at a certain spatial zoom.  it is a wrapper for get_googlemap, get_openstreetmap, get_stamenmap, and get_cloudmademap functions.  get_map was formerly (<2.0) called ggmap.
 #' 
 #' @param location an address, longitude/latitude pair (in that order), or left/bottom/right/top bounding box
-#' @param zoom map zoom, an integer from 0 (whole world) to 21 (building), default value 10 (city).  openstreetmaps limits a zoom of 18, and the limit on stamen maps depends on the maptype.  'auto' automatically determines the zoom for bounding box specifications, and is defaulted to 10 with center/zoom specifications.
+#' @param zoom map zoom, an integer from 3 (continent) to 21 (building), default value 10 (city).  openstreetmaps limits a zoom of 18, and the limit on stamen maps depends on the maptype.  'auto' automatically determines the zoom for bounding box specifications, and is defaulted to 10 with center/zoom specifications.  maps of the whole world currently not supported.
 #' @param scale scale argument of \code{\link{get_googlemap}} or \code{\link{get_openstreetmap}}
 #' @param maptype character string providing map theme. options available are 'terrain', 'satellite', 'roadmap', and 'hybrid' (google maps), 'terrain', 'watercolor', and 'toner' (stamen maps), or a positive integer for cloudmade maps (see ?get_cloudmademap)
 #' @param source Google Maps ('google'), OpenStreetMap ('osm'), Stamen Maps ('stamen'), or CloudMade maps ('cloudmade')
@@ -97,6 +97,11 @@ get_map <- function(
       stop('when using stamen maps, only terrain, watercolor, and toner maptypes available',
         call. = FALSE)
     }
+  }
+  if(source == 'google' & (maptype == 'toner' || maptype == 'watercolor')){
+    message(paste0('maptype = "', maptype, '" is only available with source = "stamen".'))
+    message(paste0('resetting to source = "stamen"...'))    
+    source <- 'stamen'
   }
 
   

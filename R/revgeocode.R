@@ -48,8 +48,9 @@ revgeocode <- function(location, output = c('address','more','all'),
     override = override_limit, messaging = messaging)        
   
   # geocode
-  rgc <- fromJSON(paste(readLines(url(url_string)), collapse = ''))
-  closeAllConnections()
+  connect <- url(url_string)  
+  rgc <- fromJSON(paste(readLines(connect), collapse = ''))
+  close(connect)
   if(output == 'all') return(rgc)
   
   # did geocode fail?

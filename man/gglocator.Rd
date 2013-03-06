@@ -21,7 +21,8 @@
   aesthetics
 }
 \description{
-  Locator for ggplots.
+  Locator for ggplots. (Note : only accurate when extent =
+  "normal" when using ggmap.)
 }
 \examples{
 \dontrun{

@@ -101,7 +101,7 @@ ggmap(hdf, extent = 'normal', maprange = TRUE) + geom_point(data = points)
 # and if you need your data to run off on a extent = device (legend included)
 ggmap(hdf, extent = 'normal', maprange = TRUE) +
   geom_point(aes(colour = class), data = points) +
-  theme_nothing() + opts(legend.position = 'right')
+  theme_nothing() + theme(legend.position = 'right')
 
 
 
@@ -130,7 +130,7 @@ ggmap(baylor) + theme_bw() +
     colour=I('red'), arrow = arrow(length=unit(0.3,"cm")), size = 1.5) +
   annotate('text', x=-97.110, y=31.5445, label = 'Department of Statistical Science',
     colour = I('red'), size = 6) +
-  labs(x = 'Longitude', y = 'Latitude') + opts(title = 'Baylor University')
+  labs(x = 'Longitude', y = 'Latitude') + ggtitle('Baylor University')
 
 
 
@@ -204,10 +204,10 @@ HoustonMap +
    scale_size_discrete('Offense', labels = c('Robery','Aggravated Assault','Rape','Murder'),
      range = c(1.75,6)) +
    guides(size = guide_legend(override.aes = list(size = 6))) +
-   opts(
+   theme(
      legend.key.size = unit(1.8,'lines'),
-     legend.title = theme_text(size = 16, face = 'bold'),
-     legend.text = theme_text(size = 14)
+     legend.title = element_text(size = 16, face = 'bold'),
+     legend.text = element_text(size = 14)
    ) +
    labs(colour = 'Offense', size = 'Offense')
 
@@ -217,9 +217,9 @@ HoustonMap +
   stat_density2d(aes(x = lon, y = lat, colour = offense),
     size = 3, bins = 2, alpha = 3/4, data = violent_crimes) +
    scale_colour_discrete('Offense', labels = c('Robery','Aggravated Assault','Rape','Murder')) +
-   opts(
-     legend.text = theme_text(size = 15, vjust = .5),
-     legend.title = theme_text(size = 15,face='bold'),
+   theme(
+     legend.text = element_text(size = 15, vjust = .5),
+     legend.title = element_text(size = 15,face='bold'),
      legend.key.size = unit(1.8,'lines')
    )
 
@@ -233,9 +233,9 @@ HoustonMap +
      labels = c('Robery','Aggravated Assault','Rape','Murder'),
      guide = FALSE) +
    scale_fill_discrete('Offense', labels = c('Robery','Aggravated Assault','Rape','Murder')) +
-   opts(
-     legend.text = theme_text(size = 15, vjust = .5),
-     legend.title = theme_text(size = 15,face='bold'),
+   theme(
+     legend.text = element_text(size = 15, vjust = .5),
+     legend.title = element_text(size = 15,face='bold'),
      legend.key.size = unit(1.8,'lines')
    )
 
@@ -247,9 +247,9 @@ HoustonMap +
      labels = c('Robery','Aggravated Assault','Rape','Murder'),
      guide = FALSE) +
    scale_fill_discrete('Offense', labels = c('Robery','Aggravated Assault','Rape','Murder')) +
-   opts(
-     legend.text = theme_text(size = 15, vjust = .5),
-     legend.title = theme_text(size = 15,face='bold'),
+   theme(
+     legend.text = element_text(size = 15, vjust = .5),
+     legend.title = element_text(size = 15,face='bold'),
      legend.key.size = unit(1.8,'lines')
    )
 
@@ -400,7 +400,7 @@ HoustonMap +
     low = 'white', mid = 'orange', high = 'red', midpoint = 500) +
   labs(x = 'Longitude', y = 'Latitude') + facet_wrap(~ month) +
   scale_alpha(range = c(.2, .55), guide = FALSE) +
-  opts(title = 'Violent Crime Contour Map of Downtown Houston by Month') +
+  ggtitle('Violent Crime Contour Map of Downtown Houston by Month') +
   guides(fill = guide_colorbar(barwidth = 1.5, barheight = 10))
 
 
@@ -456,14 +456,14 @@ qmap('baylor university', zoom = 14, legend = 'bottomright',
   scale_fill_manual('Minutes\\nAway\\nby Bike',
     values = colorRampPalette(c(muted('green'), 'blue', 'red'))(5)) +
   scale_colour_identity(guide = 'none') +
-  opts(
+  theme(
     legend.direction = 'horizontal',
     legend.key.size = unit(2, 'lines')
   ) +
   guides(
     fill = guide_legend(
-      title.theme = theme_text(size = 16, face = 'bold', colour = 'black'),
-      label.theme = theme_text(size = 14, colour = 'black'),
+      title.theme = element_text(size = 16, face = 'bold', colour = 'black'),
+      label.theme = element_text(size = 14, colour = 'black'),
       label.position = 'bottom',
       override.aes = list(alpha = 1)
     )

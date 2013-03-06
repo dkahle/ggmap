@@ -129,7 +129,7 @@ library(scales)
 library(grid)
 options('device')$device(width = 4.98, height = 5.97)
 qmplot(lon, lat, data = wind, size = I(.5), alpha = I(.5)) +
-  opts(title = 'NOAA Wind Report Sites')
+  ggtitle('NOAA Wind Report Sites')
 
 # thin down data set...
 s <- seq(1, 227, 8)

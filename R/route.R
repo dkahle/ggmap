@@ -125,8 +125,9 @@ route <- function(from, to, mode = c('driving','walking','bicycling'),
   
   # distance lookup
   if(messaging) message('trying url ', url_string)
-  tree <- fromJSON(paste(readLines(url(url_string)), collapse = ''))
-  closeAllConnections()  
+  connect <- url(url_string)  
+  tree <- fromJSON(paste(readLines(connect), collapse = ''))
+  close(connect)
   
   # return output = 'all'
   if(output == 'all') return(tree)
@@ -325,8 +326,6 @@ GeomLeg <- proto(ggplot2:::GeomSegment, {
     )
   }
 })
-
-
 
 
 

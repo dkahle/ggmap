@@ -79,7 +79,7 @@
 #' library(grid)
 #' options('device')$device(width = 4.98, height = 5.97)
 #' qmplot(lon, lat, data = wind, size = I(.5), alpha = I(.5)) +
-#'   opts(title = 'NOAA Wind Report Sites')   
+#'   ggtitle('NOAA Wind Report Sites')   
 #'
 #' # thin down data set...
 #' s <- seq(1, 227, 8)
@@ -202,7 +202,7 @@ qmplot <- function(x, y, ..., data, zoom, source = 'stamen',
   	p <- p +
       scale_x_continuous(lim = c(xmin, xmax), expand = c(0,0)) +
       scale_y_continuous(lim = c(ymin, ymax), expand = c(0,0)) +
-      theme_nothing()    
+      theme_nothing(legend = TRUE)    
       
     # legend for full device map
     if(legend %in% c('topleft','topright','bottomleft','bottomright')){
@@ -219,14 +219,14 @@ qmplot <- function(x, y, ..., data, zoom, source = 'stamen',
         lp <- c(1-padding, 1-padding)
         lj <- c(1,1)
       }
-      p <- p + opts(
+      p <- p + theme(
         legend.position = lp, legend.justification = lj,
-        legend.background = theme_rect(colour = 'black', 
-          fill = 'white', size = .2, alpha = .925
+        legend.background = element_rect(
+          fill = 'white', colour = 'gray80', size = .2
         )        
       )
     } else if(legend %in% c('left','right','bottom','top')){
-      p <- p + opts(legend.position = legend)
+      p <- p + theme(legend.position = legend)
     } # else legend = 'none' as part of theme_nothing()
   }
       
@@ -240,7 +240,7 @@ qmplot <- function(x, y, ..., data, zoom, source = 'stamen',
     p <- p + facet_grid(facets = deparse(facets), margins = margins)
   }
   
-  if (!is.null(main)) p <- p + opts("title" = main)
+  if (!is.null(main)) p <- p + theme("title" = main)
 
   # Add geoms/statistics
   if (is.proto(position)) position <- list(position)

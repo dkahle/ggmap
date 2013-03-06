@@ -73,7 +73,7 @@
 #' # and if you need your data to run off on a extent = device (legend included)
 #' ggmap(hdf, extent = 'normal', maprange = TRUE) + 
 #'   geom_point(aes(colour = class), data = points) +
-#'   theme_nothing() + opts(legend.position = 'right')
+#'   theme_nothing() + theme(legend.position = 'right')
 #' 
 #' 
 #'
@@ -102,7 +102,7 @@
 #'     colour=I('red'), arrow = arrow(length=unit(0.3,"cm")), size = 1.5) +
 #'   annotate('text', x=-97.110, y=31.5445, label = 'Department of Statistical Science', 
 #'     colour = I('red'), size = 6) + 
-#'   labs(x = 'Longitude', y = 'Latitude') + opts(title = 'Baylor University')
+#'   labs(x = 'Longitude', y = 'Latitude') + ggtitle('Baylor University')
 #'
 #'
 #'
@@ -176,10 +176,10 @@
 #'    scale_size_discrete('Offense', labels = c('Robery','Aggravated Assault','Rape','Murder'),
 #'      range = c(1.75,6)) +
 #'    guides(size = guide_legend(override.aes = list(size = 6))) +
-#'    opts(
+#'    theme(
 #'      legend.key.size = unit(1.8,'lines'),
-#'      legend.title = theme_text(size = 16, face = 'bold'),   
-#'      legend.text = theme_text(size = 14)
+#'      legend.title = element_text(size = 16, face = 'bold'),   
+#'      legend.text = element_text(size = 14)
 #'    ) +
 #'    labs(colour = 'Offense', size = 'Offense')
 #' 
@@ -189,9 +189,9 @@
 #'   stat_density2d(aes(x = lon, y = lat, colour = offense), 
 #'     size = 3, bins = 2, alpha = 3/4, data = violent_crimes) +
 #'    scale_colour_discrete('Offense', labels = c('Robery','Aggravated Assault','Rape','Murder')) +    
-#'    opts(
-#'      legend.text = theme_text(size = 15, vjust = .5), 
-#'      legend.title = theme_text(size = 15,face='bold'),
+#'    theme(
+#'      legend.text = element_text(size = 15, vjust = .5), 
+#'      legend.title = element_text(size = 15,face='bold'),
 #'      legend.key.size = unit(1.8,'lines')
 #'    )
 #' 
@@ -205,9 +205,9 @@
 #'      labels = c('Robery','Aggravated Assault','Rape','Murder'),
 #'      guide = FALSE) +    
 #'    scale_fill_discrete('Offense', labels = c('Robery','Aggravated Assault','Rape','Murder')) +       
-#'    opts(
-#'      legend.text = theme_text(size = 15, vjust = .5), 
-#'      legend.title = theme_text(size = 15,face='bold'),
+#'    theme(
+#'      legend.text = element_text(size = 15, vjust = .5), 
+#'      legend.title = element_text(size = 15,face='bold'),
 #'      legend.key.size = unit(1.8,'lines')
 #'    )    
 #' 
@@ -219,9 +219,9 @@
 #'      labels = c('Robery','Aggravated Assault','Rape','Murder'),
 #'      guide = FALSE) +    
 #'    scale_fill_discrete('Offense', labels = c('Robery','Aggravated Assault','Rape','Murder')) +       
-#'    opts(
-#'      legend.text = theme_text(size = 15, vjust = .5), 
-#'      legend.title = theme_text(size = 15,face='bold'),
+#'    theme(
+#'      legend.text = element_text(size = 15, vjust = .5), 
+#'      legend.title = element_text(size = 15,face='bold'),
 #'      legend.key.size = unit(1.8,'lines')
 #'    )    
 #' 
@@ -372,7 +372,7 @@
 #'     low = 'white', mid = 'orange', high = 'red', midpoint = 500) +
 #'   labs(x = 'Longitude', y = 'Latitude') + facet_wrap(~ month) +
 #'   scale_alpha(range = c(.2, .55), guide = FALSE) +
-#'   opts(title = 'Violent Crime Contour Map of Downtown Houston by Month') +
+#'   ggtitle('Violent Crime Contour Map of Downtown Houston by Month') +
 #'   guides(fill = guide_colorbar(barwidth = 1.5, barheight = 10))
 #'   
 #' 
@@ -428,14 +428,14 @@
 #'   scale_fill_manual('Minutes\nAway\nby Bike',
 #'     values = colorRampPalette(c(muted('green'), 'blue', 'red'))(5)) +
 #'   scale_colour_identity(guide = 'none') +
-#'   opts(
+#'   theme(
 #'     legend.direction = 'horizontal',
 #'     legend.key.size = unit(2, 'lines')
 #'   ) +
 #'   guides(
 #'     fill = guide_legend(
-#'       title.theme = theme_text(size = 16, face = 'bold', colour = 'black'),
-#'       label.theme = theme_text(size = 14, colour = 'black'),
+#'       title.theme = element_text(size = 16, face = 'bold', colour = 'black'),
+#'       label.theme = element_text(size = 14, colour = 'black'),
 #'       label.position = 'bottom',
 #'       override.aes = list(alpha = 1)
 #'     )
@@ -577,7 +577,7 @@ ggmap <- function(ggmap, extent = 'panel', base_layer, maprange = FALSE,
   	p <- p +
       scale_x_continuous(lim = c(xmin, xmax), expand = c(0,0)) +
       scale_y_continuous(lim = c(ymin, ymax), expand = c(0,0)) +
-      theme_nothing()    
+      theme_nothing(legend = TRUE)    
       
     # legend for full device map
     if(legend %in% c('topleft','topright','bottomleft','bottomright')){
@@ -594,14 +594,14 @@ ggmap <- function(ggmap, extent = 'panel', base_layer, maprange = FALSE,
         lp <- c(1-padding, 1-padding)
         lj <- c(1,1)
       }
-      p <- p + opts(
+      p <- p + theme(    
         legend.position = lp, legend.justification = lj,
-        legend.background = theme_rect(colour = 'black', 
-          fill = 'white', size = .2, alpha = .925
+        legend.background = element_rect(
+          fill = 'white', colour = 'gray80', size = .2
         )        
       )
     } else if(legend %in% c('left','right','bottom','top')){
-      p <- p + opts(legend.position = legend)
+      p <- p + theme(legend.position = legend)
     } # else legend = 'none' as part of theme_nothing()
   }
 
@@ -636,37 +636,4 @@ ggmapplot <- function(ggmap, fullpage = FALSE,
 {
   ggmap(ggmap, fullpage = fullpage, base_layer = base_layer,
     maprange = FALSE, expand = FALSE, ggmapplot = TRUE)
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# allow for an alpha value in theme_rect
-theme_rect <- function (fill = NA, colour = "black", size = 0.5, 
-    linetype = 1, alpha = .5){
-  .pt <- 2 * theme_get()$legend.background()$gp$lwd
-  structure(function(x = 0.5, y = 0.5, width = 1, height = 1, ...) {
-    rectGrob(x, y, width, height, ..., gp = gpar(lwd = size * .pt, 
-      col = colour, fill = fill, lty = linetype, alpha = alpha)
-    )
-  }, class = "theme", type = "box", call = match.call())
 }

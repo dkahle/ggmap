@@ -38,12 +38,12 @@
 #'   
 theme_inset <- function (base_size = 12){
   t <- theme_get()
-  t$axis.line <- theme_blank()
-  t$axis.text.x <- theme_blank()
-  t$axis.text.y <- theme_blank()
-  t$axis.ticks <- theme_blank() 
-  t$axis.title.x <- theme_blank()
-  t$axis.title.y <- theme_blank()
+  t$axis.line <- element_blank()
+  t$axis.text.x <- element_blank()
+  t$axis.text.y <- element_blank()
+  t$axis.ticks <- element_blank() 
+  t$axis.title.x <- element_blank()
+  t$axis.title.y <- element_blank()
   t$axis.ticks.length <- unit(0, "lines")
   t$axis.ticks.margin <- unit(0, "lines") 
   t$panel.margin <- unit(0, "lines")

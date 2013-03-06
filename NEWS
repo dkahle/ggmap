@@ -1,3 +1,33 @@
+ggmap 2.3
+-------------------------------------------------------------------------
+
+CHANGES
+
+* now imports mapproj.
+* theme_nothing now accepts argument legend to prevent legend wiping.
+* ggmap and qmplot can now properly display legends in the map again, but transparency in the legend has been removed. (this will likely return if/when ggplot2 allows an alpha argument to element_rect).
+
+
+DOCUMENTATION CHANGES
+
+* documentation for get_map states that whole-world zooms are not supported. (thanks to suggestion by john hendy.)
+
+
+
+ggmap 2.2
+-------------------------------------------------------------------------
+
+This version brings ggmap up to date with ggplot2 0.9.2.
+
+CHANGES
+
+* geocode now returns the query as well with the option output = "more".  this allows for easier merging with original datasets.  (thanks to suggestion by garrett grolemund.)
+* geocode, mapdist, route and revgeocode now no longer close all connections. consequently, ggmap now works with knitr. (thanks to fix by yihui xie.)
+
+
+
+
+
 ggmap 2.1
 -------------------------------------------------------------------------
 

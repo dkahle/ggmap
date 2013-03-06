@@ -15,12 +15,13 @@
   \item{location}{an address, longitude/latitude pair (in
   that order), or left/bottom/right/top bounding box}
 
-  \item{zoom}{map zoom, an integer from 0 (whole world) to
-  21 (building), default value 10 (city).  openstreetmaps
+  \item{zoom}{map zoom, an integer from 3 (continent) to 21
+  (building), default value 10 (city).  openstreetmaps
   limits a zoom of 18, and the limit on stamen maps depends
   on the maptype.  'auto' automatically determines the zoom
   for bounding box specifications, and is defaulted to 10
-  with center/zoom specifications.}
+  with center/zoom specifications.  maps of the whole world
+  currently not supported.}
 
   \item{scale}{scale argument of
   \code{\link{get_googlemap}} or

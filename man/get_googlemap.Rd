@@ -16,8 +16,8 @@
   1. a longitude/latitude numeric vector or 2. a character
   string address (note that the latter uses a geocode)}
 
-  \item{zoom}{map zoom, an integer from 0 (whole world) to
-  21 (building), default value 10 (city)}
+  \item{zoom}{map zoom, an integer from 3 (continent) to 21
+  (building), default value 10 (city)}
 
   \item{size}{rectangular dimensions of map in pixels -
   horizontal x vertical - with a max of c(640, 640).  this
