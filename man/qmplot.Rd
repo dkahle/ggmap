@@ -9,7 +9,8 @@
     stat = list(NULL), position = list(NULL),
     xlim = c(NA, NA), ylim = c(NA, NA), main = NULL,
     f = 0.05, xlab = deparse(substitute(x)),
-    ylab = deparse(substitute(y)))
+    ylab = deparse(substitute(y)),
+    datachecks = FALSE)
 }
 \arguments{
   \item{x}{longitude values}
@@ -75,6 +76,8 @@
 
   \item{ylab}{character vector or expression for y axis
   label}
+  
+  \item{datachecks}{add checks on data}
 }
 \description{
   \code{qmplot} is the ggmap equivalent to the ggplot2
