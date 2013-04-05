@@ -88,7 +88,10 @@
 }
 \description{
   get_googlemap accesses the Google Static Maps API version
-  2 to download a static map.
+  2 to download a static map.  Note that in most cases by
+  using this function you are agreeing to the Google Maps
+  API Terms of Service at
+  https://developers.google.com/maps/terms.
 }
 \examples{
 \dontrun{

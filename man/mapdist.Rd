@@ -34,7 +34,10 @@
   information (output='all')
 }
 \description{
-  Compute map distances using Google Maps
+  Compute map distances using Google Maps. Note that in
+  most cases by using this function you are agreeing to the
+  Google Maps API Terms of Service at
+  https://developers.google.com/maps/terms.
 }
 \details{
   if parameters from and to are specified as geographic

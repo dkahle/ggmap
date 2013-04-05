@@ -1,6 +1,6 @@
 #' Geocode
 #'
-#' geocodes a location using Google Maps.
+#' geocodes a location using Google Maps.  Note that in most cases by using this function you are agreeing to the Google Maps API Terms of Service at https://developers.google.com/maps/terms.
 #' 
 #' @param location a character string specifying a location of interest (e.g. "Baylor University")
 #' @param output amount of output
@@ -75,7 +75,11 @@ geocode <- function (location, output = c('latlon','latlona','more','all'),
   gc <- fromJSON(paste(readLines(connect), collapse = ''))
   if(messaging) message(' done.')  
   close(connect)
-  if(output == 'all') return(gc)  
+  if(output == 'all') return(gc) 
+  
+  # message user
+  message(paste0('Information from URL : ', url_string))
+  message('Google Maps API Terms of Service : http://developers.google.com/maps/terms')   
 
   # did geocode fail?
   #print(gc$status)

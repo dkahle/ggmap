@@ -1,6 +1,6 @@
 #' Get a Google Map
 #'
-#' get_googlemap accesses the Google Static Maps API version 2 to download a static map.
+#' get_googlemap accesses the Google Static Maps API version 2 to download a static map.  Note that in most cases by using this function you are agreeing to the Google Maps API Terms of Service at https://developers.google.com/maps/terms.
 #' 
 #' @param center the center of the map.  this can either be 1. a longitude/latitude numeric vector or 2. a character string address (note that the latter uses a geocode)
 #' @param zoom map zoom, an integer from 3 (continent) to 21 (building), default value 10 (city)
@@ -274,6 +274,8 @@ get_googlemap <- function(
   	paste(filename,'gif',sep = '.')
   }
   download.file(url, destfile = destfile, quiet = !messaging, mode = 'wb')
+  message(paste0('Map from URL : ', url))
+  message('Google Maps API Terms of Service : http://developers.google.com/maps/terms')
   map <- readPNG(destfile)
   
   # format file

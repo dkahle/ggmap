@@ -6,6 +6,8 @@ CHANGES
 * now imports mapproj.
 * theme_nothing now accepts argument legend to prevent legend wiping.
 * ggmap and qmplot can now properly display legends in the map again, but transparency in the legend has been removed. (this will likely return if/when ggplot2 allows an alpha argument to element_rect).
+* dataset crime now has variable offense as a factor, month and day as ordered factors.
+* several functions now message the user with the URL queried as well as the Google Maps Terms of Service URL to better agree with Google's License Restrictions.
 
 
 DOCUMENTATION CHANGES

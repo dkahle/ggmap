@@ -1,6 +1,6 @@
 #' Reverse geocode
 #'
-#' reverse geocodes a longitude/latitude location using Google Maps.
+#' reverse geocodes a longitude/latitude location using Google Maps.  Note that in most cases by using this function you are agreeing to the Google Maps API Terms of Service at https://developers.google.com/maps/terms.
 #' 
 #' @param location a location in longitude/latitude format
 #' @param output amount of output
@@ -59,6 +59,10 @@ revgeocode <- function(location, output = c('address','more','all'),
       location, '"', sep = ''))
     return(data.frame(address = NA))
   }
+  
+  # message user
+  message(paste0('Information from URL : ', url_string))
+  message('Google Maps API Terms of Service : http://developers.google.com/maps/terms')     
     
   # more than one location found?
   if(length(rgc$results) > 1 && messaging){

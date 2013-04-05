@@ -1,6 +1,6 @@
 #' Grab a route from Google
 #'
-#' Grab a route from Google
+#' Grab a route from Google. Note that in most cases by using this function you are agreeing to the Google Maps API Terms of Service at https://developers.google.com/maps/terms.
 #' 
 #' @param from name of origin addresses in a data frame (vector accepted)
 #' @param to name of destination addresses in a data frame (vector accepted)
@@ -133,7 +133,9 @@ route <- function(from, to, mode = c('driving','walking','bicycling'),
   if(output == 'all') return(tree)
   
   
-  
+  # message user
+  message(paste0('Information from URL : ', url_string))
+  message('Google Maps API Terms of Service : http://developers.google.com/maps/terms')     
   
   
   # extract output from tree and format

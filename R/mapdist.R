@@ -1,6 +1,6 @@
 #' Compute map distances using Google
 #'
-#' Compute map distances using Google Maps
+#' Compute map distances using Google Maps. Note that in most cases by using this function you are agreeing to the Google Maps API Terms of Service at https://developers.google.com/maps/terms.
 #' 
 #' @param from name of origin addresses in a data frame (vector accepted)
 #' @param to name of destination addresses in a data frame (vector accepted)
@@ -102,6 +102,10 @@ mapdist <- function(from, to, mode = c('driving','walking','bicycling'),
     connect <- url(url_string)    
     tree <- fromJSON(paste(readLines(connect), collapse = ''))
     close(connect)
+    
+    # message user
+    message(paste0('Information from URL : ', url_string))
+    message('Google Maps API Terms of Service : http://developers.google.com/maps/terms')       
     
     # label destinations
     names( tree$rows[[1]][[1]] ) <- df$to
