@@ -109,7 +109,8 @@ qmplot <- function(x, y, ..., data, zoom, source = 'stamen',
   mapcolor = 'color',
   facets = NULL, margins = FALSE, geom = "auto", stat = list(NULL), 
   position = list(NULL), xlim = c(NA, NA), ylim = c(NA, NA), main = NULL, f = 0.05, 
-  xlab = deparse(substitute(x)), ylab = deparse(substitute(y)))
+  xlab = deparse(substitute(x)), ylab = deparse(substitute(y)),
+  datachecks = FALSE)
 {
 	
   argnames <- names(as.list(match.call(expand.dots=FALSE)[-1]))
@@ -153,6 +154,15 @@ qmplot <- function(x, y, ..., data, zoom, source = 'stamen',
     }
   }
 
+  # Data checks
+  if(datachecks) {
+    if (class(x)!='numeric') stop('Longitude need to be of type numeric.')
+    if (class(y)!='numeric') stop('Latitude need be of type numeric.')
+    if (class(data)!='data.frame') stop('Your dataset need to be a data.frame.')
+    if ((x > 180)||(x < -180)) stop('Longitude neet to be in range [180,-180].')
+    if ((y > 90)||(y < -90)) stop('Latitude need to be in range [90.0,-90.0].')
+  }
+  
   env <- parent.frame()
   
   # calculate map dimensions    
