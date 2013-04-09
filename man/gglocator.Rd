@@ -2,13 +2,11 @@
 \alias{gglocator}
 \title{Locator for ggplots.}
 \usage{
-  gglocator(n = 1, object = last_plot(), message = FALSE,
-    xexpand = c(0.05, 0), yexpand = c(0.05, 0))
+  gglocator(n = 1, message = FALSE, xexpand = c(0.05, 0),
+    yexpand = c(0.05, 0))
 }
 \arguments{
   \item{n}{number of points to locate.}
-
-  \item{object}{plot to locate on}
 
   \item{message}{turn messaging from grid.ls on/off}
 
@@ -26,11 +24,12 @@
 }
 \examples{
 \dontrun{
-df <- data.frame(xvar = 1:10, yvar = 1:10)
-qplot(xvar, yvar, data = df) + annotate(geom = 'point', x = 3, y = 6)
-gglocator(4)
+df <- expand.grid(x = 0:-5, y = 0:-5)
+(p <- qplot(x, y, data = df) +
+  annotate(geom = 'point', x = -2, y = -2, colour = 'red'))
+gglocator()
 
-qplot(xvar, yvar, data = df) +
+p +
   scale_x_continuous(expand = c(0,0)) +
   scale_y_continuous(expand = c(0,0))
 gglocator(1, xexpand = c(0,0), yexpand = c(0,0))
