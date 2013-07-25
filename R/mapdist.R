@@ -105,7 +105,6 @@ mapdist <- function(from, to, mode = c('driving','walking','bicycling'),
     
     # message user
     message(paste0('Information from URL : ', url_string))
-    message('Google Maps API Terms of Service : http://developers.google.com/maps/terms')       
     
     # label destinations
     names( tree$rows[[1]][[1]] ) <- df$to

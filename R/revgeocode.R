@@ -62,7 +62,6 @@ revgeocode <- function(location, output = c('address','more','all'),
   
   # message user
   message(paste0('Information from URL : ', url_string))
-  message('Google Maps API Terms of Service : http://developers.google.com/maps/terms')     
     
   # more than one location found?
   if(length(rgc$results) > 1 && messaging){

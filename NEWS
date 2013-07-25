@@ -1,3 +1,14 @@
+ggmap 2.4
+-------------------------------------------------------------------------
+
+CHANGES
+
+* ggmap now forms a directory in the working directory which caches queries.
+* ggmap is now slightly less verbose: Terms of Service references are moved to package load.
+
+
+
+
 ggmap 2.3
 -------------------------------------------------------------------------
 

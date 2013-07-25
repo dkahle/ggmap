@@ -17,8 +17,9 @@
 #' @param sensor specifies whether the application requesting the static map is using a sensor to determine the user's location
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
-#' @param filename destination file for download (file extension added according to format)
+#' @param filename destination file for download (file extension added according to format); deprecated
 #' @param color color or black-and-white
+#' @param force if the map is on file, should a new map be looked up?w
 #' @return a map image as a 2d-array of colors as hexadecimal strings representing pixel fill values.
 #' @param ... ...
 #' @author David Kahle \email{david.kahle@@gmail.com}
@@ -67,7 +68,7 @@ get_googlemap <- function(
   scale = 2, format = c('png8', 'gif', 'jpg', 'jpg-baseline','png32'), 
   maptype = c('terrain', 'satellite', 'roadmap', 'hybrid'), 
   language = 'en-EN', region, markers, path, visible, style, sensor = FALSE,
-  messaging = FALSE, urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
+  messaging = FALSE, urlonly = FALSE, filename = '', color = c('color','bw'), force = FALSE, ...
 ){
 	
   # enumerate argument checking (added in lieu of checkargs function)	
@@ -163,8 +164,9 @@ get_googlemap <- function(
     
   if('filename' %in% argsgiven){
     filename_stop <- TRUE      
-    if(is.character(filename) && length(filename) == 1) filename_stop <- FALSE      
+    if(is.character(filename) && length(filename) == 1) filename_stop <- FALSE
     if(filename_stop) stop('improper filename specification, see ?get_googlemap.', call. = F)      
+
   }      
   
   if('checkargs' %in% argsgiven){
@@ -265,7 +267,14 @@ get_googlemap <- function(
   if(urlonly) return(url)
   if(nchar(url) > 2048) stop('max url length is 2048 characters.', call. = FALSE)
 
-  # read in file
+  # check to see if url is on file
+  lookup <- url_lookup(url)
+  if(lookup != FALSE && force == FALSE){
+    message('Using archived map...')
+    return(recall_ggmap(url)) 
+  }
+
+  # finalize filename
   destfile <- if(format %in% c('png8','png32')){
     paste(filename,'png',sep = '.')
   } else if(format %in% c('jpg','jpg-baseline')){
@@ -273,10 +282,12 @@ get_googlemap <- function(
   } else {
   	paste(filename,'gif',sep = '.')
   }
-  download.file(url, destfile = destfile, quiet = !messaging, mode = 'wb')
+
+  # download and read in file
+  download.file(url, destfile = paste0('ggmapFileDrawer/', destfile), quiet = !messaging, mode = 'wb')
   message(paste0('Map from URL : ', url))
-  message('Google Maps API Terms of Service : http://developers.google.com/maps/terms')
-  map <- readPNG(destfile)
+  
+  map <- readPNG(paste0('ggmapFileDrawer/', destfile))
   
   # format file
   if(color == 'color'){
@@ -305,8 +316,15 @@ get_googlemap <- function(
     ur.lat = ur[1], ur.lon = ur[2]
   )
   
-  # return
-  t(map)
+  # transpose
+  out <- t(map)
+  
+  # archive map for future use
+  archive_ggmap(out, url)
+  
+  # kick out
+  out
+    
 }
 
 

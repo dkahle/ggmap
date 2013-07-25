@@ -8,8 +8,8 @@
     maptype = c("terrain", "satellite", "roadmap", "hybrid"),
     language = "en-EN", region, markers, path, visible,
     style, sensor = FALSE, messaging = FALSE,
-    urlonly = FALSE, filename = "ggmapTemp",
-    color = c("color", "bw"), ...)
+    urlonly = FALSE, filename = "",
+    color = c("color", "bw"), force = FALSE, ...)
 }
 \arguments{
   \item{center}{the center of the map.  this can either be
@@ -76,9 +76,12 @@
   \item{urlonly}{return url only}
 
   \item{filename}{destination file for download (file
-  extension added according to format)}
+  extension added according to format); deprecated}
 
   \item{color}{color or black-and-white}
+
+  \item{force}{if the map is on file, should a new map be
+  looked up?w}
 
   \item{...}{...}
 }

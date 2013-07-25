@@ -79,7 +79,6 @@ geocode <- function (location, output = c('latlon','latlona','more','all'),
   
   # message user
   message(paste0('Information from URL : ', url_string))
-  message('Google Maps API Terms of Service : http://developers.google.com/maps/terms')   
 
   # did geocode fail?
   #print(gc$status)
