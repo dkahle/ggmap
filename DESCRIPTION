@@ -57,3 +57,6 @@ Collate:
     'inset.R'
     'zzz.R'
     'file_drawer.R'
+    'GetMap.OSM.R'
+    'ggmapplot.R'
+    'get_navermap.R'
