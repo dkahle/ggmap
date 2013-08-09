@@ -202,7 +202,7 @@ get_googlemap <- function(
   scale_url <- if(!missing(scale)){ paste('scale=', scale) } else { '' }
   format_url <- if(!missing(format) && format != 'png8'){ paste('format=', format) } else { '' }
   maptype_url <- paste('maptype=', maptype, sep = '')
-  language_url <- if(!missing(language)){ paste('language=', language) } else { '' }  
+  language_url <- if(!missing(language)){ paste('language=', language, sep="") } else { '' }  
   region_url <- if(!missing(region)){ paste('region=', region) } else { '' }
   
   markers_url <- 
