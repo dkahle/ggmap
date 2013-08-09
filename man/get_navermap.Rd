@@ -2,7 +2,7 @@
 \alias{get_navermap}
 \title{Get a Naver Map}
 \usage{
-  get_navermap(crs = c("EPSG:4326", "NHN:2048", "NHN:128", "EPSG:4258", "EPSG:4162", "EPSG:2096", "EPSG:2097", "EPSG:2098", "EPSG:900913"),
+  get_navermap(crs = "EPSG:4326",
     center = c(lon = 126.9849208, lat = 37.5664519),
     size = c(640, 640), format = c("png", "jpeg", "jpg"),
     color = c("color", "bw"), level = 4,
@@ -12,9 +12,8 @@
     urlonly = FALSE, force = FALSE, ...)
 }
 \arguments{
-  \item{crs}{Coordinate system, this can be EPSG:4326,
-  WGS84NHN:2048, NHN:128, EPSG:4258, EPSG:4162, EPSG:2096 ,
-  EPSG:2097, EPSG:2098, EPSG:900913}
+  \item{crs}{Coordinate system, this currently support
+  EPSG:4326}
 
   \item{center}{the center of the map.  this can be
   longitude/latitude numeric vector.}

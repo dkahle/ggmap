@@ -21,7 +21,8 @@ Imports:
     reshape2,
     grid,
     rjson,
-    mapproj
+    mapproj,
+    geosphere
 Suggests:
     MASS,
     stringr

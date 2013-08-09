@@ -5,8 +5,7 @@
 #' to the Naver Maps API Terms of Service at 
 #' http://dev.naver.com/openapi/apis/map/staticmap.
 #' 
-#' @param crs Coordinate system, this can be EPSG:4326,  WGS84NHN:2048, NHN:128,
-#'   EPSG:4258, EPSG:4162, EPSG:2096 , EPSG:2097, EPSG:2098, EPSG:900913
+#' @param crs Coordinate system, this currently support EPSG:4326
 #' @param center the center of the map.  this can be longitude/latitude numeric vector.
 #' @param level map zoom, an integer from 1 to 14 (building), default value 10
 #' @param size rectangular dimensions of map in pixels - horizontal x vertical -
@@ -30,10 +29,9 @@
 #' @seealso \url{http://dev.naver.com/openapi/apis/map/staticmap/}, 
 #'   \code{\link{ggmap}}
 #' @export
-#' 
-#' 
 get_navermap <- function(
-  crs = c("EPSG:4326", "NHN:2048", "NHN:128", "EPSG:4258", "EPSG:4162", "EPSG:2096", "EPSG:2097", "EPSG:2098", "EPSG:900913"),
+  #crs = c("EPSG:4326", "NHN:2048", "NHN:128", "EPSG:4258", "EPSG:4162", "EPSG:2096", "EPSG:2097", "EPSG:2098", "EPSG:900913"),
+  crs = "EPSG:4326",
   center = c(lon = 126.9849208, lat = 37.5664519), size = c(640,640), 
   format = c('png', 'jpeg', 'jpg'), color = c('color','bw'), level=4, 
   baselayer=c('default','satellite'), overlayers=c('anno_satellite', 'bicycle', 'roadview', 'traffic'), key, uri,
@@ -211,15 +209,16 @@ get_navermap <- function(
 }
 
 
+#' @import "geosphere"
 getBorderLonLat <- function(center_lon, center_lat, level, xpix, ypix){
   level_res <- c(2048, 1024, 512, 256, 128, 64,  32,16,8,4,2,1,0.5,0.25)
   width_meter <- level_res[level] * xpix 
   height_meter <- level_res[level] * ypix
   
-  ur.lon <- geosphere::destPoint(c(center_lon, center_lat), b=90, d=width_meter/2)[1]
-  ur.lat <- geosphere::destPoint(c(center_lon, center_lat), b=0,  d=height_meter/2)[2]
-  ll.lon <- geosphere::destPoint(c(center_lon, center_lat), b=270, d=width_meter/2)[1]
-  ll.lat <- geosphere::destPoint(c(center_lon, center_lat), b=180, d=height_meter/2)[2]
+  ur.lon <- destPoint(c(center_lon, center_lat), b=90, d=width_meter/2)[1]
+  ur.lat <- destPoint(c(center_lon, center_lat), b=0,  d=height_meter/2)[2]
+  ll.lon <- destPoint(c(center_lon, center_lat), b=270, d=width_meter/2)[1]
+  ll.lat <- destPoint(c(center_lon, center_lat), b=180, d=height_meter/2)[2]
   return(c(ll.lon, ll.lat, ur.lon, ur.lat))
 }
 
