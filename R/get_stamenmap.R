@@ -47,7 +47,7 @@
 #' 
 get_stamenmap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344), 
-  zoom = 10, maptype = c('terrain','watercolor','toner'), crop = TRUE, messaging = FALSE, 
+  zoom = 10, maptype = c('terrain','terrain-background','watercolor','toner'), crop = TRUE, messaging = FALSE, 
   urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
 ){
 	
