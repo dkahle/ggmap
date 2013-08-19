@@ -164,7 +164,7 @@ get_mapbox <- function(
   for(k in seq_along(urls)){
     if (verbose) print(paste("Fetching tile at",urls[[k]],sep=" "))
     download.file(urls[[k]], destfile = destfile, quiet = !messaging, mode = 'wb')
-    tile <- ifelse( readPNG(destfile), NULL, readJPEG(destfile) )
+    tile <- tryCatch( {readPNG(destfile)}, error=function(e){readJPEG(destfile)} )
     if(color == 'color'){
       tile <- apply(tile, 2, rgb)
     } else if(color == 'bw'){
