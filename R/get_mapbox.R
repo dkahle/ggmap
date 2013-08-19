@@ -84,9 +84,8 @@ get_mapbox <- function(
   }
     
   if('maptype' %in% argsgiven){    
-    if(!(is.numeric(maptype) && length(maptype) == 1 && 
-        maptype == round(maptype) && maptype > 0)){
-      stop('maptype must be a positive integer, see ?get_mapbox.', call.=F)  	
+    if(!(is.character(maptype) && length(maptype) < 8 )){
+      stop('maptype must be a 8-character string, see ?get_mapbox.', call.=F)  	
     }
   }    
     
@@ -148,8 +147,9 @@ get_mapbox <- function(
   
   
   # make urls
-  base_url <- 'http://a.tiles.mapbox.com/v3'
-  base_url <- paste(base_url, api_key, '/', zoom, sep = '')
+  base_url <- 'http://a.tiles.mapbox.com/v3/'
+  base_url <- paste(base_url, api_key, '-', maptype, sep = '')
+  base_url <- paste(base_url, zoom, sep = '/')
   urls <- paste(base_url, 
     apply(tilesNeeded, 1, paste, collapse = '/'), sep = '/')
   urls <- paste(urls, '.png', sep = '')
