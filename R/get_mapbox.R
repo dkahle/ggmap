@@ -93,9 +93,7 @@ get_mapbox <- function(
     if(!(is.character(api_key) && length(api_key) == 1)){
       stop('api_key improperly specified, see ?get_mapbox.', call.=F)  	
     }
-  } else {
-    stop('api_key must be specified, see ?get_mapbox.')
-  }      
+  }     
     
   if('highres' %in% argsgiven) stopifnot(is.logical(highres))     
   
