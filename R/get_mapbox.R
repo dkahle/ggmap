@@ -6,7 +6,6 @@
 #' @param zoom a zoom level
 #' @param user_name character string containing Mapbox user name (api key), see details
 #' @param maptype a character string representing a unique map style associated with your user name (api_key), see details
-#' @param highres double resolution
 #' @param crop crop raw map tiles to specified bounding box
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
@@ -99,7 +98,6 @@ get_mapbox <- function(
   #if(checkargs) get_mapbox_checkargs(args) 
   color <- match.arg(color)  
   if(is.null(names(bbox))) names(bbox) <- c('left','bottom','right','top')
-  if(highres) maptype <- paste(maptype, '@2x', sep = '')
 
   # determine tiles to get
   fourCorners <- expand.grid(
@@ -274,11 +272,6 @@ get_mapbox_checkargs <- function(args){
     } else {
       stop('user_name must be specified, see ?get_mapbox.')
     }      
-    
-    # highres arg
-    if('highres' %in% argsgiven){    
-      stopifnot(is.logical(highres))      
-    }    
     
     # messaging arg
     if('messaging' %in% argsgiven){    
