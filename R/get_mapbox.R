@@ -4,8 +4,8 @@
 #' 
 #' @param bbox a bounding box in the format c(lowerleftlon, lowerleftlat, upperrightlon, upperrightlat).
 #' @param zoom a zoom level
-#' @param api_key character string containing cloud made api key, see details
-#' @param maptype an integer of what cloud made calls style, see details
+#' @param user_name character string containing Mapbox user name (api key), see details
+#' @param maptype a character string representing a unique map style associated with your user name (api_key), see details
 #' @param highres double resolution
 #' @param crop crop raw map tiles to specified bounding box
 #' @param messaging turn messaging on/off
@@ -25,34 +25,14 @@
 #' \dontrun{ 
 #' 	
 #' # in what follows, enter your own api key
-#' api_key <- '<your api key here>'
+#' user_name <- '<your api key here>'
 #' 
-#' map <- get_mapbox(api_key = api_key)
+#' map <- get_mapbox()
 #' ggmap(map)
 #' 
-#' map <- get_mapbox(maptype = 997, api_key = api_key)
+#' map <- get_mapbox(maptype=maptype, user_name = user_name)
 #' ggmap(map)
 #' 
-#' map <- get_mapbox(maptype = 31643, api_key = api_key)
-#' ggmap(map)
-#' 
-#' map <- get_mapbox(maptype = 31408, api_key = api_key)
-#' ggmap(map)
-#' 
-#' map <- get_mapbox(maptype = 15434, api_key = api_key)
-#' ggmap(map)
-#' 
-#' map <- get_mapbox(maptype = 9203, api_key = api_key)
-#' ggmap(map)
-#' 
-#' map <- get_mapbox(maptype = 53428, api_key = api_key)
-#' ggmap(map)
-#' 
-#' map <- get_mapbox(maptype = 15153, api_key = api_key)
-#' ggmap(map)
-#' 
-#' map <- get_mapbox(maptype = 7877, api_key = api_key)
-#' ggmap(map)
 #' 
 #' 
 #' 
@@ -62,7 +42,7 @@
 #' 
 get_mapbox <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344), 
-  zoom = 10, api_key = 'examples', maptype = 'uci7ul8p', highres = FALSE, crop = FALSE, messaging = FALSE, 
+  zoom = 10, user_name = 'examples', maptype = 'uci7ul8p', crop = FALSE, messaging = FALSE, 
   urlonly = FALSE, verbose = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
 ){
 	
@@ -89,14 +69,12 @@ get_mapbox <- function(
     }
   }    
     
-  if('api_key' %in% argsgiven){    
-    if(!(is.character(api_key) && length(api_key) == 1)){
-      stop('api_key improperly specified, see ?get_mapbox.', call.=F)  	
+  if('user_name' %in% argsgiven){    
+    if(!(is.character(user_name) && length(user_name) == 1)){
+      stop('user_name improperly specified, see ?get_mapbox.', call.=F)  	
     }
   }     
     
-  if('highres' %in% argsgiven) stopifnot(is.logical(highres))     
-  
   if('messaging' %in% argsgiven) stopifnot(is.logical(messaging))
     
   if('urlonly' %in% argsgiven) stopifnot(is.logical(urlonly))   
@@ -148,7 +126,7 @@ get_mapbox <- function(
   
   # make urls
   base_url <- 'http://a.tiles.mapbox.com/v3/'
-  base_url <- paste(base_url, api_key, '.map-', maptype, sep = '')
+  base_url <- paste(base_url, user_name, '.map-', maptype, sep = '')
   base_url <- paste(base_url, zoom, sep = '/')
   urls <- paste(base_url, 
     apply(tilesNeeded, 1, paste, collapse = '/'), sep = '/')
@@ -164,6 +142,8 @@ get_mapbox <- function(
   for(k in seq_along(urls)){
     if (verbose) print(paste("Fetching tile at",urls[[k]],sep=" "))
     download.file(urls[[k]], destfile = destfile, quiet = !messaging, mode = 'wb')
+    # Mapbox can deliver a PNG or a JPEG depending on the type of tile customization being
+    # downloaded. They are always _named_ PNG, though.
     tile <- tryCatch( {readPNG(destfile)}, error=function(e){readJPEG(destfile)} )
     if(color == 'color'){
       tile <- apply(tile, 2, rgb)
@@ -286,13 +266,13 @@ get_mapbox_checkargs <- function(args){
       }
     }    
     
-    # api_key arg
-    if('api_key' %in% argsgiven){    
-      if(!(is.character(api_key) && length(api_key) == 1)){
-        stop('api_key improperly specified, see ?get_mapbox.', call.=F)  	
+    # user_name arg
+    if('user_name' %in% argsgiven){    
+      if(!(is.character(user_name) && length(user_name) == 1)){
+        stop('user_name improperly specified, see ?get_mapbox.', call.=F)  	
       }
     } else {
-      stop('api_key must be specified, see ?get_mapbox.')
+      stop('user_name must be specified, see ?get_mapbox.')
     }      
     
     # highres arg

@@ -17,6 +17,7 @@ Imports:
     scales,
     RgoogleMaps,
     png,
+    jpeg,
     plyr,
     reshape2,
     grid,
