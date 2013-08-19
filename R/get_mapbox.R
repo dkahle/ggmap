@@ -27,31 +27,31 @@
 #' # in what follows, enter your own api key
 #' api_key <- '<your api key here>'
 #' 
-#' map <- get_cloudmademap(api_key = api_key)
+#' map <- get_mapbox(api_key = api_key)
 #' ggmap(map)
 #' 
-#' map <- get_cloudmademap(maptype = 997, api_key = api_key)
+#' map <- get_mapbox(maptype = 997, api_key = api_key)
 #' ggmap(map)
 #' 
-#' map <- get_cloudmademap(maptype = 31643, api_key = api_key)
+#' map <- get_mapbox(maptype = 31643, api_key = api_key)
 #' ggmap(map)
 #' 
-#' map <- get_cloudmademap(maptype = 31408, api_key = api_key)
+#' map <- get_mapbox(maptype = 31408, api_key = api_key)
 #' ggmap(map)
 #' 
-#' map <- get_cloudmademap(maptype = 15434, api_key = api_key)
+#' map <- get_mapbox(maptype = 15434, api_key = api_key)
 #' ggmap(map)
 #' 
-#' map <- get_cloudmademap(maptype = 9203, api_key = api_key)
+#' map <- get_mapbox(maptype = 9203, api_key = api_key)
 #' ggmap(map)
 #' 
-#' map <- get_cloudmademap(maptype = 53428, api_key = api_key)
+#' map <- get_mapbox(maptype = 53428, api_key = api_key)
 #' ggmap(map)
 #' 
-#' map <- get_cloudmademap(maptype = 15153, api_key = api_key)
+#' map <- get_mapbox(maptype = 15153, api_key = api_key)
 #' ggmap(map)
 #' 
-#' map <- get_cloudmademap(maptype = 7877, api_key = api_key)
+#' map <- get_mapbox(maptype = 7877, api_key = api_key)
 #' ggmap(map)
 #' 
 #' 
@@ -116,7 +116,7 @@ get_mapbox <- function(
   
   # argument checking (no checks for language, region, markers, path, visible, style)
   #args <- as.list(match.call(expand.dots = TRUE)[-1])  
-  #if(checkargs) get_cloudmademap_checkargs(args) 
+  #if(checkargs) get_mapbox_checkargs(args) 
   color <- match.arg(color)  
   if(is.null(names(bbox))) names(bbox) <- c('left','bottom','right','top')
   if(highres) maptype <- paste(maptype, '@2x', sep = '')
@@ -279,17 +279,17 @@ get_mapbox_checkargs <- function(args){
     if('maptype' %in% argsgiven){    
       if(!(is.numeric(maptype) && length(maptype) == 1 && 
           maptype == round(maptype) && maptype > 0)){
-        stop('maptype must be a positive integer, see ?get_cloudmademap.', call.=F)  	
+        stop('maptype must be a positive integer, see ?get_mapbox.', call.=F)  	
       }
     }    
     
     # api_key arg
     if('api_key' %in% argsgiven){    
       if(!(is.character(api_key) && length(api_key) == 1)){
-        stop('api_key improperly specified, see ?get_cloudmademap.', call.=F)  	
+        stop('api_key improperly specified, see ?get_mapbox.', call.=F)  	
       }
     } else {
-      stop('api_key must be specified, see ?get_cloudmademap.')
+      stop('api_key must be specified, see ?get_mapbox.')
     }      
     
     # highres arg
