@@ -62,7 +62,7 @@
 #' 
 get_mapbox <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344), 
-  zoom = 10, api_key, maptype = 1, highres = TRUE, crop = TRUE, messaging = FALSE, 
+  zoom = 10, api_key = 'examples', maptype = 'uci7ul8p', highres = FALSE, crop = FALSE, messaging = FALSE, 
   urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
 ){
 	
@@ -148,7 +148,7 @@ get_mapbox <- function(
   
   # make urls
   base_url <- 'http://a.tiles.mapbox.com/v3/'
-  base_url <- paste(base_url, api_key, '-', maptype, sep = '')
+  base_url <- paste(base_url, api_key, '.map-', maptype, sep = '')
   base_url <- paste(base_url, zoom, sep = '/')
   urls <- paste(base_url, 
     apply(tilesNeeded, 1, paste, collapse = '/'), sep = '/')
@@ -156,7 +156,7 @@ get_mapbox <- function(
   if(messaging) message(length(urls), ' tiles required.')
   if(urlonly) return(urls)
 
-  # download and stich
+  # download and stitch
   size <- 256 * c(length(xsNeeded), length(ysNeeded))  
   map <- matrix('NA', nrow = size[2], ncol = size[1])
   destfile <- paste(filename, 'png', sep = '.')
