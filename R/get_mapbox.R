@@ -147,7 +147,7 @@ get_mapbox <- function(
   
   
   # make urls
-  base_url <- 'http://a.tiles.mapbox.com/v3/'
+  base_url <- 'http://tiles.mapbox.com/v3/'
   base_url <- paste(base_url, api_key, '.map-', maptype, sep = '')
   base_url <- paste(base_url, zoom, sep = '/')
   urls <- paste(base_url, 
@@ -164,7 +164,7 @@ get_mapbox <- function(
   for(k in seq_along(urls)){
     if (verbose) print(paste("Fetching tile at",urls[[k]],sep=" "))
     download.file(urls[[k]], destfile = destfile, quiet = !messaging, mode = 'wb')
-    tile <- readPNG(destfile)    
+    tile <- ifelse( readPNG(destfile), NULL, readJPEG(destfile) )
     if(color == 'color'){
       tile <- apply(tile, 2, rgb)
     } else if(color == 'bw'){
