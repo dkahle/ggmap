@@ -63,7 +63,7 @@
 get_mapbox <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344), 
   zoom = 10, api_key = 'examples', maptype = 'uci7ul8p', highres = FALSE, crop = FALSE, messaging = FALSE, 
-  urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
+  urlonly = FALSE, verbose = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
 ){
 	
   # enumerate argument checking (added in lieu of checkargs function)	
@@ -99,7 +99,9 @@ get_mapbox <- function(
   
   if('messaging' %in% argsgiven) stopifnot(is.logical(messaging))
     
-  if('urlonly' %in% argsgiven) stopifnot(is.logical(urlonly))     
+  if('urlonly' %in% argsgiven) stopifnot(is.logical(urlonly))   
+
+  if('verbose' %in% argsgiven) stopifnot(is.logical(verbose))   
     
   if('filename' %in% argsgiven){
     filename_stop <- TRUE      
@@ -160,6 +162,7 @@ get_mapbox <- function(
   destfile <- paste(filename, 'png', sep = '.')
   
   for(k in seq_along(urls)){
+    if (verbose) print(paste("Fetching tile at",urls[[k]],sep=" "))
     download.file(urls[[k]], destfile = destfile, quiet = !messaging, mode = 'wb')
     tile <- readPNG(destfile)    
     if(color == 'color'){
