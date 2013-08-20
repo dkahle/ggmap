@@ -42,7 +42,7 @@
 get_mapbox <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344), 
   zoom = 10, user_name = 'examples', maptype = 'uci7ul8p', format = c("png","jpeg","jpg"), crop = FALSE, messaging = FALSE, 
-  urlonly = FALSE, verbose = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
+  urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
 ){
 	
   # enumerate argument checking (added in lieu of checkargs function)	
@@ -164,10 +164,10 @@ get_mapbox <- function(
   destfile <- paste(filename, 'png', sep = '.')
   
   for(k in seq_along(urls)){
-    if (verbose) print(paste("Fetching tile at",urls[[k]],sep=" "))
+    if (messaging) print(paste("Fetching tile at",urls[[k]],sep=" "))
     download.file(urls[[k]], destfile = destfile, quiet = !messaging, mode = 'wb')
     # Mapbox can deliver a PNG or a JPEG depending on the type of tile customization being
-    # downloaded. They are always _named_ PNG, though.
+    # downloaded. They are always _named_ PNG, though, if you don't specify a format.
     tile <- tryCatch( {readPNG(destfile)}, error=function(e){readJPEG(destfile)} )
     if(color == 'color'){
       tile <- apply(tile, 2, rgb)
