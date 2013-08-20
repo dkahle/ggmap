@@ -115,7 +115,8 @@ get_mapbox <- function(
   # argument checking (no checks for language, region, markers, path, visible, style)
   #args <- as.list(match.call(expand.dots = TRUE)[-1])  
   #if(checkargs) get_mapbox_checkargs(args) 
-  color <- match.arg(color)  
+  color <- match.arg(color)
+  format <- match.arg(format)
   if(is.null(names(bbox))) names(bbox) <- c('left','bottom','right','top')
 
   # determine tiles to get
