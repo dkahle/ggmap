@@ -113,8 +113,6 @@ get_mapbox <- function(
       
   
   # argument checking (no checks for language, region, markers, path, visible, style)
-  #args <- as.list(match.call(expand.dots = TRUE)[-1])  
-  #if(checkargs) get_mapbox_checkargs(args) 
   color <- match.arg(color)
   format <- match.arg(format)
   if(is.null(names(bbox))) names(bbox) <- c('left','bottom','right','top')
@@ -243,84 +241,3 @@ get_mapbox <- function(
   # return
   croppedmap
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-get_mapbox_checkargs <- function(args){
-  eargs <- lapply(args, eval)
-  argsgiven <- names(args)
-
-  with(eargs,{
-  	
-    # bbox arg
-    if('bbox' %in% argsgiven){
-      if(!(is.numeric(bbox) && length(bbox) == 4)){
-        stop('bounding box improperly specified.  see ?get_openstreetmap', call. = F)
-      }
-    }
-   
-    # zoom arg
-    if('zoom' %in% argsgiven){    
-      if(!(is.numeric(zoom) && length(zoom) == 1 && 
-      zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
-        stop('scale must be a postive integer 0-18, see ?get_stamenmap.', call. = F)
-      }    
-    }
-    
-    # maptype arg
-    if('maptype' %in% argsgiven){    
-      if(!(is.numeric(maptype) && length(maptype) == 1 && 
-          maptype == round(maptype) && maptype > 0)){
-        stop('maptype must be a positive integer, see ?get_mapbox.', call.=F)  	
-      }
-    }    
-    
-    # user_name arg
-    if('user_name' %in% argsgiven){    
-      if(!(is.character(user_name) && length(user_name) == 1)){
-        stop('user_name improperly specified, see ?get_mapbox.', call.=F)  	
-      }
-    } else {
-      stop('user_name must be specified, see ?get_mapbox.')
-    }      
-    
-    # messaging arg
-    if('messaging' %in% argsgiven){    
-      stopifnot(is.logical(messaging))      
-    }
-    
-    # urlonly arg
-    if('urlonly' %in% argsgiven){    
-      stopifnot(is.logical(urlonly))      
-    }    
-    
-    # filename arg 
-    if('filename' %in% argsgiven){
-      filename_stop <- TRUE      
-      if(is.character(filename) && length(filename) == 1) style_stop <- FALSE      
-      if(filename_stop) stop('improper filename specification, see ?get_googlemap.', call. = F)      
-    }        
-    
-    # color arg checked by match.arg    
-        
-  
-  }) # end with
-}
-
-
-
