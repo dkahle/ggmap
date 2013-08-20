@@ -41,14 +41,13 @@
 #' 
 get_mapbox <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344), 
-  zoom = 10, user_name = 'examples', maptype = 'uci7ul8p', format = c("png","jpeg","jpg"), crop = FALSE, messaging = FALSE, 
+  zoom = 10, user_name = 'examples', maptype = 'uci7ul8p', format = c("png","jpeg","jpg"), jpgQuality=90, pngColors=256, crop = FALSE, messaging = FALSE, 
   urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
 ){
-	
   # enumerate argument checking (added in lieu of checkargs function)	
   args <- as.list(match.call(expand.dots = TRUE)[-1])  
   argsgiven <- names(args)	
-  
+
   if('bbox' %in% argsgiven){
     if(!(is.numeric(bbox) && length(bbox) == 4)){
       stop('bounding box improperly specified.  see ?get_openstreetmap', call. = F)
@@ -88,17 +87,11 @@ get_mapbox <- function(
     if( is.numeric(pngColors) && ! pngColors %in% c(32,64,128,256) ){
       stop('pngColors must be one of 32, 64, 128, or 256', call. = F)
     }
-    if( ! format=="png" ){
-      stop('pngColors only compatible with png format', call. = F)
-    }
   }
   
   if('jpgQuality' %in% argsgiven){
     if( is.numeric(jpgQuality) && ! jpgQuality %in% c(70,80,90) ){
       stop('jpgQuality must be one of 70, 80, or 90', call. = F)
-    }
-    if( ! format %in% c("jpg","jpeg")){
-      stop('jpgQuality only compatible with jpg format', call. = F)
     }
   }
   # color arg checked by match.arg 
@@ -109,10 +102,10 @@ get_mapbox <- function(
     .Deprecated(msg = 'checkargs argument deprecated, args are always checked after v2.1.')
   }  
       
-  
   # argument checking (no checks for language, region, markers, path, visible, style)
   color <- match.arg(color)
   format <- match.arg(format)
+  
   if(is.null(names(bbox))) names(bbox) <- c('left','bottom','right','top')
 
   # determine tiles to get
@@ -137,7 +130,6 @@ get_mapbox <- function(
   xTileProgression <- rep(1:numXTiles, numYTiles)  
   yTileProgression <- rep(1:numYTiles, each = numXTiles)
   
-  
   # make urls
   base_url <- 'http://a.tiles.mapbox.com/v3/'
   base_url <- paste(base_url, user_name, '.map-', maptype, sep = '')
@@ -145,12 +137,10 @@ get_mapbox <- function(
   urls <- paste(base_url, 
     apply(tilesNeeded, 1, paste, collapse = '/'), sep = '/')
   if(format=="png") {
-    urls <- paste(urls, '.png', sep = '')
+    urls <- paste(urls, '.png', pngColors, sep = '')
   } else {
-    urls <- paste(urls, '.jpg', sep = '')
+    urls <- paste(urls, '.jpg', jpgQuality, sep = '')
   }
-  if(pngColors) urls <- paste(urls, pngColors, sep='')
-  if(jpgQuality) urls <- paste(urls, jpgQuality, sep='')
   if(messaging) message(length(urls), ' tiles required.')
   if(urlonly) return(urls)
 
@@ -164,7 +154,12 @@ get_mapbox <- function(
     download.file(urls[[k]], destfile = destfile, quiet = !messaging, mode = 'wb')
     # Mapbox can deliver a PNG or a JPEG depending on the type of tile customization being
     # downloaded. They are always _named_ PNG, though, if you don't specify a format.
-    tile <- tryCatch( {readPNG(destfile)}, error=function(e){readJPEG(destfile)} )
+    if (format == "png") {
+      tile <- readPNG(destfile)
+    } else {
+      tile <- readJPEG(destfile)
+    }
+    
     if(color == 'color'){
       tile <- apply(tile, 2, rgb)
     } else if(color == 'bw'){
@@ -203,7 +198,6 @@ get_mapbox <- function(
     top = max(tileBboxes$top)
   )
 
-  
   # format map and return if not cropping
   if(!crop){  
     map <- as.raster(map)
@@ -214,7 +208,6 @@ get_mapbox <- function(
     )  
     return(map)
   }
-
 
   # crop map  
   if(crop){
@@ -235,7 +228,6 @@ get_mapbox <- function(
     ur.lat = bbox['top'], ur.lon = bbox['right']
   )    
 
-  
   # return
   croppedmap
 }
