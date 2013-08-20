@@ -41,7 +41,7 @@
 #' 
 get_mapbox <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344), 
-  zoom = 10, user_name = 'examples', maptype = 'uci7ul8p', crop = FALSE, messaging = FALSE, 
+  zoom = 10, user_name = 'examples', maptype = 'uci7ul8p', pngColors = 256, crop = FALSE, messaging = FALSE, 
   urlonly = FALSE, verbose = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
 ){
 	
@@ -128,7 +128,7 @@ get_mapbox <- function(
   base_url <- paste(base_url, zoom, sep = '/')
   urls <- paste(base_url, 
     apply(tilesNeeded, 1, paste, collapse = '/'), sep = '/')
-  urls <- paste(urls, '.png', sep = '')
+  urls <- paste(urls, '.png', pngColors, sep = '')
   if(messaging) message(length(urls), ' tiles required.')
   if(urlonly) return(urls)
 
