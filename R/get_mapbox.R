@@ -41,7 +41,7 @@
 #' 
 get_mapbox <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344), 
-  zoom = 10, user_name = 'examples', maptype = 'uci7ul8p', pngColors = 256, crop = FALSE, messaging = FALSE, 
+  zoom = 10, user_name = 'examples', maptype = 'uci7ul8p', format = c("png","jpeg","jpg"), crop = FALSE, messaging = FALSE, 
   urlonly = FALSE, verbose = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
 ){
 	
@@ -85,8 +85,27 @@ get_mapbox <- function(
     if(is.character(filename) && length(filename) == 1) filename_stop <- FALSE      
     if(filename_stop) stop('improper filename specification, see ?get_googlemap.', call. = F)      
   }        
-    
-  # color arg checked by match.arg    
+  
+  if('pngColors' %in% argsgiven){
+    if( is.numeric(pngColors) && ! pngColors %in% c(32,64,128,256) ){
+      stop('pngColors must be one of 32, 64, 128, or 256', call. = F)
+    }
+    if( ! format=="png" ){
+      stop('pngColors only compatible with png format', call. = F)
+    }
+  }
+  
+  if('jpgQuality' %in% argsgiven){
+    if( is.numeric(jpgQuality) && ! jpgQuality %in% c(70,80,90) ){
+      stop('jpgQuality must be one of 70, 80, or 90', call. = F)
+    }
+    if( ! format %in% c("jpg","jpeg")){
+      stop('jpgQuality only compatible with jpg format', call. = F)
+    }
+  }
+  # color arg checked by match.arg 
+  
+  # format arg checked by match.arg
   
   if('checkargs' %in% argsgiven){
     .Deprecated(msg = 'checkargs argument deprecated, args are always checked after v2.1.')
@@ -128,7 +147,13 @@ get_mapbox <- function(
   base_url <- paste(base_url, zoom, sep = '/')
   urls <- paste(base_url, 
     apply(tilesNeeded, 1, paste, collapse = '/'), sep = '/')
-  urls <- paste(urls, '.png', pngColors, sep = '')
+  if(format=="png") {
+    urls <- paste(urls, '.png', sep = '')
+  } else {
+    urls <- paste(urls, '.jpg', sep = '')
+  }
+  if(pngColors) urls <- paste(urls, pngColors, sep='')
+  if(jpgQuality) urls <- paste(urls, jpgQuality, sep='')
   if(messaging) message(length(urls), ' tiles required.')
   if(urlonly) return(urls)
 
