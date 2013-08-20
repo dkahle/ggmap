@@ -77,8 +77,6 @@ get_mapbox <- function(
   if('messaging' %in% argsgiven) stopifnot(is.logical(messaging))
     
   if('urlonly' %in% argsgiven) stopifnot(is.logical(urlonly))   
-
-  if('verbose' %in% argsgiven) stopifnot(is.logical(verbose))   
     
   if('filename' %in% argsgiven){
     filename_stop <- TRUE      
