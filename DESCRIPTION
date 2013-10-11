@@ -17,6 +17,7 @@ Imports:
     scales,
     RgoogleMaps,
     png,
+    jpeg,
     plyr,
     reshape2,
     grid,
@@ -49,6 +50,7 @@ Collate:
     'LonLat2XY.R'
     'XY2LonLat.R'
     'get_cloudmademap.R'
+    'get_mapbox.R'
     'get_map.R'
     'qmplot.R'
     'make_bbox.R'
