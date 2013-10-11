@@ -9,7 +9,8 @@
     language = "en-EN", region, markers, path, visible,
     style, sensor = FALSE, messaging = FALSE,
     urlonly = FALSE, filename = "",
-    color = c("color", "bw"), force = FALSE, ...)
+    color = c("color", "bw"), force = TRUE,
+    archiving = TRUE, ...)
 }
 \arguments{
   \item{center}{the center of the map.  this can either be
@@ -20,7 +21,7 @@
   (building), default value 10 (city)}
 
   \item{size}{rectangular dimensions of map in pixels -
-  horizontal x vertical - with a max of c(640, 640).  this
+  horizontal x vertical - with a max of c(640, 640).#'this
   parameter is affected in a multiplicative way by scale.}
 
   \item{scale}{multiplicative factor for the number of
@@ -34,16 +35,16 @@
   png, jpeg, and gif formats available in various flavors}
 
   \item{maptype}{character string providing google map
-  theme. options available are 'terrain', 'satellite',
-  'roadmap', and 'hybrid'}
+  theme. options available are "terrain", "satellite",
+  "roadmap", and "hybrid"}
 
   \item{language}{character string providing language of
-  map labels (for themes with them) in the format 'en-EN'.
+  map labels (for themes with them) in the format "en-EN".
   not all languages are supported; for those which aren't
   the default language is used}
 
   \item{region}{borders to display as a region code
-  specified as a two-character ccTLD ('top-level domain')
+  specified as a two-character ccTLD ("top-level domain")
   value, see
   \url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}}
 
@@ -81,7 +82,12 @@
   \item{color}{color or black-and-white}
 
   \item{force}{if the map is on file, should a new map be
-  looked up?w}
+  looked up?}
+
+  \item{archiving}{use archived maps.  note: by changing to
+  TRUE you agree to the one of the approved uses listed in
+  the Google Maps API Terms of Service :
+  http://developers.google.com/maps/terms.}
 
   \item{...}{...}
 }
@@ -117,12 +123,12 @@ df <- d(n=50,r=3,a=.3)
 map <- get_googlemap(markers = df, path = df,, scale = 2)
 ggmap(map)
 ggmap(map, fullpage = TRUE) +
-  geom_point(aes(x = lon, y = lat), data = df, size = 3, colour = 'black') +
+  geom_point(aes(x = lon, y = lat), data = df, size = 3, colour = "black") +
   geom_path(aes(x = lon, y = lat), data = df)
 
-gc <- geocode('waco, texas')
+gc <- geocode("waco, texas")
 center <- as.numeric(gc)
-ggmap(get_googlemap(center = center, color = 'bw', scale = 2), fullpage = T)
+ggmap(get_googlemap(center = center, color = "bw", scale = 2), fullpage = T)
 
 # the scale argument can be seen in the following
 # (make your graphics device as large as possible)

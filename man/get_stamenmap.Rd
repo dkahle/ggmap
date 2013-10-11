@@ -6,7 +6,7 @@
     zoom = 10,
     maptype = c("terrain", "watercolor", "toner"),
     crop = TRUE, messaging = FALSE, urlonly = FALSE,
-    filename = "ggmapTemp", color = c("color", "bw"), ...)
+    color = c("color", "bw"), force = FALSE, ...)
 }
 \arguments{
   \item{bbox}{a bounding box in the format c(lowerleftlon,
@@ -22,10 +22,10 @@
 
   \item{urlonly}{return url only}
 
-  \item{filename}{destination file for download (file
-  extension added according to format)}
-
   \item{color}{color or black-and-white}
+
+  \item{force}{if the map is on file, should a new map be
+  looked up?}
 
   \item{...}{...}
 }
@@ -38,32 +38,54 @@
   downloads/stiches map tiles/formats a map image.
 }
 \details{
+  Note that Stamen maps don't cover the entire world.  For
+  example, see
+  http://tile.stamen.com/terrain/#4/30.28/-87.21
+
   accesses stamen maps.
 }
 \examples{
 \dontrun{
 
-gc <- geocode('duncan hall, rice university')
-google <- get_googlemap('rice university', zoom = 15)
+gc <- geocode("marrs mclean science building, baylor university")
+google <- get_googlemap("baylor university", zoom = 15)
 ggmap(google) +
-  geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 2)
+  geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 
-bbox <- as.numeric(attr(google, 'bb'))[c(2,1,4,3)]
-names(bbox) <- c('left','bottom','right','top')
+bbox <- c(left = -97.132, bottom = 31.536, right = -97.105, top = 31.560)
+ggmap(get_stamenmap(bbox, zoom = 13))
+ggmap(get_stamenmap(bbox, zoom = 14))
+ggmap(get_stamenmap(bbox, zoom = 15))
+# ggmap(get_stamenmap(bbox, zoom = 16))
+# ggmap(get_stamenmap(bbox, zoom = 17))
+
+ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 11), extent = "device")
+ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 12), extent = "device")
+ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 13), extent = "device")
+ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 14), extent = "device")
+ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 15), extent = "device")
+# ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 16), extent = "device")
+# ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 17), extent = "device")
+# ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 18), extent = "device")
+
 stamen <- get_stamenmap(bbox, zoom = 15)
 ggmap(stamen) +
-  geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 2)
+  geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
+
+stamen <- get_stamenmap(bbox, zoom = 15, crop = FALSE)
+ggmap(stamen) +
+  geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 
 osm <- get_openstreetmap(bbox, scale = OSM_scale_lookup(15))
 ggmap(osm) +
-  geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 2)
+  geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 
 
-ggmap(get_stamenmap(bbox, zoom = 15, maptype = 'watercolor'))+
-  geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 2)
+ggmap(get_stamenmap(bbox, zoom = 15, maptype = "watercolor"))+
+  geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 
-ggmap(get_stamenmap(bbox, zoom = 15, maptype = 'toner'))+
-  geom_point(aes(x = lon, y = lat), data = gc, colour = 'red', size = 2)
+ggmap(get_stamenmap(bbox, zoom = 15, maptype = "toner"))+
+  geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 
 }
 }

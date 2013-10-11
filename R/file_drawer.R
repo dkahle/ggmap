@@ -188,7 +188,10 @@ update_database <- function(url, file = paste0(timeStamp(), '.rds'), where = pas
   
   # check if url is in database.  if it is, update the filename.  if not, add.
   if(url %in% df$url){
+  	oldfile <- df$file[which(df$url == url)]
+  	file.remove(paste("ggmaps", oldfile, sep = '/'))
     df$file[which(df$url == url)] <- file
+    
   } else {
     df <- rbind(df, data.frame(url = url, file = file, stringsAsFactors = FALSE))
   }
@@ -381,6 +384,25 @@ recall_ggmap <- function(url, where = paste(getwd(), 'ggmapFileDrawer', sep = '/
   
   out
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -25,7 +25,7 @@ Imports:
 Suggests:
     MASS,
     stringr
-License: MIT
+License: MIT + file LICENSE
 LazyData: true
 Collate:
     'crime.R'
@@ -57,3 +57,4 @@ Collate:
     'inset.R'
     'zzz.R'
     'file_drawer.R'
+    'calc_zoom.r'

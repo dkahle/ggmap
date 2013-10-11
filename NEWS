@@ -6,7 +6,18 @@ CHANGES
 * ggmap now forms a directory in the working directory which caches queries.
 * ggmap is now slightly less verbose: Terms of Service references are moved to package load.
 
+NEW FUNCTIONS
 
+* calc_zoom: calc_zoom computes a reasonable zoom level for either (1) lon/lat variables in a data frame, (2) lon/lat ranges, or (3) a bounding box.
+
+NEW ARGUMENTS
+
+* qmplot now accepts maptype.
+* several functions now have a force argument that demands re-downloading of maps.
+
+FIXES
+
+* fixed a bug in stamen cloudmade maps that resulted in a very (very) small miscalculation in the bottom right bounding box of each tile.
 
 
 ggmap 2.3
