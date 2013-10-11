@@ -6,7 +6,7 @@
 #' 
 #' @param bbox a bounding box in the format c(lowerleftlon, lowerleftlat, upperrightlon, upperrightlat).
 #' @param zoom a zoom level
-#' @param maptype terrain, watercolor, or toner
+#' @param maptype terrain, terrain-background, watercolor, or toner
 #' @param crop crop raw map tiles to specified bounding box
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
@@ -43,6 +43,8 @@
 #' # ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 16), extent = "device")
 #' # ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 17), extent = "device")
 #' # ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 18), extent = "device")
+#'
+#' ggmap(get_stamenmap(bbox, maptype = "terrain-background", zoom = 14), extent = "device")
 #' 
 #' stamen <- get_stamenmap(bbox, zoom = 15)
 #' ggmap(stamen) +
@@ -67,7 +69,7 @@
 #' 
 get_stamenmap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344), 
-  zoom = 10, maptype = c("terrain","watercolor","toner"), crop = TRUE, messaging = FALSE, 
+  zoom = 10, maptype = c("terrain","terrain-background","watercolor","toner"), crop = TRUE, messaging = FALSE, 
   urlonly = FALSE, color = c("color","bw"), force = FALSE, ...
 ){
 	

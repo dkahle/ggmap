@@ -18,6 +18,7 @@ NEW ARGUMENTS
 FIXES
 
 * fixed a bug in stamen cloudmade maps that resulted in a very (very) small miscalculation in the bottom right bounding box of each tile.
+* several spaces have been removed from google maps urls; in particular, language="zh-CN" now works properly.  (thanks to github user JiangXD.)
 
 
 ggmap 2.3

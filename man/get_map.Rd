@@ -4,12 +4,12 @@
 \usage{
   get_map(location = c(lon = -95.3632715, lat = 29.7632836),
     zoom = "auto", scale = "auto",
-    maptype = c("terrain", "satellite", "roadmap", "hybrid", "toner", "watercolor"),
+    maptype = c("terrain", "terrain-background", "satellite", "roadmap", "hybrid", "toner", "watercolor"),
     source = c("google", "osm", "stamen", "cloudmade"),
     force = ifelse(source == "google", TRUE, FALSE),
     messaging = FALSE, urlonly = FALSE,
     filename = "ggmapTemp", crop = TRUE,
-    color = c("color", "bw"), api_key)
+    color = c("color", "bw"), language = "en-EN", api_key)
 }
 \arguments{
   \item{location}{an address, longitude/latitude pair (in
@@ -28,10 +28,11 @@
   \code{\link{get_openstreetmap}}}
 
   \item{maptype}{character string providing map theme.
-  options available are "terrain", "satellite", "roadmap",
-  and "hybrid" (google maps), "terrain", "watercolor", and
-  "toner" (stamen maps), or a positive integer for
-  cloudmade maps (see ?get_cloudmademap)}
+  options available are "terrain", "terrain-background",
+  "satellite", "roadmap", and "hybrid" (google maps),
+  "terrain", "watercolor", and "toner" (stamen maps), or a
+  positive integer for cloudmade maps (see
+  ?get_cloudmademap)}
 
   \item{source}{Google Maps ("google"), OpenStreetMap
   ("osm"), Stamen Maps ("stamen"), or CloudMade maps
@@ -50,6 +51,8 @@
   bounding box}
 
   \item{color}{color ("color") or black-and-white ("bw")}
+
+  \item{language}{language for google maps}
 
   \item{api_key}{an api key for cloudmade maps}
 }

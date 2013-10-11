@@ -21,7 +21,7 @@
   (building), default value 10 (city)}
 
   \item{size}{rectangular dimensions of map in pixels -
-  horizontal x vertical - with a max of c(640, 640).#'this
+  horizontal x vertical - with a max of c(640, 640). this
   parameter is affected in a multiplicative way by scale.}
 
   \item{scale}{multiplicative factor for the number of

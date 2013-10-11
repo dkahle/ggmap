@@ -4,7 +4,7 @@
 \usage{
   get_stamenmap(bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
     zoom = 10,
-    maptype = c("terrain", "watercolor", "toner"),
+    maptype = c("terrain", "terrain-background", "watercolor", "toner"),
     crop = TRUE, messaging = FALSE, urlonly = FALSE,
     color = c("color", "bw"), force = FALSE, ...)
 }
@@ -14,7 +14,8 @@
 
   \item{zoom}{a zoom level}
 
-  \item{maptype}{terrain, watercolor, or toner}
+  \item{maptype}{terrain, terrain-background, watercolor,
+  or toner}
 
   \item{crop}{crop raw map tiles to specified bounding box}
 
@@ -67,6 +68,8 @@ ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 15), extent = "device")
 # ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 16), extent = "device")
 # ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 17), extent = "device")
 # ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 18), extent = "device")
+
+ggmap(get_stamenmap(bbox, maptype = "terrain-background", zoom = 14), extent = "device")
 
 stamen <- get_stamenmap(bbox, zoom = 15)
 ggmap(stamen) +

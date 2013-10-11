@@ -5,7 +5,7 @@
 #' @param location an address, longitude/latitude pair (in that order), or left/bottom/right/top bounding box
 #' @param zoom map zoom, an integer from 3 (continent) to 21 (building), default value 10 (city).  openstreetmaps limits a zoom of 18, and the limit on stamen maps depends on the maptype.  "auto" automatically determines the zoom for bounding box specifications, and is defaulted to 10 with center/zoom specifications.  maps of the whole world currently not supported.
 #' @param scale scale argument of \code{\link{get_googlemap}} or \code{\link{get_openstreetmap}}
-#' @param maptype character string providing map theme. options available are "terrain", "satellite", "roadmap", and "hybrid" (google maps), "terrain", "watercolor", and "toner" (stamen maps), or a positive integer for cloudmade maps (see ?get_cloudmademap)
+#' @param maptype character string providing map theme. options available are "terrain", "terrain-background", "satellite", "roadmap", and "hybrid" (google maps), "terrain", "watercolor", and "toner" (stamen maps), or a positive integer for cloudmade maps (see ?get_cloudmademap)
 #' @param source Google Maps ("google"), OpenStreetMap ("osm"), Stamen Maps ("stamen"), or CloudMade maps ("cloudmade")
 #' @param force force new map (don't use archived version)
 #' @param messaging turn messaging on/off
@@ -13,6 +13,7 @@
 #' @param filename destination file for download (file extension added according to format)
 #' @param crop (stamen and cloudmade maps) crop tiles to bounding box
 #' @param color color ("color") or black-and-white ("bw")
+#' @param language language for google maps
 #' @param api_key an api key for cloudmade maps
 #' @return a data.frame with columns latitude, longitude, and fill
 #' @author David Kahle \email{david.kahle@@gmail.com}
@@ -64,10 +65,10 @@
 #' 
 get_map <- function(
   location = c(lon = -95.3632715, lat = 29.7632836), zoom = "auto", scale = "auto",
-  maptype = c("terrain", "satellite", "roadmap", "hybrid","toner","watercolor"), 
+  maptype = c("terrain", "terrain-background", "satellite", "roadmap", "hybrid","toner","watercolor"), 
   source = c("google","osm","stamen","cloudmade"),  
   force = ifelse(source == "google", TRUE, FALSE), messaging = FALSE, urlonly = FALSE, filename = "ggmapTemp", 
-  crop = TRUE, color = c("color","bw"), 
+  crop = TRUE, color = c("color","bw"), language = "en-EN",
   api_key
 ){
 	
@@ -95,12 +96,12 @@ get_map <- function(
     }
   }  
   if(source == "stamen"){
-    if(!(maptype %in% c("terrain","watercolor","toner"))){
-      stop("when using stamen maps, only terrain, watercolor, and toner maptypes available",
+    if(!(maptype %in% c("terrain","terrain-background","watercolor","toner"))){
+      stop("when using stamen maps, only terrain, terrain-background, watercolor, and toner maptypes available",
         call. = FALSE)
     }
   }
-  if(source == "google" & (maptype == "toner" || maptype == "watercolor")){
+  if(source == "google" & (maptype == "terrain-background" || maptype == "toner" || maptype == "watercolor")){
     message(paste0("maptype = \"", maptype, "\" is only available with source = \"stamen\"."))
     message(paste0("resetting to source = \"stamen\"..."))    
     source <- "stamen"
@@ -203,7 +204,7 @@ get_map <- function(
   	# get map
     map <- get_googlemap(center = location, zoom = zoom, maptype = maptype, 
         scale = scale, messaging = messaging, urlonly = urlonly, force = force, 
-        filename = filename, color = color)  	
+        filename = filename, color = color, language = language)  	
         
     # crop when bounding box is provided        
     if(FALSE){

@@ -4,7 +4,7 @@
 #' 
 #' @param center the center of the map.  this can either be 1. a longitude/latitude numeric vector or 2. a character string address (note that the latter uses a geocode)
 #' @param zoom map zoom, an integer from 3 (continent) to 21 (building), default value 10 (city)
-#' @param size rectangular dimensions of map in pixels - horizontal x vertical - with a max of c(640, 640).#'this parameter is affected in a multiplicative way by scale.
+#' @param size rectangular dimensions of map in pixels - horizontal x vertical - with a max of c(640, 640). this parameter is affected in a multiplicative way by scale.
 #' @param scale multiplicative factor for the number of pixels returned possible values are 1, 2, or 4 (e.g. size = c(640,640) and scale = 2 returns an image with 1280x1280 pixels).  4 is reserved for google business users only.  scale also affects the size of labels as well.
 #' @param format character string providing image format - png, jpeg, and gif formats available in various flavors
 #' @param maptype character string providing google map theme. options available are "terrain", "satellite", "roadmap", and "hybrid"
@@ -194,18 +194,18 @@ get_googlemap <- function(
   center_url <- if(all(is.numeric(center))){ # lon/lat specification
     center <- round(center, digits = 6)
     lon <- center[1]; lat <- center[2]
-    paste("center=", paste(lat,lon,sep = ","), sep = "")
+    paste0("center=", paste(lat,lon,sep = ","))
   } else { # address specification
     centerPlus <- gsub(" ", "+", center)
-    paste("center=", centerPlus, sep = "")    
+    paste0("center=", centerPlus) 
   }
-  zoom_url <- paste("zoom=", zoom, sep = "")
-  size_url <- paste("size=", paste(size, collapse="x"))
-  scale_url <- if(!missing(scale)){ paste("scale=", scale) } else { "" }
-  format_url <- if(!missing(format) && format != "png8"){ paste("format=", format) } else { "" }
-  maptype_url <- paste("maptype=", maptype, sep = "")
-  language_url <- if(!missing(language)){ paste("language=", language) } else { "" }  
-  region_url <- if(!missing(region)){ paste("region=", region) } else { "" }
+  zoom_url <- paste0("zoom=", zoom)
+  size_url <- paste0("size=", paste(size, collapse="x"))
+  scale_url <- if(!missing(scale)){ paste0("scale=", scale) } else { "" }
+  format_url <- if(!missing(format) && format != "png8"){ paste0("format=", format) } else { "" }
+  maptype_url <- paste0("maptype=", maptype, sep = "")
+  language_url <- if(!missing(language)){ paste0("language=", language) } else { "" }  
+  region_url <- if(!missing(region)){ paste0("region=", region) } else { "" }
   
   markers_url <- 
   if(!missing(markers)){

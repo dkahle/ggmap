@@ -19,21 +19,22 @@
 }
 \examples{
 \dontrun{
-qmap(location = 'baylor university')
-qmap(location = 'baylor university', zoom = 14)
-qmap(location = 'baylor university', zoom = 14, source = 'osm')
-qmap(location = 'baylor university', zoom = 14, source = 'osm', scale = 20000)
-qmap(location = 'baylor university', zoom = 14, maptype = 'satellite')
-qmap(location = 'baylor university', zoom = 14, maptype = 'hybrid')
-qmap(location = 'baylor university', zoom = 14, maptype = 'toner', source = 'stamen')
-qmap(location = 'baylor university', zoom = 14, maptype = 'watercolor', source = 'stamen')
+qmap(location = "baylor university")
+qmap(location = "baylor university", zoom = 14)
+qmap(location = "baylor university", zoom = 14, source = "osm")
+qmap(location = "baylor university", zoom = 14, source = "osm", scale = 20000)
+qmap(location = "baylor university", zoom = 14, maptype = "satellite")
+qmap(location = "baylor university", zoom = 14, maptype = "hybrid")
+qmap(location = "baylor university", zoom = 14, maptype = "toner", source = "stamen")
+qmap(location = "baylor university", zoom = 14, maptype = "watercolor", source = "stamen")
+qmap(location = "baylor university", zoom = 14, maptype = "terrain-background", source = "stamen")
 
-api_key <- '<your api key here>'
-qmap(location = 'baylor university', zoom = 14, maptype = 15434,
-  source = 'cloudmade', api_key = api_key)
+api_key <- "<your api key here>"
+qmap(location = "baylor university", zoom = 14, maptype = 15434,
+  source = "cloudmade", api_key = api_key)
 
-wh <- geocode('the white house')
-qmap('the white house', maprange = TRUE,
+wh <- geocode("the white house")
+qmap("the white house", maprange = TRUE,
   base_layer = ggplot(aes(x=lon, y=lat), data = wh)) +
   geom_point()
 
