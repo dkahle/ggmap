@@ -21,7 +21,8 @@ Imports:
     reshape2,
     grid,
     rjson,
-    mapproj
+    mapproj,
+    geosphere
 Suggests:
     MASS,
     stringr
@@ -58,3 +59,6 @@ Collate:
     'zzz.R'
     'file_drawer.R'
     'calc_zoom.r'
+    'GetMap.OSM.R'
+    'get_navermap.R'
+    'ggmapplot.R'
