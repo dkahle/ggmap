@@ -65,9 +65,12 @@
 #' 
 get_map <- function(
   location = c(lon = -95.3632715, lat = 29.7632836), zoom = "auto", scale = "auto",
-  maptype = c("terrain", "terrain-background", "satellite", "roadmap", "hybrid","toner","watercolor"), 
+  maptype = c("terrain", "terrain-background", "satellite", "roadmap", 
+    "hybrid", "toner", "watercolor", "terrain=labels",
+    "terrain-lines", "toner-2010", "toner-2011", "toner-background", 
+    "toner-hybrid", "toner-labels", "toner-lines", "toner-lite"), 
   source = c("google","osm","stamen","cloudmade"),  
-  force = ifelse(source == "google", TRUE, FALSE), messaging = FALSE, urlonly = FALSE, filename = "ggmapTemp", 
+  force = ifelse(source == "google", TRUE, TRUE), messaging = FALSE, urlonly = FALSE, filename = "ggmapTemp", 
   crop = TRUE, color = c("color","bw"), language = "en-EN",
   api_key
 ){
@@ -96,12 +99,19 @@ get_map <- function(
     }
   }  
   if(source == "stamen"){
-    if(!(maptype %in% c("terrain","terrain-background","watercolor","toner"))){
-      stop("when using stamen maps, only terrain, terrain-background, watercolor, and toner maptypes available",
+    if(!(maptype %in% c("terrain","terrain-background","terrain=labels",
+      "terrain-lines", "toner", "toner-2010", "toner-2011", "toner-background", 
+      "toner-hybrid", "toner-labels", "toner-lines", "toner-lite", "watercolor")))
+    {
+      stop("invalid stamen maptype, see ?get_stamenmap",
         call. = FALSE)
     }
   }
-  if(source == "google" & (maptype == "terrain-background" || maptype == "toner" || maptype == "watercolor")){
+  if(source == "google" & (
+    maptype %in% c("terrain-background","terrain=labels",
+      "terrain-lines", "toner", "toner-2010", "toner-2011", "toner-background", 
+      "toner-hybrid", "toner-labels", "toner-lines", "toner-lite", "watercolor")
+  )){
     message(paste0("maptype = \"", maptype, "\" is only available with source = \"stamen\"."))
     message(paste0("resetting to source = \"stamen\"..."))    
     source <- "stamen"

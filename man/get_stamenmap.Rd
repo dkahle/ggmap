@@ -4,7 +4,7 @@
 \usage{
   get_stamenmap(bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
     zoom = 10,
-    maptype = c("terrain", "terrain-background", "watercolor", "toner"),
+    maptype = c("terrain", "terrain-background", "terrain=labels", "terrain-lines", "toner", "toner-2010", "toner-2011", "toner-background", "toner-hybrid", "toner-labels", "toner-lines", "toner-lite", "watercolor"),
     crop = TRUE, messaging = FALSE, urlonly = FALSE,
     color = c("color", "bw"), force = FALSE, ...)
 }
@@ -14,8 +14,10 @@
 
   \item{zoom}{a zoom level}
 
-  \item{maptype}{terrain, terrain-background, watercolor,
-  or toner}
+  \item{maptype}{terrain, terrain-background,
+  terrain-labels, terrain-lines, toner, toner-2010,
+  toner-2011, toner-background, toner-hybrid, toner-labels,
+  toner-lines, toner-lite, or watercolor}
 
   \item{crop}{crop raw map tiles to specified bounding box}
 

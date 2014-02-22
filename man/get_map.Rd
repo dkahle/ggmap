@@ -4,9 +4,9 @@
 \usage{
   get_map(location = c(lon = -95.3632715, lat = 29.7632836),
     zoom = "auto", scale = "auto",
-    maptype = c("terrain", "terrain-background", "satellite", "roadmap", "hybrid", "toner", "watercolor"),
+    maptype = c("terrain", "terrain-background", "satellite", "roadmap", "hybrid", "toner", "watercolor", "terrain=labels", "terrain-lines", "toner-2010", "toner-2011", "toner-background", "toner-hybrid", "toner-labels", "toner-lines", "toner-lite"),
     source = c("google", "osm", "stamen", "cloudmade"),
-    force = ifelse(source == "google", TRUE, FALSE),
+    force = ifelse(source == "google", TRUE, TRUE),
     messaging = FALSE, urlonly = FALSE,
     filename = "ggmapTemp", crop = TRUE,
     color = c("color", "bw"), language = "en-EN", api_key)

@@ -5,7 +5,7 @@
   geocode(location,
     output = c("latlon", "latlona", "more", "all"),
     messaging = FALSE, sensor = FALSE,
-    override_limit = FALSE)
+    override_limit = FALSE, data)
 }
 \arguments{
   \item{location}{a character string specifying a location
@@ -20,6 +20,8 @@
 
   \item{override_limit}{override the current query count
   (.GoogleGeocodeQueryCount)}
+
+  \item{data}{a data frame}
 }
 \value{
   depends (at least a data.frame with variables lon and
@@ -55,6 +57,40 @@ ads <- unique(crime$address)[1:120]
 ads <- paste(ads, ', houston, texas', sep = '')
 ads <- str_trim(ads)
 gc <- geocode(ads)
+
+
+
+# geocoding a data frame
+df <- data.frame(
+  address = c(
+      "one bear place, waco, texas",
+      "6100 main street, houston, texas",
+      "one bear place, waco, texas"
+  ),
+  data = 1:3,
+  stringsAsFactors = FALSE
+)
+dfSave <- df
+
+geocode(address, data = df)
+df
+
+df <- dfSave
+geocode(address, data = df, output = "latlona")
+df
+
+df <- dfSave
+geocode(address, data = df, output = "more")
+df
+
+df <- dfSave
+geocode(address, data = df, output = "all")
+df
+
+
+
+
+
 }
 }
 \author{

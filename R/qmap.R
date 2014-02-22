@@ -102,6 +102,16 @@ qmap <- function(location = "houston", ...){
     source <- "google"
   }        
   
+  if("force" %in% names(args)){
+    force <- eval(args$force)
+  } else {
+    if(source == "google"){
+      force <- FALSE #TRUE
+    } else {
+      force <- FALSE
+    }
+  }          
+  
   if("maptype" %in% names(args)){
     maptype <- eval(args$maptype)
   } else {
@@ -212,7 +222,7 @@ qmap <- function(location = "houston", ...){
   # return
   ggmap(
     get_map(location = location, zoom = zoom, scale = scale, source = source, 
-      color = color, maptype = maptype, language = language, api_key = api_key), 
+      color = color, maptype = maptype, language = language, api_key = api_key, force = force), 
     maprange = maprange, extent = extent, base_layer = base_layer, legend = legend, 
       padding = padding, darken = darken
   )     

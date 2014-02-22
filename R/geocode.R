@@ -7,6 +7,7 @@
 #' @param messaging turn messaging on/off
 #' @param sensor whether or not the geocoding request comes from a device with a location sensor
 #' @param override_limit override the current query count (.GoogleGeocodeQueryCount)
+#' @param data a data frame
 #' @return depends (at least a data.frame with variables lon and lat)
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @details note that the google maps api limits to 2500 queries a day.
@@ -34,16 +35,67 @@
 #' ads <- paste(ads, ', houston, texas', sep = '')
 #' ads <- str_trim(ads)
 #' gc <- geocode(ads)
+#' 
+#' 
+#' 
+#' # geocoding a data frame
+#' df <- data.frame(
+#'   address = c(
+#'       "one bear place, waco, texas", 
+#'       "6100 main street, houston, texas",
+#'       "one bear place, waco, texas"
+#'   ),
+#'   data = 1:3,
+#'   stringsAsFactors = FALSE
+#' )
+#' dfSave <- df
+#' 
+#' geocode(address, data = df)
+#' df
+#' 
+#' df <- dfSave
+#' geocode(address, data = df, output = "latlona")
+#' df
+#' 
+#' df <- dfSave
+#' geocode(address, data = df, output = "more")
+#' df
+#' 
+#' df <- dfSave
+#' geocode(address, data = df, output = "all")
+#' df
+#' 
+#' 
+#' 
+#' 
+#' 
 #' }
 #' 
-geocode <- function (location, output = c('latlon','latlona','more','all'), 
-  messaging = FALSE, sensor = FALSE, override_limit = FALSE)
-{
+geocode <- function(location, output = c('latlon','latlona','more','all'), 
+  messaging = FALSE, sensor = FALSE, override_limit = FALSE, data)
+{	
 	
   # check parameters
-  stopifnot(is.character(location))
+  if(missing(data)) stopifnot(is.character(location))
   output <- match.arg(output)
   stopifnot(is.logical(messaging))
+  
+  if(!missing(data)){
+    argList <- as.list(match.call()[-1])
+    argNames <- names(argList)    
+    if(output == "all"){
+      message("output = \"all\" is not allowed with data; changing to \"more\".")
+      output <- "more"
+    }
+
+    locs <- eval(substitute(location), data)
+    geocodedLocs <- geocode(locs, output = output, messaging = messaging, 
+      override_limit = override_limit, sensor = sensor)
+    dataSetName <- as.character(substitute(data))
+    message(paste0("overwriting dataset ", dataSetName, "."))
+    assign(dataSetName, data.frame(data, geocodedLocs), envir = .GlobalEnv)
+    return(invisible())
+  }
 	
   # vectorize for many locations (divide and conquer)
   if(length(location) > 1){ 
@@ -56,32 +108,59 @@ geocode <- function (location, output = c('latlon','latlona','more','all'),
       return(llply(as.list(location), geocode, output = output, messaging = messaging))
     }
   }
-    
-  # format url
-  sensor4url <- paste('sensor=', tolower(as.character(sensor)), sep = '')   
-  loc <- location
-  location <- gsub(' ', '+', location)
-  posturl <- paste(location, sensor4url, sep = '&')        
-  url_string <- paste('http://maps.googleapis.com/maps/api/geocode/json?address=', posturl, sep = "")
-  url_string <- URLencode(url_string)
-  if(messaging) message(paste('contacting ', url_string, '...', sep = ''), appendLF = F)
-  
-  # check/update google query limit
-  check_geocode_query_limit(url_string, elems = 1, 
-    override = override_limit, messaging = messaging)      
-  
-  # geocode
-  connect <- url(url_string)
-  gc <- fromJSON(paste(readLines(connect), collapse = ''))
-  if(messaging) message(' done.')  
-  close(connect)
-  if(output == 'all') return(gc) 
-  
-  # message user
-  message(paste0('Information from URL : ', url_string))
 
-  # did geocode fail?
-  #print(gc$status)
+  if(isGeocodedInformationOnFile(location)){
+  	
+  	if(messaging) message("Using stored information.")
+    gc <- get(".GeocodedInformation", envir = .GlobalEnv)[[location]]
+    
+  } else {
+  	
+    # format url
+    sensor4url <- paste('sensor=', tolower(as.character(sensor)), sep = '')   
+    loc <- location
+    location <- gsub(' ', '+', location)
+    posturl <- paste(location, sensor4url, sep = '&')        
+    url_string <- paste('http://maps.googleapis.com/maps/api/geocode/json?address=', posturl, sep = "")
+    url_string <- URLencode(url_string)
+    if(messaging) message(paste('contacting ', url_string, '...', sep = ''), appendLF = F)
+  
+    # check/update google query limit
+    check <- checkGeocodeQueryLimit(url_string, elems = 1, 
+      override = override_limit, messaging = messaging)      
+    if(check == "stop"){
+      if(output == "latlon"){
+        return(c(lon = NA, lat = NA))
+      } else if(output == "latlona"){
+        return(c(lon = NA, lat = NA, address = NA))      
+      } else if(output == "latlona") {
+        return(c(lon = NA, lat = NA, type = NA, loctype = NA, 
+          address = NA, north = NA, south = NA, east = NA, west = NA, postal_code = NA, 
+          country = NA, street = NA, streetNo = NA, point_of_interest = NA, query = loc)
+        )
+      } else {
+        return(NA)
+      }
+    }
+      
+    # message user
+    message(paste0('Information from URL : ', url_string))      
+
+    # geocode
+    connect <- url(url_string)
+    gc <- fromJSON(paste(readLines(connect), collapse = ''))
+    if(messaging) message(' done.')  
+    close(connect)
+    
+    # temporarily save it
+    storeGeocodedInformation(loc, gc)  
+    
+  }
+  
+  # return if you want full output
+  if(output == 'all') return(gc) 
+
+  # did geocode fail? - print(gc$status)
   if(gc$status != 'OK'){
     warning(paste('geocode failed with status ', gc$status, ', location = "', 
       location, '"', sep = ''), call. = FALSE)
@@ -159,7 +238,8 @@ geocode <- function (location, output = c('latlon','latlona','more','all'),
 
 
 
-check_geocode_query_limit <- function(url_string, elems, override, messaging){  
+checkGeocodeQueryLimit <- function(url_string, elems, override, messaging){  
+
   .GoogleGeocodeQueryCount <- NULL; rm(.GoogleGeocodeQueryCount); # R CMD check trick
   	
   if(exists('.GoogleGeocodeQueryCount', .GlobalEnv)){
@@ -171,7 +251,7 @@ check_geocode_query_limit <- function(url_string, elems, override, messaging){
     if(sum(.GoogleGeocodeQueryCount$elements) + elems > 2500){
       message('query max exceeded, see ?geocode.  current total = ', 
         sum(.GoogleGeocodeQueryCount$elements))
-      if(!override) stop('google query limit exceeded.', call. = FALSE)
+      if(!override) return("stop")
     }
     
     # 10 per 1 second?
@@ -196,7 +276,17 @@ check_geocode_query_limit <- function(url_string, elems, override, messaging){
         elements = elems, stringsAsFactors = FALSE)
       
   }
+  
+  invisible("go")
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -211,15 +301,87 @@ check_geocode_query_limit <- function(url_string, elems, override, messaging){
 #' @examples
 #' geocodeQueryCheck()
 geocodeQueryCheck <- function(){
+	
   .GoogleGeocodeQueryCount <- NULL; rm(.GoogleGeocodeQueryCount); # R CMD check trick	
+  
   if(exists('.GoogleGeocodeQueryCount', .GlobalEnv)){    	
+  	
   	remaining <- 2500-sum(
   	  subset(.GoogleGeocodeQueryCount, time >= Sys.time() - 24*60*60)$elements
   	  )
     message(remaining, ' geocoding queries remaining.')
+    
   } else {
+  	
   	remaining <- 2500
     message(remaining, ' geocoding queries remaining.')
+    
   }	
+  
   invisible(remaining)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+storeGeocodedInformation <- function(location, data){
+  
+  if(!(".GeocodedInformation" %in% ls(envir = .GlobalEnv, all.names =  TRUE))){
+    assign(".GeocodedInformation", list(), envir = .GlobalEnv)
+  }
+  
+  db <- get(".GeocodedInformation", envir = .GlobalEnv)
+
+  placesOnFile <- names(db)  
+  db <- c(db, list(data))
+  names(db) <- c(placesOnFile, location)
+  
+  assign(".GeocodedInformation", db, envir = .GlobalEnv)
+  
+  invisible()
+  
+}
+
+
+
+
+retrieveGeocodedInformation <- function(location){
+
+  if(!(".GeocodedInformation" %in% ls(envir = .GlobalEnv, all.names =  TRUE))) return(NA)
+
+  get(".GeocodedInformation", envir = .GlobalEnv)[[location]]
+  
+}
+
+
+
+
+isGeocodedInformationOnFile <- function(location){
+	
+  if(!(".GeocodedInformation" %in% ls(envir = .GlobalEnv, all.names =  TRUE))) return(FALSE)
+
+  if(!(location %in% names(get(".GeocodedInformation", envir = .GlobalEnv)))) return(FALSE)
+  
+  TRUE
+  
+}
+
+
+clearGeocodedInformation <- function(){
+	
+  if(!(".GeocodedInformation" %in% ls(envir = .GlobalEnv, all.names =  TRUE))) return(invisible())
+  
+  rm(".GeocodedInformation", envir = .GlobalEnv)
+
+  invisible()
+  
 }

@@ -212,10 +212,20 @@ check_route_query_limit <- function(url_string, elems, override, messaging){
     }    
       
     # append to .GoogleRouteQueryCount
-    .GoogleRouteQueryCount <<- rbind(.GoogleRouteQueryCount, 
-      data.frame(time = Sys.time(),  url = url_string, 
-        elements = elems, stringsAsFactors = FALSE)
-    )
+    if(length(grep("transit", url_string)) == 1){ # a transit request
+      tmp <- data.frame(time = Sys.time(),  url = url_string, 
+          elements = elems, stringsAsFactors = FALSE)
+      tmp <- rbind(tmp, tmp, tmp, tmp)
+      .GoogleRouteQueryCount <<- rbind(.GoogleRouteQueryCount, 
+        tmp
+      )    	
+    } else {
+      .GoogleRouteQueryCount <<- rbind(.GoogleRouteQueryCount, 
+        data.frame(time = Sys.time(),  url = url_string, 
+          elements = elems, stringsAsFactors = FALSE)
+      )
+    }
+    
     
     	
   } else {

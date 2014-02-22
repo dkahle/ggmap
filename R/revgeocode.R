@@ -44,8 +44,20 @@ revgeocode <- function(location, output = c('address','more','all'),
   url_string <- URLencode(url_string)
   
   # check/update google query limit
-  check_geocode_query_limit(url_string, elems = 1, 
-    override = override_limit, messaging = messaging)        
+  check <- checkGeocodeQueryLimit(url_string, elems = 1, 
+    override = override_limit, messaging = messaging)
+    if(check == "stop"){
+      if(output == "address"){
+        return(NA)
+      } else if(output == "more") {
+        return(c(address = NA, street_number = NA, route = NA,
+          locality = NA, administrative_area_level_2 = NA, 
+          administrative_area_level_1 = NA, country = NA, postal_code = NA)
+        )
+      } else {
+        return(NA)
+      }
+    }
   
   # geocode
   connect <- url(url_string)  

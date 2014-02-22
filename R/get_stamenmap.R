@@ -6,7 +6,7 @@
 #' 
 #' @param bbox a bounding box in the format c(lowerleftlon, lowerleftlat, upperrightlon, upperrightlat).
 #' @param zoom a zoom level
-#' @param maptype terrain, terrain-background, watercolor, or toner
+#' @param maptype terrain, terrain-background, terrain-labels, terrain-lines, toner, toner-2010, toner-2011, toner-background, toner-hybrid, toner-labels, toner-lines, toner-lite, or watercolor
 #' @param crop crop raw map tiles to specified bounding box
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
@@ -65,11 +65,24 @@
 #' ggmap(get_stamenmap(bbox, zoom = 15, maptype = "toner"))+
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 #' 
+#'
+#' # accuracy check
+#' gc <- geocode("the white house")
+#' 
+#' qmap("the white house", zoom = 16)  +
+#'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)  
+#'   
+#' qmap("the white house", zoom = 16, source = "stamen", maptype == "terrain")  +
+#'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)    
+#' 
 #' }
 #' 
 get_stamenmap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344), 
-  zoom = 10, maptype = c("terrain","terrain-background","watercolor","toner"), crop = TRUE, messaging = FALSE, 
+  zoom = 10, maptype = c("terrain","terrain-background","terrain=labels",
+    "terrain-lines", "toner", "toner-2010", "toner-2011", "toner-background", 
+    "toner-hybrid", "toner-labels", "toner-lines", "toner-lite", "watercolor"),   
+  crop = TRUE, messaging = FALSE, 
   urlonly = FALSE, color = c("color","bw"), force = FALSE, ...
 ){
 	
