@@ -2,10 +2,8 @@
 \alias{revgeocode}
 \title{Reverse geocode}
 \usage{
-  revgeocode(location,
-    output = c("address", "more", "all"),
-    messaging = FALSE, sensor = FALSE,
-    override_limit = FALSE)
+revgeocode(location, output = c("address", "more", "all"),
+  messaging = FALSE, sensor = FALSE, override_limit = FALSE)
 }
 \arguments{
   \item{location}{a location in longitude/latitude format}
@@ -21,17 +19,16 @@
   (.GoogleGeocodeQueryCount)}
 }
 \value{
-  depends (at least an address)
+depends (at least an address)
 }
 \description{
-  reverse geocodes a longitude/latitude location using
-  Google Maps.  Note that in most cases by using this
-  function you are agreeing to the Google Maps API Terms of
-  Service at https://developers.google.com/maps/terms.
+reverse geocodes a longitude/latitude location using Google
+Maps.  Note that in most cases by using this function you
+are agreeing to the Google Maps API Terms of Service at
+https://developers.google.com/maps/terms.
 }
 \details{
-  note that the google maps api limits to 2500 queries a
-  day.
+note that the google maps api limits to 2500 queries a day.
 }
 \examples{
 \dontrun{
@@ -45,9 +42,9 @@ geocodeQueryCheck()
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-  \url{http://code.google.com/apis/maps/documentation/geocoding/}
+\url{http://code.google.com/apis/maps/documentation/geocoding/}
 }
 

@@ -2,8 +2,7 @@
 \alias{file_drawer_found}
 \title{Check for a ggmap file cabinet}
 \usage{
-  file_drawer_found(where = getwd(),
-    drawerName = "ggmapFileDrawer")
+file_drawer_found(where = getwd(), drawerName = "ggmapFileDrawer")
 }
 \arguments{
   \item{where}{where the directory should be made}
@@ -11,13 +10,13 @@
   \item{drawerName}{the name of the directory}
 }
 \value{
-  TRUE if found; FALSE if not found
+TRUE if found; FALSE if not found
 }
 \description{
-  Check for a ggmap file cabinet
+Check for a ggmap file cabinet
 }
 \details{
-  Changing the arguments is not recommended.
+Changing the arguments is not recommended.
 }
 \examples{
 \dontrun{
@@ -31,6 +30,6 @@ list.files()
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}.
+David Kahle \email{david.kahle@gmail.com}.
 }
 

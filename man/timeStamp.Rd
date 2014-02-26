@@ -2,13 +2,13 @@
 \alias{timeStamp}
 \title{Convenient time grabber}
 \usage{
-  timeStamp()
+timeStamp()
 }
 \value{
-  time as a character string
+time as a character string
 }
 \description{
-  Convenient time grabber
+Convenient time grabber
 }
 \examples{
 \dontrun{
@@ -19,6 +19,6 @@ str(timeStamp())
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}.
+David Kahle \email{david.kahle@gmail.com}.
 }
 

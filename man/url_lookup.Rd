@@ -2,8 +2,7 @@
 \alias{url_lookup}
 \title{Lookup the file name of a map from a specified url}
 \usage{
-  url_lookup(url,
-    where = paste(getwd(), "ggmapFileDrawer", sep = "/"))
+url_lookup(url, where = paste(getwd(), "ggmapFileDrawer", sep = "/"))
 }
 \arguments{
   \item{url}{name of the map desired}
@@ -11,17 +10,19 @@
   \item{where}{where argument to pass to get_database}
 }
 \value{
-  filename (e.g. filename.rds if the map is on file) or
-  FALSE (if the map is not on file)
+filename (e.g. filename.rds if the map is on file) or FALSE
+(if the map is not on file)
 }
 \description{
-  Lookup the file name of a map from a specified url
+Lookup the file name of a map from a specified url
 }
 \examples{
 \dontrun{
 
 get_database()
-url <- 'http://maps.googleapis.com/maps/api/staticmap?center=houston&zoom=10&size=\%20640x640&scale=\%202&maptype=terrain&sensor=false'
+url <- 'http://maps.googleapis.com/maps/api/staticmap?'
+url <- paste0(url, 'center=houston&zoom=10&size=\%20640x640')
+url <- paste0(url, '&scale=\%202&maptype=terrain&sensor=false')
 file <- paste0(timeStamp(), '.rds')
 update_database(url, file)
 get_database()
@@ -32,6 +33,6 @@ url_lookup('an unknown url')
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}.
+David Kahle \email{david.kahle@gmail.com}.
 }
 

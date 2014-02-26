@@ -2,7 +2,7 @@
 \alias{make_bbox}
 \title{Compute a bounding box}
 \usage{
-  make_bbox(lon, lat, data, f = 0.05)
+make_bbox(lon, lat, data, f = 0.05)
 }
 \arguments{
   \item{lon}{longitude}
@@ -16,8 +16,8 @@
   range should be extended}
 }
 \description{
-  Compute a bounding box for a given longitude / latitude
-  collection.
+Compute a bounding box for a given longitude / latitude
+collection.
 }
 \examples{
 \donttest{

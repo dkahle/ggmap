@@ -160,7 +160,9 @@ get_database <- function(where = paste(getwd(), 'ggmapFileDrawer', sep = '/')){
 #' \dontrun{
 #' 
 #' get_database()
-#' url <- 'http://maps.googleapis.com/maps/api/staticmap?center=houston&zoom=10&size=%20640x640&scale=%202&maptype=terrain&sensor=false'
+#' url <- 'http://maps.googleapis.com/maps/api/staticmap?'
+#' url <- paste0(url, 'center=houston&zoom=10&size=%20640x640')
+#' url <- paste0(url, '&scale=%202&maptype=terrain&sensor=false')
 #' update_database(url) # automatically created file drawer
 #' get_database()
 #' 
@@ -224,7 +226,9 @@ update_database <- function(url, file = paste0(timeStamp(), '.rds'), where = pas
 #' \dontrun{
 #' 
 #' get_database()
-#' url <- 'http://maps.googleapis.com/maps/api/staticmap?center=houston&zoom=10&size=%20640x640&scale=%202&maptype=terrain&sensor=false'
+#' url <- 'http://maps.googleapis.com/maps/api/staticmap?'
+#' url <- paste0(url, 'center=houston&zoom=10&size=%20640x640')
+#' url <- paste0(url, '&scale=%202&maptype=terrain&sensor=false')
 #' file <- paste0(timeStamp(), '.rds')
 #' update_database(url, file)
 #' get_database()
@@ -287,7 +291,9 @@ url_lookup <- function(url, where = paste(getwd(), 'ggmapFileDrawer', sep = '/')
 #' 
 #' list.files(recursive = TRUE)
 #' map <- get_map()
-#' url <- 'http://maps.googleapis.com/maps/api/staticmap?center=houston&zoom=10&size=%20640x640&scale=%202&maptype=terrain&sensor=false'
+#' url <- 'http://maps.googleapis.com/maps/api/staticmap?'
+#' url <- paste0(url, 'center=houston&zoom=10&size=%20640x640')
+#' url <- paste0(url, '&scale=%202&maptype=terrain&sensor=false')
 #' str(map)
 #' 
 #' list.files(recursive = TRUE)
@@ -351,7 +357,9 @@ archive_ggmap <- function(ggmap, url, file = paste0(timeStamp(), '.rds'),
 #' 
 #' list.files(recursive = TRUE)
 #' map <- get_map()
-#' url <- 'http://maps.googleapis.com/maps/api/staticmap?center=houston&zoom=10&size=%20640x640&scale=%202&maptype=terrain&sensor=false'
+#' url <- 'http://maps.googleapis.com/maps/api/staticmap?'
+#' url <- paste0(url, 'center=houston&zoom=10&size=%20640x640')
+#' url <- paste0(url, '&scale=%202&maptype=terrain&sensor=false')
 #' ggmap(map)
 #' 
 #' archive_ggmap(map, url)

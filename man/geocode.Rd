@@ -2,10 +2,8 @@
 \alias{geocode}
 \title{Geocode}
 \usage{
-  geocode(location,
-    output = c("latlon", "latlona", "more", "all"),
-    messaging = FALSE, sensor = FALSE,
-    override_limit = FALSE, data)
+geocode(location, output = c("latlon", "latlona", "more", "all"),
+  messaging = FALSE, sensor = FALSE, override_limit = FALSE, data)
 }
 \arguments{
   \item{location}{a character string specifying a location
@@ -24,18 +22,16 @@
   \item{data}{a data frame}
 }
 \value{
-  depends (at least a data.frame with variables lon and
-  lat)
+depends (at least a data.frame with variables lon and lat)
 }
 \description{
-  geocodes a location using Google Maps.  Note that in most
-  cases by using this function you are agreeing to the
-  Google Maps API Terms of Service at
-  https://developers.google.com/maps/terms.
+geocodes a location using Google Maps.  Note that in most
+cases by using this function you are agreeing to the Google
+Maps API Terms of Service at
+https://developers.google.com/maps/terms.
 }
 \details{
-  note that the google maps api limits to 2500 queries a
-  day.
+note that the google maps api limits to 2500 queries a day.
 }
 \examples{
 \dontrun{
@@ -94,9 +90,9 @@ df
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-  \url{http://code.google.com/apis/maps/documentation/geocoding/}
+\url{http://code.google.com/apis/maps/documentation/geocoding/}
 }
 

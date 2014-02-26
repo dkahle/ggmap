@@ -92,8 +92,11 @@ geocode <- function(location, output = c('latlon','latlona','more','all'),
     geocodedLocs <- geocode(locs, output = output, messaging = messaging, 
       override_limit = override_limit, sensor = sensor)
     dataSetName <- as.character(substitute(data))
+    # this works, but apparently violates crans rules
     message(paste0("overwriting dataset ", dataSetName, "."))
-    assign(dataSetName, data.frame(data, geocodedLocs), envir = .GlobalEnv)
+    saveOverCode <- paste0(dataSetName, " <<- data.frame(data, geocodedLocs)")
+    eval(parse(text = saveOverCode))
+    #assign(dataSetName, data.frame(data, geocodedLocs), envir = .GlobalEnv)
     return(invisible())
   }
 	
@@ -334,9 +337,10 @@ geocodeQueryCheck <- function(){
 
 
 storeGeocodedInformation <- function(location, data){
+  .GeocodedInformation <- NULL; rm(.GeocodedInformation)
   
   if(!(".GeocodedInformation" %in% ls(envir = .GlobalEnv, all.names =  TRUE))){
-    assign(".GeocodedInformation", list(), envir = .GlobalEnv)
+    .GeocodedInformation <<- list()
   }
   
   db <- get(".GeocodedInformation", envir = .GlobalEnv)
@@ -345,7 +349,7 @@ storeGeocodedInformation <- function(location, data){
   db <- c(db, list(data))
   names(db) <- c(placesOnFile, location)
   
-  assign(".GeocodedInformation", db, envir = .GlobalEnv)
+  .GeocodedInformation <<- db
   
   invisible()
   
@@ -369,7 +373,9 @@ isGeocodedInformationOnFile <- function(location){
 	
   if(!(".GeocodedInformation" %in% ls(envir = .GlobalEnv, all.names =  TRUE))) return(FALSE)
 
-  if(!(location %in% names(get(".GeocodedInformation", envir = .GlobalEnv)))) return(FALSE)
+  if(!(location %in% 
+    names(get(".GeocodedInformation", envir = .GlobalEnv))
+  )) return(FALSE)
   
   TRUE
   

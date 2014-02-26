@@ -2,15 +2,12 @@
 \alias{get_googlemap}
 \title{Get a Google Map}
 \usage{
-  get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836),
-    zoom = 10, size = c(640, 640), scale = 2,
-    format = c("png8", "gif", "jpg", "jpg-baseline", "png32"),
-    maptype = c("terrain", "satellite", "roadmap", "hybrid"),
-    language = "en-EN", region, markers, path, visible,
-    style, sensor = FALSE, messaging = FALSE,
-    urlonly = FALSE, filename = "",
-    color = c("color", "bw"), force = TRUE,
-    archiving = TRUE, ...)
+get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836), zoom = 10,
+  size = c(640, 640), scale = 2, format = c("png8", "gif", "jpg",
+  "jpg-baseline", "png32"), maptype = c("terrain", "satellite", "roadmap",
+  "hybrid"), language = "en-EN", region, markers, path, visible, style,
+  sensor = FALSE, messaging = FALSE, urlonly = FALSE, filename = "",
+  color = c("color", "bw"), force = TRUE, archiving = TRUE, ...)
 }
 \arguments{
   \item{center}{the center of the map.  this can either be
@@ -92,15 +89,14 @@
   \item{...}{...}
 }
 \value{
-  a map image as a 2d-array of colors as hexadecimal
-  strings representing pixel fill values.
+a map image as a 2d-array of colors as hexadecimal strings
+representing pixel fill values.
 }
 \description{
-  get_googlemap accesses the Google Static Maps API version
-  2 to download a static map.  Note that in most cases by
-  using this function you are agreeing to the Google Maps
-  API Terms of Service at
-  https://developers.google.com/maps/terms.
+get_googlemap accesses the Google Static Maps API version 2
+to download a static map.  Note that in most cases by using
+this function you are agreeing to the Google Maps API Terms
+of Service at https://developers.google.com/maps/terms.
 }
 \examples{
 \dontrun{
@@ -139,10 +135,10 @@ ggmap(get_googlemap(center, scale = 2), fullpage = TRUE) # fine
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-  \url{https://developers.google.com/maps/documentation/staticmaps/},
-  \code{\link{ggmap}}
+\url{https://developers.google.com/maps/documentation/staticmaps/},
+\code{\link{ggmap}}
 }
 

@@ -2,7 +2,7 @@
 \alias{theme_nothing}
 \title{Make a blank ggplot2 theme.}
 \usage{
-  theme_nothing(base_size = 12, legend = FALSE)
+theme_nothing(base_size = 12, legend = FALSE)
 }
 \arguments{
   \item{base_size}{base size, not used.}
@@ -10,11 +10,11 @@
   \item{legend}{should the legend be included?}
 }
 \value{
-  a ggplot2 theme (i.e., a list of class options).
+a ggplot2 theme (i.e., a list of class options).
 }
 \description{
-  theme_nothing simply strips all thematic element in
-  ggplot2.
+theme_nothing simply strips all thematic element in
+ggplot2.
 }
 \examples{
 library(ggplot2)
@@ -52,6 +52,6 @@ p + theme_nothing(legend = TRUE)
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david.kahle@gmail.com}
 }
 

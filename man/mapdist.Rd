@@ -2,11 +2,9 @@
 \alias{mapdist}
 \title{Compute map distances using Google}
 \usage{
-  mapdist(from, to,
-    mode = c("driving", "walking", "bicycling"),
-    output = c("simple", "all"), messaging = FALSE,
-    sensor = FALSE, language = "en-EN",
-    override_limit = FALSE)
+mapdist(from, to, mode = c("driving", "walking", "bicycling"),
+  output = c("simple", "all"), messaging = FALSE, sensor = FALSE,
+  language = "en-EN", override_limit = FALSE)
 }
 \arguments{
   \item{from}{name of origin addresses in a data frame
@@ -30,20 +28,20 @@
   (.GoogleDistQueryCount)}
 }
 \value{
-  a data frame (output='simple') or all of the geocoded
-  information (output='all')
+a data frame (output='simple') or all of the geocoded
+information (output='all')
 }
 \description{
-  Compute map distances using Google Maps. Note that in
-  most cases by using this function you are agreeing to the
-  Google Maps API Terms of Service at
-  https://developers.google.com/maps/terms.
+Compute map distances using Google Maps. Note that in most
+cases by using this function you are agreeing to the Google
+Maps API Terms of Service at
+https://developers.google.com/maps/terms.
 }
 \details{
-  if parameters from and to are specified as geographic
-  coordinates, they are reverse geocoded with revgeocode.
-  note that the google maps api limits to 2500 element
-  queries a day.
+if parameters from and to are specified as geographic
+coordinates, they are reverse geocoded with revgeocode.
+note that the google maps api limits to 2500 element
+queries a day.
 }
 \examples{
 \dontrun{
@@ -70,9 +68,9 @@ distQueryCheck()
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-  \url{http://code.google.com/apis/maps/documentation/distancematrix/}
+\url{http://code.google.com/apis/maps/documentation/distancematrix/}
 }
 

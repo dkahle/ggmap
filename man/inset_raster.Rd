@@ -2,7 +2,7 @@
 \alias{inset_raster}
 \title{Add a raster annotation to a map}
 \usage{
-  inset_raster(raster, xmin, xmax, ymin, ymax)
+inset_raster(raster, xmin, xmax, ymin, ymax)
 }
 \arguments{
   \item{raster}{raster object to display}
@@ -14,10 +14,10 @@
   vertical location of raster}
 }
 \description{
-  This is a special version of ggplot2::annotation_raster
-  for use with ggmap
+This is a special version of ggplot2::annotation_raster for
+use with ggmap
 }
 \details{
-  Most useful for adding bitmap images
+Most useful for adding bitmap images
 }
 

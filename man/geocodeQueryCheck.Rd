@@ -2,21 +2,21 @@
 \alias{geocodeQueryCheck}
 \title{Check Google Geocoding API query limit}
 \usage{
-  geocodeQueryCheck()
+geocodeQueryCheck()
 }
 \value{
-  a data frame
+a data frame
 }
 \description{
-  Check Google Geocoding API query limit
+Check Google Geocoding API query limit
 }
 \examples{
 geocodeQueryCheck()
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-  \url{https://developers.google.com/maps/documentation/geocoding/}
+\url{https://developers.google.com/maps/documentation/geocoding/}
 }
 

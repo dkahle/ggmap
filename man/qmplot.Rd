@@ -2,15 +2,13 @@
 \alias{qmplot}
 \title{Quick map plot}
 \usage{
-  qmplot(x, y, ..., data, zoom, source = "stamen",
-    maptype = "terrain", extent = "device",
-    legend = "right", padding = 0.02, force = FALSE,
-    darken = c(0, "black"), mapcolor = "color",
-    facets = NULL, margins = FALSE, geom = "auto",
-    stat = list(NULL), position = list(NULL),
-    xlim = c(NA, NA), ylim = c(NA, NA), main = NULL,
-    f = 0.05, xlab = deparse(substitute(x)),
-    ylab = deparse(substitute(y)))
+qmplot(x, y, ..., data, zoom, source = "stamen", maptype = "terrain",
+  extent = "device", legend = "right", padding = 0.02, force = FALSE,
+  darken = c(0, "black"), mapcolor = "color", facets = NULL,
+  margins = FALSE, geom = "auto", stat = list(NULL),
+  position = list(NULL), xlim = c(NA, NA), ylim = c(NA, NA),
+  main = NULL, f = 0.05, xlab = deparse(substitute(x)),
+  ylab = deparse(substitute(y)))
 }
 \arguments{
   \item{x}{longitude values}
@@ -82,9 +80,9 @@
   label}
 }
 \description{
-  \code{qmplot} is the ggmap equivalent to the ggplot2
-  function qplot and allows for the quick plotting of maps
-  with data/models/etc.
+\code{qmplot} is the ggmap equivalent to the ggplot2
+function qplot and allows for the quick plotting of maps
+with data/models/etc.
 }
 \examples{
 \dontrun{

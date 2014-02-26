@@ -2,9 +2,8 @@
 \alias{archive_ggmap}
 \title{Store a ggmap object}
 \usage{
-  archive_ggmap(ggmap, url,
-    file = paste0(timeStamp(), ".rds"),
-    where = paste(getwd(), "ggmapFileDrawer", sep = "/"))
+archive_ggmap(ggmap, url, file = paste0(timeStamp(), ".rds"),
+  where = paste(getwd(), "ggmapFileDrawer", sep = "/"))
 }
 \arguments{
   \item{ggmap}{a ggmap object}
@@ -16,10 +15,10 @@
   \item{where}{the ggmap file drawer}
 }
 \value{
-  a data frame
+a data frame
 }
 \description{
-  Store a ggmap object
+Store a ggmap object
 }
 \examples{
 \dontrun{
@@ -27,7 +26,9 @@
 
 list.files(recursive = TRUE)
 map <- get_map()
-url <- 'http://maps.googleapis.com/maps/api/staticmap?center=houston&zoom=10&size=\%20640x640&scale=\%202&maptype=terrain&sensor=false'
+url <- 'http://maps.googleapis.com/maps/api/staticmap?'
+url <- paste0(url, 'center=houston&zoom=10&size=\%20640x640')
+url <- paste0(url, '&scale=\%202&maptype=terrain&sensor=false')
 str(map)
 
 list.files(recursive = TRUE)
@@ -40,6 +41,6 @@ list.files(recursive = TRUE)
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}.
+David Kahle \email{david.kahle@gmail.com}.
 }
 

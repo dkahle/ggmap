@@ -7,6 +7,7 @@ CHANGES
 * ggmap is now slightly less verbose: Terms of Service references are moved to package load.
 * geocode has been given an overhaul; it now accepts a data argument for data frames (see examples), and no longer errors when it runs out of checks.
 * stamen maps now hosts a wide new variety of maptypes that are kin of the existing ones.  see ?get_stamenmap.
+* the license is now a GPL-2.
 
 NEW FUNCTIONS
 

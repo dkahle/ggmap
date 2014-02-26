@@ -2,8 +2,7 @@
 \alias{make_file_drawer}
 \title{Create a file cabinet for ggmap images}
 \usage{
-  make_file_drawer(where = getwd(),
-    drawerName = "ggmapFileDrawer")
+make_file_drawer(where = getwd(), drawerName = "ggmapFileDrawer")
 }
 \arguments{
   \item{where}{where the directory should be made}
@@ -11,13 +10,13 @@
   \item{drawerName}{the name of the directory}
 }
 \value{
-  TRUE if directory created; FALSE if not
+TRUE if directory created; FALSE if not
 }
 \description{
-  Create a file cabinet for ggmap images
+Create a file cabinet for ggmap images
 }
 \details{
-  Changing the arguments is not recommended.
+Changing the arguments is not recommended.
 }
 \examples{
 \dontrun{
@@ -33,6 +32,6 @@ get_database()
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}.
+David Kahle \email{david.kahle@gmail.com}.
 }
 

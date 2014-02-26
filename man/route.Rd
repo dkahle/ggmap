@@ -2,12 +2,10 @@
 \alias{route}
 \title{Grab a route from Google}
 \usage{
-  route(from, to,
-    mode = c("driving", "walking", "bicycling"),
-    structure = c("legs", "route"),
-    output = c("simple", "all"), alternatives = FALSE,
-    messaging = FALSE, sensor = FALSE,
-    override_limit = FALSE)
+route(from, to, mode = c("driving", "walking", "bicycling"),
+  structure = c("legs", "route"), output = c("simple", "all"),
+  alternatives = FALSE, messaging = FALSE, sensor = FALSE,
+  override_limit = FALSE)
 }
 \arguments{
   \item{from}{name of origin addresses in a data frame
@@ -34,14 +32,13 @@
   (.GoogleRouteQueryCount)}
 }
 \value{
-  a data frame (output='simple') or all of the geocoded
-  information (output='all')
+a data frame (output='simple') or all of the geocoded
+information (output='all')
 }
 \description{
-  Grab a route from Google. Note that in most cases by
-  using this function you are agreeing to the Google Maps
-  API Terms of Service at
-  https://developers.google.com/maps/terms.
+Grab a route from Google. Note that in most cases by using
+this function you are agreeing to the Google Maps API Terms
+of Service at https://developers.google.com/maps/terms.
 }
 \examples{
 \dontrun{
@@ -112,11 +109,11 @@ qmap('424 clay avenue, waco, tx', zoom = 16, maprange = TRUE, maptype = 'hybrid'
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-  \url{https://developers.google.com/maps/documentation/directions/},
-  \code{\link{legs2route}}, \code{\link{routeQueryCheck}},
-  \code{\link{geom_leg}}
+\url{https://developers.google.com/maps/documentation/directions/},
+\code{\link{legs2route}}, \code{\link{routeQueryCheck}},
+\code{\link{geom_leg}}
 }
 

@@ -2,14 +2,14 @@
 \alias{get_map}
 \title{Grab a map.}
 \usage{
-  get_map(location = c(lon = -95.3632715, lat = 29.7632836),
-    zoom = "auto", scale = "auto",
-    maptype = c("terrain", "terrain-background", "satellite", "roadmap", "hybrid", "toner", "watercolor", "terrain=labels", "terrain-lines", "toner-2010", "toner-2011", "toner-background", "toner-hybrid", "toner-labels", "toner-lines", "toner-lite"),
-    source = c("google", "osm", "stamen", "cloudmade"),
-    force = ifelse(source == "google", TRUE, TRUE),
-    messaging = FALSE, urlonly = FALSE,
-    filename = "ggmapTemp", crop = TRUE,
-    color = c("color", "bw"), language = "en-EN", api_key)
+get_map(location = c(lon = -95.3632715, lat = 29.7632836), zoom = "auto",
+  scale = "auto", maptype = c("terrain", "terrain-background", "satellite",
+  "roadmap", "hybrid", "toner", "watercolor", "terrain=labels", "terrain-lines",
+  "toner-2010", "toner-2011", "toner-background", "toner-hybrid",
+  "toner-labels", "toner-lines", "toner-lite"), source = c("google", "osm",
+  "stamen", "cloudmade"), force = ifelse(source == "google", TRUE, TRUE),
+  messaging = FALSE, urlonly = FALSE, filename = "ggmapTemp",
+  crop = TRUE, color = c("color", "bw"), language = "en-EN", api_key)
 }
 \arguments{
   \item{location}{an address, longitude/latitude pair (in
@@ -57,15 +57,15 @@
   \item{api_key}{an api key for cloudmade maps}
 }
 \value{
-  a data.frame with columns latitude, longitude, and fill
+a data.frame with columns latitude, longitude, and fill
 }
 \description{
-  get_map is a smart function which queries the Google
-  Maps, OpenStreetMap, or Stamen Maps server for a map at a
-  certain location at a certain spatial zoom.  it is a
-  wrapper for get_googlemap, get_openstreetmap,
-  get_stamenmap, and get_cloudmademap functions.  get_map
-  was formerly (<2.0) called ggmap.
+get_map is a smart function which queries the Google Maps,
+OpenStreetMap, or Stamen Maps server for a map at a certain
+location at a certain spatial zoom.  it is a wrapper for
+get_googlemap, get_openstreetmap, get_stamenmap, and
+get_cloudmademap functions.  get_map was formerly (<2.0)
+called ggmap.
 }
 \examples{
 \dontrun{
@@ -110,10 +110,10 @@ ggmap(map, fullpage = TRUE)
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-  \code{\link{ggmap}}, \code{\link{GetMap}} in package
-  RgoogleMaps
+\code{\link{ggmap}}, \code{\link{GetMap}} in package
+RgoogleMaps
 }
 

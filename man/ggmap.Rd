@@ -5,9 +5,8 @@
 \alias{package-ggmap}
 \title{Plot a ggmap object}
 \usage{
-  ggmap(ggmap, extent = "panel", base_layer,
-    maprange = FALSE, legend = "right", padding = 0.02,
-    darken = c(0, "black"), ...)
+ggmap(ggmap, extent = "panel", base_layer, maprange = FALSE,
+  legend = "right", padding = 0.02, darken = c(0, "black"), ...)
 }
 \arguments{
   \item{ggmap}{an object of class ggmap (from function
@@ -37,11 +36,11 @@
   \item{...}{...}
 }
 \value{
-  a ggplot object
+a ggplot object
 }
 \description{
-  ggmap plots the raster object produced by
-  \code{\link{get_map}}.
+ggmap plots the raster object produced by
+\code{\link{get_map}}.
 }
 \examples{
 \dontrun{
@@ -488,9 +487,9 @@ ggmap(get_map(), darken = c(.5,'red')) # why?
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-  \code{\link{get_map}}, \code{\link{qmap}}
+\code{\link{get_map}}, \code{\link{qmap}}
 }
 

@@ -2,10 +2,10 @@
 \alias{get_cloudmademap}
 \title{Get a CloudMade map}
 \usage{
-  get_cloudmademap(bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
-    zoom = 10, api_key, maptype = 1, highres = TRUE,
-    crop = TRUE, messaging = FALSE, urlonly = FALSE,
-    filename = "ggmapTemp", color = c("color", "bw"), ...)
+get_cloudmademap(bbox = c(left = -95.80204, bottom = 29.38048, right =
+  -94.92313, top = 30.14344), zoom = 10, api_key, maptype = 1,
+  highres = TRUE, crop = TRUE, messaging = FALSE, urlonly = FALSE,
+  filename = "ggmapTemp", color = c("color", "bw"), ...)
 }
 \arguments{
   \item{bbox}{a bounding box in the format c(lowerleftlon,
@@ -35,19 +35,19 @@
   \item{...}{...}
 }
 \value{
-  a map image as a 2d-array of colors as hexadecimal
-  strings representing pixel fill values.
+a map image as a 2d-array of colors as hexadecimal strings
+representing pixel fill values.
 }
 \description{
-  get_cloudmademap accesses a tile server for Stamen Maps
-  and downloads/stiches map tiles/formats a map image.
+get_cloudmademap accesses a tile server for Stamen Maps and
+downloads/stiches map tiles/formats a map image.
 }
 \details{
-  accesses cloud made maps.  this function requires an api
-  which can be obtained for free from
-  \url{http://cloudmade.com/user/show}. thousands of
-  maptypes ("styles"), including create-your-own options,
-  are available from \url{http://maps.cloudmade.com/editor}
+accesses cloud made maps.  this function requires an api
+which can be obtained for free from
+\url{http://cloudmade.com/user/show}. thousands of maptypes
+("styles"), including create-your-own options, are
+available from \url{http://maps.cloudmade.com/editor}
 }
 \examples{
 \dontrun{
@@ -89,9 +89,9 @@ ggmap(map)
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-  \url{http://maps.cloudmade.com/}, \code{\link{ggmap}}
+\url{http://maps.cloudmade.com/}, \code{\link{ggmap}}
 }
 

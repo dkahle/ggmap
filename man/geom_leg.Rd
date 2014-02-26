@@ -2,8 +2,8 @@
 \alias{geom_leg}
 \title{Single line segments with rounded ends}
 \usage{
-  geom_leg(mapping = NULL, data = NULL, stat = "identity",
-    position = "identity", arrow = NULL, ...)
+geom_leg(mapping = NULL, data = NULL, stat = "identity",
+  position = "identity", arrow = NULL, ...)
 }
 \arguments{
   \item{mapping}{mapping}
@@ -19,11 +19,11 @@
   \item{...}{...}
 }
 \description{
-  Single line segments with rounded ends
+Single line segments with rounded ends
 }
 \details{
-  only intended for use in ggmaps package.  only designed
-  for mercator projection.
+only intended for use in ggmaps package.  only designed for
+mercator projection.
 }
 \examples{
 \dontrun{
@@ -58,8 +58,8 @@ qmap('424 clay avenue, waco, tx', zoom = 16, maprange = TRUE, maptype = 'satelli
 }
 }
 \seealso{
-  geom_segment in ggplot2, inspired by
-  \url{http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/},
-  \code{\link{route}}
+geom_segment in ggplot2, inspired by
+\url{http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/},
+\code{\link{route}}
 }
 

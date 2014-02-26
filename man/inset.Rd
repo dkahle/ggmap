@@ -2,8 +2,7 @@
 \alias{inset}
 \title{Add ggplot2 insets to a map}
 \usage{
-  inset(grob, xmin = -Inf, xmax = Inf, ymin = -Inf,
-    ymax = Inf)
+inset(grob, xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf)
 }
 \arguments{
   \item{grob}{grob to display}
@@ -15,18 +14,18 @@
   vertical location of raster}
 }
 \description{
-  This is identical to ggplot2::annotation_custom for use
-  with ggmap
+This is identical to ggplot2::annotation_custom for use
+with ggmap
 }
 \details{
-  Most useful for adding tables, inset plots, and other
-  grid-based decorations
+Most useful for adding tables, inset plots, and other
+grid-based decorations
 }
 \note{
-  \code{annotation_custom} expects the grob to fill the
-  entire viewport defined by xmin, xmax, ymin, ymax. Grobs
-  with a different (absolute) size will be center-justified
-  in that region. Inf values can be used to fill the full
-  plot panel
+\code{annotation_custom} expects the grob to fill the
+entire viewport defined by xmin, xmax, ymin, ymax. Grobs
+with a different (absolute) size will be center-justified
+in that region. Inf values can be used to fill the full
+plot panel
 }
 

@@ -2,7 +2,7 @@
 \alias{qmap}
 \title{Quick map plot}
 \usage{
-  qmap(location = "houston", ...)
+qmap(location = "houston", ...)
 }
 \arguments{
   \item{location}{character; location of interest}
@@ -11,11 +11,11 @@
   \code{\link{get_map}}.}
 }
 \value{
-  a ggplot object
+a ggplot object
 }
 \description{
-  qmap is a wrapper for \code{\link{ggmap}} and
-  \code{\link{get_map}}.
+qmap is a wrapper for \code{\link{ggmap}} and
+\code{\link{get_map}}.
 }
 \examples{
 \dontrun{
@@ -43,9 +43,9 @@ qmap("the white house", maprange = TRUE,
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-  \code{\link{ggmap}} and \code{\link{get_map}}.
+\code{\link{ggmap}} and \code{\link{get_map}}.
 }
 

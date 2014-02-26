@@ -25,36 +25,5 @@ Imports:
 Suggests:
     MASS,
     stringr
-License: MIT + file LICENSE
+License: GPL-2
 LazyData: true
-Collate:
-    'crime.R'
-    'geocode.R'
-    'ggimage.R'
-    'ggmap.R'
-    'hadley.R'
-    'qmap.R'
-    'theme_nothing.R'
-    'zips.R'
-    'theme_inset.R'
-    'OSM_scale_lookup.R'
-    'gglocator.R'
-    'mapdist.R'
-    'revgeocode.R'
-    'route.R'
-    'help.R'
-    'get_googlemap.R'
-    'get_openstreetmap.R'
-    'get_stamenmap.R'
-    'LonLat2XY.R'
-    'XY2LonLat.R'
-    'get_cloudmademap.R'
-    'get_map.R'
-    'qmplot.R'
-    'make_bbox.R'
-    'wind.R'
-    'inset_raster.R'
-    'inset.R'
-    'zzz.R'
-    'file_drawer.R'
-    'calc_zoom.r'

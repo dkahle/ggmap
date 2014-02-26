@@ -2,17 +2,17 @@
 \alias{theme_inset}
 \title{Make a ggplot2 inset theme.}
 \usage{
-  theme_inset(base_size = 12)
+theme_inset(base_size = 12)
 }
 \arguments{
   \item{base_size}{base size, not used.}
 }
 \value{
-  a ggplot2 theme (i.e., a list of class options).
+a ggplot2 theme (i.e., a list of class options).
 }
 \description{
-  theme_inset is a ggplot2 theme geared towards making
-  inset plots.
+theme_inset is a ggplot2 theme geared towards making inset
+plots.
 }
 \examples{
 library(ggplot2)
@@ -45,6 +45,6 @@ qplot(1:10, 1:10) +
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david.kahle@gmail.com}
 }
 

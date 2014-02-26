@@ -2,21 +2,21 @@
 \alias{distQueryCheck}
 \title{Check Google Maps Distance Matrix API query limit}
 \usage{
-  distQueryCheck()
+distQueryCheck()
 }
 \value{
-  a data frame
+a data frame
 }
 \description{
-  Check Google Maps Distance Matrix API query limit
+Check Google Maps Distance Matrix API query limit
 }
 \examples{
 distQueryCheck()
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-  \url{http://code.google.com/apis/maps/documentation/distancematrix/}
+\url{http://code.google.com/apis/maps/documentation/distancematrix/}
 }
 

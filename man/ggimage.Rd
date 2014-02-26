@@ -2,8 +2,7 @@
 \alias{ggimage}
 \title{Plot an image using ggplot2}
 \usage{
-  ggimage(mat, fullpage = TRUE, coord_equal = TRUE,
-    scale_axes = FALSE)
+ggimage(mat, fullpage = TRUE, coord_equal = TRUE, scale_axes = FALSE)
 }
 \arguments{
   \item{mat}{a matrix, imagematrix, array, or raster
@@ -18,10 +17,10 @@
   [0,ncol(mat)-1]x[0,nrow(mat)-1] (F) or [0,1]x[0,1] (T)}
 }
 \value{
-  a ggplot object
+a ggplot object
 }
 \description{
-  ggimage is the near ggplot2 equivalent of image.
+ggimage is the near ggplot2 equivalent of image.
 }
 \examples{
 \dontrun{
@@ -47,6 +46,6 @@ ggimage(hadley, fullpage = FALSE) +
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david.kahle@gmail.com}
 }
 

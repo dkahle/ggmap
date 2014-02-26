@@ -2,21 +2,21 @@
 \alias{get_database}
 \title{Get the ggmap database}
 \usage{
-  get_database(where = paste(getwd(), "ggmapFileDrawer", sep = "/"))
+get_database(where = paste(getwd(), "ggmapFileDrawer", sep = "/"))
 }
 \arguments{
   \item{where}{where the directory should be made}
 }
 \value{
-  a data frame
+a data frame
 }
 \description{
-  Get the ggmap database
+Get the ggmap database
 }
 \details{
-  The ggmap database is a data frame with two columns : the
-  url which needs to be called for the map (or maptile) and
-  the image filename.
+The ggmap database is a data frame with two columns : the
+url which needs to be called for the map (or maptile) and
+the image filename.
 }
 \examples{
 \dontrun{
@@ -31,6 +31,6 @@ str(get_database())
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}.
+David Kahle \email{david.kahle@gmail.com}.
 }
 

@@ -2,15 +2,14 @@
 \alias{legs2route}
 \title{Convert a leg-structured route to a route-structured route}
 \usage{
-  legs2route(legsdf)
+legs2route(legsdf)
 }
 \arguments{
   \item{legsdf}{a legs-structured route, see
   \code{\link{route}}}
 }
 \description{
-  Convert a leg-structured route to a route-structured
-  route
+Convert a leg-structured route to a route-structured route
 }
 \examples{
 \dontrun{
@@ -58,6 +57,6 @@ qmap('college station, texas', zoom = 8) +
 }
 }
 \seealso{
-  geom_path in ggplot2
+geom_path in ggplot2
 }
 

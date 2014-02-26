@@ -2,22 +2,22 @@
 \alias{OSM_scale_lookup}
 \title{Look up OpenStreetMap scale for a given zoom level.}
 \usage{
-  OSM_scale_lookup(zoom = 10)
+OSM_scale_lookup(zoom = 10)
 }
 \arguments{
   \item{zoom}{google zoom}
 }
 \value{
-  scale
+scale
 }
 \description{
-  Look up OpenStreetMap scale for a given zoom level.
+Look up OpenStreetMap scale for a given zoom level.
 }
 \details{
-  The calculation of an appropriate OSM scale value for a
-  given zoom level is a complicated task.  For details, see
-  \url{http://wiki.openstreetmap.org/wiki/FAQ} or
-  \url{http://almien.co.uk/OSM/Tools/Scale/}.
+The calculation of an appropriate OSM scale value for a
+given zoom level is a complicated task.  For details, see
+\url{http://wiki.openstreetmap.org/wiki/FAQ} or
+\url{http://almien.co.uk/OSM/Tools/Scale/}.
 }
 \examples{
 OSM_scale_lookup(zoom = 3)
@@ -52,6 +52,6 @@ qmap(lonR = lonR, latR = latR, source = 'osm', scale = 325E5)
 }
 }
 \author{
-  David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david.kahle@gmail.com}
 }
 
