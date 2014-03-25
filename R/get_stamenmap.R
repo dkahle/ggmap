@@ -142,13 +142,13 @@ get_stamenmap <- function(
       "(try a smaller zoom)."))
   }
   
-  
-  # make urls - e.g. http://tile.stamen.com/[maptype]/[zoom]/[x]/[y].png
+
+  # make urls - e.g. http://tile.stamen.com/[maptype]/[zoom]/[x]/[y].jpg
   base_url <- "http://tile.stamen.com/"
   base_url <- paste(base_url, maptype, "/", zoom, sep = "")
   urls <- paste(base_url, 
     apply(tilesNeeded, 1, paste, collapse = "/"), sep = "/")
-  urls <- paste(urls, ".png", sep = "")
+  urls <- paste(urls, ".jpg", sep = "")
   if(messaging) message(length(urls), " tiles required.")
   if(urlonly) return(urls)  
   if(any(sapply(as.list(urls), url_lookup) != FALSE)) message("Using archived tiles...")
@@ -280,19 +280,19 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, force = FALSE, messaging = T
   stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
   stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
   
-  # format url http://tile.stamen.com/[maptype]/[zoom]/[x]/[y].png
-  url <- paste0(paste0(c("http://tile.stamen.com", maptype, zoom, x, y), collapse = "/"), ".png")
+  # format url http://tile.stamen.com/[maptype]/[zoom]/[x]/[y].jpg
+  url <- paste0(paste0(c("http://tile.stamen.com", maptype, zoom, x, y), collapse = "/"), ".jpg")
   
   # lookup in archive
   lookup <- url_lookup(url)
   if(lookup != FALSE && force == FALSE) return(recall_ggmap(url))
   
   # grab if not in archive
-  download.file(url, destfile = "ggmapFileDrawer/ggmapTemp.png", quiet = !messaging, mode = "wb")
+  download.file(url, destfile = "ggmapFileDrawer/ggmapTemp.jpg", quiet = !messaging, mode = "wb")
   if(TRUE) message(paste0("Map from URL : ", url))  
   
   # read in and format
-  tile <- readPNG("ggmapFileDrawer/ggmapTemp.png")
+  tile <- readJPEG("ggmapFileDrawer/ggmapTemp.jpg")
   tile <- t(apply(tile, 2, rgb))
   
   # determine bbox of map. note : not the same as the argument bounding box -

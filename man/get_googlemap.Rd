@@ -7,7 +7,7 @@ get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836), zoom = 10,
   "jpg-baseline", "png32"), maptype = c("terrain", "satellite", "roadmap",
   "hybrid"), language = "en-EN", region, markers, path, visible, style,
   sensor = FALSE, messaging = FALSE, urlonly = FALSE, filename = "",
-  color = c("color", "bw"), force = TRUE, archiving = TRUE, ...)
+  color = c("color", "bw"), force = TRUE, archiving = FALSE, ...)
 }
 \arguments{
   \item{center}{the center of the map.  this can either be

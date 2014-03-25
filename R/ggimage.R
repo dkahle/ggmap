@@ -56,7 +56,8 @@ ggimage <- function(mat, fullpage = TRUE, coord_equal = TRUE, scale_axes = FALSE
   raster <- as.raster(mat)
   
   plot <- ggplot(aes(x, y), data = fourCorners) + geom_blank() +
-    ggmap:::annotation_raster(raster, 0, p-1, 0, n-1) +
+    #ggmap:::annotation_raster(raster, 0, p-1, 0, n-1) +  
+    annotation_raster(raster, 0, p-1, 0, n-1) +
     scale_x_continuous(expand = c(0,0)) +
     scale_y_continuous(expand = c(0,0))  
   

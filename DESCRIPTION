@@ -1,8 +1,8 @@
 Package: ggmap
 Type: Package
 Title: A package for spatial visualization with Google Maps and OpenStreetMap
-Version: 2.4
-Date: 2014-02-22
+Version: 2.4.1
+Date: 2014-03-25
 Author: David Kahle <david.kahle@gmail.com>, Hadley Wickham
     <h.wickham@gmail.com>
 Maintainer: David Kahle <david.kahle@gmail.com>
@@ -21,7 +21,8 @@ Imports:
     reshape2,
     grid,
     rjson,
-    mapproj
+    mapproj,
+    jpeg
 Suggests:
     MASS,
     stringr

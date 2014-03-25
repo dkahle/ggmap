@@ -57,7 +57,7 @@ mu <- c(-95.3632715, 29.7632836); nDataSets <- sample(4:10,1)
 chkpts <- NULL
 for(k in 1:nDataSets){
   a <- rnorm(2); b <- rnorm(2); si <- 1/3000 * (outer(a,a) + outer(b,b))
-  chkpts <- rbind(chkpts, cbind(mvrnorm(rpois(1,50), jitter(mu, .01), si), k))
+  chkpts <- rbind(chkpts, cbind(mvrnorm(rpois(1,50), jitter(mu, .01), si), k)
 }
 chkpts <- data.frame(chkpts)
 names(chkpts) <- c('lon', 'lat','class')

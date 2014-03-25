@@ -70,7 +70,7 @@ get_googlemap <- function(
   maptype = c("terrain", "satellite", "roadmap", "hybrid"), 
   language = "en-EN", region, markers, path, visible, style, sensor = FALSE,
   messaging = FALSE, urlonly = FALSE, filename = "", color = c("color","bw"), force = TRUE, 
-  archiving = TRUE, ...
+  archiving = FALSE, ...
 ){
 	
   # enumerate argument checking (added in lieu of checkargs function)	
