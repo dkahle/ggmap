@@ -4,7 +4,7 @@
 \usage{
 get_stamenmap(bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313,
   top = 30.14344), zoom = 10, maptype = c("terrain", "terrain-background",
-  "terrain=labels", "terrain-lines", "toner", "toner-2010", "toner-2011",
+  "terrain-labels", "terrain-lines", "toner", "toner-2010", "toner-2011",
   "toner-background", "toner-hybrid", "toner-labels", "toner-lines",
   "toner-lite", "watercolor"), crop = TRUE, messaging = FALSE,
   urlonly = FALSE, color = c("color", "bw"), force = FALSE, ...)
@@ -61,6 +61,23 @@ ggmap(get_stamenmap(bbox, zoom = 14))
 ggmap(get_stamenmap(bbox, zoom = 15))
 # ggmap(get_stamenmap(bbox, zoom = 16))
 # ggmap(get_stamenmap(bbox, zoom = 17))
+
+
+# various maptypes are available.  bump it up to zoom = 15 for better resolution.
+ggmap(get_stamenmap(bbox, maptype = "terrain", zoom = 14))
+ggmap(get_stamenmap(bbox, maptype = "terrain-background", zoom = 14))
+ggmap(get_stamenmap(bbox, maptype = "terrain-labels", zoom = 14))
+ggmap(get_stamenmap(bbox, maptype = "terrain-lines", zoom = 14))
+ggmap(get_stamenmap(bbox, maptype = "toner", zoom = 14))
+ggmap(get_stamenmap(bbox, maptype = "toner-2010", zoom = 14))
+ggmap(get_stamenmap(bbox, maptype = "toner-2011", zoom = 14))
+ggmap(get_stamenmap(bbox, maptype = "toner-background", zoom = 14))
+ggmap(get_stamenmap(bbox, maptype = "toner-hybrid", zoom = 14))
+ggmap(get_stamenmap(bbox, maptype = "toner-labels", zoom = 14))
+ggmap(get_stamenmap(bbox, maptype = "toner-lines", zoom = 14))
+ggmap(get_stamenmap(bbox, maptype = "toner-lite", zoom = 14))
+ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 14))
+
 
 ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 11), extent = "device")
 ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 12), extent = "device")

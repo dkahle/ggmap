@@ -35,6 +35,23 @@
 #' # ggmap(get_stamenmap(bbox, zoom = 16))
 #' # ggmap(get_stamenmap(bbox, zoom = 17))
 #' 
+#' 
+#' # various maptypes are available.  bump it up to zoom = 15 for better resolution.
+#' ggmap(get_stamenmap(bbox, maptype = "terrain", zoom = 14))
+#' ggmap(get_stamenmap(bbox, maptype = "terrain-background", zoom = 14))
+#' ggmap(get_stamenmap(bbox, maptype = "terrain-labels", zoom = 14)) 
+#' ggmap(get_stamenmap(bbox, maptype = "terrain-lines", zoom = 14)) 
+#' ggmap(get_stamenmap(bbox, maptype = "toner", zoom = 14)) 
+#' ggmap(get_stamenmap(bbox, maptype = "toner-2010", zoom = 14))
+#' ggmap(get_stamenmap(bbox, maptype = "toner-2011", zoom = 14))
+#' ggmap(get_stamenmap(bbox, maptype = "toner-background", zoom = 14))
+#' ggmap(get_stamenmap(bbox, maptype = "toner-hybrid", zoom = 14))
+#' ggmap(get_stamenmap(bbox, maptype = "toner-labels", zoom = 14))
+#' ggmap(get_stamenmap(bbox, maptype = "toner-lines", zoom = 14))
+#' ggmap(get_stamenmap(bbox, maptype = "toner-lite", zoom = 14))
+#' ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 14)) 
+#' 
+#' 
 #' ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 11), extent = "device")
 #' ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 12), extent = "device")
 #' ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 13), extent = "device")
@@ -79,7 +96,7 @@
 #' 
 get_stamenmap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344), 
-  zoom = 10, maptype = c("terrain","terrain-background","terrain=labels",
+  zoom = 10, maptype = c("terrain","terrain-background","terrain-labels",
     "terrain-lines", "toner", "toner-2010", "toner-2011", "toner-background", 
     "toner-hybrid", "toner-labels", "toner-lines", "toner-lite", "watercolor"),   
   crop = TRUE, messaging = FALSE, 
@@ -113,7 +130,13 @@ get_stamenmap <- function(
   if("checkargs" %in% argsgiven){
     .Deprecated(msg = "checkargs argument deprecated, args are always checked after v2.1.")
   }      
-  	
+
+  # set image type (stamen only)  	
+  if(maptype %in% c("terrain","terrain-background","watercolor")){
+    filetype <- "jpg"
+  } else {
+    filetype <- "png"
+  }
   
   # argument checking (no checks for language, region, markers, path, visible, style)
   #args <- as.list(match.call(expand.dots = TRUE)[-1])  
@@ -148,7 +171,7 @@ get_stamenmap <- function(
   base_url <- paste(base_url, maptype, "/", zoom, sep = "")
   urls <- paste(base_url, 
     apply(tilesNeeded, 1, paste, collapse = "/"), sep = "/")
-  urls <- paste(urls, ".jpg", sep = "")
+  urls <- paste(urls, filetype, sep = ".")
   if(messaging) message(length(urls), " tiles required.")
   if(urlonly) return(urls)  
   if(any(sapply(as.list(urls), url_lookup) != FALSE)) message("Using archived tiles...")
@@ -281,18 +304,28 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, force = FALSE, messaging = T
   stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
   
   # format url http://tile.stamen.com/[maptype]/[zoom]/[x]/[y].jpg
-  url <- paste0(paste0(c("http://tile.stamen.com", maptype, zoom, x, y), collapse = "/"), ".jpg")
+  if(maptype %in% c("terrain","terrain-background","watercolor")){
+    filetype <- "jpg"
+  } else {
+    filetype <- "png"
+  }
+  url <- paste0(paste0(c("http://tile.stamen.com", maptype, zoom, x, y), collapse = "/"), ".", filetype)
   
   # lookup in archive
   lookup <- url_lookup(url)
   if(lookup != FALSE && force == FALSE) return(recall_ggmap(url))
   
   # grab if not in archive
-  download.file(url, destfile = "ggmapFileDrawer/ggmapTemp.jpg", quiet = !messaging, mode = "wb")
+  download.file(url, destfile = paste0("ggmapFileDrawer/ggmapTemp.", filetype),
+    quiet = !messaging, mode = "wb")
   if(TRUE) message(paste0("Map from URL : ", url))  
   
   # read in and format
-  tile <- readJPEG("ggmapFileDrawer/ggmapTemp.jpg")
+  if(maptype %in% c("terrain","terrain-background","watercolor")){
+    tile <- readJPEG("ggmapFileDrawer/ggmapTemp.jpg")
+  } else {
+    tile <- readPNG("ggmapFileDrawer/ggmapTemp.png")
+  }
   tile <- t(apply(tile, 2, rgb))
   
   # determine bbox of map. note : not the same as the argument bounding box -
