@@ -57,7 +57,8 @@ get_map(location = c(lon = -95.3632715, lat = 29.7632836), zoom = "auto",
   \item{api_key}{an api key for cloudmade maps}
 }
 \value{
-a data.frame with columns latitude, longitude, and fill
+an object of class "raster", plottable by the rasterLayer and 
+grid.raster functions
 }
 \description{
 get_map is a smart function which queries the Google Maps,
