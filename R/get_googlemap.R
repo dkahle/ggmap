@@ -70,7 +70,7 @@ get_googlemap <- function(
   maptype = c("terrain", "satellite", "roadmap", "hybrid"), 
   language = "en-EN", region, markers, path, visible, style, sensor = FALSE,
   messaging = FALSE, urlonly = FALSE, filename = "", color = c("color","bw"), force = TRUE, 
-  archiving = FALSE, ...
+  archiving = FALSE, api_key = "", ...
 ){
 	
   # enumerate argument checking (added in lieu of checkargs function)	
@@ -254,12 +254,12 @@ get_googlemap <- function(
   
   style_url <- if(!missing(style)){ paste("style=", style) } else { "" }
   sensor_url <- paste("sensor=", tolower(as.character(sensor)), sep="")
-  
+  api_url <- if(!missing(api_key)){paste("api=", api_key, sep="") } else { "" }
   
   # format url proper
   post_url <- paste(center_url, zoom_url, size_url, scale_url, 
     format_url, maptype_url, language_url, region_url, markers_url, 
-    path_url, visible_url, style_url, sensor_url, sep = "&")
+    path_url, visible_url, style_url, sensor_url, api_url, sep = "&")
   url <- paste(base_url, post_url, sep = "")
   url <- gsub("[&]+","&",url) # removes missing arguments
   if(substr(url, nchar(url), nchar(url)) == "&"){ # if ends with &
