@@ -288,6 +288,7 @@ get_googlemap <- function(
   }
 
   # download and read in file
+  if  (!'ggmapFileDrawer' %in% list.dirs(full.names= F, recursive=F)) dir.create('ggmapFileDrawer')
   download.file(url, destfile = paste0("ggmapFileDrawer/", destfile), quiet = !messaging, mode = "wb")
   message(paste0("Map from URL : ", url))
   
