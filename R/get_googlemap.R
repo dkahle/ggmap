@@ -185,9 +185,7 @@ get_googlemap <- function(
   if(format != "png8") stop("currently only the png format is supported.", call. = F)
   maptype <- match.arg(maptype)
   color <- match.arg(color)  
-  #if(!missing(markers) && class(markers) == "list") markers <- plyr:::list_to_dataframe(markers)
-  #if(!missing(markers) && class(markers) == "list") markers <- eval(plyrList2DataFrame)(markers)
-  #if(!missing(markers) && class(markers) == "list") markers <- list_to_dataframe(markers)
+  if(!missing(markers) && class(markers) == "list") markers <- list_to_dataframe(markers)
   if(!missing(path) && is.data.frame(path)) path <- list(path)
 
   
