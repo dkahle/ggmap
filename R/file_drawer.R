@@ -59,8 +59,6 @@ file_drawer_found <- function(where = getwd(), drawerName = 'ggmapFileDrawer'){
 #'   
 make_file_drawer <- function(where = getwd(), drawerName = 'ggmapFileDrawer'){
 
-  startwd <- getwd()
-
   # check for name return NULL if present
   if(file_drawer_found(where, drawerName)) return(invisible(FALSE))
   
@@ -70,17 +68,11 @@ make_file_drawer <- function(where = getwd(), drawerName = 'ggmapFileDrawer'){
   # make check-in sheet
   df <- data.frame(url = character(), file = character(), stringsAsFactors = FALSE)
   
-  # move to where directory
-  setwd(paste(where, drawerName, sep = '/'))
-  
   # create database
-  write.csv(df, file = 'ggmapsDatabase.csv', row.names = FALSE)
+  write.csv(df, file = paste(where, drawerName, 'ggmapsDatabase.csv', sep = '/'), row.names = FALSE)
   
   # create ggmaps directory
-  dir.create('ggmaps')
-  
-  # move back
-  setwd(startwd)
+  dir.create(paste(where, drawerName,'ggmaps', sep = '/'))
   
   # return TRUE
   invisible(TRUE)
@@ -121,17 +113,10 @@ make_file_drawer <- function(where = getwd(), drawerName = 'ggmapFileDrawer'){
 get_database <- function(where = paste(getwd(), 'ggmapFileDrawer', sep = '/')){
 
   if(!file_drawer_found()) stop('no filedrawer found.', call. = FALSE)
-
-  # migrate to where
-  startwd <- getwd()
-  setwd(where)
   
   # read in database
-  df <- read.csv('ggmapsDatabase.csv', header = TRUE, stringsAsFactors = FALSE)
-  
-  # migrate back to startwd
-  setwd(startwd)
-  
+  df <- read.csv(paste(where,'ggmapsDatabase.csv', sep = '/'), header = TRUE, stringsAsFactors = FALSE)
+    
   # return
   df 
   
@@ -181,17 +166,14 @@ update_database <- function(url, file = paste0(timeStamp(), '.rds'), where = pas
 
   if(!file_drawer_found()) make_file_drawer()
 
-  # migrate to where
-  startwd <- getwd()
-  setwd(where)
-  
+
   # read in database
-  df <- read.csv('ggmapsDatabase.csv', header = TRUE, stringsAsFactors = FALSE)
+  df <- read.csv(paste(where, 'ggmapsDatabase.csv', sep = '/'), header = TRUE, stringsAsFactors = FALSE)
   
   # check if url is in database.  if it is, update the filename.  if not, add.
   if(url %in% df$url){
   	oldfile <- df$file[which(df$url == url)]
-  	file.remove(paste("ggmaps", oldfile, sep = '/'))
+  	file.remove(paste(where,"ggmaps", oldfile, sep = '/'))
     df$file[which(df$url == url)] <- file
     
   } else {
@@ -200,9 +182,6 @@ update_database <- function(url, file = paste0(timeStamp(), '.rds'), where = pas
   
   # create database
   write.csv(df, file = 'ggmapsDatabase.csv', row.names = FALSE)  
-  
-  # migrate back to startwd
-  setwd(startwd)
   
   invisible(NULL)  
 }
@@ -315,15 +294,10 @@ archive_ggmap <- function(ggmap, url, file = paste0(timeStamp(), '.rds'),
   # update database
   update_database(url, file)
 
-  # migrate to where
-  startwd <- getwd()
-  setwd(where)
   
   # save
-  saveRDS(ggmap, paste("ggmaps", file, sep = '/'))
+  saveRDS(ggmap, paste(where, "ggmaps", file, sep = '/'))
   
-  # migrate back to startwd
-  setwd(startwd)
   
   invisible(NULL)  
 }
@@ -380,16 +354,9 @@ recall_ggmap <- function(url, where = paste(getwd(), 'ggmapFileDrawer', sep = '/
   # determine the filename to get
   file <- url_lookup(url)
   
-  # migrate to where
-  startwd <- getwd()
-  setwd(where)  
-  
   # save
-  out <- readRDS(paste("ggmaps", file, sep = '/'))
-  
-  # migrate back to startwd
-  setwd(startwd)
-  
+  out <- readRDS(paste(where, "ggmaps", file, sep = '/'))
+    
   out
 }
 
