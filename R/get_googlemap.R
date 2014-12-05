@@ -292,9 +292,7 @@ get_googlemap <- function(
   }
 
   # download and read in file
-  if(!file_drawer_found()) {
-    make_file_drawer()
-  }
+  if(!file_drawer_found())  make_file_drawer()
   download.file(url, destfile = paste0("ggmapFileDrawer/", destfile), quiet = !messaging, mode = "wb")
   message(paste0("Map from URL : ", url))
   
