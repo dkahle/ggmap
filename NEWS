@@ -7,7 +7,7 @@ CHANGES
 * ggmap is now slightly less verbose: Terms of Service references are moved to package load.
 * geocode has been given an overhaul; it now accepts a data argument for data frames (see examples), and no longer errors when it runs out of checks.
 * stamen maps now hosts a wide new variety of maptypes that are kin of the existing ones.  see ?get_stamenmap.  some stamen maps have moved to jpgs; this has been fixed.
-* the license is now a GPL-2.
+* the license is now GPL-2.
 
 
 NEW FUNCTIONS
@@ -18,11 +18,14 @@ NEW ARGUMENTS
 
 * qmplot now accepts maptype.
 * several functions now have a force argument that demands re-downloading of maps.
+* get_googlemap now accepts an api_key argument for business users. (Thanks to Guy Carpenter for starting the process.)
+* geocode and revgeocode now accept client and signature arguments for business users.
 
 FIXES
 
 * fixed a bug in stamen cloudmade maps that resulted in a very (very) small miscalculation in the bottom right bounding box of each tile.
 * several spaces have been removed from google maps urls; in particular, language="zh-CN" now works properly.  (thanks to github user JiangXD.)
+* unexported objects from ggplot2 and plyr are now properly handled.
 
 
 ggmap 2.3

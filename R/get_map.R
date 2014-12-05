@@ -15,7 +15,7 @@
 #' @param color color ("color") or black-and-white ("bw")
 #' @param language language for google maps
 #' @param api_key an api key for cloudmade maps
-#' @return a data.frame with columns latitude, longitude, and fill
+#' @return a ggmap object (a classed raster object with a bounding box attribute)
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso \code{\link{ggmap}}, \code{\link{GetMap}} in package RgoogleMaps
 #' @export

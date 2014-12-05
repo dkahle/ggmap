@@ -15,7 +15,7 @@
 #' @param ... ...
 #' @details accesses cloud made maps.  this function requires an api which can be obtained for free from \url{http://cloudmade.com/user/show}.  
 #' thousands of maptypes ("styles"), including create-your-own options, are available from \url{http://maps.cloudmade.com/editor}
-#' @return a map image as a 2d-array of colors as hexadecimal strings representing pixel fill values.
+#' @return a ggmap object (a classed raster object with a bounding box attribute)
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso \url{http://maps.cloudmade.com/}, \code{\link{ggmap}}
 #' @export

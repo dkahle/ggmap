@@ -7,6 +7,8 @@
 #' @param messaging turn messaging on/off
 #' @param sensor whether or not the geocoding request comes from a device with a location sensor
 #' @param override_limit override the current query count (.GoogleGeocodeQueryCount)
+#' @param client client ID for business users, see https://developers.google.com/maps/documentation/business/webservices/auth
+#' @param signature signature for business users, see https://developers.google.com/maps/documentation/business/webservices/auth
 #' @param data a data frame
 #' @return depends (at least a data.frame with variables lon and lat)
 #' @author David Kahle \email{david.kahle@@gmail.com}
@@ -72,13 +74,25 @@
 #' }
 #' 
 geocode <- function(location, output = c('latlon','latlona','more','all'), 
-  messaging = FALSE, sensor = FALSE, override_limit = FALSE, data)
-{	
+  messaging = FALSE, sensor = FALSE, override_limit = FALSE, 
+  client = "", signature = "", data
+){	
 	
   # check parameters
   if(missing(data)) stopifnot(is.character(location))
   output <- match.arg(output)
   stopifnot(is.logical(messaging))
+  if(client != "" && signature != ""){
+  	if(substr(client, 1, 4) != 'gme-') client <- paste("gme-", client, sep = "")
+  	userType <- "business"
+  } else if(client == "" && signature != ""){
+    stop("if signature argument is specified, client must be as well.", call. = FALSE)    
+  } else if(client != "" && signature == ""){
+    stop("if client argument is specified, signature must be as well.", call. = FALSE)
+  } else { 
+    userType <- "free"
+  }
+  
   
   if(!missing(data)){
     argList <- as.list(match.call()[-1])
@@ -90,7 +104,8 @@ geocode <- function(location, output = c('latlon','latlona','more','all'),
 
     locs <- eval(substitute(location), data)
     geocodedLocs <- geocode(locs, output = output, messaging = messaging, 
-      override_limit = override_limit, sensor = sensor)
+      override_limit = override_limit, sensor = sensor, client = client, 
+      signature = signature)
     dataSetName <- as.character(substitute(data))
     # this works, but apparently violates crans rules
     message(paste0("overwriting dataset ", dataSetName, "."))
@@ -102,13 +117,24 @@ geocode <- function(location, output = c('latlon','latlona','more','all'),
 	
   # vectorize for many locations (divide and conquer)
   if(length(location) > 1){ 
-    s <- 'google restricts requests to 2500 requests a day.'
-    if(length(location) > 2500) stop(s, call. = F)
-    if(length(location) > 200 && messaging) message(paste('Reminder', s, sep = ' : '))      
-    if(output == 'latlon' || output == 'latlona' ||output == 'more'){
-      return(ldply(as.list(location), geocode, output = output, messaging = messaging))
-    } else { # output = all
-      return(llply(as.list(location), geocode, output = output, messaging = messaging))
+  	if(userType == "free"){
+      s <- 'google restricts requests to 2500 requests a day for non-business use.'
+      if(length(location) > 2500) stop(s, call. = F)
+      if(length(location) > 200 && messaging) message(paste('Reminder', s, sep = ' : '))      
+      if(output == 'latlon' || output == 'latlona' ||output == 'more'){
+        return(ldply(as.list(location), geocode, output = output, messaging = messaging))
+      } else { # output = all
+        return(llply(as.list(location), geocode, output = output, messaging = messaging))
+      }
+    } else { # userType == "business"
+      s <- 'google restricts requests to 100000 requests a day for business use.'
+      if(length(location) > 100000) stop(s, call. = F)
+      if(length(location) > 200 && messaging) message(paste('Reminder', s, sep = ' : '))      
+      if(output == 'latlon' || output == 'latlona' ||output == 'more'){
+        return(ldply(as.list(location), geocode, output = output, messaging = messaging))
+      } else { # output = all
+        return(llply(as.list(location), geocode, output = output, messaging = messaging))
+      }    	  
     }
   }
 
@@ -121,16 +147,21 @@ geocode <- function(location, output = c('latlon','latlona','more','all'),
   	
     # format url
     sensor4url <- paste('sensor=', tolower(as.character(sensor)), sep = '')   
+    client4url <- paste('client=', client, sep = '')   
+    signature4url <- paste('signature=', signature, sep = '')           
     loc <- location
     location <- gsub(' ', '+', location)
-    posturl <- paste(location, sensor4url, sep = '&')        
+    posturl <- paste(location, sensor4url, sep = '&') 
+    if(userType == "business"){
+    	  posturl <- paste(posturl, client4url, signature4url, sep = '&')
+    	}
     url_string <- paste('http://maps.googleapis.com/maps/api/geocode/json?address=', posturl, sep = "")
     url_string <- URLencode(url_string)
     if(messaging) message(paste('contacting ', url_string, '...', sep = ''), appendLF = F)
   
     # check/update google query limit
     check <- checkGeocodeQueryLimit(url_string, elems = 1, 
-      override = override_limit, messaging = messaging)      
+      override = override_limit, messaging = messaging, userType = userType)      
     if(check == "stop"){
       if(output == "latlon"){
         return(c(lon = NA, lat = NA))
@@ -241,17 +272,20 @@ geocode <- function(location, output = c('latlon','latlona','more','all'),
 
 
 
-checkGeocodeQueryLimit <- function(url_string, elems, override, messaging){  
+checkGeocodeQueryLimit <- function(url_string, elems, override, messaging, userType){  
 
   .GoogleGeocodeQueryCount <- NULL; rm(.GoogleGeocodeQueryCount); # R CMD check trick
+  
+  stopifnot(userType %in% c("free", "business"))
+  limit <- c("free" = 2500, "business" = 1E5)[userType]  
   	
   if(exists('.GoogleGeocodeQueryCount', .GlobalEnv)){
     	
     .GoogleGeocodeQueryCount <<- 
       subset(.GoogleGeocodeQueryCount, time >= Sys.time() - 24*60*60)
     
-    # 2500 per 24 hours
-    if(sum(.GoogleGeocodeQueryCount$elements) + elems > 2500){
+    # limit per 24 hours
+    if(sum(.GoogleGeocodeQueryCount$elements) + elems > limit){
       message('query max exceeded, see ?geocode.  current total = ', 
         sum(.GoogleGeocodeQueryCount$elements))
       if(!override) return("stop")
@@ -261,7 +295,7 @@ checkGeocodeQueryLimit <- function(url_string, elems, override, messaging){
     if(with(.GoogleGeocodeQueryCount, 
       sum(elements[time >= Sys.time() - 10]) + elems > 10
     )){
-      message('.', appendLF=F)
+      message('.', appendLF = FALSE)
       Sys.sleep(1) # can do better
     }    
       
@@ -297,26 +331,30 @@ checkGeocodeQueryLimit <- function(url_string, elems, override, messaging){
 #'
 #' Check Google Geocoding API query limit
 #' 
+#' @param userType "free" or "business"
 #' @return a data frame
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso \url{https://developers.google.com/maps/documentation/geocoding/}
 #' @export
 #' @examples
 #' geocodeQueryCheck()
-geocodeQueryCheck <- function(){
+geocodeQueryCheck <- function(userType = "free"){
 	
   .GoogleGeocodeQueryCount <- NULL; rm(.GoogleGeocodeQueryCount); # R CMD check trick	
   
+  stopifnot(userType %in% c("free", "business"))
+  limit <- c("free" = 2500, "business" = 1E5)[userType]
+  
   if(exists('.GoogleGeocodeQueryCount', .GlobalEnv)){    	
   	
-  	remaining <- 2500-sum(
+  	remaining <- limit - sum(
   	  subset(.GoogleGeocodeQueryCount, time >= Sys.time() - 24*60*60)$elements
   	  )
     message(remaining, ' geocoding queries remaining.')
     
   } else {
   	
-  	remaining <- 2500
+  	remaining <- limit
     message(remaining, ' geocoding queries remaining.')
     
   }	

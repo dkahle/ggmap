@@ -235,9 +235,9 @@ qmplot <- function(x, y, ..., data, zoom, source = "stamen", maptype = "terrain"
   
   .all_aesthetics <- unlist(getAnywhere(.all_aesthetics)[1:42])  
   aesthetics <- compact(arguments[.all_aesthetics])
-  aesthetics <- aesthetics[!ggplot2:::is.constant(aesthetics)]
+  aesthetics <- aesthetics[!is.constant(aesthetics)]
   aes_names <- names(aesthetics)
-  aesthetics <- ggplot2:::rename_aes(aesthetics)
+  aesthetics <- rename_aes(aesthetics)
   class(aesthetics) <- "uneval"
   
   if (missing(data)) {
@@ -373,10 +373,11 @@ qmplot <- function(x, y, ..., data, zoom, source = "stamen", maptype = "terrain"
   if (is.proto(position)) position <- list(position)
   
   mapply(function(g, s, ps) {
-    if(is.character(g)) g <- ggplot2:::Geom$find(g)
-    if(is.character(s)) s <- ggplot2:::Stat$find(s)
-    if(is.character(ps)) ps <- ggplot2:::Position$find(ps)
-
+    
+    if(is.character(g)) g <- Geom$find(g)
+    if(is.character(s)) s <- Stat$find(s) 
+    if(is.character(ps)) ps <- Position$find(ps) 
+    
     params <- arguments[setdiff(names(arguments), c(aes_names, argnames))]
     params <- lapply(params, eval, parent.frame(n=1))
     

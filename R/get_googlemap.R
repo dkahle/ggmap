@@ -21,7 +21,8 @@
 #' @param color color or black-and-white
 #' @param force if the map is on file, should a new map be looked up?
 #' @param archiving use archived maps.  note: by changing to TRUE you agree to the one of the approved uses listed in the Google Maps API Terms of Service : http://developers.google.com/maps/terms.
-#' @return a map image as a 2d-array of colors as hexadecimal strings representing pixel fill values.
+#' @param key an api_key for business users
+#' @return a ggmap object (a classed raster object with a bounding box attribute)
 #' @param ... ...
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso \url{https://developers.google.com/maps/documentation/staticmaps/}, \code{\link{ggmap}}
@@ -69,8 +70,8 @@ get_googlemap <- function(
   scale = 2, format = c("png8", "gif", "jpg", "jpg-baseline","png32"), 
   maptype = c("terrain", "satellite", "roadmap", "hybrid"), 
   language = "en-EN", region, markers, path, visible, style, sensor = FALSE,
-  messaging = FALSE, urlonly = FALSE, filename = "", color = c("color","bw"), force = TRUE, 
-  archiving = FALSE, ...
+  messaging = FALSE, urlonly = FALSE, filename = "", color = c("color","bw"), 
+  force = TRUE, archiving = FALSE, key = "", ...
 ){
 	
   # enumerate argument checking (added in lieu of checkargs function)	
@@ -184,7 +185,9 @@ get_googlemap <- function(
   if(format != "png8") stop("currently only the png format is supported.", call. = F)
   maptype <- match.arg(maptype)
   color <- match.arg(color)  
-  if(!missing(markers) && class(markers) == "list") markers <- plyr:::list_to_dataframe(markers)
+  #if(!missing(markers) && class(markers) == "list") markers <- plyr:::list_to_dataframe(markers)
+  #if(!missing(markers) && class(markers) == "list") markers <- eval(plyrList2DataFrame)(markers)
+  #if(!missing(markers) && class(markers) == "list") markers <- list_to_dataframe(markers)
   if(!missing(path) && is.data.frame(path)) path <- list(path)
 
   
@@ -254,12 +257,13 @@ get_googlemap <- function(
   
   style_url <- if(!missing(style)){ paste("style=", style) } else { "" }
   sensor_url <- paste("sensor=", tolower(as.character(sensor)), sep="")
+  key_url <- if(!missing(key)){paste("key=", key, sep="") } else { "" }  
   
   
   # format url proper
   post_url <- paste(center_url, zoom_url, size_url, scale_url, 
     format_url, maptype_url, language_url, region_url, markers_url, 
-    path_url, visible_url, style_url, sensor_url, sep = "&")
+    path_url, visible_url, style_url, sensor_url, key_url, sep = "&")
   url <- paste(base_url, post_url, sep = "")
   url <- gsub("[&]+","&",url) # removes missing arguments
   if(substr(url, nchar(url), nchar(url)) == "&"){ # if ends with &
