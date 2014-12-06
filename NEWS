@@ -26,7 +26,8 @@ FIXES
 * fixed a bug in stamen cloudmade maps that resulted in a very (very) small miscalculation in the bottom right bounding box of each tile.
 * several spaces have been removed from google maps urls; in particular, language="zh-CN" now works properly.  (thanks to github user JiangXD.)
 * unexported objects from ggplot2 and plyr are now properly handled.
-
+* get_googlemap now properly creates a fileDrawer when needed (thanks Eric Anderson).
+* authors attributions now use the person class.
 
 ggmap 2.3
 -------------------------------------------------------------------------
