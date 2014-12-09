@@ -17,7 +17,7 @@
 #' @param sensor specifies whether the application requesting the static map is using a sensor to determine the user's location
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
-#' @param filename destination file for download (file extension added according to format); deprecated
+#' @param filename destination file for download (file extension added according to format)
 #' @param color color or black-and-white
 #' @param force if the map is on file, should a new map be looked up?
 #' @param where where should the file drawer be located (without terminating "/")
@@ -78,8 +78,8 @@ get_googlemap <- function(
   scale = 2, format = c("png8", "gif", "jpg", "jpg-baseline","png32"), 
   maptype = c("terrain", "satellite", "roadmap", "hybrid"), 
   language = "en-EN", region, markers, path, visible, style, sensor = FALSE,
-  messaging = FALSE, urlonly = FALSE, filename = "", color = c("color","bw"), 
-  force = TRUE, where = tempdir(), archiving = FALSE, key = "", ...
+  messaging = FALSE, urlonly = FALSE, filename = "ggmapTemp", color = c("color","bw"), 
+  force = FALSE, where = tempdir(), archiving = FALSE, key = "", ...
 ){
 	
   # enumerate argument checking (added in lieu of checkargs function)	
@@ -283,7 +283,7 @@ get_googlemap <- function(
   if(!file_drawer_found())  make_file_drawer(where = where)
   if(archiving){
     lookup <- url_lookup(url, where = paste0(where, "/ggmapFileDrawer/"))
-    if(lookup != FALSE && force == TRUE){
+    if(lookup != FALSE && force == FALSE){
       message("Using archived map...")
       return(recall_ggmap(url, where = paste0(where, "/ggmapFileDrawer/"))) 
     }
@@ -299,8 +299,8 @@ get_googlemap <- function(
   }
 
   # download and read in file
-  download.file(url, destfile = 
-    paste0(where, "/ggmapFileDrawer/", destfile), 
+  download.file(url, 
+    destfile = paste0(where, "/ggmapFileDrawer/", destfile), 
     quiet = !messaging, mode = "wb"
   )
   message(paste0("Map from URL : ", url))
@@ -338,7 +338,12 @@ get_googlemap <- function(
   out <- t(map)
   
   # archive map for future use
-  if(archiving) archive_ggmap(out, url, where = paste0(where, "/ggmapFileDrawer"))
+  fileNameCenter <- as.character(center)
+  fileNameCenter <- paste0(gsub("\\.", "_", fileNameCenter),collapse = "-")
+  if(archiving) archive_ggmap(out, url, 
+    file = paste0(paste0(c(maptype, fileNameCenter, zoom), collapse = "-"), ".rds"), 
+    where = paste0(where, "/ggmapFileDrawer")
+  )
   
   # kick out
   out

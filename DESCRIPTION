@@ -23,7 +23,8 @@ Imports:
     grid,
     rjson,
     mapproj,
-    jpeg
+    jpeg,
+    geosphere
 Suggests:
     MASS,
     stringr

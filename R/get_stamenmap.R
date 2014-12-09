@@ -131,13 +131,6 @@ get_stamenmap <- function(
   if("checkargs" %in% argsgiven){
     .Deprecated(msg = "checkargs argument deprecated, args are always checked after v2.1.")
   }      
-
-  # set image type (stamen only)  	
-  if(maptype %in% c("terrain","terrain-background","watercolor")){
-    filetype <- "jpg"
-  } else {
-    filetype <- "png"
-  }
   
   # argument checking (no checks for language, region, markers, path, visible, style)
   #args <- as.list(match.call(expand.dots = TRUE)[-1])  
@@ -146,7 +139,13 @@ get_stamenmap <- function(
   color <- match.arg(color)  
   if(is.null(names(bbox))) names(bbox) <- c("left","bottom","right","top")
 
-
+  # set image type (stamen only)    
+  if(maptype %in% c("terrain","terrain-background","watercolor")){
+    filetype <- "jpg"
+  } else {
+    filetype <- "png"
+  }  
+  
   # determine tiles to get
   fourCorners <- expand.grid(
     lon = c(bbox["left"], bbox["right"]), 
@@ -355,7 +354,8 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, force = FALSE, messaging = T
   
   # archive
   archive_ggmap(tile, url, 
-    file = paste0(paste0(c(maptype, zoom, x, y), collapse = "-"), ".rds")
+    file = paste0(paste0(c(maptype, zoom, x, y), collapse = "-"), ".rds"),
+    where = paste0(where, "/ggmapFileDrawer")
   )
   
   # return

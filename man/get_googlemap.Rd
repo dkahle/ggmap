@@ -7,9 +7,9 @@ get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836), zoom = 10,
   size = c(640, 640), scale = 2, format = c("png8", "gif", "jpg",
   "jpg-baseline", "png32"), maptype = c("terrain", "satellite", "roadmap",
   "hybrid"), language = "en-EN", region, markers, path, visible, style,
-  sensor = FALSE, messaging = FALSE, urlonly = FALSE, filename = "",
-  color = c("color", "bw"), force = TRUE, where = tempdir(),
-  archiving = FALSE, key = "", ...)
+  sensor = FALSE, messaging = FALSE, urlonly = FALSE,
+  filename = "ggmapTemp", color = c("color", "bw"), force = FALSE,
+  where = tempdir(), archiving = FALSE, key = "", ...)
 }
 \arguments{
 \item{center}{the center of the map.  this can either be 1. a longitude/latitude numeric vector or 2. a character string address (note that the latter uses a geocode)}
@@ -42,7 +42,7 @@ get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836), zoom = 10,
 
 \item{urlonly}{return url only}
 
-\item{filename}{destination file for download (file extension added according to format); deprecated}
+\item{filename}{destination file for download (file extension added according to format)}
 
 \item{color}{color or black-and-white}
 

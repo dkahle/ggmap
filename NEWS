@@ -13,6 +13,7 @@ CHANGES
 NEW FUNCTIONS
 
 * calc_zoom: calc_zoom computes a reasonable zoom level for either (1) lon/lat variables in a data frame, (2) lon/lat ranges, or (3) a bounding box.
+* get_navermap: use of the naver map service (thanks to Heewon Jeon).
 
 NEW ARGUMENTS
 

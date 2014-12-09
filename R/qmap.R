@@ -21,6 +21,7 @@
 #' qmap(location = "baylor university", zoom = 14, maptype = "toner", source = "stamen")
 #' qmap(location = "baylor university", zoom = 14, maptype = "watercolor", source = "stamen")
 #' qmap(location = "baylor university", zoom = 14, maptype = "terrain-background", source = "stamen")
+#' qmap(location = "baylor university", zoom = 14, maptype = "toner-lite", source = "stamen")
 #' 
 #' api_key <- "<your api key here>"
 #' qmap(location = "baylor university", zoom = 14, maptype = 15434, 
