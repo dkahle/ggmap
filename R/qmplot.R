@@ -77,7 +77,8 @@
 #' qmplot(long, lat, xend = long + delta_long, 
 #'   yend = lat + delta_lat, data = seals, geom = "segment")
 #'
-#' qmplot(long, lat, xend = long + delta_long, maptype = "toner", 
+#' # this works though!
+#' qmplot(long, lat, xend = long + delta_long, maptype = "toner-lite", 
 #'   color = I("red"), yend = lat + delta_lat, data = seals, 
 #'   geom = "segment", zoom = 6)
 #'
@@ -115,6 +116,12 @@
 #' 
 #' ## kriging
 #' ############################################################
+#' # the below examples show kriging based on undeclared packages
+#' # to better comply with CRAN's standards, we remove it from 
+#' # executing, but leave the code as a kind of case-study
+#' 
+#' if(FALSE){
+#' 
 #' 
 #' library(ggmap)
 #' library(lattice)
@@ -212,7 +219,7 @@
 #' 
 #'
 #' 
-#' 
+#' } # end FALSE if
 #' 
 #' 
 #' 
