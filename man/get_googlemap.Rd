@@ -8,8 +8,8 @@ get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836), zoom = 10,
   "jpg-baseline", "png32"), maptype = c("terrain", "satellite", "roadmap",
   "hybrid"), language = "en-EN", region, markers, path, visible, style,
   sensor = FALSE, messaging = FALSE, urlonly = FALSE, filename = "",
-  color = c("color", "bw"), force = TRUE, archiving = FALSE, key = "",
-  ...)
+  color = c("color", "bw"), force = TRUE, where = tempdir(),
+  archiving = FALSE, key = "", ...)
 }
 \arguments{
 \item{center}{the center of the map.  this can either be 1. a longitude/latitude numeric vector or 2. a character string address (note that the latter uses a geocode)}
@@ -48,6 +48,8 @@ get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836), zoom = 10,
 
 \item{force}{if the map is on file, should a new map be looked up?}
 
+\item{where}{where should the file drawer be located (without terminating "/")}
+
 \item{archiving}{use archived maps.  note: by changing to TRUE you agree to the one of the approved uses listed in the Google Maps API Terms of Service : http://developers.google.com/maps/terms.}
 
 \item{key}{an api_key for business users}
@@ -64,6 +66,9 @@ get_googlemap accesses the Google Static Maps API version 2 to download a static
 \dontrun{
 
 get_googlemap(urlonly = TRUE)
+
+# basic use :
+ggmap(get_googlemap())
 
 # get_googlemap has several argument checks
 get_googlemap(zoom = 13.5)
@@ -92,6 +97,10 @@ ggmap(get_googlemap(center = center, color = "bw", scale = 2), fullpage = T)
 # (make your graphics device as large as possible)
 ggmap(get_googlemap(center, scale = 1), fullpage = TRUE) # pixelated
 ggmap(get_googlemap(center, scale = 2), fullpage = TRUE) # fine
+
+# archiving; note that you must meet google's terms for this condition
+map <- get_googlemap(archiving = TRUE)
+ggmap(map)
 
 
 }

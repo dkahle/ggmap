@@ -20,6 +20,7 @@
 #' @param filename destination file for download (file extension added according to format); deprecated
 #' @param color color or black-and-white
 #' @param force if the map is on file, should a new map be looked up?
+#' @param where where should the file drawer be located (without terminating "/")
 #' @param archiving use archived maps.  note: by changing to TRUE you agree to the one of the approved uses listed in the Google Maps API Terms of Service : http://developers.google.com/maps/terms.
 #' @param key an api_key for business users
 #' @return a ggmap object (a classed raster object with a bounding box attribute)
@@ -33,6 +34,9 @@
 #' \dontrun{ 
 #' 	
 #' get_googlemap(urlonly = TRUE)
+#' 
+#' # basic use :
+#' ggmap(get_googlemap())
 #' 
 #' # get_googlemap has several argument checks
 #' get_googlemap(zoom = 13.5)
@@ -62,6 +66,10 @@
 #' ggmap(get_googlemap(center, scale = 1), fullpage = TRUE) # pixelated
 #' ggmap(get_googlemap(center, scale = 2), fullpage = TRUE) # fine
 #' 
+#' # archiving; note that you must meet google's terms for this condition
+#' map <- get_googlemap(archiving = TRUE)
+#' ggmap(map)
+#' 
 #' 
 #' }
 #' 
@@ -71,7 +79,7 @@ get_googlemap <- function(
   maptype = c("terrain", "satellite", "roadmap", "hybrid"), 
   language = "en-EN", region, markers, path, visible, style, sensor = FALSE,
   messaging = FALSE, urlonly = FALSE, filename = "", color = c("color","bw"), 
-  force = TRUE, archiving = FALSE, key = "", ...
+  force = TRUE, where = tempdir(), archiving = FALSE, key = "", ...
 ){
 	
   # enumerate argument checking (added in lieu of checkargs function)	
@@ -272,11 +280,12 @@ get_googlemap <- function(
   if(nchar(url) > 2048) stop("max url length is 2048 characters.", call. = FALSE)
 
   # check to see if url is on file
+  if(!file_drawer_found())  make_file_drawer(where = where)
   if(archiving){
-    lookup <- url_lookup(url)
-    if(lookup != FALSE && force == FALSE){
+    lookup <- url_lookup(url, where = paste0(where, "/ggmapFileDrawer/"))
+    if(lookup != FALSE && force == TRUE){
       message("Using archived map...")
-      return(recall_ggmap(url)) 
+      return(recall_ggmap(url, where = paste0(where, "/ggmapFileDrawer/"))) 
     }
   }
 
@@ -290,11 +299,13 @@ get_googlemap <- function(
   }
 
   # download and read in file
-  if(!file_drawer_found())  make_file_drawer()
-  download.file(url, destfile = paste0("ggmapFileDrawer/", destfile), quiet = !messaging, mode = "wb")
+  download.file(url, destfile = 
+    paste0(where, "/ggmapFileDrawer/", destfile), 
+    quiet = !messaging, mode = "wb"
+  )
   message(paste0("Map from URL : ", url))
   
-  map <- readPNG(paste0("ggmapFileDrawer/", destfile))
+  map <- readPNG(paste0(where, "/ggmapFileDrawer/", destfile))
   
   # format file
   if(color == "color"){
@@ -327,7 +338,7 @@ get_googlemap <- function(
   out <- t(map)
   
   # archive map for future use
-  if(archiving) archive_ggmap(out, url)
+  if(archiving) archive_ggmap(out, url, where = paste0(where, "/ggmapFileDrawer"))
   
   # kick out
   out
