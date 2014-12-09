@@ -3,7 +3,7 @@
 #' ggmap plots the raster object produced by \code{\link{get_map}}.
 #' 
 #' @param ggmap an object of class ggmap (from function get_map)
-#' @param extent how much of the plot should the map take up? 'normal', 'panel', or 'device' (default)
+#' @param extent how much of the plot should the map take up? 'normal', 'device', or 'panel' (default)
 #' @param base_layer a ggplot(aes(...), ...) call; see examples
 #' @param maprange logical for use with base_layer; should the map define the x and y limits?
 #' @param legend 'left', 'right' (default), 'bottom', 'top', 'bottomleft', 'bottomright', 'topleft', 'topright', 'none' (used with extent = 'device') 
