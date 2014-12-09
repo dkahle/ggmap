@@ -8,7 +8,8 @@ get_stamenmap(bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313,
   "terrain-labels", "terrain-lines", "toner", "toner-2010", "toner-2011",
   "toner-background", "toner-hybrid", "toner-labels", "toner-lines",
   "toner-lite", "watercolor"), crop = TRUE, messaging = FALSE,
-  urlonly = FALSE, color = c("color", "bw"), force = FALSE, ...)
+  urlonly = FALSE, color = c("color", "bw"), force = FALSE,
+  where = tempdir(), ...)
 }
 \arguments{
 \item{bbox}{a bounding box in the format c(lowerleftlon, lowerleftlat, upperrightlon, upperrightlat).}
@@ -26,6 +27,8 @@ get_stamenmap(bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313,
 \item{color}{color or black-and-white}
 
 \item{force}{if the map is on file, should a new map be looked up?}
+
+\item{where}{where should the file drawer be located (without terminating "/")}
 
 \item{...}{...}
 }

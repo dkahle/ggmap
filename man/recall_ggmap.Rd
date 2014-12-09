@@ -3,7 +3,7 @@
 \alias{recall_ggmap}
 \title{Retrieve an archived ggmap object by url}
 \usage{
-recall_ggmap(url, where = paste(getwd(), "ggmapFileDrawer", sep = "/"))
+recall_ggmap(url, where = paste(tempdir(), "ggmapFileDrawer", sep = "/"))
 }
 \arguments{
 \item{url}{a url with a map}

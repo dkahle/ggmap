@@ -3,7 +3,7 @@
 \alias{make_file_drawer}
 \title{Create a file cabinet for ggmap images}
 \usage{
-make_file_drawer(where = getwd(), drawerName = "ggmapFileDrawer")
+make_file_drawer(where = tempdir(), drawerName = "ggmapFileDrawer")
 }
 \arguments{
 \item{where}{where the directory should be made}

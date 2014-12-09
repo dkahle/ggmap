@@ -112,7 +112,8 @@ qmplot(lon, lat, data = violent_crimes, extent = "panel", colour = offense) +
 qmplot(long, lat, xend = long + delta_long,
   yend = lat + delta_lat, data = seals, geom = "segment")
 
-qmplot(long, lat, xend = long + delta_long, maptype = "toner",
+# this works though!
+qmplot(long, lat, xend = long + delta_long, maptype = "toner-lite",
   color = I("red"), yend = lat + delta_lat, data = seals,
   geom = "segment", zoom = 6)
 
@@ -150,6 +151,12 @@ qmplot(lon, lat, data = thinwind, geom = "tile", fill = spd, alpha = spd,
 
 ## kriging
 ############################################################
+# the below examples show kriging based on undeclared packages
+# to better comply with CRAN's standards, we remove it from
+# executing, but leave the code as a kind of case-study
+
+if(FALSE){
+
 
 library(ggmap)
 library(lattice)
@@ -247,7 +254,7 @@ qmplot(x, y, data = mg, source = "google", color = pred,
 
 
 
-
+} # end FALSE if
 
 
 

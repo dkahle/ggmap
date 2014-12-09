@@ -12,6 +12,7 @@
 #' @param urlonly return url only
 #' @param color color or black-and-white
 #' @param force if the map is on file, should a new map be looked up?
+#' @param where where should the file drawer be located (without terminating "/")
 #' @param ... ...
 #' @details accesses stamen maps.
 #' @return a ggmap object (a classed raster object with a bounding box attribute)
@@ -99,8 +100,8 @@ get_stamenmap <- function(
   zoom = 10, maptype = c("terrain","terrain-background","terrain-labels",
     "terrain-lines", "toner", "toner-2010", "toner-2011", "toner-background", 
     "toner-hybrid", "toner-labels", "toner-lines", "toner-lite", "watercolor"),   
-  crop = TRUE, messaging = FALSE, 
-  urlonly = FALSE, color = c("color","bw"), force = FALSE, ...
+  crop = TRUE, messaging = FALSE, urlonly = FALSE, color = c("color","bw"), force = FALSE, 
+  where = tempdir(), ...
 ){
 	
   # enumerate argument checking (added in lieu of checkargs function)	
@@ -293,7 +294,7 @@ get_stamenmap_checkargs <- function(args){
 
 
 
-get_stamenmap_tile <- function(maptype, zoom, x, y, force = FALSE, messaging = TRUE){
+get_stamenmap_tile <- function(maptype, zoom, x, y, force = FALSE, messaging = TRUE, where = tempdir()){
 
   # check arguments
   is.wholenumber <- 
@@ -316,15 +317,15 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, force = FALSE, messaging = T
   if(lookup != FALSE && force == FALSE) return(recall_ggmap(url))
   
   # grab if not in archive
-  download.file(url, destfile = paste0("ggmapFileDrawer/ggmapTemp.", filetype),
+  download.file(url, destfile = paste0(where, "/ggmapFileDrawer/ggmapTemp.", filetype),
     quiet = !messaging, mode = "wb")
   if(TRUE) message(paste0("Map from URL : ", url))  
   
   # read in and format
   if(maptype %in% c("terrain","terrain-background","watercolor")){
-    tile <- readJPEG("ggmapFileDrawer/ggmapTemp.jpg")
+    tile <- readJPEG(paste0(where, "/ggmapFileDrawer/ggmapTemp.jpg"))
   } else {
-    tile <- readPNG("ggmapFileDrawer/ggmapTemp.png")
+    tile <- readPNG(paste0(where, "/ggmapFileDrawer/ggmapTemp.png"))
   }
   tile <- t(apply(tile, 2, rgb))
   

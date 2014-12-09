@@ -4,7 +4,7 @@
 \title{Add a new entry to the database}
 \usage{
 update_database(url, file = paste0(timeStamp(), ".rds"),
-  where = paste(getwd(), "ggmapFileDrawer", sep = "/"))
+  where = paste(tempdir(), "ggmapFileDrawer", sep = "/"))
 }
 \arguments{
 \item{url}{url}

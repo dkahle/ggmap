@@ -22,7 +22,7 @@
 #' }
 #' 
 #'   
-file_drawer_found <- function(where = getwd(), drawerName = 'ggmapFileDrawer'){
+file_drawer_found <- function(where = tempdir(), drawerName = 'ggmapFileDrawer'){
 
   drawerName %in% list.files(where)
   
@@ -57,7 +57,7 @@ file_drawer_found <- function(where = getwd(), drawerName = 'ggmapFileDrawer'){
 #' }
 #' 
 #'   
-make_file_drawer <- function(where = getwd(), drawerName = 'ggmapFileDrawer'){
+make_file_drawer <- function(where = tempdir(), drawerName = 'ggmapFileDrawer'){
 
   startwd <- getwd()
 
@@ -118,7 +118,7 @@ make_file_drawer <- function(where = getwd(), drawerName = 'ggmapFileDrawer'){
 #' }
 #' 
 #'   
-get_database <- function(where = paste(getwd(), 'ggmapFileDrawer', sep = '/')){
+get_database <- function(where = paste(tempdir(), 'ggmapFileDrawer', sep = '/')){
 
   if(!file_drawer_found()) stop('no filedrawer found.', call. = FALSE)
 
@@ -177,7 +177,7 @@ get_database <- function(where = paste(getwd(), 'ggmapFileDrawer', sep = '/')){
 #' }
 #' 
 #'   
-update_database <- function(url, file = paste0(timeStamp(), '.rds'), where = paste(getwd(), 'ggmapFileDrawer', sep = '/')){
+update_database <- function(url, file = paste0(timeStamp(), '.rds'), where = paste(tempdir(), 'ggmapFileDrawer', sep = '/')){
 
   if(!file_drawer_found()) make_file_drawer()
 
@@ -239,7 +239,7 @@ update_database <- function(url, file = paste0(timeStamp(), '.rds'), where = pas
 #' }
 #' 
 #'   
-url_lookup <- function(url, where = paste(getwd(), 'ggmapFileDrawer', sep = '/')){
+url_lookup <- function(url, where = paste(tempdir(), 'ggmapFileDrawer', sep = '/')){
 
   if(!file_drawer_found(where)) make_file_drawer()
 
@@ -307,7 +307,7 @@ url_lookup <- function(url, where = paste(getwd(), 'ggmapFileDrawer', sep = '/')
 #' 
 #'   
 archive_ggmap <- function(ggmap, url, file = paste0(timeStamp(), '.rds'), 
-  where = paste(getwd(), 'ggmapFileDrawer', sep = '/'))
+  where = paste(tempdir(), 'ggmapFileDrawer', sep = '/'))
 {
 
   if(!file_drawer_found()) make_file_drawer()
@@ -373,7 +373,7 @@ archive_ggmap <- function(ggmap, url, file = paste0(timeStamp(), '.rds'),
 #' }
 #' 
 #'   
-recall_ggmap <- function(url, where = paste(getwd(), 'ggmapFileDrawer', sep = '/')){
+recall_ggmap <- function(url, where = paste(tempdir(), 'ggmapFileDrawer', sep = '/')){
 
   if(!file_drawer_found()) stop('no filedrawer found.', call. = FALSE)
   

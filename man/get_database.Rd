@@ -3,7 +3,7 @@
 \alias{get_database}
 \title{Get the ggmap database}
 \usage{
-get_database(where = paste(getwd(), "ggmapFileDrawer", sep = "/"))
+get_database(where = paste(tempdir(), "ggmapFileDrawer", sep = "/"))
 }
 \arguments{
 \item{where}{where the directory should be made}

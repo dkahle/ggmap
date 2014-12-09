@@ -3,7 +3,7 @@
 \alias{file_drawer_found}
 \title{Check for a ggmap file cabinet}
 \usage{
-file_drawer_found(where = getwd(), drawerName = "ggmapFileDrawer")
+file_drawer_found(where = tempdir(), drawerName = "ggmapFileDrawer")
 }
 \arguments{
 \item{where}{where the directory should be made}

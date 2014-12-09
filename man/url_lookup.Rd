@@ -3,7 +3,7 @@
 \alias{url_lookup}
 \title{Lookup the file name of a map from a specified url}
 \usage{
-url_lookup(url, where = paste(getwd(), "ggmapFileDrawer", sep = "/"))
+url_lookup(url, where = paste(tempdir(), "ggmapFileDrawer", sep = "/"))
 }
 \arguments{
 \item{url}{name of the map desired}

@@ -4,7 +4,7 @@
 \title{Store a ggmap object}
 \usage{
 archive_ggmap(ggmap, url, file = paste0(timeStamp(), ".rds"),
-  where = paste(getwd(), "ggmapFileDrawer", sep = "/"))
+  where = paste(tempdir(), "ggmapFileDrawer", sep = "/"))
 }
 \arguments{
 \item{ggmap}{a ggmap object}
