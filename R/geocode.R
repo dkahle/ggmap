@@ -254,8 +254,8 @@ geocode <- function(location, output = c('latlon','latlona','more','all'),
     postal_code <- 
       tolower(NULLtoNA(attrdf$long_name[attrdf$types == 'postal_code']))          
   })
-  gcdf$query <- loc
-  
+  gcdf$query <- location
+
   # return output = 'more'
   return(gcdf)
 }
