@@ -4,6 +4,12 @@ ggmap 2.4
 CHANGES
 
 * ggmap now forms a directory in the temporary directory which caches queries.
+  To persist the cache over multiple sessions, set option `ggmap.file_drawer`.
+  See `file_drawer()` for more details.
+
+* Functions related to the file draw and map caching are no longer exported:
+  you shouldn't have been using these anyway!
+
 * ggmap is now slightly less verbose: Terms of Service references are moved to package load.
 * geocode has been given an overhaul; it now accepts a data argument for data frames (see examples), and no longer errors when it runs out of checks.
 * stamen maps now hosts a wide new variety of maptypes that are kin of the existing ones.  see ?get_stamenmap.  some stamen maps have moved to jpgs; this has been fixed.
@@ -75,9 +81,9 @@ NEW FEATURES
 CHANGES
 
 * get_[google,osm,stamen,cloudmade] functions now check their arguments in the function themselves as opposed to using an alternative function for argument checking.
-* ggmap arguments changed 
+* ggmap arguments changed
 	a. fullpage and expand collapsed into one argument called extent
-	b. b changed to padding.  using b now issues a warning. 
+	b. b changed to padding.  using b now issues a warning.
 thanks to Jean-Olivier Irisson for the suggestions.
 * deprecated syntaxes now properly call .Deprecated
 * ggmap documentation greatly enhanced.
@@ -93,7 +99,7 @@ ggmap 2.0
 -------------------------------------------------------------------------
 
 NEW FEATURES
- 
+
 * a vast array of new kinds of maps are available to the user.  these are based on stamen maps (http://maps.stamen.com/watercolor/) and cloudmade maps (http://maps.cloudmade.com/).  the latter allows for user-designed map rendering (http://maps.cloudmade.com/editor#).
 
 * the full google static maps api is available to the user.  in particular, this allows for double the image resolution of google maps (which is also now the default).
@@ -112,7 +118,7 @@ CHANGES
 	c. geocodeQueryCheck watches your query limit with hidden global variable .GoogleGeocodeQueryCount
 * verbose argument in function ggmap now deprecated, use messaging
 * center argument in function ggmap now deprecated, use location
-* the ggmap function has been totally overhauled.  it is no longer based on the RgoogleMaps functions GetMap and GetMap.OSM but on functions get_googlemap, get_openstreetmap, get_stamenmap, and get_cloudmademap.  
+* the ggmap function has been totally overhauled.  it is no longer based on the RgoogleMaps functions GetMap and GetMap.OSM but on functions get_googlemap, get_openstreetmap, get_stamenmap, and get_cloudmademap.
 * ggimage has been rebased on ggmap:::geom_raster (a version of ggplot2's geom_raster which smooths).
 * ggmap's version of annotation_raster and annotation_custom are now exported as inset_raster and inset.
 
@@ -180,7 +186,7 @@ Changes -
 
 Additions -
   1. theme_inset which allows for easy inset theming (exported)
-  2. ggmap now takes latitude longitude ranges for OpenStreetMaps 
+  2. ggmap now takes latitude longitude ranges for OpenStreetMaps
 
 Fixes -
   1. qmap now properly sets the fullpage(=TRUE) argument when unspecified.
@@ -198,7 +204,7 @@ ggimage and ggmapplot are now based on geom_raster (new in ggplot2 as of version
 
 Version 0.8
 -------------------------------------------------------------------------
-Changes - 
+Changes -
 1. Further updated examples for a more efficient R CMD check.
 2. ggmap now calls geocode (see below) for geocoding.
 3. packages now load quietly.
@@ -209,7 +215,7 @@ Changes -
 	3. in ggmapplot examples, argument "to" in scale_size changed to "range"
 6. .Internal calls in ggimage and ggmap for color conversion changed to simple rgb calls.
 
-Additions - 
+Additions -
 1. The geocoding subroutine of ggmap has been converted to its own function called geocode, which is exported.
 
 Version 0.7
