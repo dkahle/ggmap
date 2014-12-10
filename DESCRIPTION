@@ -23,7 +23,8 @@ Imports:
     rjson,
     mapproj,
     jpeg,
-    geosphere
+    geosphere,
+    digest
 Suggests:
     MASS,
     stringr
