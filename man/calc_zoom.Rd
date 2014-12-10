@@ -17,27 +17,25 @@ calc_zoom(lon, lat, data, adjust = 0, f = 0.05)
 \item{f}{argument to pass to make_bbox}
 }
 \description{
-Calculate a zoom given a bounding box
-}
-\details{
-calc_zoom can calculate a zoom based on either (1) a data frame with longitude and latitude variables, (2) a longitude range and latitude range, or (3) a bounding box.  the specification for (1) is identical to that of most R functions, for (2) simply put in a longitude range into lon and a latitude range into lat, and for (3) put the bounding box in for the lon argument.
+calc_zoom can calculate a zoom based on either (1) a data frame with
+longitude and latitude variables, (2) a longitude range and latitude range,
+or (3) a bounding box. The specification for (1) is identical to that of
+most R functions, for (2) simply put in a longitude range into lon and a
+latitude range into lat, and for (3) put the bounding box in for the lon
+argument.
 }
 \examples{
-\dontrun{
-
-# data specification
+# From data
 calc_zoom(lon, lat, wind)
 
-
-# range specification
+# From range
+lon_range <- extendrange( wind$lon )
+lat_range <- extendrange( wind$lat )
 calc_zoom(lon_range, lat_range)
 
-
-# box specification
+# From bounding box
 box <- make_bbox(lon, lat, data = crime)
 calc_zoom(box)
-
-}
 }
 \seealso{
 \code{\link{make_bbox}}
