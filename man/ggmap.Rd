@@ -12,7 +12,7 @@ ggmap(ggmap, extent = "panel", base_layer, maprange = FALSE,
 \arguments{
 \item{ggmap}{an object of class ggmap (from function get_map)}
 
-\item{extent}{how much of the plot should the map take up? 'normal', 'panel', or 'device' (default)}
+\item{extent}{how much of the plot should the map take up? 'normal', 'device', or 'panel' (default)}
 
 \item{base_layer}{a ggplot(aes(...), ...) call; see examples}
 
