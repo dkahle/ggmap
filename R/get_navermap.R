@@ -161,33 +161,18 @@ get_navermap <- function(
   if(nchar(url) > 2048) stop("max url length is 2048 characters.", call. = FALSE)
 
   # check to see if url is on file
-  if(!file_drawer_found())  make_file_drawer(where = where)
-  if(archiving){
-    lookup <- url_lookup(url, where = paste0(where, "/ggmapFileDrawer/"))
-    if(lookup != FALSE && force == FALSE){
-      message("Using archived map...")
-      return(recall_ggmap(url, where = paste0(where, "/ggmapFileDrawer/")))
-    }
-  }
+  map <- file_drawer_get(url)
+  if (!is.null(map) && !force) return(map)
 
   # finalize filename
-  destfile <- if(format == "png"){
-    paste(filename,"png",sep = ".")
-  } else if(format %in% c("jpg","jpeg")){
-    paste(filename,"jpg",sep = ".")
-  }
-
-  # download and read in file
-  download.file(url,
-    destfile = paste0(where, "/ggmapFileDrawer/", destfile),
-    quiet = !messaging, mode = "wb"
-  )
+  tmp <- tempfile()
+  download.file(url, tmp, quiet = !messaging, mode = "wb")
   message(paste0("Map from URL : ", url))
 
   if(format == "png"){
-    map <- readPNG(paste0(where, "/ggmapFileDrawer/", destfile))
+    map <- readPNG(tmp)
   } else if(format == "jpg"){
-    map <- readJPEG(paste0(where, "/ggmapFileDrawer/", destfile))
+    map <- readJPEG(tmp)
   }
 
   # format file
@@ -211,16 +196,9 @@ get_navermap <- function(
   out <- t(map)
 
   # archive map for future use
-  fileNameCenter <- as.character(center)
-  fileNameCenter <- paste0(gsub("\\.", "_", fileNameCenter),collapse = "-")
-  if(archiving) archive_ggmap(out, url,
-    file = paste0(paste0(c("naver", fileNameCenter, zoom), collapse = "-"), ".rds"),
-    where = paste0(where, "/ggmapFileDrawer")
-  )
+  if (archiving) file_drawer_set(url, out)
 
-  # kick out
   out
-
 }
 
 
