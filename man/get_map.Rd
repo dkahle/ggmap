@@ -13,15 +13,24 @@ get_map(location = c(lon = -95.3632715, lat = 29.7632836), zoom = "auto",
   crop = TRUE, color = c("color", "bw"), language = "en-EN", api_key)
 }
 \arguments{
-\item{location}{an address, longitude/latitude pair (in that order), or left/bottom/right/top bounding box}
+\item{location}{an address, longitude/latitude pair (in that order), or
+left/bottom/right/top bounding box}
 
-\item{zoom}{map zoom, an integer from 3 (continent) to 21 (building), default value 10 (city).  openstreetmaps limits a zoom of 18, and the limit on stamen maps depends on the maptype.  "auto" automatically determines the zoom for bounding box specifications, and is defaulted to 10 with center/zoom specifications.  maps of the whole world currently not supported.}
+\item{zoom}{map zoom, an integer from 3 (continent) to 21 (building),
+default value 10 (city).  openstreetmaps limits a zoom of 18, and the
+limit on stamen maps depends on the maptype.  "auto" automatically
+determines the zoom for bounding box specifications, and is defaulted to
+10 with center/zoom specifications.  maps of the whole world currently not supported.}
 
 \item{scale}{scale argument of \code{\link{get_googlemap}} or \code{\link{get_openstreetmap}}}
 
-\item{maptype}{character string providing map theme. options available are "terrain", "terrain-background", "satellite", "roadmap", and "hybrid" (google maps), "terrain", "watercolor", and "toner" (stamen maps), or a positive integer for cloudmade maps (see ?get_cloudmademap)}
+\item{maptype}{character string providing map theme. options available are
+"terrain", "terrain-background", "satellite", "roadmap", and "hybrid"
+(google maps), "terrain", "watercolor", and "toner" (stamen maps), or a
+positive integer for cloudmade maps (see ?get_cloudmademap)}
 
-\item{source}{Google Maps ("google"), OpenStreetMap ("osm"), Stamen Maps ("stamen"), or CloudMade maps ("cloudmade")}
+\item{source}{Google Maps ("google"), OpenStreetMap ("osm"),
+Stamen Maps ("stamen"), or CloudMade maps ("cloudmade")}
 
 \item{force}{force new map (don't use archived version)}
 
@@ -43,48 +52,20 @@ get_map(location = c(lon = -95.3632715, lat = 29.7632836), zoom = "auto",
 a ggmap object (a classed raster object with a bounding box attribute)
 }
 \description{
-get_map is a smart function which queries the Google Maps, OpenStreetMap, or Stamen Maps server for a map at a certain location at a certain spatial zoom.  it is a wrapper for get_googlemap, get_openstreetmap, get_stamenmap, and get_cloudmademap functions.  get_map was formerly (<2.0) called ggmap.
+\code{get_map} is a smart wrapper that queries the Google Maps,
+OpenStreetMap, or Stamen Maps server for a map at a certain location at a
+certain spatial zoom.
 }
 \examples{
-\dontrun{
 map <- get_map()
-ggmap(map, fullpage = TRUE)
-
+ggmap(map)
+\dontrun{
 map <- get_map(maptype = "roadmap")
-ggmap(map, fullpage = TRUE)
-
-map <- get_map(maptype = "hybrid")
-ggmap(map, fullpage = TRUE)
-
-map <- get_map(maptype = "satellite")
-ggmap(map, fullpage = TRUE)
-
 map <- get_map(source = "osm")
-ggmap(map, fullpage = TRUE)
-
-map <- get_map(source = "stamen")
-ggmap(map, fullpage = TRUE)
-
 map <- get_map(source = "stamen", maptype = "watercolor")
-ggmap(map, fullpage = TRUE)
-
-map <- get_map(source = "stamen", maptype = "toner")
-ggmap(map, fullpage = TRUE)
-
-
 
 map <- get_map(location = "texas", zoom = 6, source = "stamen")
 ggmap(map, fullpage = TRUE)
-
-map <- get_map(location = "united states", zoom = 4, source = "stamen")
-ggmap(map, fullpage = TRUE)
-
-api_key <- "<your api key here>"
-map <- get_map(location = "baylor university", source = "cloudmade",
-  maptype = 53428, api_key = api_key, zoom = 14)
-ggmap(map, fullpage = TRUE)
-
-
 }
 }
 \author{
