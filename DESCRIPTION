@@ -1,15 +1,14 @@
 Package: ggmap
-Type: Package
-Title: A package for spatial visualization with Google Maps and OpenStreetMap
 Version: 2.4
-Date: 2014-12-05
-Authors@R: c(person("David", "Kahle", role = c("aut","cre"), email
-    ="david.kahle@gmail.com"), person("Hadley", "Wickham", role = "aut", email
-    = "h.wickham@gmail.com"))
-Maintainer: David Kahle <david.kahle@gmail.com>
-Description: ggmap allows for the easy visualization of spatial data and models
-    on top of Google Maps, OpenStreetMaps, Stamen Maps, or CloudMade Maps using
-    ggplot2.
+Title: Spatial Visualization with Google Maps and OpenStreetMap
+Description: Easily visualize of spatial data and models on top of Google Maps,
+    OpenStreetMaps, Stamen Maps, or CloudMade Maps with ggplot2.
+URL: https://github.com/dkahle/ggmap
+BugReports: https://github.com/dkahle/ggmap/issues
+Authors@R: as.person(c(
+    "David Kahle <david.kahle@gmail.com> [aut, cre]",
+    "Hadley Wickham <h.wickham@gmail.com> [aut]"
+    ))
 Depends:
     R (>= 2.14.0),
     ggplot2 (>= 0.9.2)
