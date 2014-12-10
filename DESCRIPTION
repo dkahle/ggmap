@@ -3,6 +3,8 @@ Version: 2.4
 Title: Spatial Visualization with Google Maps and OpenStreetMap
 Description: Easily visualize of spatial data and models on top of Google Maps,
     OpenStreetMaps, Stamen Maps, or CloudMade Maps with ggplot2.
+URL: https://github.com/dkahle/ggmap
+BugReports: https://github.com/dkahle/ggmap/issues
 Authors@R: as.person(c(
     "David Kahle <david.kahle@gmail.com> [aut, cre]",
     "Hadley Wickham <h.wickham@gmail.com> [aut]"
