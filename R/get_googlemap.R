@@ -39,9 +39,9 @@
 #' ggmap(get_googlemap())
 #'
 #' # get_googlemap has several argument checks
-#' get_googlemap(zoom = 13.5)
-#' get_googlemap(scale = 3)
-#' get_googlemap(center = c(-30,-110))
+#' #get_googlemap(zoom = 13.5)
+#' #get_googlemap(scale = 3)
+#' #get_googlemap(center = c(-30,-110))
 #'
 #' # markers and paths are easy to access
 #' d <- function(x=-95.36, y=29.76, n,r,a){
@@ -59,12 +59,12 @@
 #'
 #' gc <- geocode("waco, texas")
 #' center <- as.numeric(gc)
-#' ggmap(get_googlemap(center = center, color = "bw", scale = 2), fullpage = T)
+#' ggmap(get_googlemap(center = center, color = "bw", scale = 2), extent = "device")
 #'
 #' # the scale argument can be seen in the following
 #' # (make your graphics device as large as possible)
-#' ggmap(get_googlemap(center, scale = 1), fullpage = TRUE) # pixelated
-#' ggmap(get_googlemap(center, scale = 2), fullpage = TRUE) # fine
+#' ggmap(get_googlemap(center, scale = 1), extent = "panel") # pixelated
+#' ggmap(get_googlemap(center, scale = 2), extent = "panel") # fine
 #'
 #' # archiving; note that you must meet google's terms for this condition
 #' map <- get_googlemap(archiving = TRUE)
