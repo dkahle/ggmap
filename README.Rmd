@@ -36,7 +36,7 @@ downtown <- subset(crime,
 )
 
 qmplot(lon, lat, data = downtown, maptype = "toner-background", color = I("red"))
-qmplot(lon, lat, data = downtown, maptype = "toner-lite", geom = "density2d")
+qmplot(lon, lat, data = downtown, maptype = "toner-lite", geom = "density2d", color = I("red"))
 ```
 
 ## Installation

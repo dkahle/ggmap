@@ -41,7 +41,7 @@ qmplot(lon, lat, data = downtown, maptype = "toner-background", color = I("red")
 ![](README-qmplot-1.png)
 
 ``` {.r}
-qmplot(lon, lat, data = downtown, maptype = "toner-lite", geom = "density2d")
+qmplot(lon, lat, data = downtown, maptype = "toner-lite", geom = "density2d", color = I("red"))
 ```
 
 ![](README-qmplot-2.png)
