@@ -50,10 +50,10 @@ get_navermap(center = c(lon = 126.9849208, lat = 37.5664519), zoom = 4,
 \item{...}{...}
 }
 \description{
-get_navermap accesses the Naver Static Maps API version 1.1 to download a
-static map.  Note that in most cases by using this function you are agreeing
-to the Naver Maps API Terms of Service at
-http://dev.naver.com/openapi/apis/map/staticmap.
+\code{get_navermap} accesses the Naver Static Maps API version 1.1 to
+download a static map. Note that in most cases by using this function you
+are agreeing to the Naver Maps API Terms of Service at
+\url{http://dev.naver.com/openapi/apis/map/staticmap}.
 }
 \examples{
 map <- get_navermap(key="c75a09166a38196955adee04d3a51bf8", uri="www.r-project.org")
