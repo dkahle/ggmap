@@ -1,0 +1,46 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# ggmap
+
+ggmap makes it easy to retrieve raster map tiles from popular online mapping services like google maps, open street maps, cloudmade and stamen:
+
+```{r maptypes, message = FALSE}
+library(ggmap)
+
+ggmap(get_googlemap())
+ggmap(get_stamenmap())
+ggmap(get_stamenmap(maptype = "toner-background"))
+```
+
+Use `qmplot()` in the same way you'd use `qplot()`, but with a map automatically added in the background:
+
+```{r qmplot, message = FALSE}
+downtown <- subset(crime,
+  -95.39681 <= lon & lon <= -95.34188 &
+   29.73631 <= lat & lat <=  29.78400
+)
+
+qmplot(lon, lat, data = downtown, maptype = "toner-background", color = I("red"))
+```
+
+## Installation
+
+* From CRAN: `install.packages("ggmap")`
+
+* From Github: `devtools::install_github("dkahle/ggmap")`
+
