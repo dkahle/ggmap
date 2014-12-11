@@ -22,8 +22,8 @@ bbox_tiles <- function(lon, lat, zoom = 10) {
   br <- LonLat2XY(lon[1], lat[1], zoom)
   tl <- LonLat2XY(lon[2], lat[2], zoom)
 
-  xs <- seq(br$X, tl$X + 1)
-  ys <- seq(br$Y, tl$Y + 1)
+  xs <- seq(br$X, tl$X)
+  ys <- seq(br$Y, tl$Y)
 
   tiles <- expand.grid(y = ys, x = xs, KEEP.OUT.ATTRS = FALSE)
   tiles$z <- zoom
