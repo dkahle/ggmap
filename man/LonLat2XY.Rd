@@ -6,28 +6,21 @@
 LonLat2XY(lon_deg, lat_deg, zoom, xpix = 256, ypix = 256)
 }
 \arguments{
-\item{lon_deg}{longitude in degrees}
-
-\item{lat_deg}{latitude in degrees}
+\item{lon_deg,}{lat_deg longitude and latitutde in degrees}
 
 \item{zoom}{zoom}
 
-\item{xpix}{width of tile in pixels}
-
-\item{ypix}{length of tile in pixels}
+\item{xpix,ypix}{height and width of tile in pixels}
 }
 \value{
-a data frame with columns X, Y, x, y
+A data frame with columns X, Y (tile), x, y (position within tile)
 }
 \description{
-Convert a lon/lat coordinate to a tile coordinate for a given zoom.  Decimal tile coordinates (x, y) are reported.
+Convert a lon/lat coordinate to a tile coordinate
 }
 \examples{
-\dontrun{
-gc <- geocode('baylor university')
-LonLat2XY(gc$lon, gc$lat, 10)
-
-}
+baylor <- list(lon = -97.11844, lat = 31.54822)
+LonLat2XY(baylor$lon, baylor$lat, 10)
 }
 \author{
 David Kahle \email{david.kahle@gmail.com}, based on function LatLon2XY by Markus Loecher, Sense Networks \email{markus@sensenetworks.com} in package RgoogleMaps
