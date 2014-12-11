@@ -10,7 +10,9 @@ Given bounding box, find tiles that span region and stitch them together
 into single raster.
 }
 \examples{
-fetch_region(c(-95.80204, -94.92313), c(29.38048, 30.14344), "stamen", "terrain")
+houston <- fetch_region(c(-95.80204, -94.92313), c(29.38048, 30.14344),
+  "stamen", "terrain")
+ggmap(houston)
 }
 \keyword{internal}
 

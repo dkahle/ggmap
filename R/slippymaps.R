@@ -5,7 +5,9 @@
 #'
 #' @keywords internal
 #' @examples
-#' fetch_region(c(-95.80204, -94.92313), c(29.38048, 30.14344), "stamen", "terrain")
+#' houston <- fetch_region(c(-95.80204, -94.92313), c(29.38048, 30.14344),
+#'   "stamen", "terrain")
+#' ggmap(houston)
 fetch_region <- function(lon, lat, provider, ..., cache = TRUE, zoom = 10) {
   meta <- bbox_tiles(lon, lat, zoom = zoom)
   meta$url <- tile_urls(meta, provider, ...)
@@ -24,7 +26,8 @@ fetch_region <- function(lon, lat, provider, ..., cache = TRUE, zoom = 10) {
 
   # Crop & save bounding box
   clipped <- region[b:t, l:r]
-  class(clipped) <- c("tile", "raster")
+  class(clipped) <- c("ggmap", "raster")
+  attr(clipped, "bb") <- bbox(lon, lat)
   clipped
 }
 
@@ -59,21 +62,11 @@ fetch_tile <- function(url, cache = TRUE, quiet = FALSE) {
   tile <- httr::content(r, "parsed")
   tile <- t(apply(tile, 2, rgb))
   attr(tile, "url") <- url
-  class(tile) <- c("tile", "raster")
+  class(tile) <- c("ggmap", "raster")
   if (cache) {
     file_drawer_set(url, tile)
   }
   tile
-}
-
-#' @export
-print.tile <- function(x, ...) {
-  old <- par(mar = c(0, 0, 0, 0))
-  on.exit(par(old))
-
-  plot.new()
-  plot.window(c(0, ncol(x)), c(0, nrow(x)), asp = 1)
-  rasterImage(x, 0, 0, ncol(x), nrow(x))
 }
 
 stitch_tiles <- function(meta, tiles) {
@@ -94,4 +87,14 @@ stitch_tiles <- function(meta, tiles) {
 
   dim(out) <- rev(dim(out))
   out
+}
+
+
+bbox <- function(lon, lat) {
+  bigbb <- data.frame(
+    ll.lat = min(lat),
+    ll.lon = min(lon),
+    ur.lat = max(lat),
+    ur.lon = max(lon)
+  )
 }
