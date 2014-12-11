@@ -1,12 +1,15 @@
 #' Get a Stamen Map
 #'
-#' get_stamenmap accesses a tile server for Stamen Maps and downloads/stiches map tiles/formats a map image.
+#' \code{get_stamenmap} accesses a tile server for Stamen Maps and
+#' downloads/stitches map tiles/formats a map image. Note that Stamen maps don't
+#' cover the entire world, e.g. \url{http://tile.stamen.com/terrain/#4/30.28/-87.21}
 #'
-#' Note that Stamen maps don't cover the entire world.  For example, see http://tile.stamen.com/terrain/#4/30.28/-87.21
-#'
-#' @param bbox a bounding box in the format c(lowerleftlon, lowerleftlat, upperrightlon, upperrightlat).
+#' @param bbox a bounding box in the format c(lowerleftlon, lowerleftlat,
+#'   upperrightlon, upperrightlat).
 #' @param zoom a zoom level
-#' @param maptype terrain, terrain-background, terrain-labels, terrain-lines, toner, toner-2010, toner-2011, toner-background, toner-hybrid, toner-labels, toner-lines, toner-lite, or watercolor
+#' @param maptype terrain, terrain-background, terrain-labels, terrain-lines,
+#'   toner, toner-2010, toner-2011, toner-background, toner-hybrid,
+#'   toner-labels, toner-lines, toner-lite, or watercolor.
 #' @param crop crop raw map tiles to specified bounding box
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
@@ -14,16 +17,11 @@
 #' @param force if the map is on file, should a new map be looked up?
 #' @param where where should the file drawer be located (without terminating "/")
 #' @param ... ...
-#' @details accesses stamen maps.
 #' @return a ggmap object (a classed raster object with a bounding box attribute)
-#' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso \url{http://maps.stamen.com/#watercolor}, \code{\link{ggmap}}
 #' @export
 #' @examples
-#'
-#'
 #' \dontrun{
-#'
 #' gc <- geocode("marrs mclean science building, baylor university")
 #' google <- get_googlemap("baylor university", zoom = 15)
 #' ggmap(google) +
@@ -35,7 +33,6 @@
 #' ggmap(get_stamenmap(bbox, zoom = 15))
 #' # ggmap(get_stamenmap(bbox, zoom = 16))
 #' # ggmap(get_stamenmap(bbox, zoom = 17))
-#'
 #'
 #' # various maptypes are available.  bump it up to zoom = 15 for better resolution.
 #' ggmap(get_stamenmap(bbox, maptype = "terrain", zoom = 14))
@@ -51,7 +48,6 @@
 #' ggmap(get_stamenmap(bbox, maptype = "toner-lines", zoom = 14))
 #' ggmap(get_stamenmap(bbox, maptype = "toner-lite", zoom = 14))
 #' ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 14))
-#'
 #'
 #' ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 11), extent = "device")
 #' ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 12), extent = "device")
@@ -94,7 +90,6 @@
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)
 #'
 #' }
-#'
 get_stamenmap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
   zoom = 10, maptype = c("terrain","terrain-background","terrain-labels",

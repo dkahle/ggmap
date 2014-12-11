@@ -12,11 +12,14 @@ get_stamenmap(bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313,
   where = tempdir(), ...)
 }
 \arguments{
-\item{bbox}{a bounding box in the format c(lowerleftlon, lowerleftlat, upperrightlon, upperrightlat).}
+\item{bbox}{a bounding box in the format c(lowerleftlon, lowerleftlat,
+upperrightlon, upperrightlat).}
 
 \item{zoom}{a zoom level}
 
-\item{maptype}{terrain, terrain-background, terrain-labels, terrain-lines, toner, toner-2010, toner-2011, toner-background, toner-hybrid, toner-labels, toner-lines, toner-lite, or watercolor}
+\item{maptype}{terrain, terrain-background, terrain-labels, terrain-lines,
+toner, toner-2010, toner-2011, toner-background, toner-hybrid,
+toner-labels, toner-lines, toner-lite, or watercolor.}
 
 \item{crop}{crop raw map tiles to specified bounding box}
 
@@ -36,16 +39,12 @@ get_stamenmap(bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313,
 a ggmap object (a classed raster object with a bounding box attribute)
 }
 \description{
-get_stamenmap accesses a tile server for Stamen Maps and downloads/stiches map tiles/formats a map image.
-}
-\details{
-Note that Stamen maps don't cover the entire world.  For example, see http://tile.stamen.com/terrain/#4/30.28/-87.21
-
-accesses stamen maps.
+\code{get_stamenmap} accesses a tile server for Stamen Maps and
+downloads/stitches map tiles/formats a map image. Note that Stamen maps don't
+cover the entire world, e.g. \url{http://tile.stamen.com/terrain/#4/30.28/-87.21}
 }
 \examples{
 \dontrun{
-
 gc <- geocode("marrs mclean science building, baylor university")
 google <- get_googlemap("baylor university", zoom = 15)
 ggmap(google) +
@@ -57,7 +56,6 @@ ggmap(get_stamenmap(bbox, zoom = 14))
 ggmap(get_stamenmap(bbox, zoom = 15))
 # ggmap(get_stamenmap(bbox, zoom = 16))
 # ggmap(get_stamenmap(bbox, zoom = 17))
-
 
 # various maptypes are available.  bump it up to zoom = 15 for better resolution.
 ggmap(get_stamenmap(bbox, maptype = "terrain", zoom = 14))
@@ -73,7 +71,6 @@ ggmap(get_stamenmap(bbox, maptype = "toner-labels", zoom = 14))
 ggmap(get_stamenmap(bbox, maptype = "toner-lines", zoom = 14))
 ggmap(get_stamenmap(bbox, maptype = "toner-lite", zoom = 14))
 ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 14))
-
 
 ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 11), extent = "device")
 ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 12), extent = "device")
@@ -116,9 +113,6 @@ qmap("the white house", zoom = 16, source = "stamen", maptype == "terrain")  +
   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)
 
 }
-}
-\author{
-David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
 \url{http://maps.stamen.com/#watercolor}, \code{\link{ggmap}}
