@@ -12,7 +12,20 @@ fetch_region <- function(lon, lat, provider, ..., cache = TRUE, zoom = 10) {
   tiles <- lapply(meta$url, fetch_tile, cache = cache)
 
   region <- stitch_tiles(meta, tiles)
+
+  # Compute pixel coordinates
+  x <- lon2x(range(lon), zoom)
+  l <- x$x[1] + 1
+  r <- diff(x$X) * 256 + x$x[2] + 1
+
+  y <- lat2y(rev(range(lat)), zoom)
+  b <- y$y[1] + 1
+  t <- diff(y$Y) * 256 + y$y[2] + 1
+
   # Crop & save bounding box
+  clipped <- region[b:t, l:r]
+  class(clipped) <- c("tile", "raster")
+  clipped
 }
 
 bbox_tiles <- function(lon, lat, zoom = 10) {
