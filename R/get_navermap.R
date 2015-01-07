@@ -27,8 +27,10 @@
 #' @seealso \url{http://dev.naver.com/openapi/apis/map/staticmap/}, \code{\link{ggmap}}
 #' @export
 #' @examples
+#' \dontrun{
 #' map <- get_navermap(key="c75a09166a38196955adee04d3a51bf8", uri="www.r-project.org")
 #' ggmap(map)
+#' }
 get_navermap <- function(
   center = c(lon = 126.9849208, lat = 37.5664519), zoom = 4,
   size = c(640,640), format = c("png", "jpeg", "jpg"),
@@ -133,6 +135,7 @@ get_navermap <- function(
   key_url <- paste0("key=", key)
   uri_url <- paste0("uri=", uri)
   crs_url <- paste0("crs=", crs)
+  color_url <- paste0("color=", color)
 
   markers_url <-
     if(!missing(markers)){
@@ -150,7 +153,7 @@ get_navermap <- function(
 
   # format url proper
   post_url <- paste(center_url,crs_url ,zoom_url, size_url, baselayer_url, overlayers_url,
-                    format_url, markers_url, key_url, uri_url, sep = "&")
+                    format_url, markers_url, key_url, uri_url, color_url, sep = "&")
   url <- paste(base_url, post_url, sep = "")
   url <- gsub("[&]+","&",url) # removes missing arguments
   if(substr(url, nchar(url), nchar(url)) == "&"){ # if ends with &
