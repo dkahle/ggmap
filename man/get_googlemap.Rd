@@ -6,10 +6,10 @@
 get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836), zoom = 10,
   size = c(640, 640), scale = 2, format = c("png8", "gif", "jpg",
   "jpg-baseline", "png32"), maptype = c("terrain", "satellite", "roadmap",
-  "hybrid"), language = "en-EN", region, markers, path, visible, style,
-  sensor = FALSE, messaging = FALSE, urlonly = FALSE,
-  filename = "ggmapTemp", color = c("color", "bw"), force = FALSE,
-  where = tempdir(), archiving = FALSE, key = "", ...)
+  "hybrid"), language = "en-EN", sensor = FALSE, messaging = FALSE,
+  urlonly = FALSE, filename = "ggmapTemp", color = c("color", "bw"),
+  force = FALSE, where = tempdir(), archiving = FALSE, key = "", region,
+  markers, path, visible, style, ...)
 }
 \arguments{
 \item{center}{the center of the map.  Either a longitude/latitude numeric
@@ -37,26 +37,6 @@ are "terrain", "satellite", "roadmap", and "hybrid"}
 themes with them) in the format "en-EN".  not all languages are supported;
 for those which aren't the default language is used}
 
-\item{region}{borders to display as a region code specified as a
-two-character ccTLD ("top-level domain") value, see
-\url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}}
-
-\item{markers}{data.frame with first column longitude, second column
-latitude, for which google markers should be embedded in the map image,
-or character string to be passed directly to api}
-
-\item{path}{data.frame (or list of data.frames) with first column longitude,
-second column latitude, for which a single path should be embedded in the
-map image, or character string to be passed directly to api}
-
-\item{visible}{a location as a longitude/latitude numeric vector (or data
-frame with first column longitude, second latitude) or vector of character
-string addresses which should be visible in map extent}
-
-\item{style}{character string to be supplied directly to the api for the
-style argument This is a powerful complex specification, see
-\url{https://developers.google.com/maps/documentation/staticmaps/}}
-
 \item{sensor}{specifies whether the application requesting the static map
 is using a sensor to determine the user's location}
 
@@ -75,6 +55,26 @@ is using a sensor to determine the user's location}
 \item{archiving}{use archived maps.  note: by changing to TRUE you agree to the one of the approved uses listed in the Google Maps API Terms of Service : http://developers.google.com/maps/terms.}
 
 \item{key}{an api_key for business users}
+
+\item{region}{borders to display as a region code specified as a
+two-character ccTLD ("top-level domain") value, see
+\url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}}
+
+\item{markers}{data.frame with first column longitude, second column
+latitude, for which google markers should be embedded in the map image,
+or character string to be passed directly to api}
+
+\item{path}{data.frame (or list of data.frames) with first column longitude,
+second column latitude, for which a single path should be embedded in the
+map image, or character string to be passed directly to api}
+
+\item{visible}{a location as a longitude/latitude numeric vector (or data
+frame with first column longitude, second latitude) or vector of character
+string addresses which should be visible in map extent}
+
+\item{style}{character string to be supplied directly to the api for the
+style argument or a named vector (see examples). this is a powerful complex specification, see
+\url{https://developers.google.com/maps/documentation/staticmaps/}}
 
 \item{...}{...}
 }
@@ -118,6 +118,16 @@ ggmap(get_googlemap(center, scale = 2), extent = "panel") # fine
 map <- get_googlemap(archiving = TRUE)
 map <- get_googlemap()
 ggmap(map)
+
+
+# style
+map <- get_googlemap(style = c(feature = "all", element = "labels", visibility = "off"))
+ggmap(map)
+
+
+
+
+
 }
 }
 \author{

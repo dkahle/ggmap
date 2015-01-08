@@ -23,6 +23,16 @@
 #' @param language character string providing language of map labels (for
 #'   themes with them) in the format "en-EN".  not all languages are supported;
 #'   for those which aren't the default language is used
+#' @param sensor specifies whether the application requesting the static map
+#'   is using a sensor to determine the user's location
+#' @param messaging turn messaging on/off
+#' @param urlonly return url only
+#' @param filename destination file for download (file extension added according to format)
+#' @param color color or black-and-white
+#' @param force if the map is on file, should a new map be looked up?
+#' @param where where should the file drawer be located (without terminating "/")
+#' @param archiving use archived maps.  note: by changing to TRUE you agree to the one of the approved uses listed in the Google Maps API Terms of Service : http://developers.google.com/maps/terms.
+#' @param key an api_key for business users
 #' @param region borders to display as a region code specified as a
 #'   two-character ccTLD ("top-level domain") value, see
 #'   \url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}
@@ -36,18 +46,8 @@
 #'   frame with first column longitude, second latitude) or vector of character
 #'   string addresses which should be visible in map extent
 #' @param style character string to be supplied directly to the api for the
-#'   style argument This is a powerful complex specification, see
+#'   style argument or a named vector (see examples). this is a powerful complex specification, see
 #'   \url{https://developers.google.com/maps/documentation/staticmaps/}
-#' @param sensor specifies whether the application requesting the static map
-#'   is using a sensor to determine the user's location
-#' @param messaging turn messaging on/off
-#' @param urlonly return url only
-#' @param filename destination file for download (file extension added according to format)
-#' @param color color or black-and-white
-#' @param force if the map is on file, should a new map be looked up?
-#' @param where where should the file drawer be located (without terminating "/")
-#' @param archiving use archived maps.  note: by changing to TRUE you agree to the one of the approved uses listed in the Google Maps API Terms of Service : http://developers.google.com/maps/terms.
-#' @param key an api_key for business users
 #' @return a ggmap object (a classed raster object with a bounding box attribute)
 #' @param ... ...
 #' @author David Kahle \email{david.kahle@@gmail.com}
@@ -84,14 +84,25 @@
 #' map <- get_googlemap(archiving = TRUE)
 #' map <- get_googlemap()
 #' ggmap(map)
+#'
+#'
+#' # style
+#' map <- get_googlemap(style = c(feature = "all", element = "labels", visibility = "off"))
+#' ggmap(map)
+#'
+#'
+#'
+#'
+#'
 #' }
 get_googlemap <- function(
   center = c(lon = -95.3632715, lat = 29.7632836), zoom = 10, size = c(640,640),
   scale = 2, format = c("png8", "gif", "jpg", "jpg-baseline","png32"),
   maptype = c("terrain", "satellite", "roadmap", "hybrid"),
-  language = "en-EN", region, markers, path, visible, style, sensor = FALSE,
+  language = "en-EN", sensor = FALSE,
   messaging = FALSE, urlonly = FALSE, filename = "ggmapTemp", color = c("color","bw"),
-  force = FALSE, where = tempdir(), archiving = FALSE, key = "", ...
+  force = FALSE, where = tempdir(), archiving = FALSE, key = "",
+  region, markers, path, visible, style, ...
 ){
 
   # enumerate argument checking (added in lieu of checkargs function)
@@ -173,9 +184,16 @@ get_googlemap <- function(
   }
 
   if("style" %in% argsgiven){
-    message("style argument untested.")
     style_stop <- TRUE
-    if(is.character(style) && length(style) == 1) style_stop <- FALSE
+    if(is.character(style)){
+      if(length(style) > 1){
+        style <- paste(
+          paste(names(style), style, sep = ":"),
+          collapse = "|"
+        )
+      }
+      style_stop <- FALSE
+    }
     if(style_stop) stop("improper style specification, see ?get_googlemap.", call. = F)
   }
 
@@ -273,7 +291,7 @@ get_googlemap <- function(
     }
   } else { "" }
 
-  style_url <- if(!missing(style)){ paste(sep="", "style=", style) } else { "" }
+  style_url <- if(!missing(style)){ paste("style=", style, sep="") } else { "" }
   sensor_url <- paste("sensor=", tolower(as.character(sensor)), sep="")
   key_url <- if(!missing(key)){paste("key=", key, sep="") } else { "" }
 
