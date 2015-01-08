@@ -273,7 +273,7 @@ get_googlemap <- function(
     }
   } else { "" }
 
-  style_url <- if(!missing(style)){ paste("style=", style) } else { "" }
+  style_url <- if(!missing(style)){ paste(sep="", "style=", style) } else { "" }
   sensor_url <- paste("sensor=", tolower(as.character(sensor)), sep="")
   key_url <- if(!missing(key)){paste("key=", key, sep="") } else { "" }
 
