@@ -185,6 +185,7 @@ get_googlemap <- function(
 
   if("style" %in% argsgiven){
     style_stop <- TRUE
+    if(is.list(style)) style <- unlist(style)
     if(is.character(style)){
       if(length(style) > 1){
         style <- paste(
