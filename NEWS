@@ -28,6 +28,7 @@ NEW ARGUMENTS
 * get_googlemap now accepts an api_key argument for business users (thanks to Guy Carpenter for starting the process).
 * geocode and revgeocode now accept client and signature arguments for business users.
 * the style argument in get_googlemap is now much better (thanks @coxchristopher, @djhurio, and @mattmoehr).
+* route now accepts transit for the mode argument (thanks @corynissan).
 
 FIXES
 
