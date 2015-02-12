@@ -85,7 +85,7 @@
 #'   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes')
 #' }
 #' 
-route <- function(from, to, mode = c('driving','walking','bicycling'), 
+route <- function(from, to, mode = c('driving','walking','bicycling', 'transit'), 
   structure = c('legs','route'), output = c('simple','all'), alternatives = FALSE, 
   messaging = FALSE, sensor = FALSE, override_limit = FALSE)
 {
