@@ -22,7 +22,8 @@ Imports:
     mapproj,
     jpeg,
     geosphere,
-    digest
+    digest,
+    httr
 Suggests:
     MASS,
     stringr
