@@ -14,6 +14,7 @@ CHANGES
 * geocode has been given an overhaul; it now accepts a data argument for data frames (see examples), and no longer errors when it runs out of checks.
 * stamen maps now hosts a wide new variety of maptypes that are kin of the existing ones.  see ?get_stamenmap.  some stamen maps have moved to jpgs; this has been fixed.
 * the license is now GPL-2.
+* cloudmade maps has been deprecated; it's no longer clear how long the service will be offered.
 
 
 NEW FUNCTIONS

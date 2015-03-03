@@ -29,6 +29,7 @@
 #' \dontrun{
 #' # in what follows, enter your own api key
 #' api_key <- '<your api key here>'
+#' api_key <- "b23b0358e87c4ff99f81029eda25c903"
 #'
 #' map <- get_cloudmademap(api_key = api_key)
 #' ggmap(map)
@@ -41,6 +42,8 @@ get_cloudmademap <- function(
   zoom = 10, api_key, maptype = 1, highres = TRUE, crop = TRUE, messaging = FALSE,
   urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
 ){
+
+  .Deprecated(msg = "cloudmademap is deprecated.")
 
   # enumerate argument checking (added in lieu of checkargs function)
   args <- as.list(match.call(expand.dots = TRUE)[-1])
