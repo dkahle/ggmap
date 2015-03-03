@@ -314,13 +314,22 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, force = FALSE, messaging = T
   download.file(url, destfile = tmp, quiet = !messaging, mode = "wb")
   if(TRUE) message(paste0("Map from URL : ", url))
 
-  # read in and format
+  # read in
   if(maptype %in% c("terrain","terrain-background","watercolor")){
     tile <- readJPEG(tmp)
   } else {
     tile <- readPNG(tmp)
   }
-  tile <- t(apply(tile, 2, rgb))
+
+
+  # convert to colors
+  # toner-lines treated differently for alpha
+  if(maptype == "toner-lines"){
+    tile <- t(apply(tile, 1:2, function(x) rgb(x[1], x[2], x[3], x[4])))
+  } else {
+    tile <- t(apply(tile, 2, rgb))
+  }
+
 
   # determine bbox of map. note : not the same as the argument bounding box -
   # the map is only a covering of the bounding box extent the idea is to get
