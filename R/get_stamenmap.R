@@ -21,7 +21,7 @@
 #' @seealso \url{http://maps.stamen.com/#watercolor}, \code{\link{ggmap}}
 #' @export
 #' @examples
-#' \dontrun{
+#'
 #' gc <- geocode("marrs mclean science building, baylor university")
 #' google <- get_googlemap("baylor university", zoom = 15)
 #' ggmap(google) +
@@ -33,6 +33,11 @@
 #' ggmap(get_stamenmap(bbox, zoom = 15))
 #' # ggmap(get_stamenmap(bbox, zoom = 16))
 #' # ggmap(get_stamenmap(bbox, zoom = 17))
+#'
+#' \dontrun{
+#' # the code below is removed for faster checking.
+#' # also, the osm code may not run due to overloaded
+#' # servers.
 #'
 #' # various maptypes are available.  bump it up to zoom = 15 for better resolution.
 #' ggmap(get_stamenmap(bbox, maptype = "terrain", zoom = 14))
@@ -53,12 +58,10 @@
 #' ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 12), extent = "device")
 #' ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 13), extent = "device")
 #' ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 14), extent = "device")
-#' ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 15), extent = "device")
+#' # ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 15), extent = "device")
 #' # ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 16), extent = "device")
 #' # ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 17), extent = "device")
 #' # ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 18), extent = "device")
-#'
-#' ggmap(get_stamenmap(bbox, maptype = "terrain-background", zoom = 14), extent = "device")
 #'
 #' stamen <- get_stamenmap(bbox, zoom = 15)
 #' ggmap(stamen) +
@@ -67,6 +70,7 @@
 #' stamen <- get_stamenmap(bbox, zoom = 15, crop = FALSE)
 #' ggmap(stamen) +
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
+#'
 #'
 #' osm <- get_openstreetmap(bbox, scale = OSM_scale_lookup(15))
 #' ggmap(osm) +
@@ -80,13 +84,97 @@
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 #'
 #'
-#' # accuracy check
+#'
+#'
+#'
+#'
+#' # accuracy check - white house
 #' gc <- geocode("the white house")
 #'
 #' qmap("the white house", zoom = 16)  +
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)
 #'
 #' qmap("the white house", zoom = 16, source = "stamen", maptype == "terrain")  +
+#'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)
+#'
+#'
+#'
+#'
+#'
+#' # accuracy check - statue of liberty
+#' # see https://github.com/dkahle/ggmap/issues/32
+#'
+#' gc <- geocode("statue of liberty")
+#'
+#' googMapZ10 <- get_googlemap(center = as.numeric(gc))
+#' bbZ10 <- attr(googMapZ10, "bb")
+#' stamMapZ10 <- get_stamenmap(bb2bbox(bbZ10))
+#'
+#' ggmap(googMapZ10) +
+#'   geom_point(
+#'     aes(x = lon, y = lat),
+#'     data = gc, colour = "red", size = 3
+#'   )
+#'
+#' ggmap(stamMapZ10) +
+#'   geom_point(
+#'     aes(x = lon, y = lat),
+#'     data = gc, colour = "red", size = 3
+#' )
+#'
+#'
+#' # using a higher zoom
+#' googMapZ15 <- get_googlemap(center = as.numeric(gc), zoom = 15)
+#' bbZ15 <- attr(googMapZ15, "bb")
+#' stamMapZ15 <- get_stamenmap(bb2bbox(bbZ15),
+#'   zoom = calc_zoom(bb2bbox(bbZ15))
+#' )
+#'
+#' ggmap(googMapZ15) +
+#'   geom_point(
+#'     aes(x = lon, y = lat),
+#'     data = gc, colour = "red", size = 3
+#' )
+#'
+#' ggmap(stamMapZ15) +
+#'   geom_point(
+#'     aes(x = lon, y = lat),
+#'     data = gc, colour = "red", size = 3
+#'   )
+#'
+#'
+#' # using a lower zoom
+#' googMapZ5 <- get_googlemap(center = as.numeric(gc), zoom = 4)
+#' bbZ5 <- attr(googMapZ5, "bb")
+#' stamMapZ5 <- get_stamenmap(bb2bbox(bbZ5),
+#'   zoom = calc_zoom(bb2bbox(bbZ5))
+#' )
+#'
+#' ggmap(googMapZ5) +
+#'   geom_point(
+#'     aes(x = lon, y = lat),
+#'     data = gc, colour = "red", size = 3
+#'   )
+#'
+#' ggmap(stamMapZ5) +
+#'   geom_point(
+#'     aes(x = lon, y = lat),
+#'     data = gc, colour = "red", size = 3
+#'   )
+#'
+#'
+#' stamMapZ5unCropped <- get_stamenmap(bb2bbox(bbZ5),
+#'   zoom = calc_zoom(bb2bbox(bbZ5)),
+#'   crop = FALSE)
+#'
+#' ggmap(stamMapZ5unCropped) +
+#'   geom_point(
+#'     aes(x = lon, y = lat),
+#'     data = gc, colour = "red", size = 3
+#'   )
+#'
+#' qmap(location = c(lon = -74.0445, lat = 40.68925),
+#'     zoom = 16, source = "stamen")  +
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)
 #'
 #' }
@@ -193,8 +281,23 @@ get_stamenmap <- function(
   	mbbox <- attr(map, "bb")
 
   	size <- 256 * c(length(xsNeeded), length(ysNeeded))
-    slon <- seq(mbbox$ll.lon, mbbox$ur.lon, length.out = size[1])
-    slat <- seq(mbbox$ll.lat, mbbox$ur.lat, length.out = size[2])
+
+    # slon is the sequence of lons corresponding to the pixels
+    # left to right
+  	slon <- seq(mbbox$ll.lon, mbbox$ur.lon, length.out = size[1])
+
+    # slat is the sequence of lats corresponding to the pixels
+    # bottom to top
+    # slat is more complicated due to the mercator projection
+    slat <- vector("double", length = 256*length(ysNeeded))
+    for(k in seq_along(ysNeeded)){
+      slat[(k-1)*256 + 1:256] <-
+        sapply(as.list(0:255), function(y){
+          XY2LonLat(X = xsNeeded[1], Y = ysNeeded[k], zoom, x = 0, y = y)$lat
+        })
+    }
+    slat <- rev(slat)
+    ##slat <- seq(mbbox$ll.lat, mbbox$ur.lat, length.out = size[2])
 
     keep_x_ndcs <- which(bbox["left"] <= slon & slon <= bbox["right"])
     keep_y_ndcs <- sort( size[2] - which(bbox["bottom"] <= slat & slat <= bbox["top"]) )
@@ -324,7 +427,8 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, force = FALSE, messaging = T
 
   # convert to colors
   # toner-lines treated differently for alpha
-  if(maptype == "toner-lines"){
+  if(maptype %in% c("toner-hybrid", "toner-labels", "toner-lines",
+                    "terrain-labels", "terrain-lines")){
     tile <- t(apply(tile, 1:2, function(x) rgb(x[1], x[2], x[3], x[4])))
   } else {
     tile <- t(apply(tile, 2, rgb))
