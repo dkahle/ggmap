@@ -1,8 +1,9 @@
 Package: ggmap
-Version: 2.4
-Title: Spatial Visualization with Google Maps and OpenStreetMap
-Description: Easily visualize of spatial data and models on top of Google Maps,
-    OpenStreetMaps, Stamen Maps, or CloudMade Maps with ggplot2.
+Version: 2.5
+Title: Spatial Visualization with ggplot2
+Description: A collection of functions to visualize spatial data and models on top of static maps
+  from various online sources (e.g Google Maps and Stamen Maps).  It includes tools common to those
+  tasks, including functions for geolocation and routing.
 URL: https://github.com/dkahle/ggmap
 BugReports: https://github.com/dkahle/ggmap/issues
 Authors@R: c(person("David", "Kahle", email = "david.kahle@gmail.com", role = c("aut", "cre")),
@@ -25,6 +26,7 @@ Imports:
     digest
 Suggests:
     MASS,
-    stringr
+    stringr,
+    hexbin
 License: GPL-2
 LazyData: true

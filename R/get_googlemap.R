@@ -3,7 +3,7 @@
 #' \code{get_googlemap} accesses the Google Static Maps API version 2 to
 #' download a static map.  Note that in most cases by using this function you
 #' are agreeing to the Google Maps API Terms of Service at
-#' \url{https://developers.google.com/maps/terms.}
+#' \url{https://developers.google.com/maps/terms}.
 #'
 #' @param center the center of the map.  Either a longitude/latitude numeric
 #'    vector, a string address (note that the latter uses \code{geocode}).
@@ -54,9 +54,14 @@
 #' @seealso \url{https://developers.google.com/maps/documentation/staticmaps/}, \code{\link{ggmap}}
 #' @export
 #' @examples
+#'
+#' \dontrun{ # to diminish run check time
+#'
+#'
 #' get_googlemap(urlonly = TRUE)
 #' ggmap(get_googlemap())
-#' \donttest{
+#'
+#'
 #' # markers and paths are easy to access
 #' d <- function(x=-95.36, y=29.76, n,r,a){
 #'   round(data.frame(
@@ -93,8 +98,8 @@
 #'
 #'
 #'
-#'
 #' }
+#'
 get_googlemap <- function(
   center = c(lon = -95.3632715, lat = 29.7632836), zoom = 10, size = c(640,640),
   scale = 2, format = c("png8", "gif", "jpg", "jpg-baseline","png32"),
@@ -332,7 +337,7 @@ get_googlemap <- function(
   class(map) <- c("ggmap","raster")
 
   # map spatial info
-  if(is.character(center)) center <- as.numeric(geocode(center))
+  if(is.character(center)) center <- as.numeric(geocode(center, source = "google"))
   ll <- XY2LatLon(
     list(lat = center[2], lon = center[1], zoom = zoom),
     -size[1]/2 + 0.5,

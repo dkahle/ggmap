@@ -8,7 +8,7 @@
 #' this function.
 #'
 #  In some cases the OSM server is unavailable,  in these cases you will
-#' receive an error message from \code{download.file} with the message HTTP status was
+#' receive an error message from \code{download.file} with the message HTTP status
 #' '503 Service Unavailable'.  You can confirm this by setting urlonly = TRUE,
 #' and then entering the URL in a web browser.  the solution is either (1)
 #' change sources or (2) wait for the OSM servers to come back up.
@@ -43,9 +43,14 @@
 #' @seealso \url{http://www.openstreetmap.org/}, \code{\link{ggmap}}
 #' @export
 #' @examples
+#'
 #' \dontrun{
-#' osm <- get_openstreetmap()
+#' # osm servers get overloaded, which can result in
+#' # erroneous failed checks
+#'
+#' osm <- get_openstreetmap(urlonly = TRUE)
 #' ggmap(osm)
+#'
 #' }
 get_openstreetmap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),

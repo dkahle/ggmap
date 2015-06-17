@@ -14,7 +14,7 @@
 #' @export
 #' @examples
 #'
-#' gc <- geocode("statue of liberty")
+#' gc <- geocode("statue of liberty", source = "google")
 #'
 #' googMap <- get_googlemap(center = as.numeric(gc))
 #' (bb <- attr(googMap, "bb"))

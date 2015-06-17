@@ -22,7 +22,9 @@
 #' @export
 #' @examples
 #'
-#' gc <- geocode("marrs mclean science building, baylor university")
+#' \dontrun{ # to diminish run check time
+#'
+#' gc <- geocode("marrs mclean science building, baylor university", source = "google")
 #' google <- get_googlemap("baylor university", zoom = 15)
 #' ggmap(google) +
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
@@ -34,9 +36,7 @@
 #' # ggmap(get_stamenmap(bbox, zoom = 16))
 #' # ggmap(get_stamenmap(bbox, zoom = 17))
 #'
-#' \dontrun{
-#' # the code below is removed for faster checking.
-#' # also, the osm code may not run due to overloaded
+#' # note that the osm code may not run due to overloaded
 #' # servers.
 #'
 #' # various maptypes are available.  bump it up to zoom = 15 for better resolution.
@@ -177,7 +177,8 @@
 #'     zoom = 16, source = "stamen")  +
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)
 #'
-#' }
+#' } # end dontrun
+#'
 get_stamenmap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
   zoom = 10, maptype = c("terrain","terrain-background","terrain-labels",

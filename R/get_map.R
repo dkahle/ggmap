@@ -33,18 +33,23 @@
 #' @examples
 #' map <- get_map()
 #' ggmap(map)
+#'
 #' \dontrun{
+#' # not run by check to reduce time; also,
+#' # osm may error due to server overload
+#'
 #' map <- get_map(maptype = "roadmap")
 #' map <- get_map(source = "osm")
 #' map <- get_map(source = "stamen", maptype = "watercolor")
 #'
 #' map <- get_map(location = "texas", zoom = 6, source = "stamen")
 #' ggmap(map, fullpage = TRUE)
+#'
 #' }
 get_map <- function(
   location = c(lon = -95.3632715, lat = 29.7632836), zoom = "auto", scale = "auto",
   maptype = c("terrain", "terrain-background", "satellite", "roadmap",
-    "hybrid", "toner", "watercolor", "terrain=labels",
+    "hybrid", "toner", "watercolor", "terrain-labels",
     "terrain-lines", "toner-2010", "toner-2011", "toner-background",
     "toner-hybrid", "toner-labels", "toner-lines", "toner-lite"),
   source = c("google","osm","stamen","cloudmade"),
@@ -78,7 +83,7 @@ get_map <- function(
     }
   }
   if(source == "stamen"){
-    if(!(maptype %in% c("terrain","terrain-background","terrain=labels",
+    if(!(maptype %in% c("terrain","terrain-background","terrain-labels",
       "terrain-lines", "toner", "toner-2010", "toner-2011", "toner-background",
       "toner-hybrid", "toner-labels", "toner-lines", "toner-lite", "watercolor")))
     {
@@ -87,7 +92,7 @@ get_map <- function(
     }
   }
   if(source == "google" & (
-    maptype %in% c("terrain-background","terrain=labels",
+    maptype %in% c("terrain-background","terrain-labels",
       "terrain-lines", "toner", "toner-2010", "toner-2011", "toner-background",
       "toner-hybrid", "toner-labels", "toner-lines", "toner-lite", "watercolor")
   )){

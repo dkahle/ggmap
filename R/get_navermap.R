@@ -27,9 +27,13 @@
 #' @seealso \url{http://dev.naver.com/openapi/apis/map/staticmap/}, \code{\link{ggmap}}
 #' @export
 #' @examples
+#'
 #' \dontrun{
+#' # not run to reduce R CMD check time
+#'
 #' map <- get_navermap(key="c75a09166a38196955adee04d3a51bf8", uri="www.r-project.org")
 #' ggmap(map)
+#'
 #' }
 get_navermap <- function(
   center = c(lon = 126.9849208, lat = 37.5664519), zoom = 4,

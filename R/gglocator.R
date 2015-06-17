@@ -1,7 +1,7 @@
 #' Locator for ggplots.
 #'
 #' Locator for ggplots. (Note : only accurate when extent = "normal" when using ggmap.)
-#' 
+#'
 #' @param n number of points to locate.
 #' @param message turn messaging from grid.ls on/off
 #' @param xexpand expand argument in scale_x_continuous
@@ -10,50 +10,54 @@
 #' @author Tyler Rinker with help from Baptiste Auguie and StackOverflow user DWin with additions and canning by David Kahle \email{david.kahle@@gmail.com}.
 #' @export
 #' @examples
-#' 
-#' 
-#' \dontrun{
+#'
+#' if(interactive()){
+#'
+#' # only run for interactive sessions
+#'
+#'
 #' df <- expand.grid(x = 0:-5, y = 0:-5)
-#' (p <- qplot(x, y, data = df) + 
+#' (p <- qplot(x, y, data = df) +
 #'   annotate(geom = 'point', x = -2, y = -2, colour = 'red'))
-#' gglocator() 
-#' 
-#' p + 
-#'   scale_x_continuous(expand = c(0,0)) + 
+#' gglocator()
+#'
+#' p +
+#'   scale_x_continuous(expand = c(0,0)) +
 #'   scale_y_continuous(expand = c(0,0))
 #' gglocator(1, xexpand = c(0,0), yexpand = c(0,0))
-#' 
+#'
+#'
 #' }
-#' 
-#'   
-gglocator <- function(n = 1, message = FALSE, 
+#'
+#'
+gglocator <- function(n = 1, message = FALSE,
   xexpand = c(.05, 0), yexpand = c(.05, 0)
 ){
-  
+
   if(n > 1){
     df <- NULL
     for(k in 1:n){
-      df <- rbind(df, gglocator(message = message, 
+      df <- rbind(df, gglocator(message = message,
         xexpand = xexpand, yexpand = yexpand))
     }
     return(df)
   }
-  
+
   # find the correct viewport for the npc coordinates
   x <- grid.ls(print = message)$name
-  x <- x[grep("panel.", x)][1] 
-  seekViewport(x)  
-  
+  x <- x[grep("panel.", x)][1]
+  seekViewport(x)
+
   # get the position relative to that viewport
   loc <-  as.numeric(grid.locator("npc"))
 
   # scale the position to the plot
   object <- last_plot()
   xrng <- with(object, range(data[,deparse(mapping$x)]))
-  yrng <- with(object, range(data[,deparse(mapping$y)]))    
-    
+  yrng <- with(object, range(data[,deparse(mapping$y)]))
+
   xrng <- scales::expand_range(range = xrng, mul = xexpand[1], add = xexpand[2])
-  yrng <- scales::expand_range(range = yrng, mul = yexpand[1], add = yexpand[2])    
+  yrng <- scales::expand_range(range = yrng, mul = yexpand[1], add = yexpand[2])
 
   # format and return
   point <- data.frame(xrng[1] + loc[1]*diff(xrng), yrng[1] + loc[2]*diff(yrng))

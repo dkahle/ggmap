@@ -11,70 +11,39 @@
 #' @param messaging turn messaging on/off
 #' @param sensor whether or not the geocoding request comes from a device with a location sensor
 #' @param override_limit override the current query count (.GoogleRouteQueryCount)
-#' @return a data frame (output='simple') or all of the geocoded information (output='all')
+#' @return a data frame (output="simple") or all of the geocoded information (output="all")
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso \url{https://developers.google.com/maps/documentation/directions/}, \code{\link{legs2route}}, \code{\link{routeQueryCheck}}, \code{\link{geom_leg}}
 #' @export
 #' @examples
 #'
+#' \dontrun{ # to cut down on check time
 #'
-#' \dontrun{
-#'
-#' from <- 'houson, texas'
-#' to <- 'waco, texas'
-#' route_df <- route(from, to, structure = 'route')
-#' qmap('college station, texas', zoom = 8) +
+#' from <- "houson, texas"
+#' to <- "waco, texas"
+#' route_df <- route(from, to, structure = "route")
+#' qmap("college station, texas", zoom = 8) +
 #'   geom_path(
-#'     aes(x = lon, y = lat),  colour = 'red', size = 1.5,
-#'     data = route_df, lineend = 'round'
+#'     aes(x = lon, y = lat),  colour = "red", size = 1.5,
+#'     data = route_df, lineend = "round"
 #'   )
 #'
-#' qmap('college station, texas', zoom = 6) +
+#' qmap("college station, texas", zoom = 6) +
 #'   geom_path(
-#'     aes(x = lon, y = lat), colour = 'red', size = 1.5,
-#'     data = route_df, lineend = 'round'
+#'     aes(x = lon, y = lat), colour = "red", size = 1.5,
+#'     data = route_df, lineend = "round"
 #'   )
-#'
-#' theme_set(theme_bw())
-#' legs_df <- route(from, to, alternatives = TRUE)
-#' p <- qplot(route, minutes, data = legs_df, geom = 'bar',
-#'     stat = 'identity', fill = factor(leg)) +
-#'   scale_fill_discrete(guide = 'none') +
-#'   labs(x = 'Route', y = 'Time (Minutes)', fill = 'Leg') +
-#'   opts(
-#'     title = 'Route Time by Leg',
-#'     plot.background = theme_rect(fill = 'green'),
-#'     axis.text.x = theme_text(colour = 'white'),
-#'     axis.title.x = theme_text(colour = 'white'),
-#'     axis.text.y = theme_text(colour = 'white'),
-#'     axis.title.y = theme_text(colour = 'white', angle = 90),
-#'     plot.title = theme_text(colour = 'white')
-#'   )
-#'
-#' route_df <- legs2route(legs_df)
-#' options('device')$device(width = 7.56, height = 6.84)
-#' qmap('college station, texas', zoom = 8, maptype = 'hybrid', fullpage = FALSE) +
-#'   geom_path(
-#'     aes(x = lon, y = lat, colour = route),
-#'     alpha = 3/4, size = 1.75, data = route_df, lineend='round'
-#'   ) +
-#'   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes') +
-#'   opts(title = 'Approximate Routes from Houston to Waco') +
-#'   ggmap:::annotation_custom(ggplotGrob(p),
-#'     xmin = -96.5, xmax = -94.5, ymin = 30.35, ymax = 32.2)
 #'
 #' routeQueryCheck()
 #'
 #'
 #'
-#'
 #' (legs_df <- route(
-#'   'marrs mclean science, baylor university',
-#'   '220 south 3rd street, waco, tx 76701', # ninfa's
+#'   "marrs mclean science, baylor university",
+#'   "220 south 3rd street, waco, tx 76701", # ninfa"s
 #'   alternatives = TRUE))
 #'
-#' options('device')$device(width = 11.65, height = 4.17)
-#' qmap('424 clay avenue, waco, tx', zoom = 16, maprange = TRUE, maptype = 'hybrid',
+#' qmap("424 clay avenue, waco, tx", zoom = 15, maprange = TRUE, maptype = "hybrid",
 #'     base_layer = ggplot(aes(x = startLon, y = startLat), data = legs_df)) +
 #'   geom_leg(
 #'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat, colour = route),
@@ -82,11 +51,12 @@
 #'   ) +
 #'   scale_x_continuous(breaks = pretty(c(-97.1325,-97.119),4), lim = c(-97.1325,-97.119)) +
 #'   facet_wrap(~ route) + theme_bw() +
-#'   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes')
+#'   labs(x = "Longitude", y = "Latitude", colour = "Routes")
+#'
 #' }
 #'
-route <- function(from, to, mode = c('driving','walking','bicycling', 'transit'),
-  structure = c('legs','route'), output = c('simple','all'), alternatives = FALSE,
+route <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
+  structure = c("legs","route"), output = c("simple","all"), alternatives = FALSE,
   messaging = FALSE, sensor = FALSE, override_limit = FALSE)
 {
 
@@ -104,18 +74,17 @@ route <- function(from, to, mode = c('driving','walking','bicycling', 'transit')
 
   # format url
   origin <- from
-  origin <- gsub(' ', '+', origin)
-  origin <- paste('origin=', origin, sep = '')
+  origin <- gsub(" ", "+", origin)
+  origin <- paste("origin=", origin, sep = "")
   destination <- to
-  destination <- gsub(' ', '+', destination)
-  destination <- paste('destination=', destination, sep = '')
-  mode4url <- paste('mode=', mode, sep = '')
-  unit4url <- paste('units=', 'metric', sep = '')
-  alts4url <- paste('alternatives=', tolower(as.character(alternatives)), sep = '')
-  sensor4url <- paste('sensor=', tolower(as.character(sensor)), sep = '')
-  posturl <- paste(origin, destination, mode4url, unit4url, alts4url, sensor4url, sep = '&')
-  url_string <- paste("http://maps.googleapis.com/maps/api/directions/json?",
-    posturl, sep = "")
+  destination <- gsub(" ", "+", destination)
+  destination <- paste("destination=", destination, sep = "")
+  mode4url <- paste("mode=", mode, sep = "")
+  unit4url <- paste("units=", "metric", sep = "")
+  alts4url <- paste("alternatives=", tolower(as.character(alternatives)), sep = "")
+  sensor4url <- paste("sensor=", tolower(as.character(sensor)), sep = "")
+  posturl <- paste(origin, destination, mode4url, unit4url, alts4url, sensor4url, sep = "&")
+  url_string <- paste("http://maps.googleapis.com/maps/api/directions/json?", posturl, sep = "")
   url_string <- URLencode(url_string)
 
   # check/update google query limit
@@ -124,17 +93,17 @@ route <- function(from, to, mode = c('driving','walking','bicycling', 'transit')
 
 
   # distance lookup
-  if(messaging) message('trying url ', url_string)
+  if(messaging) message("trying url ", url_string)
   connect <- url(url_string)
-  tree <- fromJSON(paste(readLines(connect), collapse = ''))
+  tree <- fromJSON(paste(readLines(connect), collapse = ""))
   close(connect)
 
-  # return output = 'all'
-  if(output == 'all') return(tree)
+  # return output = "all"
+  if(output == "all") return(tree)
 
 
   # message user
-  message(paste0('Information from URL : ', url_string))
+  message(paste0("Information from URL : ", url_string))
 
 
   # extract output from tree and format
@@ -142,16 +111,16 @@ route <- function(from, to, mode = c('driving','walking','bicycling', 'transit')
 
     route_df <- ldply(route$legs[[1]]$steps, function(oneLegList){
       data.frame(
-        m = oneLegList$distance$value,
-        km = oneLegList$distance$value/1000,
-        miles = 0.0006214 * oneLegList$distance$value,
-        seconds = oneLegList$duration$value,
-        minutes = oneLegList$duration$value / 60,
-  	    hours = oneLegList$duration$value / 3600,
+        m        = oneLegList$distance$value,
+        km       = oneLegList$distance$value/1000,
+        miles    = 0.0006214 * oneLegList$distance$value,
+        seconds  = oneLegList$duration$value,
+        minutes  = oneLegList$duration$value / 60,
+  	    hours    = oneLegList$duration$value / 3600,
   	    startLon = oneLegList$start_location$lng,
   	    startLat = oneLegList$start_location$lat,
-  	    endLon = oneLegList$end_location$lng,
-  	    endLat = oneLegList$end_location$lat
+  	    endLon   = oneLegList$end_location$lng,
+  	    endLat   = oneLegList$end_location$lat
       )
     })
     route_df$leg <- 1:nrow(route_df)
@@ -169,8 +138,8 @@ route <- function(from, to, mode = c('driving','walking','bicycling', 'transit')
   }
   if(nRoutes > 1) out$route <- routeLabel
 
-  # return output = 'simple'
-  if(structure == 'legs'){
+  # return output = "simple"
+  if(structure == "legs"){
     return(out)
   } else {
   	return(legs2route(out))
@@ -190,25 +159,25 @@ route <- function(from, to, mode = c('driving','walking','bicycling', 'transit')
 check_route_query_limit <- function(url_string, elems, override, messaging){
   .GoogleRouteQueryCount <- NULL; rm(.GoogleRouteQueryCount); # R CMD check trick
 
-  if(exists('.GoogleRouteQueryCount', .GlobalEnv)){
+  if(exists(".GoogleRouteQueryCount", .GlobalEnv)){
 
     .GoogleRouteQueryCount <<-
       subset(.GoogleRouteQueryCount, time >= Sys.time() - 24*60*60)
 
     # 2500 per 24 hours
     if(sum(.GoogleRouteQueryCount$elements) + elems > 2500){
-      message('query max exceeded, see ?route.  current total = ',
+      message("query max exceeded, see ?route.  current total = ",
         sum(.GoogleRouteQueryCount$elements))
-      if(!override) stop('google query limit exceeded.', call. = FALSE)
+      if(!override) stop("google query limit exceeded.", call. = FALSE)
     }
 
     # 100 per 10 seconds
     if(with(.GoogleRouteQueryCount,
       sum(elements[time >= Sys.time() - 10]) + elems > 100
     )){
-      if(messaging) message('waiting 10 seconds for another 100 queries...', appendLF=F)
+      if(messaging) message("waiting 10 seconds for another 100 queries...", appendLF=F)
       Sys.sleep(10) # can do better
-      if(messaging) message(' done')
+      if(messaging) message(" done")
     }
 
     # append to .GoogleRouteQueryCount
@@ -252,14 +221,14 @@ check_route_query_limit <- function(url_string, elems, override, messaging){
 #' }
 routeQueryCheck <- function(){
   .GoogleRouteQueryCount <- NULL; rm(.GoogleRouteQueryCount); # R CMD check trick
-  if(exists('.GoogleRouteQueryCount', .GlobalEnv)){
+  if(exists(".GoogleRouteQueryCount", .GlobalEnv)){
   	remaining <- 2500-sum(
   	  subset(.GoogleRouteQueryCount, time >= Sys.time() - 24*60*60)$elements
   	  )
-    message(remaining, ' route queries remaining.')
+    message(remaining, " route queries remaining.")
   } else {
   	remaining <- 2500
-    message(remaining, ' route queries remaining.')
+    message(remaining, " route queries remaining.")
   }
   invisible(remaining)
 }
@@ -287,11 +256,11 @@ routeQueryCheck <- function(){
 #'
 #' (legs_df <- route(
 #' "marrs mclean science, baylor university",
-#'   "220 south 3rd street, waco, tx 76701", # ninfa's
+#'   "220 south 3rd street, waco, tx 76701", # ninfa"s
 #'   alternatives = TRUE))
 #'
-#' options('device')$device(width = 11.65, height = 4.17)
-#' qmap('424 clay avenue, waco, tx', zoom = 16, maprange = TRUE, maptype = 'satellite',
+#' options("device")$device(width = 11.65, height = 4.17)
+#' qmap("424 clay avenue, waco, tx", zoom = 16, maprange = TRUE, maptype = "satellite",
 #'   base_layer = ggplot(aes(x = startLon, y = startLat), data = legs_df)) +
 #'   geom_segment(
 #'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat, colour = route),
@@ -299,9 +268,9 @@ routeQueryCheck <- function(){
 #'   ) +
 #'   scale_x_continuous(breaks = pretty(c(-97.1325,-97.119),4), lim = c(-97.1325,-97.119)) +
 #'   facet_wrap(~ route) + theme_bw() +
-#'   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes')
+#'   labs(x = "Longitude", y = "Latitude", colour = "Routes")
 #'
-#' qmap('424 clay avenue, waco, tx', zoom = 16, maprange = TRUE, maptype = 'satellite',
+#' qmap("424 clay avenue, waco, tx", zoom = 16, maprange = TRUE, maptype = "satellite",
 #'   base_layer = ggplot(aes(x = startLon, y = startLat), data = legs_df)) +
 #'   geom_leg(
 #'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat, colour = route),
@@ -309,7 +278,7 @@ routeQueryCheck <- function(){
 #'   ) +
 #'   scale_x_continuous(breaks = pretty(c(-97.1325,-97.119),4), lim = c(-97.1325,-97.119)) +
 #'   facet_wrap(~ route) + theme_bw() +
-#'   labs(x = 'Longitude', y = 'Latitude', colour = 'Routes')
+#'   labs(x = "Longitude", y = "Latitude", colour = "Routes")
 #'
 #'
 #' }
@@ -367,12 +336,12 @@ GeomLeg <- proto(ggplot2:::GeomSegment, {
 #'
 #' \dontrun{
 #'
-#' (legs_df <- route('houston','galveston'))
+#' (legs_df <- route("houston","galveston"))
 #' legs2route(legs_df)
 #
 #' (legs_df <- route(
 #'   "marrs mclean science, baylor university",
-#'   "220 south 3rd street, waco, tx 76701", # ninfa's
+#'   "220 south 3rd street, waco, tx 76701", # ninfa"s
 #'   alternatives = TRUE))
 #'
 #' legs2route(legs_df)
@@ -380,30 +349,30 @@ GeomLeg <- proto(ggplot2:::GeomSegment, {
 #'
 #'
 #'
-#' from <- 'houson, texas'
-#' to <- 'waco, texas'
+#' from <- "houson, texas"
+#' to <- "waco, texas"
 #' legs_df <- route(from, to)
 #'
 #'
-#' qmap('college station, texas', zoom = 8) +
+#' qmap("college station, texas", zoom = 8) +
 #'   geom_segment(
 #'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat),
-#'     colour = 'red', size = 1.5, data = legs_df
+#'     colour = "red", size = 1.5, data = legs_df
 #'   )
 #' # notice boxy ends
 #'
-#' qmap('college station, texas', zoom = 8) +
+#' qmap("college station, texas", zoom = 8) +
 #'   geom_leg(
 #'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat),
-#'     colour = 'red', size = 1.5, data = legs_df
+#'     colour = "red", size = 1.5, data = legs_df
 #'   )
 #' # notice overshooting ends
 #'
 #' route_df <- legs2route(legs_df)
-#' qmap('college station, texas', zoom = 8) +
+#' qmap("college station, texas", zoom = 8) +
 #'   geom_path(
 #'     aes(x = lon, y = lat),
-#'     colour = 'red', size = 1.5, data = route_df, lineend = "round"
+#'     colour = "red", size = 1.5, data = route_df, lineend = "round"
 #'   )
 #'
 #'
@@ -412,10 +381,10 @@ GeomLeg <- proto(ggplot2:::GeomSegment, {
 #'
 legs2route <- function(legsdf){
 
-  if(!('route' %in% names(legsdf))) legsdf$route <- 'A'
+  if(!("route" %in% names(legsdf))) legsdf$route <- "A"
 
   out <- ddply(legsdf, .(route), function(df){
-  	out <- df[,-which(names(df) %in% c('startLon','startLat','endLon','endLat'))]
+  	out <- df[,-which(names(df) %in% c("startLon","startLat","endLon","endLat"))]
     out$lon <- df$startLon
     out$lat <- df$startLat
     out <- rbind(out, NA)
@@ -425,7 +394,7 @@ legs2route <- function(legsdf){
     out
   })
 
-  if(length(unique(legsdf$route)) == 1) out <- out[,-which(names(out) == 'route')]
+  if(length(unique(legsdf$route)) == 1) out <- out[,-which(names(out) == "route")]
   out
 }
 

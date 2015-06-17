@@ -1,3 +1,22 @@
+ggmap 2.5
+-------------------------------------------------------------------------
+
+NEW FEATURES
+
+* geocode can now get its information from datasciencetoolkit.org.  As this is legally less restrictive than Google (and doesn't have a limit!), this is the default method of geolocation in ggmap.
+
+CHANGES
+
+* geocode now uses datasciencetoolkit.org for its default source.
+* qmplot now defaults to maptype = "toner-lite" from stamen for better world coverage (terrain is only available in north america).
+
+FIXES
+
+* geocode now works when output = "more" is specified.
+* a bug in get_map that disallowed the use of stamen terrain-labels has been fixed.
+
+
+
 ggmap 2.4
 -------------------------------------------------------------------------
 
@@ -34,11 +53,12 @@ NEW ARGUMENTS
 FIXES
 
 * fixed a bug in stamen cloudmade maps that resulted in a very (very) small miscalculation in the bottom right bounding box of each tile.
-* several spaces have been removed from google maps urls; in particular, language="zh-CN" now works properly.  (thanks to @JiangXD.)
+* several spaces have been removed from google maps urls; in particular, language="zh-CN" now works properly  (thanks to @JiangXD.)
 * unexported objects from ggplot2 and plyr are now properly handled.
 * get_googlemap now properly creates a fileDrawer when needed (thanks Eric Anderson).
 * authors attributions now use the person class.
 * style argument fixed in get_googlemap (thanks @mattmoehr).
+* a bug in get_stamenmap has been fixed that was making points at northern latitudes appear even moreso for very low zoom (thanks to @amyszczepanski's discovery).
 
 ggmap 2.3
 -------------------------------------------------------------------------

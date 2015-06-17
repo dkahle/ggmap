@@ -2,6 +2,6 @@
 #'
 #' @name zips
 #' @docType data
-#' @author U.S. Census Bureau, Geography Division, Cartographic Products Management Branch 
-#' @references \url{http://www.census.gov/geo/www/cob/z52000.html}
+#' @author U.S. Census Bureau, Geography Division, Cartographic Products Management Branch
+#' @references Downloaded from http://www.census.gov/geo/www/cob/z52000.html (now defunct).
 NULL

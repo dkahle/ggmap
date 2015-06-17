@@ -3,9 +3,9 @@
 #' \code{get_cloudmademap} accesses a tile server for Stamen Maps and
 #' downloads/stiches map tiles/formats a map image. This function requires an
 #' api key which can be obtained for free from
-#' \url{http://cloudmade.com/user/show}. Thousands of maptypes ("styles"),
+#' http://cloudmade.com/user/show (defunct?). Thousands of maptypes ("styles"),
 #' including create-your-own options, are available from
-#' \url{http://maps.cloudmade.com/editor}
+#' http://maps.cloudmade.com/editor (defunct).
 #'
 #' @param bbox a bounding box in the format c(lowerleftlon, lowerleftlat,
 #'   upperrightlon, upperrightlat).
@@ -23,13 +23,12 @@
 #' @return a ggmap object (a classed raster object with a bounding box
 #'   attribute)
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \url{http://maps.cloudmade.com/}, \code{\link{ggmap}}
+#' @seealso http://maps.cloudmade.com/ (defunct), \code{\link{ggmap}}
 #' @export
 #' @examples
-#' \dontrun{
-#' # in what follows, enter your own api key
+#' \dontrun{ # in what follows, enter your own api key
+#'
 #' api_key <- '<your api key here>'
-#' api_key <- "b23b0358e87c4ff99f81029eda25c903"
 #'
 #' map <- get_cloudmademap(api_key = api_key)
 #' ggmap(map)
