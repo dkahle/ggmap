@@ -274,7 +274,15 @@ get_stamenmap <- function(
 
 
   # format map and return if not cropping
-  if(!crop) return(map)
+  if(!crop) {
+    # additional map meta-data
+    attr(map, "source")  <- "stamen"
+    attr(map, "maptype") <- maptype
+    attr(map, "zoom")    <- zoom
+
+    # return
+    return(map)
+  }
 
 
   # crop map
@@ -314,6 +322,11 @@ get_stamenmap <- function(
     ll.lat = bbox["bottom"], ll.lon = bbox["left"],
     ur.lat = bbox["top"], ur.lon = bbox["right"]
   )
+
+  # additional map meta-data
+  attr(croppedmap, "source")  <- "stamen"
+  attr(croppedmap, "maptype") <- maptype
+  attr(croppedmap, "zoom")    <- zoom
 
 
   # return
@@ -460,7 +473,10 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, force = FALSE, messaging = T
   class(tile) <- c("ggmap", "raster")
   attr(tile, "bb") <- bb
 
+  # store
   file_drawer_set(url, tile)
+
+  # return
   tile
 }
 

@@ -144,6 +144,11 @@ get_openstreetmap <- function(
     ur.lat = bbox[4], ur.lon = bbox[3]
   )
 
+  # additional map meta-data
+  attr(map, "source")  <- "osm"
+  attr(map, "maptype") <- "openstreetmap"
+  attr(map, "scale")    <- scale
+
   # return
   map
 }

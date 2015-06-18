@@ -202,6 +202,11 @@ get_navermap <- function(
   # transpose
   out <- t(map)
 
+  # additional map meta-data
+  attr(map, "source")  <- "naver"
+  attr(map, "maptype") <- "naver"
+  attr(map, "zoom")    <- zoom
+
   # archive map for future use
   if (archiving) file_drawer_set(url, out)
 

@@ -189,6 +189,13 @@ get_cloudmademap <- function(
       ll.lat = mbbox['bottom'], ll.lon = mbbox['left'],
       ur.lat = mbbox['top'], ur.lon = mbbox['right']
     )
+
+    # additional map meta-data
+    attr(map, "source")  <- "google"
+    attr(map, "maptype") <- maptype
+    attr(map, "zoom")    <- zoom
+
+    # return
     return(map)
   }
 
@@ -211,6 +218,11 @@ get_cloudmademap <- function(
     ll.lat = bbox['bottom'], ll.lon = bbox['left'],
     ur.lat = bbox['top'], ur.lon = bbox['right']
   )
+
+  # additional map meta-data
+  attr(croppedmap, "source")  <- "cloudmade"
+  attr(croppedmap, "maptype") <- maptype
+  attr(croppedmap, "zoom")    <- zoom
 
 
   # return
