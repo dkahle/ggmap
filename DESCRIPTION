@@ -27,6 +27,7 @@ Imports:
 Suggests:
     MASS,
     stringr,
-    hexbin
+    hexbin,
+    dplyr
 License: GPL-2
 LazyData: true
