@@ -16,7 +16,7 @@ geocodeQueryCheck(userType = "free")
 \item{location}{a character string specifying a location of interest (e.g.
 "Baylor University")}
 
-\item{output}{amount of output}
+\item{output}{amount of output, "latlon", "latlona", "more", or "all"}
 
 \item{source}{"dsk" for Data Science Toolkit or "google" for Google}
 
@@ -56,24 +56,44 @@ Note that the Google Maps api limits to 2500 queries a day. Use
 \code{geocodeQueryCheck} to determine how many queries remain.
 }
 \examples{
-# Types of input
+# types of input
 geocode("houston texas")
-geocode("Baylor University", source = "google")
-geocode("1600 Pennsylvania Avenue, Washington DC", source = "google")
+geocode("baylor university", source = "google") # see known issues below
+geocode("1600 pennsylvania avenue, washington dc", source = "google")
 geocode("the white house", source = "google")
 geocode(c("baylor university", "salvation army waco"), source = "google")
 
-# Types of output
-geocode("Baylor University", output = "latlona", source = "google")
+
+# types of output
+geocode("houston texas", output = "latlona")
+geocode("houston texas", output = "more", source = "google")
 geocode("Baylor University", output = "more", source = "google")
 str(geocode("Baylor University", output = "all"), source = "google")
 
-# See how many requests we have left
+
+# see how many requests we have left with google
 geocodeQueryCheck()
 
-
 df <- data.frame(
-  address = c("1600 Pennsylvania Avenue, Washington DC", ""))
+  address = c(
+    "1600 pennsylvania avenue, washington dc",
+    "", # missing address
+    "1100 congress avenue, austin, tx 78701"
+  ),
+  stringsAsFactors = FALSE
+)
+geocode(address, data = df)
+
+
+\dontrun{
+
+# known issues :
+# (1) source = "dsk" can't reliably geocode colloquial locations
+geocode("city hall houston")
+geocode("rice university")
+
+
+}
 }
 \author{
 David Kahle \email{david.kahle@gmail.com}

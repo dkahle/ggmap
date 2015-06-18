@@ -10,7 +10,7 @@
 #'
 #' @param location a character string specifying a location of interest (e.g.
 #'   "Baylor University")
-#' @param output amount of output
+#' @param output amount of output, "latlon", "latlona", "more", or "all"
 #' @param source "dsk" for Data Science Toolkit or "google" for Google
 #' @param messaging turn messaging on/off
 #' @param sensor whether or not the geocoding request comes from a device with a
@@ -31,27 +31,44 @@
 #' @export
 #' @examples
 #'
-#' # Types of input
+#' # types of input
 #' geocode("houston texas")
-#' geocode("Baylor University", source = "google")
-#' geocode("1600 Pennsylvania Avenue, Washington DC", source = "google")
+#' geocode("baylor university", source = "google") # see known issues below
+#' geocode("1600 pennsylvania avenue, washington dc", source = "google")
 #' geocode("the white house", source = "google")
 #' geocode(c("baylor university", "salvation army waco"), source = "google")
 #'
-#' # Types of output
-#' geocode("Baylor University", output = "latlona", source = "google")
+#'
+#' # types of output
+#' geocode("houston texas", output = "latlona")
+#' geocode("houston texas", output = "more", source = "google")
 #' geocode("Baylor University", output = "more", source = "google")
 #' str(geocode("Baylor University", output = "all"), source = "google")
 #'
-#' # See how many requests we have left
+#'
+#' # see how many requests we have left with google
 #' geocodeQueryCheck()
 #'
-#'
 #' df <- data.frame(
-#'   address = c("1600 Pennsylvania Avenue, Washington DC", ""))
+#'   address = c(
+#'     "1600 pennsylvania avenue, washington dc",
+#'     "", # missing address
+#'     "1100 congress avenue, austin, tx 78701"
+#'   ),
+#'   stringsAsFactors = FALSE
+#' )
+#' geocode(address, data = df)
 #'
 #'
+#' \dontrun{
 #'
+#' # known issues :
+#' # (1) source = "dsk" can't reliably geocode colloquial locations
+#' geocode("city hall houston")
+#' geocode("rice university")
+#'
+#'
+#' }
 #'
 geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     source = c("dsk", "google"),
@@ -61,10 +78,10 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
   # basic parameter check
   if(missing(data)) stopifnot(is.character(location))
-  output <- match.arg(output)
   stopifnot(is.logical(messaging))
+  output   <- match.arg(output)
   nameType <- match.arg(nameType)
-  source <- match.arg(source)
+  source   <- match.arg(source)
 
 
   # deal with client and signature
@@ -82,6 +99,8 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
   # deal with data
   if(!missing(data)){
+    .Deprecated(msg = "this use of geocode is deprecated, use mutate_geocode instead.")
+
     argList <- as.list(match.call()[-1])
     argNames <- names(argList)
     if(output == "all"){
@@ -105,26 +124,29 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
   # vectorize for many locations
   if(length(location) > 1){
-  	if(userType == "free"){
-      s <- "google restricts requests to 2500 requests a day for non-business use."
-      if(length(location) > 2500) stop(s, call. = F)
-      if(length(location) > 200 && messaging) message(paste("Reminder", s, sep = " : "))
-      if(output == "latlon" || output == "latlona" ||output == "more"){
-        return(ldply(as.list(location), geocode, output = output, source = source, messaging = messaging))
-      } else { # output = all
-        return(llply(as.list(location), geocode, output = output, source = source, messaging = messaging))
-      }
-    } else { # userType == "business"
-      s <- "google restricts requests to 100000 requests a day for business use."
-      if(length(location) > 100000) stop(s, call. = F)
-      if(length(location) > 200 && messaging) message(paste("Reminder", s, sep = " : "))
-      if(output == "latlon" || output == "latlona" ||output == "more"){
-        return(ldply(as.list(location), geocode, output = output, source = source, messaging = messaging))
-      } else { # output = all
-        return(llply(as.list(location), geocode, output = output, source = source, messaging = messaging))
-      }
+    # set limit
+    if(userType == "free"){
+      limit <- "2500"
+    } else if(userType == "business"){
+      limit <- "100000"
+    }
+
+    # message/stop as neeeded
+    s <- paste("google restricts requests to", limit, "requests a day for non-business use.")
+    if(length(location) > as.numeric(limit)) stop(s, call. = F)
+    if(length(location) > 200 && messaging) message(paste("Reminder", s, sep = " : "))
+
+    # geocode ply and out
+    if(output == "latlon" || output == "latlona" || output == "more"){
+      return(ldply(as.list(location), geocode, output = output, source = source, messaging = messaging))
+    } else { # output = all
+      return(llply(as.list(location), geocode, output = output, source = source, messaging = messaging))
     }
   }
+
+
+  # return NA for location == ""
+  if(location == "") return(failedGeocodeReturn(output))
 
 
   # lookup info if on file
@@ -235,7 +257,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
 
   # parse json when output == "more"
-  ndxToGrab <- `if`(nameType == "long", 1, 2)
+  ndxToGrab   <- `if`(nameType == "long", 1, 2)
   outputVals  <- vapply(gc$results[[1]]$address_components, function(x) x[[ndxToGrab]], character(1))
   outputNames <- vapply(gc$results[[1]]$address_components, function(x){
       if(length(x$types) == 0) return("query")
@@ -380,6 +402,10 @@ storeGeocodedInformation <- function(location, data){
 
 
 
+
+
+
+
 retrieveGeocodedInformation <- function(location){
 
   if(!(".GeocodedInformation" %in% ls(envir = .GlobalEnv, all.names =  TRUE))) return(NA)
@@ -387,6 +413,11 @@ retrieveGeocodedInformation <- function(location){
   get(".GeocodedInformation", envir = .GlobalEnv)[[location]]
 
 }
+
+
+
+
+
 
 
 
@@ -407,6 +438,11 @@ isGeocodedInformationOnFile <- function(location){
 
 
 
+
+
+
+
+
 clearGeocodedInformation <- function(){
 
   if(!(".GeocodedInformation" %in% ls(envir = .GlobalEnv, all.names =  TRUE))) return(invisible())
@@ -416,6 +452,16 @@ clearGeocodedInformation <- function(){
   invisible()
 
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
