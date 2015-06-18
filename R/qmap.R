@@ -140,19 +140,7 @@ qmap <- function(location = "houston", ...){
     api_key <- NULL
   }
 
-  # deprecated
-  if(all(c("lonR","latR") %in% names(args))){
-  	message("lonR and latR arguments deprecated, pass bounding box to location.")
-  	message("see ?get_openstreetmap.")
-    lonR <- eval(args$lonR)
-    latR <- eval(args$latR)
-    location <- c(left = lonR[1], bottom = latR[1], right = lonR[2], top = latR[2])
-  }
 
-  if("type" %in% names(args)){
-  	message("type argument deprecated, use color.")
-    color <- eval(args$type)
-  }
 
 
   # ggmap args
@@ -200,32 +188,14 @@ qmap <- function(location = "houston", ...){
   	language <- "en-EN"
   }
 
-  # deprecated
-
-  if("b" %in% names(args)){
-    .Deprecated(msg = "b argument deperecated, use padding.")
-    padding <- args$b
-  } else {
-    padding <- .02
-  }
-
-  if("fullpage" %in% names(args) || "expand" %in% names(args)){
-    .Deprecated(msg = "fullpage and expand syntaxes deprecated, use extent.")
-    if("fullpage" %in% names(args)){fullpage <- eval(args$fullpage)}else{fullpage <- FALSE}
-    if(fullpage) extent <- "device"
-    if("expand" %in% names(args)){expand <- eval(args$expand)}else{expand <- FALSE}
-    if(fullpage == FALSE && expand == TRUE) extent <- "panel"
-    if(fullpage == FALSE && expand == FALSE) extent <- "normal"
-  }
 
 
-
-
+  ggmap(get_map(location = location, ...), ...)
   # return
-  ggmap(
-    get_map(location = location, zoom = zoom, scale = scale, source = source,
-      color = color, maptype = maptype, language = language, api_key = api_key, force = force),
-    maprange = maprange, extent = extent, base_layer = base_layer, legend = legend,
-      padding = padding, darken = darken
-  )
+  #ggmap(
+  #  get_map(location = location, zoom = zoom, scale = scale, source = source,
+  #    color = color, maptype = maptype, language = language, api_key = api_key, force = force),
+  #  maprange = maprange, extent = extent, base_layer = base_layer, legend = legend,
+  #    padding = padding, darken = darken
+  #)
 }
