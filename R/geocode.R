@@ -206,7 +206,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
 
     # temporarily save it
-    storeGeocodedInformation(posturl, gc)
+    storeGeocodedInformation(url_string, gc)
 
   }
 
