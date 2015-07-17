@@ -257,8 +257,8 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
 
   # parse json when output == "more"
-  ndxToGrab   <- `if`(nameType == "long", "long_name", "short_name")
-  outputVals  <- vapply(gc$results[[1]]$address_components, function(x) x[[ndxToGrab]], character(1))
+  nameToGrab   <- `if`(nameType == "long", "long_name", "short_name")
+  outputVals  <- vapply(gc$results[[1]]$address_components, function(x) x[[nameToGrab]], character(1))
   outputNames <- vapply(gc$results[[1]]$address_components, function(x){
       if(length(x$types) == 0) return("query")
       x$types[1]
