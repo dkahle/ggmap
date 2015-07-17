@@ -148,7 +148,8 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   # return NA for location == ""
   if(location == "") return(failedGeocodeReturn(output))
 
-
+  loc <- location
+  
   # lookup info if on file
   if(isGeocodedInformationOnFile(location)){
 
@@ -161,7 +162,6 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     sensor4url <- paste("sensor=", tolower(as.character(sensor)), sep = "")
     client4url <- paste("client=", client, sep = "")
     signature4url <- paste("signature=", signature, sep = "")
-    loc <- location
     location <- gsub(" ", "+", location)
     posturl <- paste(location, sensor4url, sep = "&")
     if(userType == "business"){
@@ -239,7 +239,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
       lat = NULLtoNA(geometry$location$lat),
       type = tolower(NULLtoNA(types[1])),
       loctype = tolower(NULLtoNA(geometry$location_type)),
-      address = location, # dsk doesn't give the address
+      address = loc, # dsk doesn't give the address
       north = NULLtoNA(geometry$viewport$northeast$lat),
       south = NULLtoNA(geometry$viewport$southwest$lat),
       east = NULLtoNA(geometry$viewport$northeast$lng),
@@ -257,7 +257,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
 
   # parse json when output == "more"
-  ndxToGrab   <- `if`(nameType == "long", 1, 2)
+  ndxToGrab   <- `if`(nameType == "long", "long_name", "short_name")
   outputVals  <- vapply(gc$results[[1]]$address_components, function(x) x[[ndxToGrab]], character(1))
   outputNames <- vapply(gc$results[[1]]$address_components, function(x){
       if(length(x$types) == 0) return("query")
