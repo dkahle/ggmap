@@ -8,8 +8,8 @@
 #' Note that the Google Maps api limits to 2500 queries a day. Use
 #' \code{geocodeQueryCheck} to determine how many queries remain.
 #'
-#' @param location a character string specifying a location of interest (e.g.
-#'   "Baylor University")
+#' @param location a character vector of street addresses or place names (e.g.
+#'   "1600 pennsylvania avenue, washington dc" or "Baylor University")
 #' @param output amount of output, "latlon", "latlona", "more", or "all"
 #' @param source "dsk" for Data Science Toolkit or "google" for Google
 #' @param messaging turn messaging on/off
@@ -23,11 +23,11 @@
 #'   \url{https://developers.google.com/maps/documentation/business/webservices/auth}
 #' @param nameType in some cases, Google returns both a long name and a short
 #'   name. this parameter allows the user to specify which to grab.
-#' @param data a data frame
+#' @param data deprecated in 2.5, use \code{\link{mutate_geocode}}
 #' @return If \code{output} is "latlon", "latlona", or "more", a data frame. If
 #'   all, a list.
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \url{http://code.google.com/apis/maps/documentation/geocoding/}
+#' @seealso \code{\link{mutate_geocode}}, \url{http://code.google.com/apis/maps/documentation/geocoding/}
 #' @export
 #' @examples
 #'
@@ -49,21 +49,11 @@
 #' # see how many requests we have left with google
 #' geocodeQueryCheck()
 #'
-#' df <- data.frame(
-#'   address = c(
-#'     "1600 pennsylvania avenue, washington dc",
-#'     "", # missing address
-#'     "1100 congress avenue, austin, tx 78701"
-#'   ),
-#'   stringsAsFactors = FALSE
-#' )
-#' geocode(address, data = df)
-#'
 #'
 #' \dontrun{
 #'
 #' # known issues :
-#' # (1) source = "dsk" can't reliably geocode colloquial locations
+#' # (1) source = "dsk" can't reliably geocode colloquial place names
 #' geocode("city hall houston")
 #' geocode("rice university")
 #'
@@ -99,8 +89,8 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
   # deal with data
   if(!missing(data)){
-    .Deprecated(msg = "this use of geocode is deprecated, use mutate_geocode instead.")
-
+    warning("This use of geocode is deprecated, use mutate_geocode() instead.", call. = FALSE)
+   
     argList <- as.list(match.call()[-1])
     argNames <- names(argList)
     if(output == "all"){
