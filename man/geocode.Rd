@@ -13,8 +13,8 @@ geocode(location, output = c("latlon", "latlona", "more", "all"),
 geocodeQueryCheck(userType = "free")
 }
 \arguments{
-\item{location}{a character string specifying a location of interest (e.g.
-"Baylor University")}
+\item{location}{a character vector of street addresses or place names (e.g.
+"1600 pennsylvania avenue, washington dc" or "Baylor University")}
 
 \item{output}{amount of output, "latlon", "latlona", "more", or "all"}
 
@@ -29,15 +29,15 @@ location sensor}
 (.GoogleGeocodeQueryCount)}
 
 \item{client}{client ID for business users, see
-\url{https://developers.google.com/maps/documentation/business/webservices/auth}}
+  \url{https://developers.google.com/maps/documentation/business/webservices/auth}}
 
 \item{signature}{signature for business users, see
-\url{https://developers.google.com/maps/documentation/business/webservices/auth}}
+  \url{https://developers.google.com/maps/documentation/business/webservices/auth}}
 
 \item{nameType}{in some cases, Google returns both a long name and a short
 name. this parameter allows the user to specify which to grab.}
 
-\item{data}{a data frame}
+\item{data}{deprecated in 2.5, use \code{\link{mutate_geocode}}}
 
 \item{userType}{User type, "free" or "business"}
 }
@@ -74,21 +74,11 @@ str(geocode("Baylor University", output = "all", source = "google"))
 # see how many requests we have left with google
 geocodeQueryCheck()
 
-df <- data.frame(
-  address = c(
-    "1600 pennsylvania avenue, washington dc",
-    "", # missing address
-    "1100 congress avenue, austin, tx 78701"
-  ),
-  stringsAsFactors = FALSE
-)
-geocode(address, data = df)
-
 
 \dontrun{
 
 # known issues :
-# (1) source = "dsk" can't reliably geocode colloquial locations
+# (1) source = "dsk" can't reliably geocode colloquial place names
 geocode("city hall houston")
 geocode("rice university")
 
@@ -99,6 +89,7 @@ geocode("rice university")
 David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-\url{http://code.google.com/apis/maps/documentation/geocoding/}
+\code{\link{mutate_geocode}},
+  \url{http://code.google.com/apis/maps/documentation/geocoding/}
 }
 

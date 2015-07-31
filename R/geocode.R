@@ -19,15 +19,18 @@
 #'   (.GoogleGeocodeQueryCount)
 #' @param client client ID for business users, see
 #'   \url{https://developers.google.com/maps/documentation/business/webservices/auth}
+#'
 #' @param signature signature for business users, see
 #'   \url{https://developers.google.com/maps/documentation/business/webservices/auth}
+#'
 #' @param nameType in some cases, Google returns both a long name and a short
 #'   name. this parameter allows the user to specify which to grab.
 #' @param data deprecated in 2.5, use \code{\link{mutate_geocode}}
 #' @return If \code{output} is "latlon", "latlona", or "more", a data frame. If
 #'   all, a list.
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \code{\link{mutate_geocode}}, \url{http://code.google.com/apis/maps/documentation/geocoding/}
+#' @seealso \code{\link{mutate_geocode}},
+#'   \url{http://code.google.com/apis/maps/documentation/geocoding/}
 #' @export
 #' @examples
 #'
@@ -92,7 +95,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   # deal with data
   if(!missing(data)){
     warning("This use of geocode is deprecated, use mutate_geocode() instead.", call. = FALSE)
-   
+
     argList <- as.list(match.call()[-1])
     argNames <- names(argList)
     if(output == "all"){
