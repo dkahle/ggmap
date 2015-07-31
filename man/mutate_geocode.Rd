@@ -18,7 +18,7 @@ mutate_geocode(data, location, ...)
 data with geocoded information appended as columns
 }
 \description{
-\code{mutate\_geocode} geocodes a data frame and appends the new information
+\code{mutate_geocode} geocodes a data frame and appends the new information
 to the data frame provided.
 }
 \examples{
