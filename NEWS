@@ -22,6 +22,9 @@ CHANGES
 * geocoding datasets with the data argument of geocode is now deprecated, use
   mutate_geocode instead.
 
+* geocode now caches information on url hashes instead of the location queries
+  (thanks @geobrando).
+
 * qmplot now defaults to maptype = "toner-lite" from stamen for better world
   coverage (terrain is only available in north america).
 
