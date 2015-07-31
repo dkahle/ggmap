@@ -43,7 +43,7 @@
 #' geocode("houston texas", output = "latlona")
 #' geocode("houston texas", output = "more", source = "google")
 #' geocode("Baylor University", output = "more", source = "google")
-#' str(geocode("Baylor University", output = "all"), source = "google")
+#' str(geocode("Baylor University", output = "all", source = "google"))
 #'
 #'
 #' # see how many requests we have left with google
@@ -84,6 +84,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   source   <- match.arg(source)
 
 
+
   # deal with client and signature
   if(client != "" && signature != ""){
   	if(substr(client, 1, 4) != "gme-") client <- paste("gme-", client, sep = "")
@@ -95,6 +96,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   } else {
     userType <- "free"
   }
+
 
 
   # deal with data
@@ -122,6 +124,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   }
 
 
+
   # vectorize for many locations
   if(length(location) > 1){
     # set limit
@@ -145,43 +148,47 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   }
 
 
+
   # return NA for location == ""
   if(location == "") return(failedGeocodeReturn(output))
 
-  loc <- location
-  
+
+
+  # format the url
+  sensor4url <- paste("sensor=", tolower(as.character(sensor)), sep = "")
+  client4url <- paste("client=", client, sep = "")
+  signature4url <- paste("signature=", signature, sep = "")
+  location4url <- chartr(" ", "+", location)
+  posturl <- paste(location, sensor4url, sep = "&")
+  if(userType == "business") posturl <- paste(posturl, client4url, signature4url, sep = "&")
+
+  if(source == "google"){
+    url_string <- paste("http://maps.googleapis.com/maps/api/geocode/json?address=", posturl, sep = "")
+  } else if(source == "dsk"){
+    url_string <- paste("http://www.datasciencetoolkit.org/maps/api/geocode/json?address=", posturl, sep = "")
+  }
+
+  url_string <- URLencode(url_string)
+  url_hash   <- digest::digest(url_string)
+
+
+
   # lookup info if on file
-  if(isGeocodedInformationOnFile(location)){
+  if(isGeocodedInformationOnFile(url_hash)){
 
   	if(messaging) message("Using stored information.")
-    gc <- get(".GeocodedInformation", envir = .GlobalEnv)[[location]]
+    gc <- get(".GeocodedInformation", envir = .GlobalEnv)[[url_hash]]
 
   } else {
 
-    # format url
-    sensor4url <- paste("sensor=", tolower(as.character(sensor)), sep = "")
-    client4url <- paste("client=", client, sep = "")
-    signature4url <- paste("signature=", signature, sep = "")
-    location <- gsub(" ", "+", location)
-    posturl <- paste(location, sensor4url, sep = "&")
-    if(userType == "business"){
-    	  posturl <- paste(posturl, client4url, signature4url, sep = "&")
-    	}
-    if(source == "google"){
-      url_string <- paste("http://maps.googleapis.com/maps/api/geocode/json?address=", posturl, sep = "")
-    } else if(source == "dsk"){
-      url_string <- paste("http://www.datasciencetoolkit.org/maps/api/geocode/json?address=", posturl, sep = "")
-    }
-    url_string <- URLencode(url_string)
     if(messaging) message(paste("contacting ", url_string, "...", sep = ""), appendLF = F)
 
     # if using google, check/update google query limit
     if(source == "google"){
-
       check <- checkGeocodeQueryLimit(
-        url_string, elems = 1, override = override_limit, messaging = messaging, userType = userType
+        url_hash, elems = 1, override = override_limit,
+        messaging = messaging, userType = userType
       )
-
       if(check == "stop") return(failedGeocodeReturn(output))
     }
 
@@ -206,12 +213,16 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
 
     # temporarily save it
-    storeGeocodedInformation(loc, gc)
+    storeGeocodedInformation(url_hash, gc)
 
   }
 
+
+
   # return if you want full output
   if(output == "all") return(gc)
+
+
 
   # did geocode fail? - print(gc$status)
   if(gc$status != "OK"){
@@ -220,12 +231,16 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     return(data.frame(lon = NA, lat = NA))
   }
 
+
+
   # more than one location found?
   if(length(gc$results) > 1 && messaging){
     message(paste(
-      "more than one location found for \"", loc, "\", using address\n  \"",
+      "more than one location found for \"", location, "\", using address\n  \"",
       tolower(gc$results[[1]]$formatted_address), "\"\n", sep = ""))
   }
+
+
 
   # format geocoded data
   NULLtoNA <- function(x){
@@ -239,7 +254,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
       lat = NULLtoNA(geometry$location$lat),
       type = tolower(NULLtoNA(types[1])),
       loctype = tolower(NULLtoNA(geometry$location_type)),
-      address = loc, # dsk doesn't give the address
+      address = location, # dsk doesn't give the address
       north = NULLtoNA(geometry$viewport$northeast$lat),
       south = NULLtoNA(geometry$viewport$southwest$lat),
       east = NULLtoNA(geometry$viewport$northeast$lng),
@@ -247,13 +262,16 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     )
   })
 
-  # add address if
+
+
+  # add address
   if(source == "google"){
     gcdf$address <- tolower(NULLtoNA(gc$results[[1]]$formatted_address))
   }
 
   if(output == "latlon") return(gcdf[,c("lon","lat")])
   if(output == "latlona") return(gcdf[,c("lon","lat","address")])
+
 
 
   # parse json when output == "more"
@@ -282,7 +300,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
 
 
-checkGeocodeQueryLimit <- function(url_string, elems, override, messaging, userType){
+checkGeocodeQueryLimit <- function(url_hash, elems, override, messaging, userType){
 
   .GoogleGeocodeQueryCount <- NULL; rm(.GoogleGeocodeQueryCount); # R CMD check trick
 
@@ -291,13 +309,15 @@ checkGeocodeQueryLimit <- function(url_string, elems, override, messaging, userT
 
   if(exists(".GoogleGeocodeQueryCount", .GlobalEnv)){
 
-    .GoogleGeocodeQueryCount <<-
-      subset(.GoogleGeocodeQueryCount, time >= Sys.time() - 24*60*60)
+    .GoogleGeocodeQueryCount <<- subset(.GoogleGeocodeQueryCount,
+      time >= Sys.time() - 24*60*60
+    )
+
+    nQueriesUsed <- sum(.GoogleGeocodeQueryCount$elements)
 
     # limit per 24 hours
-    if(sum(.GoogleGeocodeQueryCount$elements) + elems > limit){
-      message("query max exceeded, see ?geocode.  current total = ",
-        sum(.GoogleGeocodeQueryCount$elements))
+    if(nQueriesUsed + elems > limit){
+      message("query max exceeded, see ?geocode.  current total = ", nQueriesUsed)
       if(!override) return("stop")
     }
 
@@ -310,21 +330,24 @@ checkGeocodeQueryLimit <- function(url_string, elems, override, messaging, userT
     }
 
     # append to .GoogleGeocodeQueryCount
-    .GoogleGeocodeQueryCount <<- rbind(.GoogleGeocodeQueryCount,
+    .GoogleGeocodeQueryCount <<- rbind(
+      .GoogleGeocodeQueryCount,
       data.frame(
         time = Sys.time(),
-        url = url_string,
+        url = url_hash,
         elements = elems,
         stringsAsFactors = FALSE
       )
     )
 
+  } else { # no geocodes on file
 
-  } else {
-
-    .GoogleGeocodeQueryCount <<-
-      data.frame(time = Sys.time(),  url = url_string,
-        elements = elems, stringsAsFactors = FALSE)
+    .GoogleGeocodeQueryCount <<- data.frame(
+      time = Sys.time(),
+      url = url_hash,
+      elements = elems,
+      stringsAsFactors = FALSE
+    )
 
   }
 
@@ -355,7 +378,7 @@ geocodeQueryCheck <- function(userType = "free"){
 
   	remaining <- limit - sum(
   	  subset(.GoogleGeocodeQueryCount, time >= Sys.time() - 24*60*60)$elements
-  	  )
+  	)
     message(remaining, " geocoding queries remaining.")
 
   } else {
@@ -372,121 +395,78 @@ geocodeQueryCheck <- function(userType = "free"){
 
 
 
+geoInfoDoesntExist <- function(){
+  ".GeocodedInformation" %notin% ls(envir = .GlobalEnv, all.names =  TRUE)
+}
 
 
 
 
 
-
-
-
-storeGeocodedInformation <- function(location, data){
+storeGeocodedInformation <- function(url_hash, data){
   .GeocodedInformation <- NULL; rm(.GeocodedInformation)
 
-  if(!(".GeocodedInformation" %in% ls(envir = .GlobalEnv, all.names =  TRUE))){
-    .GeocodedInformation <<- list()
-  }
+  if(geoInfoDoesntExist()) .GeocodedInformation <<- list()
 
   db <- get(".GeocodedInformation", envir = .GlobalEnv)
 
   placesOnFile <- names(db)
   db <- c(db, list(data))
-  names(db) <- c(placesOnFile, location)
+  names(db) <- c(placesOnFile, url_hash)
 
   .GeocodedInformation <<- db
 
   invisible()
-
 }
 
 
 
 
 
-
-
-
-retrieveGeocodedInformation <- function(location){
-
-  if(!(".GeocodedInformation" %in% ls(envir = .GlobalEnv, all.names =  TRUE))) return(NA)
-
-  get(".GeocodedInformation", envir = .GlobalEnv)[[location]]
-
+retrieveGeocodedInformation <- function(url_hash){
+  if(geoInfoDoesntExist()) return(NA)
+  get(".GeocodedInformation", envir = .GlobalEnv)[[url_hash]]
 }
 
 
 
 
 
-
-
-
-
-isGeocodedInformationOnFile <- function(location){
-
-  if(!(".GeocodedInformation" %in% ls(envir = .GlobalEnv, all.names =  TRUE))) return(FALSE)
-
-  if(!(location %in%
-    names(get(".GeocodedInformation", envir = .GlobalEnv))
-  )) return(FALSE)
-
+isGeocodedInformationOnFile <- function(url_hash){
+  if(geoInfoDoesntExist()) return(FALSE)
+  if(url_hash %notin% names(get(".GeocodedInformation", envir = .GlobalEnv))) return(FALSE)
   TRUE
-
 }
-
-
-
-
-
 
 
 
 
 
 clearGeocodedInformation <- function(){
-
-  if(!(".GeocodedInformation" %in% ls(envir = .GlobalEnv, all.names =  TRUE))) return(invisible())
-
-  rm(".GeocodedInformation", envir = .GlobalEnv)
-
+  # suppress in case it doesn't exist
+  suppressWarnings(rm(".GeocodedInformation", envir = .GlobalEnv))
   invisible()
-
 }
-
-
-
-
-
-
-
-
 
 
 
 
 
 failedGeocodeReturn <- function(output){
-
   if(output == "latlon"){
     return(data.frame(lon = NA, lat = NA))
   } else if(output == "latlona"){
     return(c(lon = NA, lat = NA, address = NA))
   } else if(output == "more") {
-    return(c(lon = NA, lat = NA, type = NA, loctype = NA,
-             address = NA, north = NA, south = NA, east = NA, west = NA, locality = NA,
-             country = NA)
-    )
+    return(c(
+      lon = NA, lat = NA, type = NA, loctype = NA,
+      address = NA, north = NA, south = NA, east = NA, west = NA,
+      locality = NA, country = NA
+    ))
   } else {
     return(NA)
   }
-
 }
-
-
-
-
-
-
 
 
 

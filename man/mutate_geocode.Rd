@@ -23,7 +23,7 @@ to the data frame provided.
 }
 \examples{
 df <- data.frame(
-  address = c("1600 Pennsylvania Avenue, Washington DC", "", "baylor university"),
+  address = c("1600 Pennsylvania Avenue, Washington DC", "", "houston texas"),
   stringsAsFactors = FALSE
 )
 

@@ -68,7 +68,7 @@ geocode(c("baylor university", "salvation army waco"), source = "google")
 geocode("houston texas", output = "latlona")
 geocode("houston texas", output = "more", source = "google")
 geocode("Baylor University", output = "more", source = "google")
-str(geocode("Baylor University", output = "all"), source = "google")
+str(geocode("Baylor University", output = "all", source = "google"))
 
 
 # see how many requests we have left with google

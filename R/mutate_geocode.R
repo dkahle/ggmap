@@ -1,6 +1,6 @@
 #' Geocode a dataset
 #'
-#' \code{mutate\_geocode} geocodes a data frame and appends the new information
+#' \code{mutate_geocode} geocodes a data frame and appends the new information
 #' to the data frame provided.
 #'
 #' @param data a data frame
@@ -15,7 +15,7 @@
 #'
 #'
 #' df <- data.frame(
-#'   address = c("1600 Pennsylvania Avenue, Washington DC", "", "baylor university"),
+#'   address = c("1600 Pennsylvania Avenue, Washington DC", "", "houston texas"),
 #'   stringsAsFactors = FALSE
 #' )
 #'
