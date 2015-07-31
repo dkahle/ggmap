@@ -3,21 +3,37 @@ ggmap 2.5
 
 NEW FEATURES
 
-* geocode can now get its information from datasciencetoolkit.org.  As this is legally less restrictive than Google (and doesn't have a limit!), this is the default method of geolocation in ggmap.
+* geocode can now get its information from datasciencetoolkit.org.  As this
+  is legally less restrictive than Google (and doesn't have a limit!), this
+  is the default method of geolocation in ggmap.  be careful with colloquial
+  addresses (e.g. "baylor university") though; google is much better
+  at geocoding those than dsk.
+
 * maps now include meta data attributes containing their source, type, and zoom.
+
 * ggmap objects now have a simple console print method describing them.
 
 CHANGES
 
-* geocode now uses datasciencetoolkit.org for its default source. be careful with colloquial addresses (e.g. "baylor university"), google is much better at geocoding those than dsk.
-* geocoding datasets with the data argument of geocode is now deprecated, use mutate_geocode instead.
-* qmplot now defaults to maptype = "toner-lite" from stamen for better world coverage (terrain is only available in north america).
-* after begin deprecated, arguments lonR, latR, type, b, fullpage and expand have now been removed from qmap.
+* geocode now uses datasciencetoolkit.org for its default source. be careful
+  with colloquial addresses (e.g. "baylor university"), google is much better
+  at geocoding those than dsk.
+
+* geocoding datasets with the data argument of geocode is now deprecated, use
+  mutate_geocode instead.
+
+* qmplot now defaults to maptype = "toner-lite" from stamen for better world
+  coverage (terrain is only available in north america).
+
+* after begin deprecated, arguments lonR, latR, type, b, fullpage and expand
+  have now been removed from qmap.
 
 FIXES
 
 * geocode now works when output = "more" is specified.
-* a bug in get_map that disallowed the use of stamen terrain-labels has been fixed.
+
+* a bug in get_map that disallowed the use of stamen terrain-labels has been
+  fixed.
 
 
 
