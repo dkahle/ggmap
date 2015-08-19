@@ -43,15 +43,7 @@ Status: 1 NOTE
 ## move (1.5.514)
 Maintainer: Bart Kranstauber <bart.kranstauber@uni-konstanz.de>
 
-```
-checking whether package ‘move’ can be installed ... ERROR
-Installation failed.
-See ‘/private/var/folders/r3/126_d6t55f5d32tplbg5mk1d0c48s9/T/RtmpIu0lqG/check_cran9479b8ea679/move.Rcheck/00install.out’ for details.
-```
-```
-DONE
-Status: 1 ERROR
-```
+__OK__
 
 ## OutbreakTools (0.1-13)
 Maintainer: Thibaut Jombart <t.jombart@imperial.ac.uk>
