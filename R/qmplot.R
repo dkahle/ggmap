@@ -267,7 +267,7 @@ qmplot <- function(x, y, ..., data, zoom, source = "stamen", maptype = "toner-li
   argsgiven <- names(args)
   if("mapcolour" %in% argsgiven) mapcolor <- eval(args$mapcolour)
 
-  .all_aesthetics <- unlist(getAnywhere(.all_aesthetics)[1:42])
+  .all_aesthetics <- unlist(.all_aesthetics[1:42])
   aesthetics <- compact(arguments[.all_aesthetics])
   aesthetics <- aesthetics[!is.constant(aesthetics)]
   aes_names <- names(aesthetics)
