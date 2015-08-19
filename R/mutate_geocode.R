@@ -19,12 +19,13 @@
 #'   stringsAsFactors = FALSE
 #' )
 #'
-#'
+#' \dontrun{ # Server response is slow; this cuts down check time.
 #' mutate_geocode(df, address)
+#'
 #'
 #' library(dplyr)
 #' df %>% mutate_geocode(address)
-#'
+#' }
 #'
 mutate_geocode <- function(data, location, ...){
   locs <- data[, deparse(substitute(location)), drop = TRUE]

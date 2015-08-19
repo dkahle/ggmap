@@ -27,11 +27,13 @@ df <- data.frame(
   stringsAsFactors = FALSE
 )
 
-
+\dontrun{ # Server response is slow; this cuts down check time.
 mutate_geocode(df, address)
+
 
 library(dplyr)
 df \%>\% mutate_geocode(address)
+}
 }
 \author{
 David Kahle \email{david.kahle@gmail.com}
