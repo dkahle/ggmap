@@ -14,6 +14,6 @@ This is a small update that fixes some minor bugs in the check and updates some 
 There were no ERRORs, WARNINGs, or NOTEs. 
 
 ## Downstream dependencies
-I ran `R CMD check` on all 9 reverse dependencies (https://github.com/hadley/httr/tree/master/revdep/summary.md). 
+I ran `R CMD check` on all 9 reverse dependencies (https://github.com/dkahle/ggmap/blob/master/revdep/summary.md). 
 
 None appeared to fail due to changes in ggmap.
