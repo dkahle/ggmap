@@ -33,11 +33,15 @@ reverse geocodes a longitude/latitude location using Google Maps.  Note that in 
 note that the google maps api limits to 2500 queries a day.
 }
 \examples{
+\dontrun{ # Server response can be slow; this cuts down check time.
+
 ( gc <- as.numeric(geocode('Baylor University')) )
 revgeocode(gc)
 revgeocode(gc, output = 'more')
 revgeocode(gc, output = 'all')
 geocodeQueryCheck()
+
+}
 }
 \author{
 David Kahle \email{david.kahle@gmail.com}

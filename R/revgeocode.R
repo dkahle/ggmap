@@ -16,12 +16,15 @@
 #' @export
 #' @examples
 #'
+#' \dontrun{ # Server response can be slow; this cuts down check time.
+#'
 #' ( gc <- as.numeric(geocode('Baylor University')) )
 #' revgeocode(gc)
 #' revgeocode(gc, output = 'more')
 #' revgeocode(gc, output = 'all')
 #' geocodeQueryCheck()
 #'
+#' }
 #'
 revgeocode <- function(location, output = c('address','more','all'),
   messaging = FALSE, sensor = FALSE, override_limit = FALSE,

@@ -19,7 +19,7 @@
 #'   stringsAsFactors = FALSE
 #' )
 #'
-#' \dontrun{ # Server response is slow; this cuts down check time.
+#' \dontrun{ # Server response can be slow; this cuts down check time.
 #' mutate_geocode(df, address)
 #'
 #'

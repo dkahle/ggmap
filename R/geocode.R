@@ -34,6 +34,8 @@
 #' @export
 #' @examples
 #'
+#' \dontrun{ # Server response can be slow; this cuts down check time.
+#'
 #' # types of input
 #' geocode("houston texas")
 #' geocode("baylor university", source = "google") # see known issues below
@@ -53,7 +55,6 @@
 #' geocodeQueryCheck()
 #'
 #'
-#' \dontrun{
 #'
 #' # known issues :
 #' # (1) source = "dsk" can't reliably geocode colloquial place names
