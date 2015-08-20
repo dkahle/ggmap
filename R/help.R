@@ -2,7 +2,7 @@
 #' @docType package
 #' @name ggmap
 #' @importFrom grDevices as.raster extendrange gray rgb
-#' @importFrom stats asOneSidedFormula time
+#' @importFrom stats time
 #' @importFrom utils URLencode download.file tail
 #' @aliases ggmap package-ggmap
 NULL

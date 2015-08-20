@@ -1,5 +1,5 @@
 Package: ggmap
-Version: 2.5.1
+Version: 2.5.2
 Title: Spatial Visualization with ggplot2
 Description: A collection of functions to visualize spatial data and models on top of static maps
   from various online sources (e.g Google Maps and Stamen Maps).  It includes tools common to those

@@ -1,5 +1,3 @@
-asOneSidedFormula <- get("asOneSidedFormula", envir = asNamespace("stats"))
-
 Geom     <- get("Geom",     envir = asNamespace("ggplot2"))
 Position <- get("Position", envir = asNamespace("ggplot2"))
 Stat     <- get("Stat",     envir = asNamespace("ggplot2"))
