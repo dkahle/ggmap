@@ -1,3 +1,18 @@
+ggmap 2.6
+-------------------------------------------------------------------------
+
+
+CHANGES
+
+* get_googlemap now properly parses the scale argument.
+
+FIXES
+
+* non-square map-images are now parsed properly. (#17, reported by @jonnybaik,
+  @krmlr, @dannguyen)
+
+
+
 ggmap 2.5
 -------------------------------------------------------------------------
 

@@ -63,8 +63,8 @@ the one of the approved uses listed in the Google Maps API Terms of Service
 \item{key}{an api_key for business users}
 
 \item{region}{borders to display as a region code specified as a
-  two-character ccTLD ("top-level domain") value, see
-  \url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}}
+two-character ccTLD ("top-level domain") value, see
+\url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}}
 
 \item{markers}{data.frame with first column longitude, second column
 latitude, for which google markers should be embedded in the map image, or
@@ -113,11 +113,11 @@ d <- function(x=-95.36, y=29.76, n,r,a){
 df <- d(n=50,r=3,a=.3)
 map <- get_googlemap(markers = df, path = df,, scale = 2)
 ggmap(map)
-ggmap(map, fullpage = TRUE) +
+ggmap(map, extent = "device") +
   geom_point(aes(x = lon, y = lat), data = df, size = 3, colour = "black") +
   geom_path(aes(x = lon, y = lat), data = df)
 
-gc <- geocode("waco, texas")
+gc <- geocode("waco, texas", source = "google")
 center <- as.numeric(gc)
 ggmap(get_googlemap(center = center, color = "bw", scale = 2), extent = "device")
 

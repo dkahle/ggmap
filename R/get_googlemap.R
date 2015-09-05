@@ -41,7 +41,6 @@
 #' @param region borders to display as a region code specified as a
 #'   two-character ccTLD ("top-level domain") value, see
 #'   \url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}
-#'
 #' @param markers data.frame with first column longitude, second column
 #'   latitude, for which google markers should be embedded in the map image, or
 #'   character string to be passed directly to api
@@ -81,11 +80,11 @@
 #' df <- d(n=50,r=3,a=.3)
 #' map <- get_googlemap(markers = df, path = df,, scale = 2)
 #' ggmap(map)
-#' ggmap(map, fullpage = TRUE) +
+#' ggmap(map, extent = "device") +
 #'   geom_point(aes(x = lon, y = lat), data = df, size = 3, colour = "black") +
 #'   geom_path(aes(x = lon, y = lat), data = df)
 #'
-#' gc <- geocode("waco, texas")
+#' gc <- geocode("waco, texas", source = "google")
 #' center <- as.numeric(gc)
 #' ggmap(get_googlemap(center = center, color = "bw", scale = 2), extent = "device")
 #'
@@ -153,9 +152,8 @@ get_googlemap <- function(
     stopifnot(all(is.numeric(size)) && all(size == round(size)) && all(size > 0))
   }
 
-  if("scale" %in% argsgiven){
-    stopifnot(scale %in% c(1,2,4))
-  }
+  if("scale" %in% argsgiven) stopifnot(scale %in% c(1,2,4))
+
 
   # format arg checked by match.arg
 
@@ -255,7 +253,7 @@ get_googlemap <- function(
   }
   zoom_url <- paste0("zoom=", zoom)
   size_url <- paste0("size=", paste(size, collapse="x"))
-  scale_url <- if(!missing(scale)){ paste0("scale=", scale) } else { "" }
+  scale_url <- paste0("scale=", scale)
   format_url <- if(!missing(format) && format != "png8"){ paste0("format=", format) } else { "" }
   maptype_url <- paste0("maptype=", maptype, sep = "")
   language_url <- if(!missing(language)){ paste0("language=", language) } else { "" }
@@ -334,6 +332,7 @@ get_googlemap <- function(
   message(paste0("Map from URL : ", url))
 
   map <- readPNG(tmp)
+  map <- aperm(map, c(2, 1, 3))
 
   # format file
   if(color == "color"){
@@ -343,7 +342,9 @@ get_googlemap <- function(
   	map <- gray(.30 * map[,,1] + .59 * map[,,2] + .11 * map[,,3])
   	dim(map) <- mapd[1:2]
   }
+  map <- matrix(map, nrow = scale*size[2], ncol = scale*size[1])
   class(map) <- c("ggmap","raster")
+  # plot(map)
 
   # map spatial info
   if(is.character(center)) center <- as.numeric(geocode(center, source = "google"))
@@ -368,7 +369,7 @@ get_googlemap <- function(
   attr(map, "zoom")    <- zoom
 
   # transpose
-  out <- t(map)
+  out <- map # t(map)
 
   # archive map for future use
   fileNameCenter <- as.character(center)
@@ -458,9 +459,7 @@ get_googlemap_checkargs <- function(args){
     }
 
     # scale arg
-    if("scale" %in% argsgiven){
-      stopifnot(scale %in% c(1,2,4))
-    }
+    if("scale" %in% argsgiven) stopifnot(scale %in% c(1,2,4))
 
     # format arg checked by match.arg
 
