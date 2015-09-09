@@ -11,6 +11,9 @@ FIXES
 * non-square map-images are now parsed properly. (#17, reported by @jonnybaik,
   @krmlr, @dannguyen)
 
+* geocode now returns typed NAs when geocoding fails.  this may help geocoding
+  in certain data structures. (#66, reported by @botanize)
+
 
 
 ggmap 2.5
