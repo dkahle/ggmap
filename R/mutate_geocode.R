@@ -28,7 +28,7 @@
 #' }
 #'
 mutate_geocode <- function(data, location, ...){
-  locs <- data[, deparse(substitute(location)), drop = TRUE]
+  locs <- data[[deparse(substitute(location))]]
   gcdf <- geocode(locs, ...)
   data.frame(data, gcdf)
 }
