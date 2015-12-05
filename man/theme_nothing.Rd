@@ -18,7 +18,6 @@ a ggplot2 theme (i.e., a list of class options).
 theme_nothing simply strips all thematic element in ggplot2.
 }
 \examples{
-library(ggplot2)
 \dontrun{
 
 n <- 50
@@ -27,14 +26,12 @@ p <- qplot(x, y, data = df, geom = 'tile')
 p
 p + theme_nothing()
 p + theme_nothing(legend = TRUE) # no difference
-p + 
+p +
   scale_x_continuous(expand = c(0,0)) +
   scale_y_continuous(expand = c(0,0)) +
   theme_nothing()
 
-qplot(1:10,1:10) +
-  theme_nothing()  +
-  theme(panel.background = element_rect(fill = "black"))
+
 
 
 df$class <- factor(sample(0:1, .5*n^2,  replace = TRUE))
@@ -43,7 +40,7 @@ p
 p + theme_nothing()
 p + theme_nothing(legend = TRUE)
 
-p <- p + 
+p <- p +
   scale_x_continuous(expand = c(0,0)) +
   scale_y_continuous(expand = c(0,0))
 p
