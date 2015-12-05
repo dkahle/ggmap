@@ -14,15 +14,18 @@
 #' @export
 #' @examples
 #'
-#' gc <- geocode("statue of liberty", source = "google")
+#' \dontrun{ cut down on R CMD check time
 #'
-#' googMap <- get_googlemap(center = as.numeric(gc))
-#' (bb <- attr(googMap, "bb"))
-#' bb2bbox(bb)
+#' # grab a center/zoom map and compute its bounding box
+#' gc <- geocode("white house, washington dc")
+#' map <- get_map(gc)
+#' (bb <- attr(map, "bb"))
+#' (bbox <- bb2bbox(bb))
 #'
-#' stamMap <- get_stamenmap(bb2bbox(bb))
+#' # use the bounding box to get a stamen map
+#' stamMap <- get_stamenmap(bbox)
 #'
-#' ggmap(googMap) +
+#' ggmap(map) +
 #'   geom_point(
 #'     aes(x = lon, y = lat),
 #'     data = gc, colour = "red", size = 3
@@ -33,6 +36,10 @@
 #'     aes(x = lon, y = lat),
 #'     data = gc, colour = "red", size = 3
 #'   )
+#'
+#'
+#' }
+#'
 #'
 bb2bbox <- function(bb){
   with(bb,
