@@ -115,6 +115,10 @@ get_map <- function(
     location_stop <- FALSE
   }
 
+  if(is.data.frame(location) && ncol(location) == 2){
+    location <- colMeans(location) # hits the next one
+  }
+
   if(is.numeric(location) && length(location) == 2){ # center/zoom
     location_type <- "lonlat"
     location_stop <- FALSE
