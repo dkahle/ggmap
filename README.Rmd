@@ -22,9 +22,12 @@ ggmap makes it easy to retrieve raster map tiles from popular online mapping ser
 ```{r maptypes, message = FALSE}
 library(ggmap)
 
-ggmap(get_googlemap())
-ggmap(get_stamenmap())
-ggmap(get_stamenmap(maptype = "toner-background"))
+(map <- get_map("pat neff hall", zoom = 15))
+ggmap(map)
+
+(extent <- bb2bbox(attr(map, "bb")))
+ggmap(get_stamenmap(extent, zoom = 15))
+ggmap(get_stamenmap(extent, zoom = 15, maptype = "toner-background"))
 ```
 
 Use `qmplot()` in the same way you'd use `qplot()`, but with a map automatically added in the background:
