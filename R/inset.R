@@ -11,32 +11,41 @@
 #'   location of raster
 #' @export inset
 #' @note \code{annotation_custom} expects the grob to fill the entire viewport
-#' defined by xmin, xmax, ymin, ymax. Grobs with a different (absolute) size 
+#' defined by xmin, xmax, ymin, ymax. Grobs with a different (absolute) size
 #' will be center-justified in that region.
-#' Inf values can be used to fill the full plot panel 
-inset <- annotation_custom <- function (grob, xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf) { 
-  GeomCustomAnn$new(geom_params = list(grob = grob, xmin = xmin, 
-    xmax = xmax, ymin = ymin, ymax = ymax), stat = "identity", 
-    position = "identity", data = NULL, inherit.aes = TRUE)
+#' Inf values can be used to fill the full plot panel
+inset <- annotation_custom <- function(grob, xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf) {
+  layer(
+    data = NULL,
+    stat = ggplot2::StatIdentity,
+    position = ggplot2::PositionIdentity,
+    geom = GeomCustomAnn,
+    inherit.aes = TRUE,
+    params = list(
+      grob = grob,
+      xmin = xmin,
+      xmax = xmax,
+      ymin = ymin,
+      ymax = ymax
+    )
+  )
 }
 
-GeomCustomAnn <- proto(ggplot2:::Geom, {
-   objname <- "custom_ann"
-  
-  draw_groups <- function(., data, scales, coordinates, grob, xmin, xmax,
-                          ymin, ymax, ...) {
-    #if (!inherits(coordinates, "cartesian")) {
-    #  stop("annotation_custom only works with Cartesian coordinates", 
-    #    call. = FALSE)
-    #}
 
-    if(is.infinite(xmin)) xmin <- scales$x.range[1]
-    if(is.infinite(xmax)) xmax <- scales$x.range[2]
-    if(is.infinite(ymin)) ymin <- scales$y.range[1]
-    if(is.infinite(ymax)) ymax <- scales$y.range[2]           
-    
+GeomCustomAnn <- ggproto("GeomCustomAnn", Geom,
+  extra_params = "",
+  handle_na = function(data, params) {
+    data
+  },
+
+  draw_panel = function(data, panel_scales, coord, grob, xmin, xmax,
+                        ymin, ymax) {
+#     if (!inherits(coord, "CoordCartesian")) {
+#       stop("annotation_custom only works with Cartesian coordinates",
+#         call. = FALSE)
+#     }
     corners <- data.frame(x = c(xmin, xmax), y = c(ymin, ymax))
-    data <- coord_transform(coordinates, corners, scales)
+    data <- coord$transform(corners, panel_scales)
 
     x_rng <- range(data$x, na.rm = TRUE)
     y_rng <- range(data$y, na.rm = TRUE)
@@ -44,14 +53,20 @@ GeomCustomAnn <- proto(ggplot2:::Geom, {
     vp <- viewport(x = mean(x_rng), y = mean(y_rng),
                    width = diff(x_rng), height = diff(y_rng),
                    just = c("center","center"))
-    editGrob(grob, vp = vp)
+    editGrob(grob, vp = vp, name = paste(grob$name, annotation_id()))
+  },
+
+  default_aes = aes_(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf)
+)
+
+
+
+
+
+annotation_id <- local({
+  i <- 1
+  function() {
+    i <<- i + 1
+    i
   }
-  
-  default_aes <- function(.) 
-    aes(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf)  
 })
-
-
-
-
-

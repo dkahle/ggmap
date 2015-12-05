@@ -1,19 +1,29 @@
 #' Grab a route from Google
 #'
-#' Grab a route from Google. Note that in most cases by using this function you are agreeing to the Google Maps API Terms of Service at https://developers.google.com/maps/terms.
+#' Grab a route from Google. Note that in most cases by using this
+#' function you are agreeing to the Google Maps API Terms of Service
+#' at https://developers.google.com/maps/terms.
 #'
-#' @param from name of origin addresses in a data frame (vector accepted)
-#' @param to name of destination addresses in a data frame (vector accepted)
+#' @param from name of origin addresses in a data frame (vector
+#'   accepted)
+#' @param to name of destination addresses in a data frame (vector
+#'   accepted)
 #' @param output amount of output
 #' @param structure structure of output, see examples
 #' @param mode driving, bicycling, walking, or transit
 #' @param alternatives should more than one route be provided?
 #' @param messaging turn messaging on/off
-#' @param sensor whether or not the geocoding request comes from a device with a location sensor
-#' @param override_limit override the current query count (.GoogleRouteQueryCount)
-#' @return a data frame (output="simple") or all of the geocoded information (output="all")
+#' @param sensor whether or not the geocoding request comes from a
+#'   device with a location sensor
+#' @param override_limit override the current query count
+#'   (.GoogleRouteQueryCount)
+#' @return a data frame (output="simple") or all of the geocoded
+#'   information (output="all")
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \url{https://developers.google.com/maps/documentation/directions/}, \code{\link{legs2route}}, \code{\link{routeQueryCheck}}, \code{\link{geom_leg}}
+#' @seealso
+#'   \url{https://developers.google.com/maps/documentation/directions/},
+#'   \code{\link{legs2route}}, \code{\link{routeQueryCheck}},
+#'   \code{\link{geom_leg}}
 #' @export
 #' @examples
 #'
@@ -38,20 +48,6 @@
 #'
 #'
 #'
-#' (legs_df <- route(
-#'   "marrs mclean science, baylor university",
-#'   "220 south 3rd street, waco, tx 76701", # ninfa"s
-#'   alternatives = TRUE))
-#'
-#' qmap("424 clay avenue, waco, tx", zoom = 15, maprange = TRUE, maptype = "hybrid",
-#'     base_layer = ggplot(aes(x = startLon, y = startLat), data = legs_df)) +
-#'   geom_leg(
-#'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat, colour = route),
-#'     alpha = 3/4, size = 2, data = legs_df
-#'   ) +
-#'   scale_x_continuous(breaks = pretty(c(-97.1325,-97.119),4), lim = c(-97.1325,-97.119)) +
-#'   facet_wrap(~ route) + theme_bw() +
-#'   labs(x = "Longitude", y = "Latitude", colour = "Routes")
 #'
 #' }
 #'
@@ -247,66 +243,100 @@ routeQueryCheck <- function(){
 #' @param position position
 #' @param arrow arrow
 #' @param ... ...
-#' @seealso geom_segment in ggplot2, inspired by \url{http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/}, \code{\link{route}}
-#' @details only intended for use in ggmaps package.  only designed for mercator projection.
+#' @seealso geom_segment in ggplot2, inspired by
+#'   \url{http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/},
+#'   \code{\link{route}}
+#' @details only intended for use in ggmaps package.  only designed
+#'   for mercator projection.
 #' @export
 #' @examples
 #'
-#' \dontrun{
+#' \dontrun{ # removed for R CMD check speed
+#'
+#' map <- get_map(
+#'   location = c(-77.0425, 38.8925), # painfully picked by hand
+#'   source = "google", zoom = 14, maptype = "satellite"
+#' )
+#' ggmap(map)
+#'
 #'
 #' (legs_df <- route(
-#' "marrs mclean science, baylor university",
-#'   "220 south 3rd street, waco, tx 76701", # ninfa"s
-#'   alternatives = TRUE))
+#'   "the white house, dc",
+#'   "lincoln memorial washington dc",
+#'   alternatives = TRUE
+#' ))
 #'
-#' options("device")$device(width = 11.65, height = 4.17)
-#' qmap("424 clay avenue, waco, tx", zoom = 16, maprange = TRUE, maptype = "satellite",
-#'   base_layer = ggplot(aes(x = startLon, y = startLat), data = legs_df)) +
-#'   geom_segment(
-#'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat, colour = route),
-#'     alpha = 3/4, size = 3, data = legs_df
-#'   ) +
-#'   scale_x_continuous(breaks = pretty(c(-97.1325,-97.119),4), lim = c(-97.1325,-97.119)) +
-#'   facet_wrap(~ route) + theme_bw() +
-#'   labs(x = "Longitude", y = "Latitude", colour = "Routes")
+#' ggplot(data = legs_df) +
+#'   geom_leg(aes(
+#'     x = startLon, xend = endLon,
+#'     y = startLat, yend = endLat
+#'   )) +
+#'   coord_map()
 #'
-#' qmap("424 clay avenue, waco, tx", zoom = 16, maprange = TRUE, maptype = "satellite",
-#'   base_layer = ggplot(aes(x = startLon, y = startLat), data = legs_df)) +
+#' ggplot(data = legs_df) +
+#'   geom_leg(aes(
+#'     x = startLon, xend = endLon,
+#'     y = startLat, yend = endLat,
+#'     color = route
+#'   )) +
+#'   coord_map()
+#'
+#'
+#' ggmap(map) +
 #'   geom_leg(
-#'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat, colour = route),
-#'     alpha = 3/4, size = 2, data = legs_df
-#'   ) +
-#'   scale_x_continuous(breaks = pretty(c(-97.1325,-97.119),4), lim = c(-97.1325,-97.119)) +
-#'   facet_wrap(~ route) + theme_bw() +
-#'   labs(x = "Longitude", y = "Latitude", colour = "Routes")
+#'     aes(
+#'       x = startLon, xend = endLon,
+#'       y = startLat, yend = endLat
+#'     ),
+#'     data = legs_df, color = "red"
+#'   )
 #'
+#' # adding a color aesthetic errors because of a base-layer problem
+#' # ggmap(map) +
+#' #   geom_leg(
+#' #     aes(
+#' #       x = startLon, xend = endLon,
+#' #       y = startLat, yend = endLat,
+#' #       color = route
+#' #   )
+#' # )
+#'
+#'
+#' # this is probably the easiest hack to fix it
+#' ggplot(data = legs_df) +
+#'   inset_ggmap(map) +
+#'   geom_leg(
+#'     aes(
+#'       x = startLon, xend = endLon,
+#'       y = startLat, yend = endLat,
+#'       color = route
+#'     ),
+#'     data = legs_df
+#'   ) +
+#'   coord_map()
 #'
 #' }
 #'
-geom_leg <- function (mapping = NULL, data = NULL, stat = "identity", position = "identity", arrow = NULL, ...) {
-  GeomLeg$new(mapping = mapping, data = data, stat = stat, position = position, arrow = arrow, ...)
-}
-
-GeomLeg <- proto(ggplot2:::GeomSegment, {
-  objname <- "leg"
-
-  draw <- function(., data, scales, coordinates, arrow=NULL, ...) {
-
-    coords <- coord_transform(coordinates, data, scales)
-    coords <- within(coords,{
-      xend <- rescale(xend, 0:1, scales$x.range)
-      yend <- rescale(yend, 0:1, scales$y.range)
-    })
-
-    with(coords,
-      segmentsGrob(x, y, xend, yend, default.units="native",
-      gp = gpar(col=alpha(colour, alpha), lwd=size * .pt,
-        lty=linetype, lineend = "round"),
-      arrow = arrow)
+geom_leg <- function(mapping = NULL, data = NULL, stat = "identity",
+                         position = "identity", arrow = NULL, lineend = "round",
+                         na.rm = FALSE, show.legend = NA, inherit.aes = TRUE,
+                         ...) {
+  layer(
+    data = data,
+    mapping = mapping,
+    stat = stat,
+    geom = ggplot2::GeomSegment,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = list(
+      arrow = arrow,
+      lineend = lineend,
+      na.rm = na.rm,
+      ...
     )
-  }
-})
-
+  )
+}
 
 
 

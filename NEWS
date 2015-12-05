@@ -1,18 +1,27 @@
 ggmap 2.6
 -------------------------------------------------------------------------
 
+NEW FEATURES
+
+* geocode now has a force option to override cached values. (#69, thanks
+@samfield)
+* get_map now accepts as its location the result of geocode (you'll still
+need to specify the zoom, it doesn't do that for you).
 
 CHANGES
 
 * get_googlemap now properly parses the scale argument.
+* geocode now (again) defaults to source = "google" due to poor experiences
+with dsk.
+* grid and scales are no longer imported (what's need is taken from ggplot2).
 
 FIXES
 
 * non-square map-images are now parsed properly. (#17, reported by @jonnybaik,
-  @krmlr, @dannguyen)
+@krmlr, @dannguyen)
 
 * geocode now returns typed NAs when geocoding fails.  this may help geocoding
-  in certain data structures. (#66, reported by @botanize)
+in certain data structures. (#66, reported by @botanize)
 
 
 
@@ -21,11 +30,11 @@ ggmap 2.5
 
 NEW FEATURES
 
-* geocode can now get its information from datasciencetoolkit.org.  As this
-  is legally less restrictive than Google (and doesn't have a limit!), this
-  is the default method of geolocation in ggmap.  be careful with colloquial
-  addresses (e.g. "baylor university") though; google is much better
-  at geocoding those than dsk.
+* geocode can now get its information from datasciencetoolkit.org.  As this is
+legally less restrictive than Google (and doesn't have a limit!), this is the
+default method of geolocation in ggmap.  be careful with colloquial addresses
+(e.g. "baylor university") though; google is much better at geocoding those than
+dsk.
 
 * maps now include meta data attributes containing their source, type, and zoom.
 
@@ -34,27 +43,27 @@ NEW FEATURES
 CHANGES
 
 * geocode now uses datasciencetoolkit.org for its default source. be careful
-  with colloquial addresses (e.g. "baylor university"), google is much better
-  at geocoding those than dsk.
+with colloquial addresses (e.g. "baylor university"), google is much better at
+geocoding those than dsk.
 
 * geocoding datasets with the data argument of geocode is now deprecated, use
-  mutate_geocode instead.
+mutate_geocode instead.
 
 * geocode now caches information on url hashes instead of the location queries
-  (thanks @geobrando).
+(thanks @geobrando).
 
 * qmplot now defaults to maptype = "toner-lite" from stamen for better world
-  coverage (terrain is only available in north america).
+coverage (terrain is only available in north america).
 
 * after begin deprecated, arguments lonR, latR, type, b, fullpage and expand
-  have now been removed from qmap.
+have now been removed from qmap.
 
 FIXES
 
 * geocode now works when output = "more" is specified.
 
 * a bug in get_map that disallowed the use of stamen terrain-labels has been
-  fixed.
+fixed.
 
 
 
@@ -64,59 +73,68 @@ ggmap 2.4
 CHANGES
 
 * ggmap now forms a directory in the temporary directory which caches queries.
-  To persist the cache over multiple sessions, set option `ggmap.file_drawer`.
-  See `file_drawer()` for more details.
+To persist the cache over multiple sessions, set option `ggmap.file_drawer`. See
+`file_drawer()` for more details.
 
-* Functions related to the file draw and map caching are no longer exported:
-  you shouldn't have been using these anyway!
+* Functions related to the file draw and map caching are no longer exported: you
+shouldn't have been using these anyway!
 
-* ggmap is now slightly less verbose: Terms of Service references are moved to package load.
-* geocode has been given an overhaul; it now accepts a data argument for data frames (see examples), and no longer errors when it runs out of checks.
-* stamen maps now hosts a wide new variety of maptypes that are kin of the existing ones.  see ?get_stamenmap.  some stamen maps have moved to jpgs; this has been fixed.
-* the license is now GPL-2.
-* cloudmade maps has been deprecated; it's no longer clear how long the service will be offered.
+* ggmap is now slightly less verbose: Terms of Service references are moved to
+package load. * geocode has been given an overhaul; it now accepts a data
+argument for data frames (see examples), and no longer errors when it runs out
+of checks. * stamen maps now hosts a wide new variety of maptypes that are kin
+of the existing ones.  see ?get_stamenmap.  some stamen maps have moved to jpgs;
+this has been fixed. * the license is now GPL-2. * cloudmade maps has been
+deprecated; it's no longer clear how long the service will be offered.
 
 
 NEW FUNCTIONS
 
-* calc_zoom: calc_zoom computes a reasonable zoom level for either (1) lon/lat variables in a data frame, (2) lon/lat ranges, or (3) a bounding box.
-* get_navermap: use of the naver map service (thanks to Heewon Jeon).
+* calc_zoom: calc_zoom computes a reasonable zoom level for either (1) lon/lat
+variables in a data frame, (2) lon/lat ranges, or (3) a bounding box. *
+get_navermap: use of the naver map service (thanks to Heewon Jeon).
 
 NEW ARGUMENTS
 
-* qmplot now accepts maptype.
-* several functions now have a force argument that demands re-downloading of maps.
-* get_googlemap now accepts an api_key argument for business users (thanks to Guy Carpenter for starting the process).
-* geocode and revgeocode now accept client and signature arguments for business users.
-* the style argument in get_googlemap is now much better (thanks @coxchristopher, @djhurio, and @mattmoehr).
-* route now accepts transit for the mode argument (thanks @corynissan).
+* qmplot now accepts maptype. * several functions now have a force argument that
+demands re-downloading of maps. * get_googlemap now accepts an api_key argument
+for business users (thanks to Guy Carpenter for starting the process). * geocode
+and revgeocode now accept client and signature arguments for business users. *
+the style argument in get_googlemap is now much better (thanks @coxchristopher,
+@djhurio, and @mattmoehr). * route now accepts transit for the mode argument
+(thanks @corynissan).
 
 FIXES
 
-* fixed a bug in stamen cloudmade maps that resulted in a very (very) small miscalculation in the bottom right bounding box of each tile.
-* several spaces have been removed from google maps urls; in particular, language="zh-CN" now works properly  (thanks to @JiangXD.)
-* unexported objects from ggplot2 and plyr are now properly handled.
-* get_googlemap now properly creates a fileDrawer when needed (thanks Eric Anderson).
-* authors attributions now use the person class.
-* style argument fixed in get_googlemap (thanks @mattmoehr).
-* a bug in get_stamenmap has been fixed that was making points at northern latitudes appear even moreso for very low zoom (thanks to @amyszczepanski's discovery).
+* fixed a bug in stamen cloudmade maps that resulted in a very (very) small
+miscalculation in the bottom right bounding box of each tile. * several spaces
+have been removed from google maps urls; in particular, language="zh-CN" now
+works properly  (thanks to @JiangXD.) * unexported objects from ggplot2 and plyr
+are now properly handled. * get_googlemap now properly creates a fileDrawer when
+needed (thanks Eric Anderson). * authors attributions now use the person class.
+* style argument fixed in get_googlemap (thanks @mattmoehr). * a bug in
+get_stamenmap has been fixed that was making points at northern latitudes appear
+even moreso for very low zoom (thanks to @amyszczepanski's discovery).
 
 ggmap 2.3
 -------------------------------------------------------------------------
 
 CHANGES
 
-* now imports mapproj.
-* theme_nothing now accepts argument legend to prevent legend wiping.
-* ggmap and qmplot can now properly display legends in the map again, but transparency in the legend has been removed. (this will likely return if/when ggplot2 allows an alpha argument to element_rect).
-* dataset crime now has variable offense as a factor, month and day as ordered factors.
-* several functions now message the user with the URL queried as well as the Google Maps Terms of Service URL to better agree with Google's License Restrictions.
-* gglocator now works properly.
+* now imports mapproj. * theme_nothing now accepts argument legend to prevent
+legend wiping. * ggmap and qmplot can now properly display legends in the map
+again, but transparency in the legend has been removed. (this will likely return
+if/when ggplot2 allows an alpha argument to element_rect). * dataset crime now
+has variable offense as a factor, month and day as ordered factors. * several
+functions now message the user with the URL queried as well as the Google Maps
+Terms of Service URL to better agree with Google's License Restrictions. *
+gglocator now works properly.
 
 
 DOCUMENTATION CHANGES
 
-* documentation for get_map states that whole-world zooms are not supported. (thanks to suggestion by john hendy.)
+* documentation for get_map states that whole-world zooms are not supported.
+(thanks to suggestion by john hendy.)
 
 
 
@@ -127,8 +145,11 @@ This version brings ggmap up to date with ggplot2 0.9.2.
 
 CHANGES
 
-* geocode now returns the query as well with the option output = "more".  this allows for easier merging with original datasets.  (thanks to suggestion by garrett grolemund.)
-* geocode, mapdist, route and revgeocode now no longer close all connections. consequently, ggmap now works with knitr. (thanks to fix by yihui xie.)
+* geocode now returns the query as well with the option output = "more".  this
+allows for easier merging with original datasets.  (thanks to suggestion by
+garrett grolemund.) * geocode, mapdist, route and revgeocode now no longer close
+all connections. consequently, ggmap now works with knitr. (thanks to fix by
+yihui xie.)
 
 
 
@@ -139,25 +160,27 @@ ggmap 2.1
 
 NEW FEATURES
 
-* get_map now allows for bounding box specifications with source = 'google'.
-* new argument darken added to ggmap which allows the user to put a shaded layer on top of maps.  this makes seeing color overlays easier.
-* darken, mapcolor arguments added to qmplot.
+* get_map now allows for bounding box specifications with source = 'google'. *
+new argument darken added to ggmap which allows the user to put a shaded layer
+on top of maps.  this makes seeing color overlays easier. * darken, mapcolor
+arguments added to qmplot.
 
 CHANGES
 
-* get_[google,osm,stamen,cloudmade] functions now check their arguments in the function themselves as opposed to using an alternative function for argument checking.
-* ggmap arguments changed
-	a. fullpage and expand collapsed into one argument called extent
-	b. b changed to padding.  using b now issues a warning.
-thanks to Jean-Olivier Irisson for the suggestions.
-* deprecated syntaxes now properly call .Deprecated
-* ggmap documentation greatly enhanced.
-* get_stamenmap and get_cloudmademap now message the user if more than 20 tiles are needed.
+* get_[google,osm,stamen,cloudmade] functions now check their arguments in the
+function themselves as opposed to using an alternative function for argument
+checking. * ggmap arguments changed a. fullpage and expand collapsed into one
+argument called extent b. b changed to padding.  using b now issues a warning.
+thanks to Jean-Olivier Irisson for the suggestions. * deprecated syntaxes now
+properly call .Deprecated * ggmap documentation greatly enhanced. *
+get_stamenmap and get_cloudmademap now message the user if more than 20 tiles
+are needed.
 
 FIXES
 
-* get_map now attempts to determine an appropriate zoom when a bounding box is provided.
-* qmplot now properly scales the expand on the x and y axes. (Thanks to Jean-Olivier Irisson for the suggestion.)
+* get_map now attempts to determine an appropriate zoom when a bounding box is
+provided. * qmplot now properly scales the expand on the x and y axes. (Thanks
+to Jean-Olivier Irisson for the suggestion.)
 
 
 ggmap 2.0
@@ -165,42 +188,55 @@ ggmap 2.0
 
 NEW FEATURES
 
-* a vast array of new kinds of maps are available to the user.  these are based on stamen maps (http://maps.stamen.com/watercolor/) and cloudmade maps (http://maps.cloudmade.com/).  the latter allows for user-designed map rendering (http://maps.cloudmade.com/editor#).
+* a vast array of new kinds of maps are available to the user.  these are based
+on stamen maps (http://maps.stamen.com/watercolor/) and cloudmade maps
+(http://maps.cloudmade.com/).  the latter allows for user-designed map rendering
+(http://maps.cloudmade.com/editor#).
 
-* the full google static maps api is available to the user.  in particular, this allows for double the image resolution of google maps (which is also now the default).
+* the full google static maps api is available to the user.  in particular, this
+allows for double the image resolution of google maps (which is also now the
+default).
 
-* qmplot - a version of qplot (from ggplot2) which automatically determines, downloads, and plots the result on the appropriate map.  this function is still experimental.
+* qmplot - a version of qplot (from ggplot2) which automatically determines,
+downloads, and plots the result on the appropriate map.  this function is still
+experimental.
 
-* make_bbox - a function which determines an appropriate bounding box for a collection of longitude/latitude pairs.
+* make_bbox - a function which determines an appropriate bounding box for a
+collection of longitude/latitude pairs.
 
 CHANGES
 
-* ggmap now imports all packages save ggplot2 instead of depending on them.
-* ggmapplot no longer uses a textConnection for parsing base_layer.
-* geocode fixes/changes :
-	a. gcdf is no longer a global variable
-	b. geocode now properly uses the google geocoding api (like revgeocode)
-	c. geocodeQueryCheck watches your query limit with hidden global variable .GoogleGeocodeQueryCount
-* verbose argument in function ggmap now deprecated, use messaging
-* center argument in function ggmap now deprecated, use location
-* the ggmap function has been totally overhauled.  it is no longer based on the RgoogleMaps functions GetMap and GetMap.OSM but on functions get_googlemap, get_openstreetmap, get_stamenmap, and get_cloudmademap.
-* ggimage has been rebased on ggmap:::geom_raster (a version of ggplot2's geom_raster which smooths).
-* ggmap's version of annotation_raster and annotation_custom are now exported as inset_raster and inset.
+* ggmap now imports all packages save ggplot2 instead of depending on them. *
+ggmapplot no longer uses a textConnection for parsing base_layer. * geocode
+fixes/changes : a. gcdf is no longer a global variable b. geocode now properly
+uses the google geocoding api (like revgeocode) c. geocodeQueryCheck watches
+your query limit with hidden global variable .GoogleGeocodeQueryCount * verbose
+argument in function ggmap now deprecated, use messaging * center argument in
+function ggmap now deprecated, use location * the ggmap function has been
+totally overhauled.  it is no longer based on the RgoogleMaps functions GetMap
+and GetMap.OSM but on functions get_googlemap, get_openstreetmap, get_stamenmap,
+and get_cloudmademap. * ggimage has been rebased on ggmap:::geom_raster (a
+version of ggplot2's geom_raster which smooths). * ggmap's version of
+annotation_raster and annotation_custom are now exported as inset_raster and
+inset.
 
 FUNCTION NAME CHANGES
 
-* the function called ggmap in previous versions is now called get_map.
-* the function called ggmapplot in previous versions is now called ggmap.  the new ggmap function checks its arguments and then either 1. proceeds with generating a ggplot2 object or 2. errors suggesting the use of get_map.
+* the function called ggmap in previous versions is now called get_map. * the
+function called ggmapplot in previous versions is now called ggmap.  the new
+ggmap function checks its arguments and then either 1. proceeds with generating
+a ggplot2 object or 2. errors suggesting the use of get_map.
 
 FIXES
 
-* bug was fixed which on some platforms caused an error in readPNG.
-* mapdist now properly handles many from queries without exceeding google's distance matrix api uri limits.  note that the api may still reject large queries - you may want to run mapdist in a for loop.
+* bug was fixed which on some platforms caused an error in readPNG. * mapdist
+now properly handles many from queries without exceeding google's distance
+matrix api uri limits.  note that the api may still reject large queries - you
+may want to run mapdist in a for loop.
 
 NEW DEPENDS/IMPORTS/SUGGESTS
 
-* ggmap no longer imports ReadImages.
-* ggmap now suggests stringr.
+* ggmap no longer imports ReadImages. * ggmap now suggests stringr.
 
 OTHER ADDITIONS
 
@@ -212,20 +248,24 @@ OTHER ADDITIONS
 Version 1.3
 -------------------------------------------------------------------------
 
-New Features -
-  1. a total overhaul of the geocode function (with backwards compatability).  geocode can now return more information such as the address (for when the location is lazy-specified, e.g. "the white house"), a bounding box, and political administrative bodies.
-  2. revgeocode - a reverse geocoder using google maps.
-  3. mapdist - a function to compute distances on maps using the google maps api.  distances in meters, km, and miles are returned as well as travel times in seconds, minutes and hours based on mode of transportation (driving, bicycling, or walking).  google query limit monitored with function distQueryCheck.
-  4. route - a function to grab directions from google.  google query limit monitored with function routeQueryCheck. several options are available.
-  5. qmap now accepts base_layer argument.
+New Features - 1. a total overhaul of the geocode function (with backwards
+compatability).  geocode can now return more information such as the address
+(for when the location is lazy-specified, e.g. "the white house"), a bounding
+box, and political administrative bodies. 2. revgeocode - a reverse geocoder
+using google maps. 3. mapdist - a function to compute distances on maps using
+the google maps api.  distances in meters, km, and miles are returned as well as
+travel times in seconds, minutes and hours based on mode of transportation
+(driving, bicycling, or walking).  google query limit monitored with function
+distQueryCheck. 4. route - a function to grab directions from google.  google
+query limit monitored with function routeQueryCheck. several options are
+available. 5. qmap now accepts base_layer argument.
 
-Fixes -
-  1. qmap and ggmapplot now deal properly with maprange.
- *2. the coordinate system is now properly set to a mercator projection.
-  3. custom version of annotation_custom added (not exported) to allow for placement in and plotting of overlays with mercator projection.
+Fixes - 1. qmap and ggmapplot now deal properly with maprange. *2. the
+coordinate system is now properly set to a mercator projection. 3. custom
+version of annotation_custom added (not exported) to allow for placement in and
+plotting of overlays with mercator projection.
 
-New depends -
-  1. rjson
+New depends - 1. rjson
 
 
 
@@ -233,11 +273,15 @@ New depends -
 Version 1.2
 -------------------------------------------------------------------------
 
-Additions -
-  1. ggmapplot now accepts arguments base_layer, maprange, and expand.  base_layer is a ggplot(aes(.), .)  call which allows the user to specify the base layer of the plot which, when left unspecified, defaults to the four corners of the map.  maprange allows the user to set the x and y axis limits to the boundary of the map, and expand eliminates the white border space placed around the map.  this also allows for faceting the map plots, see ggmapplot examples.
-  2. qmap's arguments properly handled.
-  3. OSM_scale_lookup used for better scale choices with OpenStreetMaps.
-  4. gglocator added following ggplot2 forum discussion by Tyler Rinker.
+Additions - 1. ggmapplot now accepts arguments base_layer, maprange, and expand.
+base_layer is a ggplot(aes(.), .)  call which allows the user to specify the
+base layer of the plot which, when left unspecified, defaults to the four
+corners of the map.  maprange allows the user to set the x and y axis limits to
+the boundary of the map, and expand eliminates the white border space placed
+around the map.  this also allows for faceting the map plots, see ggmapplot
+examples. 2. qmap's arguments properly handled. 3. OSM_scale_lookup used for
+better scale choices with OpenStreetMaps. 4. gglocator added following ggplot2
+forum discussion by Tyler Rinker.
 
 
 
@@ -246,42 +290,39 @@ Additions -
 
 Version 1.1
 -------------------------------------------------------------------------
-Changes -
-  ggimage and ggmapplot are now properly based on annotation_raster.  the custom geom_raster (and related dependence) has been removed.  dependence on proto removed.
+Changes - ggimage and ggmapplot are now properly based on annotation_raster.
+the custom geom_raster (and related dependence) has been removed.  dependence on
+proto removed.
 
-Additions -
-  1. theme_inset which allows for easy inset theming (exported)
-  2. ggmap now takes latitude longitude ranges for OpenStreetMaps
+Additions - 1. theme_inset which allows for easy inset theming (exported) 2.
+ggmap now takes latitude longitude ranges for OpenStreetMaps
 
-Fixes -
-  1. qmap now properly sets the fullpage(=TRUE) argument when unspecified.
-  2. ggmap now properly provides a black and white image when specified.
+Fixes - 1. qmap now properly sets the fullpage(=TRUE) argument when unspecified.
+2. ggmap now properly provides a black and white image when specified.
 
 
 
 
 Version 1.0
 -------------------------------------------------------------------------
-ggimage and ggmapplot are now based on geom_raster (new in ggplot2 as of version 0.9.0).
+ggimage and ggmapplot are now based on geom_raster (new in ggplot2 as of version
+0.9.0).
 
 
 
 
 Version 0.8
 -------------------------------------------------------------------------
-Changes -
-1. Further updated examples for a more efficient R CMD check.
-2. ggmap now calls geocode (see below) for geocoding.
-3. packages now load quietly.
-4. grid now imported.
-5. ggmap updated to ggplot2 version 0.9.0 which involved changes :
-	1. legend = FALSE changed to guide = 'none' in ggimage, ggmapplot
-	2. in ggimage examples, aesthetic "colour" changed to "colours"
-	3. in ggmapplot examples, argument "to" in scale_size changed to "range"
-6. .Internal calls in ggimage and ggmap for color conversion changed to simple rgb calls.
+Changes - 1. Further updated examples for a more efficient R CMD check. 2. ggmap
+now calls geocode (see below) for geocoding. 3. packages now load quietly. 4.
+grid now imported. 5. ggmap updated to ggplot2 version 0.9.0 which involved
+changes : 1. legend = FALSE changed to guide = 'none' in ggimage, ggmapplot 2.
+in ggimage examples, aesthetic "colour" changed to "colours" 3. in ggmapplot
+examples, argument "to" in scale_size changed to "range" 6. .Internal calls in
+ggimage and ggmap for color conversion changed to simple rgb calls.
 
-Additions -
-1. The geocoding subroutine of ggmap has been converted to its own function called geocode, which is exported.
+Additions - 1. The geocoding subroutine of ggmap has been converted to its own
+function called geocode, which is exported.
 
 Version 0.7
 -------------------------------------------------------------------------
