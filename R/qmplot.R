@@ -86,8 +86,6 @@
 #'   geom = "segment", zoom = 6)
 #'
 #'
-#' library(scales)
-#' library(grid)
 #' qmplot(lon, lat, data = wind, size = I(.5), alpha = I(.5)) +
 #'   ggtitle("NOAA Wind Report Sites")
 #'
@@ -105,7 +103,7 @@
 #'     legend = "bottomleft") +
 #'   geom_leg(aes(xend = lon + delta_lon, yend = lat + delta_lat)) +
 #'   scale_fill_gradient2("Wind Speed\nand\nDirection",
-#'     low = "green", mid = muted("green"), high = "red") +
+#'     low = "green", mid = scales::muted("green"), high = "red") +
 #'   scale_alpha("Wind Speed\nand\nDirection", range = c(.1, .75)) +
 #'   guides(fill = guide_legend(), alpha = guide_legend())
 #'
@@ -257,11 +255,20 @@ qmplot <- function(x, y, ..., data, zoom, source = "stamen", maptype = "toner-li
   darken = c(0, "black"), mapcolor = "color",
   facets = NULL, margins = FALSE, geom = "auto", stat = list(NULL),
   position = list(NULL), xlim = c(NA, NA), ylim = c(NA, NA), main = NULL, f = 0.05,
-  xlab = deparse(substitute(x)), ylab = deparse(substitute(y)))
+  xlab = "Longitude", ylab = "Latitude")
 {
+
+
+  if (!missing(stat))
+    warning("`stat` is deprecated", call. = FALSE)
+  if (!missing(position))
+    warning("`position` is deprecated", call. = FALSE)
+  if (!is.character(geom))
+    stop("`geom` must be a character vector", call. = FALSE)
 
   argnames <- names(as.list(match.call(expand.dots=FALSE)[-1]))
   arguments <- as.list(match.call()[-1])
+  env <- parent.frame()
 
   args <- as.list(match.call(expand.dots = TRUE)[-1])
   argsgiven <- names(args)
@@ -282,17 +289,22 @@ qmplot <- function(x, y, ..., data, zoom, source = "stamen", maptype = "toner-li
     facetvars <- all.vars(facets)
     facetvars <- facetvars[facetvars != "."]
     names(facetvars) <- facetvars
-    facetsdf <- as.data.frame(lapply(facetvars, get))
+    facetsdf <- as.data.frame(mget(facetvars, envir = env))
     if (nrow(facetsdf)) data <- facetsdf
   }
 
   # Work out plot data, and modify aesthetics, if necessary
   if ("auto" %in% geom) {
-    if (stat == "qq" || "sample" %in% aes_names) {
-      geom[geom == "auto"] <- "point"
-      stat <- "qq"
+    if ("sample" %in% aes_names) {
+      geom[geom == "auto"] <- "qq"
     } else if (missing(y)) {
-      stop("y must be provided for quickmap.", call. = FALSE)
+      x <- eval(aesthetics$x, data, env)
+      if (is.discrete(x)) {
+        geom[geom == "auto"] <- "bar"
+      } else {
+        geom[geom == "auto"] <- "histogram"
+      }
+      if (missing(ylab)) ylab <- "count"
     } else {
       if (missing(x)) {
         aesthetics$x <- bquote(seq_along(.(y)), aesthetics)
@@ -301,7 +313,7 @@ qmplot <- function(x, y, ..., data, zoom, source = "stamen", maptype = "toner-li
     }
   }
 
-  env <- parent.frame()
+
 
   # calculate map dimensions
   bbox <- make_bbox(
@@ -341,7 +353,6 @@ qmplot <- function(x, y, ..., data, zoom, source = "stamen", maptype = "toner-li
   # check darken
   stopifnot(0 <= as.numeric(darken[1]) && as.numeric(darken[1]) <= 1)
   if(length(darken) == 1 & is.numeric(darken)) darken <- c(darken, "black")
-
 
   # initialize plot
   p <- ggplot(data, aesthetics, environment = env) +
@@ -401,28 +412,29 @@ qmplot <- function(x, y, ..., data, zoom, source = "stamen", maptype = "toner-li
     p <- p + facet_grid(facets = deparse(facets), margins = margins)
   }
 
-  if (!is.null(main)) p <- p + theme("title" = main)
+  if (!is.null(main)) p <- p + ggtitle(main)
 
   # Add geoms/statistics
   if (is.proto(position)) position <- list(position)
 
-  mapply(function(g, s, ps) {
-
-    if(is.character(g)) g <- Geom$find(g)
-    if(is.character(s)) s <- Stat$find(s)
-    if(is.character(ps)) ps <- Position$find(ps)
-
+  # Add geoms/statistics
+  for (g in geom) {
+    # Arguments are unevaluated because some are aesthetics. Need to evaluate
+    # params - can't do in correct env because that's lost (no lazyeval)
+    # so do the best we can by evaluating in parent frame.
     params <- arguments[setdiff(names(arguments), c(aes_names, argnames))]
-    params <- lapply(params, eval, parent.frame(n=1))
+    params <- lapply(params, eval, parent.frame())
 
-    p <<- p + layer(geom=g, stat=s, geom_params=params, stat_params=params, position=ps)
-  }, geom, stat, position)
+    p <- p + do.call(paste0("geom_", g), params)
+  }
 
   if (!missing(xlab)) p <- p + xlab(xlab)
   if (!missing(ylab)) p <- p + ylab(ylab)
 
   if (!missing(xlim)) p <- p + xlim(xlim)
   if (!missing(ylim)) p <- p + ylim(ylim)
+
+  p
 
 
 

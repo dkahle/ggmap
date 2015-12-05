@@ -9,8 +9,7 @@ qmplot(x, y, ..., data, zoom, source = "stamen", maptype = "toner-lite",
   darken = c(0, "black"), mapcolor = "color", facets = NULL,
   margins = FALSE, geom = "auto", stat = list(NULL),
   position = list(NULL), xlim = c(NA, NA), ylim = c(NA, NA),
-  main = NULL, f = 0.05, xlab = deparse(substitute(x)),
-  ylab = deparse(substitute(y)))
+  main = NULL, f = 0.05, xlab = "Longitude", ylab = "Latitude")
 }
 \arguments{
 \item{x}{longitude values}
@@ -122,8 +121,6 @@ qmplot(long, lat, xend = long + delta_long, maptype = "watercolor",
   geom = "segment", zoom = 6)
 
 
-library(scales)
-library(grid)
 qmplot(lon, lat, data = wind, size = I(.5), alpha = I(.5)) +
   ggtitle("NOAA Wind Report Sites")
 
@@ -141,7 +138,7 @@ qmplot(lon, lat, data = thinwind, geom = "tile", fill = spd, alpha = spd,
     legend = "bottomleft") +
   geom_leg(aes(xend = lon + delta_lon, yend = lat + delta_lat)) +
   scale_fill_gradient2("Wind Speed\\nand\\nDirection",
-    low = "green", mid = muted("green"), high = "red") +
+    low = "green", mid = scales::muted("green"), high = "red") +
   scale_alpha("Wind Speed\\nand\\nDirection", range = c(.1, .75)) +
   guides(fill = guide_legend(), alpha = guide_legend())
 
