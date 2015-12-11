@@ -70,10 +70,10 @@ route <- function(from, to, mode = c("driving","walking","bicycling", "transit")
 
   # format url
   origin <- from
-  origin <- gsub(" ", "+", origin)
+  origin <- utils::URLencode(origin)
   origin <- paste("origin=", origin, sep = "")
   destination <- to
-  destination <- gsub(" ", "+", destination)
+  destination <- utils::URLencode(destination)
   destination <- paste("destination=", destination, sep = "")
   mode4url <- paste("mode=", mode, sep = "")
   unit4url <- paste("units=", "metric", sep = "")
