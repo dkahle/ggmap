@@ -13,7 +13,6 @@ CHANGES
 * get_googlemap now properly parses the scale argument.
 * geocode now (again) defaults to source = "google" due to poor experiences
 with dsk.
-* grid and scales are no longer imported (what's need is taken from ggplot2).
 
 FIXES
 

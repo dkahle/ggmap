@@ -56,8 +56,8 @@ gglocator <- function(n = 1, message = FALSE,
   xrng <- with(object, range(data[,deparse(mapping$x)]))
   yrng <- with(object, range(data[,deparse(mapping$y)]))
 
-  xrng <- scales::expand_range(range = xrng, mul = xexpand[1], add = xexpand[2])
-  yrng <- scales::expand_range(range = yrng, mul = yexpand[1], add = yexpand[2])
+  xrng <- expand_range(range = xrng, mul = xexpand[1], add = xexpand[2])
+  yrng <- expand_range(range = yrng, mul = yexpand[1], add = yexpand[2])
 
   # format and return
   point <- data.frame(xrng[1] + loc[1]*diff(xrng), yrng[1] + loc[2]*diff(yrng))

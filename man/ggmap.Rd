@@ -43,6 +43,9 @@ ggmap plots the raster object produced by \code{\link{get_map}}.
 }
 \examples{
 
+\dontrun{ map queries drag R CMD check
+
+
 ## extents and legends
 ##################################################
 hdf <- get_map("houston, texas")
@@ -51,8 +54,6 @@ ggmap(hdf) # extent = "panel", note qmap defaults to extent = "device"
 ggmap(hdf, extent = "device")
 
 
-\dontrun{
-# running this has been removed to improve check time
 
 # make some fake spatial data
 mu <- c(-95.3632715, 29.7632836); nDataSets <- sample(4:10,1)

@@ -23,17 +23,19 @@ geom_leg(mapping = NULL, data = NULL, stat = "identity",
 
 \item{arrow}{arrow}
 
-\item{...}{...}
+\item{lineend}{Line end style (round, butt, square)}
 
-\item{mapping}{mapping}
+\item{na.rm}{If \code{FALSE} (the default), removes missing values with
+a warning.  If \code{TRUE} silently removes missing values.}
 
-\item{data}{data}
+\item{show.legend}{logical. Should this layer be included in the legends?
+\code{NA}, the default, includes if any aesthetics are mapped.
+\code{FALSE} never includes, and \code{TRUE} always includes.}
 
-\item{stat}{stat}
-
-\item{position}{position}
-
-\item{arrow}{arrow}
+\item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
+rather than combining with them. This is most useful for helper functions
+that define both data and aesthetics and shouldn't inherit behaviour from
+the default plot specification, e.g. \code{\link{borders}}.}
 
 \item{...}{...}
 }

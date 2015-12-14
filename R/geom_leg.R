@@ -3,12 +3,7 @@
 #' This is ggplot2's segment with rounded ends.  It's mainly
 #' included in ggmap for historical reasons.
 #'
-#' @param mapping mapping
-#' @param data data
-#' @param stat stat
-#' @param position position
-#' @param arrow arrow
-#' @param ... ...
+#' @inheritParams ggplot2::geom_segment
 #' @seealso geom_segment in ggplot2, inspired by
 #'   \url{http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/},
 #'   \code{\link{route}}
