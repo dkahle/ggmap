@@ -190,12 +190,12 @@ qmap <- function(location = "houston", ...){
 
 
 
-  ggmap(get_map(location = location, ...), ...)
+  #ggmap(get_map(location = location, ...), ...)
   # return
-  #ggmap(
-  #  get_map(location = location, zoom = zoom, scale = scale, source = source,
-  #    color = color, maptype = maptype, language = language, api_key = api_key, force = force),
-  #  maprange = maprange, extent = extent, base_layer = base_layer, legend = legend,
-  #    padding = padding, darken = darken
-  #)
+  ggmap(
+    get_map(location = location, zoom = zoom, scale = scale, source = source,
+      color = color, maptype = maptype, language = language, api_key = api_key, force = force),
+    maprange = maprange, extent = extent, base_layer = base_layer, legend = legend,
+      padding = padding, darken = darken
+  )
 }
