@@ -13,6 +13,7 @@
 #' @param output amount of output, "latlon", "latlona", "more", or "all"
 #' @param source "dsk" for Data Science Toolkit or "google" for Google
 #' @param messaging turn messaging on/off
+#' @param force force online query, even if previously downloaded
 #' @param sensor whether or not the geocoding request comes from a device with a
 #'   location sensor
 #' @param override_limit override the current query count
@@ -38,21 +39,25 @@
 #'
 #' # types of input
 #' geocode("houston texas")
-#' geocode("baylor university", source = "google") # see known issues below
-#' geocode("1600 pennsylvania avenue, washington dc", source = "google")
-#' geocode("the white house", source = "google")
-#' geocode(c("baylor university", "salvation army waco"), source = "google")
+#' geocode("baylor university") # see known issues below
+#' geocode("1600 pennsylvania avenue, washington dc")
+#' geocode("the white house")
+#' geocode(c("baylor university", "salvation army waco"))
+#'
+#'
 #'
 #'
 #' # types of output
 #' geocode("houston texas", output = "latlona")
-#' geocode("houston texas", output = "more", source = "google")
-#' geocode("Baylor University", output = "more", source = "google")
-#' str(geocode("Baylor University", output = "all", source = "google"))
+#' geocode("houston texas", output = "more")
+#' geocode("Baylor University", output = "more")
+#' str(geocode("Baylor University", output = "all"))
 #'
 #'
 #' # see how many requests we have left with google
 #' geocodeQueryCheck()
+#' geocode("one bear place, waco, texas")
+#' geocode("houston texas", force = TRUE)
 #'
 #'
 #'
@@ -65,8 +70,9 @@
 #' }
 #'
 geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
-    source = c("dsk", "google"),
-    messaging = FALSE, sensor = FALSE, override_limit = FALSE,
+    source = c("google", "dsk"), messaging = FALSE,
+    force = ifelse(source == "dsk", FALSE, TRUE), sensor = FALSE,
+    override_limit = FALSE,
     client = "", signature = "", nameType = c("long", "short"), data
 ){
 
@@ -168,7 +174,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
 
   # lookup info if on file
-  if(isGeocodedInformationOnFile(url_hash)){
+  if(isGeocodedInformationOnFile(url_hash) && force == FALSE){
 
   	if(messaging) message("Using stored information.")
     gc <- get(".GeocodedInformation", envir = .GlobalEnv)[[url_hash]]
