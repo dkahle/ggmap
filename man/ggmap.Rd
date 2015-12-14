@@ -209,7 +209,10 @@ violent_crimes <- subset(violent_crimes,
 theme_set(theme_bw(16))
 HoustonMap <- qmap("houston", zoom = 14, color = "bw",
   extent = "device", legend = "topleft")
-HoustonMap <- ggmap(get_map("houston", zoom = 14, color = "bw"), extent = "device", legend = "topleft")
+HoustonMap <- ggmap(
+  get_map("houston", zoom = 14, color = "bw"),
+  extent = "device", legend = "topleft"
+)
 
 # the bubble chart
 HoustonMap +
