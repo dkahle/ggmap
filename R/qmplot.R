@@ -367,12 +367,12 @@ qmplot <- function(x, y, ..., data, zoom, source = "stamen", maptype = "toner-li
     # nothing
   } else if(extent == "panel"){
   	p <- p +
-      scale_x_continuous(lim = c(xmin, xmax), expand = c(0,0)) +
-      scale_y_continuous(lim = c(ymin, ymax), expand = c(0,0))
+      scale_x_continuous(limits = c(xmin, xmax), expand = c(0,0)) +
+      scale_y_continuous(limits = c(ymin, ymax), expand = c(0,0))
   } else if(extent == "device"){
   	p <- p +
-      scale_x_continuous(lim = c(xmin, xmax), expand = c(0,0)) +
-      scale_y_continuous(lim = c(ymin, ymax), expand = c(0,0)) +
+      scale_x_continuous(limits = c(xmin, xmax), expand = c(0,0)) +
+      scale_y_continuous(limits = c(ymin, ymax), expand = c(0,0)) +
       theme_nothing(legend = TRUE)
 
 
