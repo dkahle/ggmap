@@ -1,21 +1,34 @@
 #' Compute map distances using Google
 #'
-#' Compute map distances using Google Maps. Note that in most cases by using this function you are agreeing to the Google Maps API Terms of Service at https://developers.google.com/maps/terms.
+#' Compute map distances using Google Maps. Note that in most cases
+#' by using this function you are agreeing to the Google Maps API
+#' Terms of Service at https://developers.google.com/maps/terms.
 #'
-#' @param from name of origin addresses in a data frame (vector accepted)
-#' @param to name of destination addresses in a data frame (vector accepted)
+#' @param from name of origin addresses in a data frame (vector
+#'   accepted)
+#' @param to name of destination addresses in a data frame (vector
+#'   accepted)
 #' @param output amount of output
 #' @param mode driving, bicycling, or walking
 #' @param messaging turn messaging on/off
-#' @param sensor whether or not the geocoding request comes from a device with a location sensor
+#' @param sensor whether or not the geocoding request comes from a
+#'   device with a location sensor
 #' @param language language
-#' @param override_limit override the current query count (.GoogleDistQueryCount)
-#' @return a data frame (output="simple") or all of the geocoded information (output="all")
+#' @param override_limit override the current query count
+#'   (.GoogleDistQueryCount)
+#' @return a data frame (output="simple") or all of the geocoded
+#'   information (output="all")
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @details if parameters from and to are specified as geographic coordinates, they are reverse geocoded with revgeocode.  note that the google maps api limits to 2500 element queries a day.
-#' @seealso \url{http://code.google.com/apis/maps/documentation/distancematrix/}
+#' @details if parameters from and to are specified as geographic
+#'   coordinates, they are reverse geocoded with revgeocode.  note
+#'   that the google maps api limits to 2500 element queries a day.
+#' @seealso
+#'   \url{http://code.google.com/apis/maps/documentation/distancematrix/}
+#'
 #' @export
 #' @examples
+#'
+#' \dontrun{ online queries draw R CMD check times
 #'
 #' mapdist("waco, texas", "houston, texas")
 #'
@@ -29,15 +42,14 @@
 #' to <- c("waco, texas", "san antonio", "houston")
 #' mapdist(from, to)
 #'
-#' mapdist("the white house", "washington monument", mode = "walking")
 #'
 #' # geographic coordinates are accepted as well
-#' (wh <- as.numeric(geocode("the white house", source = "google")))
-#' (wm <- as.numeric(geocode("washington monument", source = "google")))
-#' mapdist(wh, wm, mode = "walking")
-#' mapdist("the white house", wm, mode = "walking")
+#' (wh <- as.numeric(geocode("the white house, dc")))
+#' (lm <- as.numeric(geocode("lincoln memorial washington dc")))
+#' mapdist(wh, lm, mode = "walking")
 #' distQueryCheck()
 #'
+#' }
 #'
 mapdist <- function(from, to, mode = c("driving","walking","bicycling"),
   output = c("simple","all"), messaging = FALSE, sensor = FALSE,

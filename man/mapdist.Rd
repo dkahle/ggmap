@@ -9,9 +9,11 @@ mapdist(from, to, mode = c("driving", "walking", "bicycling"),
   language = "en-EN", override_limit = FALSE)
 }
 \arguments{
-\item{from}{name of origin addresses in a data frame (vector accepted)}
+\item{from}{name of origin addresses in a data frame (vector
+accepted)}
 
-\item{to}{name of destination addresses in a data frame (vector accepted)}
+\item{to}{name of destination addresses in a data frame (vector
+accepted)}
 
 \item{mode}{driving, bicycling, or walking}
 
@@ -19,22 +21,31 @@ mapdist(from, to, mode = c("driving", "walking", "bicycling"),
 
 \item{messaging}{turn messaging on/off}
 
-\item{sensor}{whether or not the geocoding request comes from a device with a location sensor}
+\item{sensor}{whether or not the geocoding request comes from a
+device with a location sensor}
 
 \item{language}{language}
 
-\item{override_limit}{override the current query count (.GoogleDistQueryCount)}
+\item{override_limit}{override the current query count
+(.GoogleDistQueryCount)}
 }
 \value{
-a data frame (output="simple") or all of the geocoded information (output="all")
+a data frame (output="simple") or all of the geocoded
+  information (output="all")
 }
 \description{
-Compute map distances using Google Maps. Note that in most cases by using this function you are agreeing to the Google Maps API Terms of Service at https://developers.google.com/maps/terms.
+Compute map distances using Google Maps. Note that in most cases
+by using this function you are agreeing to the Google Maps API
+Terms of Service at https://developers.google.com/maps/terms.
 }
 \details{
-if parameters from and to are specified as geographic coordinates, they are reverse geocoded with revgeocode.  note that the google maps api limits to 2500 element queries a day.
+if parameters from and to are specified as geographic
+  coordinates, they are reverse geocoded with revgeocode.  note
+  that the google maps api limits to 2500 element queries a day.
 }
 \examples{
+
+\dontrun{ online queries draw R CMD check times
 
 mapdist("waco, texas", "houston, texas")
 
@@ -48,15 +59,14 @@ from <- c("houston", "houston", "dallas")
 to <- c("waco, texas", "san antonio", "houston")
 mapdist(from, to)
 
-mapdist("the white house", "washington monument", mode = "walking")
 
 # geographic coordinates are accepted as well
-(wh <- as.numeric(geocode("the white house", source = "google")))
-(wm <- as.numeric(geocode("washington monument", source = "google")))
-mapdist(wh, wm, mode = "walking")
-mapdist("the white house", wm, mode = "walking")
+(wh <- as.numeric(geocode("the white house, dc")))
+(lm <- as.numeric(geocode("lincoln memorial washington dc")))
+mapdist(wh, lm, mode = "walking")
 distQueryCheck()
 
+}
 
 }
 \author{
