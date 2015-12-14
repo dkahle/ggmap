@@ -5,7 +5,7 @@
 \alias{inset_raster}
 \title{Create a (ggplot2) raster layer}
 \usage{
-inset_raster(raster, xmin, xmax, ymin, ymax, interpolate = FALSE)
+inset_raster(raster, xmin, xmax, ymin, ymax, interpolate = TRUE)
 
 inset_ggmap(ggmap)
 }
@@ -17,6 +17,10 @@ horizontal location of raster}
 
 \item{ymin, ymax}{y location (in data coordinates) giving vertical
 location of raster}
+
+\item{interpolate}{interpolate the raster? (i.e. antialiasing)}
+
+\item{ggmap}{a ggmap object, see \code{\link{get_map}}}
 }
 \description{
 This is a special version of ggplot2::annotation_raster for use
@@ -28,7 +32,7 @@ simply a wrapper of \code{inset_raster} with \code{xmin}, ...,
 }
 \examples{
 
-# see ?route
+# see ?bb2bbox
 
 
 
