@@ -24,7 +24,7 @@
 #'
 #' \dontrun{ # to diminish run check time
 #'
-#' gc <- geocode("marrs mclean science building, baylor university", source = "google")
+#' gc <- geocode("baylor university")
 #' google <- get_googlemap("baylor university", zoom = 15)
 #' ggmap(google) +
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
@@ -94,7 +94,7 @@
 #' qmap("the white house", zoom = 16)  +
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)
 #'
-#' qmap("the white house", zoom = 16, source = "stamen", maptype == "terrain")  +
+#' qmap("the white house", zoom = 16, source = "stamen", maptype = "terrain")  +
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)
 #'
 #'

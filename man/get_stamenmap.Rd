@@ -48,7 +48,7 @@ cover the entire world, e.g. \url{http://tile.stamen.com/terrain/#4/30.28/-87.21
 
 \dontrun{ # to diminish run check time
 
-gc <- geocode("baylor university", source = "google")
+gc <- geocode("baylor university")
 google <- get_googlemap("baylor university", zoom = 15)
 ggmap(google) +
   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
@@ -113,7 +113,7 @@ ggmap(get_stamenmap(bbox, zoom = 15, maptype = "toner"))+
 
 
 # accuracy check - white house
-gc <- geocode("the white house", source = "google")
+gc <- geocode("the white house")
 
 qmap("the white house", zoom = 16)  +
   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)
