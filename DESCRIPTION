@@ -11,7 +11,7 @@ Authors@R: c(person("David", "Kahle", email = "david.kahle@gmail.com", role = c(
   person("Hadley", "Wickham", email = "h.wickham@gmail.com", role = "aut"))
 Depends:
     R (>= 2.14.0),
-    ggplot2 (>= 1.0.0)
+    ggplot2 (>= 2.0.0)
 Imports:
     proto,
     RgoogleMaps,
