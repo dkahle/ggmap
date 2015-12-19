@@ -14,6 +14,9 @@ each time you quit R. If you want them to persist across sessions,
 set the global option "ggmap.file_drawer".
 }
 \examples{
+
+\dontrun{ if server is unresponsive, R check will fail
+
 file_drawer()
 dir(file_drawer())
 
@@ -23,6 +26,9 @@ map <- get_stamenmap()
 map <- get_stamenmap()
 
 dir(file_drawer())
+
+}
+
 }
 \keyword{internal}
 

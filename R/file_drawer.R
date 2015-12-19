@@ -9,6 +9,9 @@
 #' @export
 #' @keywords internal
 #' @examples
+#'
+#' \dontrun{ if server is unresponsive, R check will fail
+#'
 #' file_drawer()
 #' dir(file_drawer())
 #'
@@ -18,6 +21,9 @@
 #' map <- get_stamenmap()
 #'
 #' dir(file_drawer())
+#'
+#' }
+#'
 file_drawer <- function(...) {
   fd <- getOption("ggmap.file_drawer", file.path(tempdir(), "ggmap"))
   file.path(fd, ...)
