@@ -1,13 +1,18 @@
 #' Locator for ggplots.
 #'
-#' Locator for ggplots. (Note : only accurate when extent = "normal" when using ggmap.)
+#' Locator for ggplots. (Note : only accurate when extent = "normal"
+#' when using ggmap.)
 #'
 #' @param n number of points to locate.
 #' @param message turn messaging from grid.ls on/off
 #' @param xexpand expand argument in scale_x_continuous
 #' @param yexpand expand argument in scale_y_continuous
-#' @return a data frame with columns according to the x and y aesthetics
-#' @author Tyler Rinker with help from Baptiste Auguie and StackOverflow user DWin with additions and canning by David Kahle \email{david.kahle@@gmail.com}.
+#' @return a data frame with columns according to the x and y
+#'   aesthetics
+#' @author Tyler Rinker with help from Baptiste Auguie and
+#'   StackOverflow user DWin with additions and canning by David
+#'   Kahle \email{david.kahle@@gmail.com}. Updated by
+#'   \@Nikolai-Hlubek
 #' @export
 #' @examples
 #'

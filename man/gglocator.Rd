@@ -17,10 +17,12 @@ gglocator(n = 1, message = FALSE, xexpand = c(0.05, 0),
 \item{yexpand}{expand argument in scale_y_continuous}
 }
 \value{
-a data frame with columns according to the x and y aesthetics
+a data frame with columns according to the x and y
+  aesthetics
 }
 \description{
-Locator for ggplots. (Note : only accurate when extent = "normal" when using ggmap.)
+Locator for ggplots. (Note : only accurate when extent = "normal"
+when using ggmap.)
 }
 \examples{
 
@@ -45,6 +47,9 @@ gglocator(1, xexpand = c(0,0), yexpand = c(0,0))
 
 }
 \author{
-Tyler Rinker with help from Baptiste Auguie and StackOverflow user DWin with additions and canning by David Kahle \email{david.kahle@gmail.com}.
+Tyler Rinker with help from Baptiste Auguie and
+  StackOverflow user DWin with additions and canning by David
+  Kahle \email{david.kahle@gmail.com}. Updated by
+  \@Nikolai-Hlubek
 }
 
