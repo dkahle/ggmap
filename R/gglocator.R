@@ -36,7 +36,7 @@
 #'
 #'
 gglocator <- function(n = 1, message = FALSE,
-  xexpand = c(.05, 0), yexpand = c(.05, 0)
+  xexpand = c(.0, 0), yexpand = c(.0, 0)
 ){
 
   if(n > 1){
