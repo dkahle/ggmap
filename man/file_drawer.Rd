@@ -7,11 +7,12 @@
 file_drawer(...)
 }
 \description{
-To avoid downloading the same maps again and again, ggmap uses a "file
-drawer" to store the maps you've downloaded. By default, they will be
-stored in a session specific temporary directory which will be deleted
-each time you quit R. If you want them to persist across sessions,
-set the global option "ggmap.file_drawer".
+To avoid downloading the same maps again and again, ggmap uses a
+"file drawer" to store the maps you've downloaded. By default,
+they will be stored in a session specific temporary directory
+which will be deleted each time you quit R. If you want them to
+persist across sessions, set the global option
+"ggmap.file_drawer".
 }
 \examples{
 

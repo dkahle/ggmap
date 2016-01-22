@@ -1,29 +1,32 @@
 #' Get a CloudMade map.
 #'
-#' \code{get_cloudmademap} accesses a tile server for Stamen Maps and
-#' downloads/stiches map tiles/formats a map image. This function requires an
-#' api key which can be obtained for free from
-#' http://cloudmade.com/user/show (defunct?). Thousands of maptypes ("styles"),
-#' including create-your-own options, are available from
+#' \code{get_cloudmademap} accesses a tile server for Stamen Maps
+#' and downloads/stiches map tiles/formats a map image. This
+#' function requires an api key which can be obtained for free from
+#' http://cloudmade.com/user/show (defunct?). Thousands of maptypes
+#' ("styles"), including create-your-own options, are available from
 #' http://maps.cloudmade.com/editor (defunct).
 #'
-#' @param bbox a bounding box in the format c(lowerleftlon, lowerleftlat,
-#'   upperrightlon, upperrightlat).
+#' @param bbox a bounding box in the format c(lowerleftlon,
+#'   lowerleftlat, upperrightlon, upperrightlat).
 #' @param zoom a zoom level
-#' @param api_key character string containing cloud made api key, see details
-#' @param maptype an integer of what cloud made calls style, see details
+#' @param api_key character string containing cloud made api key,
+#'   see details
+#' @param maptype an integer of what cloud made calls style, see
+#'   details
 #' @param highres double resolution
 #' @param crop crop raw map tiles to specified bounding box
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
-#' @param filename destination file for download (file extension added
-#'   according to format)
+#' @param filename destination file for download (file extension
+#'   added according to format)
 #' @param color color or black-and-white
 #' @param ... ...
-#' @return a ggmap object (a classed raster object with a bounding box
-#'   attribute)
+#' @return a ggmap object (a classed raster object with a bounding
+#'   box attribute)
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso http://maps.cloudmade.com/ (defunct), \code{\link{ggmap}}
+#' @seealso http://maps.cloudmade.com/ (defunct),
+#'   \code{\link{ggmap}}
 #' @export
 #' @examples
 #' \dontrun{ # in what follows, enter your own api key

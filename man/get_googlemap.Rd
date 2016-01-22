@@ -13,52 +13,57 @@ get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836), zoom = 10,
   markers, path, visible, style, ...)
 }
 \arguments{
-\item{center}{the center of the map.  Either a longitude/latitude numeric
-vector, a string address (note that the latter uses \code{geocode} with
-\code{source = "google"}).}
+\item{center}{the center of the map.  Either a longitude/latitude
+numeric vector, a string address (note that the latter uses
+\code{geocode} with \code{source = "google"}).}
 
-\item{zoom}{map zoom, an integer from 3 (continent) to 21 (building), default
-value 10 (city)}
+\item{zoom}{map zoom, an integer from 3 (continent) to 21
+(building), default value 10 (city)}
 
-\item{size}{rectangular dimensions of map in pixels - horizontal x vertical -
-with a max of c(640, 640). this parameter is affected in a multiplicative
-way by scale.}
+\item{size}{rectangular dimensions of map in pixels - horizontal
+x vertical - with a max of c(640, 640). this parameter is
+affected in a multiplicative way by scale.}
 
-\item{scale}{multiplicative factor for the number of pixels returned possible
-values are 1, 2, or 4 (e.g. size = c(640,640) and scale = 2 returns an
-image with 1280x1280 pixels).  4 is reserved for google business users
-only.  scale also affects the size of labels as well.}
+\item{scale}{multiplicative factor for the number of pixels
+returned possible values are 1, 2, or 4 (e.g. size = c(640,640)
+and scale = 2 returns an image with 1280x1280 pixels).  4 is
+reserved for google business users only.  scale also affects
+the size of labels as well.}
 
-\item{format}{character string providing image format - png, jpeg, and gif
-formats available in various flavors}
+\item{format}{character string providing image format - png,
+jpeg, and gif formats available in various flavors}
 
-\item{maptype}{character string providing google map theme. options available
-are "terrain", "satellite", "roadmap", and "hybrid"}
+\item{maptype}{character string providing google map theme.
+options available are "terrain", "satellite", "roadmap", and
+"hybrid"}
 
-\item{language}{character string providing language of map labels (for themes
-with them) in the format "en-EN".  not all languages are supported; for
-those which aren't the default language is used}
+\item{language}{character string providing language of map labels
+(for themes with them) in the format "en-EN".  not all
+languages are supported; for those which aren't the default
+language is used}
 
-\item{sensor}{specifies whether the application requesting the static map is
-using a sensor to determine the user's location}
+\item{sensor}{specifies whether the application requesting the
+static map is using a sensor to determine the user's location}
 
 \item{messaging}{turn messaging on/off}
 
 \item{urlonly}{return url only}
 
-\item{filename}{destination file for download (file extension added according
-to format)}
+\item{filename}{destination file for download (file extension
+added according to format)}
 
 \item{color}{color or black-and-white}
 
-\item{force}{if the map is on file, should a new map be looked up?}
+\item{force}{if the map is on file, should a new map be looked
+up?}
 
-\item{where}{where should the file drawer be located (without terminating
-"/")}
+\item{where}{where should the file drawer be located (without
+terminating "/")}
 
-\item{archiving}{use archived maps.  note: by changing to TRUE you agree to
-the one of the approved uses listed in the Google Maps API Terms of Service
-: http://developers.google.com/maps/terms.}
+\item{archiving}{use archived maps.  note: by changing to TRUE
+you agree to the one of the approved uses listed in the Google
+Maps API Terms of Service :
+http://developers.google.com/maps/terms.}
 
 \item{key}{an api_key for business users}
 
@@ -66,34 +71,36 @@ the one of the approved uses listed in the Google Maps API Terms of Service
 two-character ccTLD ("top-level domain") value, see
 \url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}}
 
-\item{markers}{data.frame with first column longitude, second column
-latitude, for which google markers should be embedded in the map image, or
-character string to be passed directly to api}
+\item{markers}{data.frame with first column longitude, second
+column latitude, for which google markers should be embedded in
+the map image, or character string to be passed directly to api}
 
-\item{path}{data.frame (or list of data.frames) with first column longitude,
-second column latitude, for which a single path should be embedded in the
-map image, or character string to be passed directly to api}
+\item{path}{data.frame (or list of data.frames) with first column
+longitude, second column latitude, for which a single path
+should be embedded in the map image, or character string to be
+passed directly to api}
 
-\item{visible}{a location as a longitude/latitude numeric vector (or data
-frame with first column longitude, second latitude) or vector of character
-string addresses which should be visible in map extent}
+\item{visible}{a location as a longitude/latitude numeric vector
+(or data frame with first column longitude, second latitude) or
+vector of character string addresses which should be visible in
+map extent}
 
-\item{style}{character string to be supplied directly to the api for the
-style argument or a named vector (see examples). this is a powerful complex
-specification, see
+\item{style}{character string to be supplied directly to the api
+for the style argument or a named vector (see examples). this
+is a powerful complex specification, see
 \url{https://developers.google.com/maps/documentation/staticmaps/}}
 
 \item{...}{...}
 }
 \value{
-a ggmap object (a classed raster object with a bounding box
-  attribute)
+a ggmap object (a classed raster object with a bounding
+  box attribute)
 }
 \description{
-\code{get_googlemap} accesses the Google Static Maps API version 2 to
-download a static map.  Note that in most cases by using this function you
-are agreeing to the Google Maps API Terms of Service at
-\url{https://developers.google.com/maps/terms}.
+\code{get_googlemap} accesses the Google Static Maps API version
+2 to download a static map.  Note that in most cases by using
+this function you are agreeing to the Google Maps API Terms of
+Service at \url{https://developers.google.com/maps/terms}.
 }
 \examples{
 
@@ -148,6 +155,6 @@ David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
 \url{https://developers.google.com/maps/documentation/staticmaps/},
-  \code{\link{ggmap}}
+\code{\link{ggmap}}
 }
 

@@ -10,14 +10,16 @@ get_cloudmademap(bbox = c(left = -95.80204, bottom = 29.38048, right =
   filename = "ggmapTemp", color = c("color", "bw"), ...)
 }
 \arguments{
-\item{bbox}{a bounding box in the format c(lowerleftlon, lowerleftlat,
-upperrightlon, upperrightlat).}
+\item{bbox}{a bounding box in the format c(lowerleftlon,
+lowerleftlat, upperrightlon, upperrightlat).}
 
 \item{zoom}{a zoom level}
 
-\item{api_key}{character string containing cloud made api key, see details}
+\item{api_key}{character string containing cloud made api key,
+see details}
 
-\item{maptype}{an integer of what cloud made calls style, see details}
+\item{maptype}{an integer of what cloud made calls style, see
+details}
 
 \item{highres}{double resolution}
 
@@ -27,23 +29,23 @@ upperrightlon, upperrightlat).}
 
 \item{urlonly}{return url only}
 
-\item{filename}{destination file for download (file extension added
-according to format)}
+\item{filename}{destination file for download (file extension
+added according to format)}
 
 \item{color}{color or black-and-white}
 
 \item{...}{...}
 }
 \value{
-a ggmap object (a classed raster object with a bounding box
-  attribute)
+a ggmap object (a classed raster object with a bounding
+  box attribute)
 }
 \description{
-\code{get_cloudmademap} accesses a tile server for Stamen Maps and
-downloads/stiches map tiles/formats a map image. This function requires an
-api key which can be obtained for free from
-http://cloudmade.com/user/show (defunct?). Thousands of maptypes ("styles"),
-including create-your-own options, are available from
+\code{get_cloudmademap} accesses a tile server for Stamen Maps
+and downloads/stiches map tiles/formats a map image. This
+function requires an api key which can be obtained for free from
+http://cloudmade.com/user/show (defunct?). Thousands of maptypes
+("styles"), including create-your-own options, are available from
 http://maps.cloudmade.com/editor (defunct).
 }
 \examples{
@@ -62,6 +64,7 @@ ggmap(map)
 David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-http://maps.cloudmade.com/ (defunct), \code{\link{ggmap}}
+http://maps.cloudmade.com/ (defunct),
+  \code{\link{ggmap}}
 }
 

@@ -7,13 +7,15 @@
 ggimage(mat, fullpage = TRUE, coord_equal = TRUE, scale_axes = FALSE)
 }
 \arguments{
-\item{mat}{a matrix, imagematrix, array, or raster (something that can be coerced by as.raster)}
+\item{mat}{a matrix, imagematrix, array, or raster (something
+that can be coerced by as.raster)}
 
 \item{fullpage}{should the image take up the entire viewport?}
 
 \item{coord_equal}{should the axes units be equal?}
 
-\item{scale_axes}{should the axes be [0,ncol(mat)-1]x[0,nrow(mat)-1] (F) or [0,1]x[0,1] (T)}
+\item{scale_axes}{should the axes be
+[0,ncol(mat)-1]x[0,nrow(mat)-1] (F) or [0,1]x[0,1] (T)}
 }
 \value{
 a ggplot object

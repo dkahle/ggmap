@@ -15,7 +15,7 @@
 #'   function XY2LatLon by Markus Loecher, Sense Networks
 #'   \email{markus@@sensenetworks.com} in package RgoogleMaps
 #' @seealso
-#'   \url{http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
+#' \url{http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
 #' @export
 #' @examples
 #'

@@ -52,6 +52,7 @@
 #' ggmap(osm)
 #'
 #' }
+#'
 get_openstreetmap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
   scale = 606250, format = c('png', 'jpeg', 'svg', 'pdf', 'ps'), messaging = FALSE,

@@ -15,22 +15,30 @@ revgeocode(location, output = c("address", "more", "all"),
 
 \item{messaging}{turn messaging on/off}
 
-\item{sensor}{whether or not the geocoding request comes from a device with a location sensor}
+\item{sensor}{whether or not the geocoding request comes from a
+device with a location sensor}
 
-\item{override_limit}{override the current query count (.GoogleGeocodeQueryCount)}
+\item{override_limit}{override the current query count
+(.GoogleGeocodeQueryCount)}
 
-\item{client}{client ID for business users, see https://developers.google.com/maps/documentation/business/webservices/auth}
+\item{client}{client ID for business users, see
+https://developers.google.com/maps/documentation/business/webservices/auth}
 
-\item{signature}{signature for business users, see https://developers.google.com/maps/documentation/business/webservices/auth}
+\item{signature}{signature for business users, see
+https://developers.google.com/maps/documentation/business/webservices/auth}
 }
 \value{
 depends (at least an address)
 }
 \description{
-reverse geocodes a longitude/latitude location using Google Maps.  Note that in most cases by using this function you are agreeing to the Google Maps API Terms of Service at https://developers.google.com/maps/terms.
+reverse geocodes a longitude/latitude location using Google Maps.
+Note that in most cases by using this function you are agreeing
+to the Google Maps API Terms of Service at
+https://developers.google.com/maps/terms.
 }
 \details{
-note that the google maps api limits to 2500 queries a day.
+note that the google maps api limits to 2500 queries a
+  day.
 }
 \examples{
 

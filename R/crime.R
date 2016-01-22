@@ -1,6 +1,7 @@
 #' Crime data
-#' 
-#' Lightly cleaned Houston crime from January 2010 to August 2010 geocoded with Google Maps
+#'
+#' Lightly cleaned Houston crime from January 2010 to August 2010
+#' geocoded with Google Maps
 #'
 #' @name crime
 #' @docType data

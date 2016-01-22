@@ -23,7 +23,7 @@
 #'   coordinates, they are reverse geocoded with revgeocode.  note
 #'   that the google maps api limits to 2500 element queries a day.
 #' @seealso
-#'   \url{http://code.google.com/apis/maps/documentation/distancematrix/}
+#' \url{http://code.google.com/apis/maps/documentation/distancematrix/}
 #'
 #' @export
 #' @examples

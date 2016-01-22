@@ -13,13 +13,12 @@ bb2bbox(bb)
 a bounding box in bbox format (see examples)
 }
 \description{
-In ggmap, all maps (class ggmap) have the bb attribute,
-a data frame bounding box specification in terms of the
-bottom left and top right points of the spatial extent.
-This function converts this specification to a named
-double vector (with names left, bottom, right, top)
-specification that is used in some querying functions
-(e.g. get_stamenmap).
+In ggmap, all maps (class ggmap) have the bb attribute, a data
+frame bounding box specification in terms of the bottom left and
+top right points of the spatial extent. This function converts
+this specification to a named double vector (with names left,
+bottom, right, top) specification that is used in some querying
+functions (e.g. get_stamenmap).
 }
 \examples{
 

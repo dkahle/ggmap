@@ -70,6 +70,7 @@ osm <- get_openstreetmap(urlonly = TRUE)
 ggmap(osm)
 
 }
+
 }
 \author{
 David Kahle \email{david.kahle@gmail.com}

@@ -14,47 +14,60 @@ get_navermap(center = c(lon = 126.9849208, lat = 37.5664519), zoom = 4,
   force = FALSE, where = tempdir(), archiving = TRUE, ...)
 }
 \arguments{
-\item{center}{the center of the map.  this can be longitude/latitude numeric vector.}
+\item{center}{the center of the map.  this can be
+longitude/latitude numeric vector.}
 
-\item{zoom}{map zoom, an integer from 1 to 14 (building), default value 10}
+\item{zoom}{map zoom, an integer from 1 to 14 (building), default
+value 10}
 
-\item{size}{rectangular dimensions of map in pixels - horizontal x vertical - with a max of c(640, 640).}
+\item{size}{rectangular dimensions of map in pixels - horizontal
+x vertical - with a max of c(640, 640).}
 
-\item{format}{character string providing image format - png, jpeg(jpg) formats available in various flavors}
+\item{format}{character string providing image format - png,
+jpeg(jpg) formats available in various flavors}
 
 \item{crs}{Coordinate system, this currently supports EPSG:4326}
 
-\item{baselayer}{base layer, this can be either "default", "satellite".}
+\item{baselayer}{base layer, this can be either "default",
+"satellite".}
 
 \item{color}{color or black-and-white}
 
-\item{overlayers}{overlay layers, this can be "anno_satellite","bicycle", "roadview", "traffic".}
+\item{overlayers}{overlay layers, this can be
+"anno_satellite","bicycle", "roadview", "traffic".}
 
-\item{markers}{data.frame with first column longitude, second column latitude, for which naver markers should be embedded in the map image, or character string to be passed directly to api}
+\item{markers}{data.frame with first column longitude, second
+column latitude, for which naver markers should be embedded in
+the map image, or character string to be passed directly to api}
 
 \item{key}{key code from naver api center}
 
 \item{uri}{registered host url}
 
-\item{filename}{destination file for download (file extension added according to format)}
+\item{filename}{destination file for download (file extension
+added according to format)}
 
 \item{messaging}{turn messaging on/off}
 
 \item{urlonly}{return url only}
 
-\item{force}{if the map is on file, should a new map be looked up?}
+\item{force}{if the map is on file, should a new map be looked
+up?}
 
-\item{where}{where should the file drawer be located (without terminating "/")}
+\item{where}{where should the file drawer be located (without
+terminating "/")}
 
-\item{archiving}{use archived maps.  note: by changing to TRUE you agree to abide by any of the rules governing caching naver maps}
+\item{archiving}{use archived maps.  note: by changing to TRUE
+you agree to abide by any of the rules governing caching naver
+maps}
 
 \item{...}{...}
 }
 \description{
-\code{get_navermap} accesses the Naver Static Maps API version 1.1 to
-download a static map. Note that in most cases by using this function you
-are agreeing to the Naver Maps API Terms of Service at
-\url{http://dev.naver.com/openapi/apis/map/staticmap}.
+\code{get_navermap} accesses the Naver Static Maps API version
+1.1 to download a static map. Note that in most cases by using
+this function you are agreeing to the Naver Maps API Terms of
+Service at \url{http://dev.naver.com/openapi/apis/map/staticmap}.
 }
 \examples{
 
@@ -70,6 +83,7 @@ ggmap(map)
 Heewon Jeon \email{madjakarta@gmail.com}
 }
 \seealso{
-\url{http://dev.naver.com/openapi/apis/map/staticmap/}, \code{\link{ggmap}}
+\url{http://dev.naver.com/openapi/apis/map/staticmap/},
+  \code{\link{ggmap}}
 }
 

@@ -1,39 +1,45 @@
 #' Quick map plot
 #'
-#' \code{qmplot} is the ggmap equivalent to the ggplot2 function qplot and
-#' allows for the quick plotting of maps with data/models/etc.
+#' \code{qmplot} is the ggmap equivalent to the ggplot2 function
+#' qplot and allows for the quick plotting of maps with
+#' data/models/etc.
 #'
 #'
 #' @param x longitude values
 #' @param y latitude values
 #' @param ... other aesthetics passed for each layer
-#' @param data data frame to use (optional).  If not specified, will create one,
-#'   extracting vectors from the current environment.
+#' @param data data frame to use (optional).  If not specified, will
+#'   create one, extracting vectors from the current environment.
 #' @param zoom map zoom, see \code{\link{get_map}}
 #' @param source map source, see \code{\link{get_map}}
 #' @param maptype map type, see \code{\link{get_map}}
-#' @param extent how much of the plot should the map take up? "normal", "panel",
-#'   or "device" (default)
-#' @param legend "left", "right" (default), "bottom", "top", "bottomleft",
-#'   "bottomright", "topleft", "topright", "none" (used with extent = "device")
-#' @param padding distance from legend to corner of the plot  (used with extent
-#'   = "device")
+#' @param extent how much of the plot should the map take up?
+#'   "normal", "panel", or "device" (default)
+#' @param legend "left", "right" (default), "bottom", "top",
+#'   "bottomleft", "bottomright", "topleft", "topright", "none"
+#'   (used with extent = "device")
+#' @param padding distance from legend to corner of the plot  (used
+#'   with extent = "device")
 #' @param force force new map (don't use archived version)
-#' @param darken vector of the form c(number, color), where number is in [0, 1]
-#'   and color is a character string indicating the color of the darken.  0
-#'   indicates no darkening, 1 indicates a black-out.
+#' @param darken vector of the form c(number, color), where number
+#'   is in [0, 1] and color is a character string indicating the
+#'   color of the darken.  0 indicates no darkening, 1 indicates a
+#'   black-out.
 #' @param mapcolor color ("color") or black-and-white ("bw")
-#' @param facets faceting formula to use.  Picks \code{\link{facet_wrap}} or
-#'   \code{\link{facet_grid}} depending on whether the formula is one sided or
-#'   two-sided
+#' @param facets faceting formula to use.  Picks
+#'   \code{\link{facet_wrap}} or \code{\link{facet_grid}} depending
+#'   on whether the formula is one sided or two-sided
 #' @param margins whether or not margins will be displayed
-#' @param geom character vector specifying geom to use.  defaults to "point"
+#' @param geom character vector specifying geom to use.  defaults to
+#'   "point"
 #' @param stat character vector specifying statistics to use
-#' @param position character vector giving position adjustment to use
+#' @param position character vector giving position adjustment to
+#'   use
 #' @param xlim limits for x axis
 #' @param ylim limits for y axis
 #' @param main character vector or expression for plot title
-#' @param f number specifying the fraction by which the range should be extended
+#' @param f number specifying the fraction by which the range should
+#'   be extended
 #' @param xlab character vector or expression for x axis label
 #' @param ylab character vector or expression for y axis label
 #' @export

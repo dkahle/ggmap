@@ -3,35 +3,39 @@
 #' \code{get_map} is a smart wrapper that queries the Google Maps,
 #' OpenStreetMap, Stamen Maps or Naver Map servers for a map.
 #'
-#' @param location an address, longitude/latitude pair (in that order), or
-#'   left/bottom/right/top bounding box
-#' @param zoom map zoom, an integer from 3 (continent) to 21 (building), default
-#'   value 10 (city).  openstreetmaps limits a zoom of 18, and the limit on
-#'   stamen maps depends on the maptype.  "auto" automatically determines the
-#'   zoom for bounding box specifications, and is defaulted to 10 with
-#'   center/zoom specifications.  maps of the whole world currently not
+#' @param location an address, longitude/latitude pair (in that
+#'   order), or left/bottom/right/top bounding box
+#' @param zoom map zoom, an integer from 3 (continent) to 21
+#'   (building), default value 10 (city).  openstreetmaps limits a
+#'   zoom of 18, and the limit on stamen maps depends on the
+#'   maptype.  "auto" automatically determines the zoom for bounding
+#'   box specifications, and is defaulted to 10 with center/zoom
+#'   specifications.  maps of the whole world currently not
 #'   supported.
 #' @param scale scale argument of \code{\link{get_googlemap}} or
 #'   \code{\link{get_openstreetmap}}
-#' @param maptype character string providing map theme. options available are
-#'   "terrain", "terrain-background", "satellite", "roadmap", and "hybrid"
-#'   (google maps), "terrain", "watercolor", and "toner" (stamen maps), or a
-#'   positive integer for cloudmade maps (see ?get_cloudmademap)
-#' @param source Google Maps ("google"), OpenStreetMap ("osm"), Stamen Maps
-#'   ("stamen"), or CloudMade maps ("cloudmade")
+#' @param maptype character string providing map theme. options
+#'   available are "terrain", "terrain-background", "satellite",
+#'   "roadmap", and "hybrid" (google maps), "terrain", "watercolor",
+#'   and "toner" (stamen maps), or a positive integer for cloudmade
+#'   maps (see ?get_cloudmademap)
+#' @param source Google Maps ("google"), OpenStreetMap ("osm"),
+#'   Stamen Maps ("stamen"), or CloudMade maps ("cloudmade")
 #' @param force force new map (don't use archived version)
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
-#' @param filename destination file for download (file extension added according
-#'   to format)
-#' @param crop (stamen and cloudmade maps) crop tiles to bounding box
+#' @param filename destination file for download (file extension
+#'   added according to format)
+#' @param crop (stamen and cloudmade maps) crop tiles to bounding
+#'   box
 #' @param color color ("color") or black-and-white ("bw")
 #' @param language language for google maps
 #' @param api_key an api key for cloudmade maps
-#' @return a ggmap object (a classed raster object with a bounding box
-#'   attribute)
+#' @return a ggmap object (a classed raster object with a bounding
+#'   box attribute)
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \code{\link{ggmap}}, \code{\link{GetMap}} in package RgoogleMaps
+#' @seealso \code{\link{ggmap}}, \code{\link{GetMap}} in package
+#'   RgoogleMaps
 #' @export
 #' @examples
 #' map <- get_map()

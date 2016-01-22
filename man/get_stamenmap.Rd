@@ -13,14 +13,15 @@ get_stamenmap(bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313,
   where = tempdir(), ...)
 }
 \arguments{
-\item{bbox}{a bounding box in the format c(lowerleftlon, lowerleftlat,
-upperrightlon, upperrightlat).}
+\item{bbox}{a bounding box in the format c(lowerleftlon,
+lowerleftlat, upperrightlon, upperrightlat).}
 
 \item{zoom}{a zoom level}
 
-\item{maptype}{terrain, terrain-background, terrain-labels, terrain-lines,
-toner, toner-2010, toner-2011, toner-background, toner-hybrid,
-toner-labels, toner-lines, toner-lite, or watercolor.}
+\item{maptype}{terrain, terrain-background, terrain-labels,
+terrain-lines, toner, toner-2010, toner-2011, toner-background,
+toner-hybrid, toner-labels, toner-lines, toner-lite, or
+watercolor.}
 
 \item{crop}{crop raw map tiles to specified bounding box}
 
@@ -30,19 +31,23 @@ toner-labels, toner-lines, toner-lite, or watercolor.}
 
 \item{color}{color or black-and-white}
 
-\item{force}{if the map is on file, should a new map be looked up?}
+\item{force}{if the map is on file, should a new map be looked
+up?}
 
-\item{where}{where should the file drawer be located (without terminating "/")}
+\item{where}{where should the file drawer be located (without
+terminating "/")}
 
 \item{...}{...}
 }
 \value{
-a ggmap object (a classed raster object with a bounding box attribute)
+a ggmap object (a classed raster object with a bounding
+  box attribute)
 }
 \description{
 \code{get_stamenmap} accesses a tile server for Stamen Maps and
-downloads/stitches map tiles/formats a map image. Note that Stamen maps don't
-cover the entire world, e.g. \url{http://tile.stamen.com/terrain/#4/30.28/-87.21}
+downloads/stitches map tiles/formats a map image. Note that
+Stamen maps don't cover the entire world, e.g.
+\url{http://tile.stamen.com/terrain/#4/30.28/-87.21}
 }
 \examples{
 
@@ -205,6 +210,7 @@ qmap(location = c(lon = -74.0445, lat = 40.68925),
 
 }
 \seealso{
-\url{http://maps.stamen.com/#watercolor}, \code{\link{ggmap}}
+\url{http://maps.stamen.com/#watercolor},
+  \code{\link{ggmap}}
 }
 

@@ -14,26 +14,28 @@ get_map(location = c(lon = -95.3632715, lat = 29.7632836), zoom = "auto",
   crop = TRUE, color = c("color", "bw"), language = "en-EN", api_key)
 }
 \arguments{
-\item{location}{an address, longitude/latitude pair (in that order), or
-left/bottom/right/top bounding box}
+\item{location}{an address, longitude/latitude pair (in that
+order), or left/bottom/right/top bounding box}
 
-\item{zoom}{map zoom, an integer from 3 (continent) to 21 (building), default
-value 10 (city).  openstreetmaps limits a zoom of 18, and the limit on
-stamen maps depends on the maptype.  "auto" automatically determines the
-zoom for bounding box specifications, and is defaulted to 10 with
-center/zoom specifications.  maps of the whole world currently not
+\item{zoom}{map zoom, an integer from 3 (continent) to 21
+(building), default value 10 (city).  openstreetmaps limits a
+zoom of 18, and the limit on stamen maps depends on the
+maptype.  "auto" automatically determines the zoom for bounding
+box specifications, and is defaulted to 10 with center/zoom
+specifications.  maps of the whole world currently not
 supported.}
 
 \item{scale}{scale argument of \code{\link{get_googlemap}} or
 \code{\link{get_openstreetmap}}}
 
-\item{maptype}{character string providing map theme. options available are
-"terrain", "terrain-background", "satellite", "roadmap", and "hybrid"
-(google maps), "terrain", "watercolor", and "toner" (stamen maps), or a
-positive integer for cloudmade maps (see ?get_cloudmademap)}
+\item{maptype}{character string providing map theme. options
+available are "terrain", "terrain-background", "satellite",
+"roadmap", and "hybrid" (google maps), "terrain", "watercolor",
+and "toner" (stamen maps), or a positive integer for cloudmade
+maps (see ?get_cloudmademap)}
 
-\item{source}{Google Maps ("google"), OpenStreetMap ("osm"), Stamen Maps
-("stamen"), or CloudMade maps ("cloudmade")}
+\item{source}{Google Maps ("google"), OpenStreetMap ("osm"),
+Stamen Maps ("stamen"), or CloudMade maps ("cloudmade")}
 
 \item{force}{force new map (don't use archived version)}
 
@@ -41,10 +43,11 @@ positive integer for cloudmade maps (see ?get_cloudmademap)}
 
 \item{urlonly}{return url only}
 
-\item{filename}{destination file for download (file extension added according
-to format)}
+\item{filename}{destination file for download (file extension
+added according to format)}
 
-\item{crop}{(stamen and cloudmade maps) crop tiles to bounding box}
+\item{crop}{(stamen and cloudmade maps) crop tiles to bounding
+box}
 
 \item{color}{color ("color") or black-and-white ("bw")}
 
@@ -53,8 +56,8 @@ to format)}
 \item{api_key}{an api key for cloudmade maps}
 }
 \value{
-a ggmap object (a classed raster object with a bounding box
-  attribute)
+a ggmap object (a classed raster object with a bounding
+  box attribute)
 }
 \description{
 \code{get_map} is a smart wrapper that queries the Google Maps,
@@ -83,6 +86,7 @@ ggmap(map, fullpage = TRUE)
 David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
-\code{\link{ggmap}}, \code{\link{GetMap}} in package RgoogleMaps
+\code{\link{ggmap}}, \code{\link{GetMap}} in package
+  RgoogleMaps
 }
 

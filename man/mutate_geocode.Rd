@@ -9,8 +9,8 @@ mutate_geocode(data, location, ...)
 \arguments{
 \item{data}{a data frame}
 
-\item{location}{a character string specifying a location of interest (e.g.
-"Baylor University")}
+\item{location}{a character string specifying a location of
+interest (e.g. "Baylor University")}
 
 \item{...}{arguments to pass to \code{\link{geocode}}}
 }
@@ -18,8 +18,8 @@ mutate_geocode(data, location, ...)
 data with geocoded information appended as columns
 }
 \description{
-\code{mutate_geocode} geocodes a data frame and appends the new information
-to the data frame provided.
+\code{mutate_geocode} geocodes a data frame and appends the new
+information to the data frame provided.
 }
 \examples{
 

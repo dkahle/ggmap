@@ -1,11 +1,11 @@
 #' Geocode a dataset
 #'
-#' \code{mutate_geocode} geocodes a data frame and appends the new information
-#' to the data frame provided.
+#' \code{mutate_geocode} geocodes a data frame and appends the new
+#' information to the data frame provided.
 #'
 #' @param data a data frame
-#' @param location a character string specifying a location of interest (e.g.
-#'   "Baylor University")
+#' @param location a character string specifying a location of
+#'   interest (e.g. "Baylor University")
 #' @param ... arguments to pass to \code{\link{geocode}}
 #' @return data with geocoded information appended as columns
 #' @author David Kahle \email{david.kahle@@gmail.com}

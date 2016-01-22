@@ -9,13 +9,15 @@ qmap(location = "houston", ...)
 \arguments{
 \item{location}{character; location of interest}
 
-\item{...}{stuff to pass to \code{\link{ggmap}} and \code{\link{get_map}}.}
+\item{...}{stuff to pass to \code{\link{ggmap}} and
+\code{\link{get_map}}.}
 }
 \value{
 a ggplot object
 }
 \description{
-qmap is a wrapper for \code{\link{ggmap}} and \code{\link{get_map}}.
+qmap is a wrapper for \code{\link{ggmap}} and
+\code{\link{get_map}}.
 }
 \examples{
 

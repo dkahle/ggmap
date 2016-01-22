@@ -1,9 +1,11 @@
 #' Quick map plot
 #'
-#' qmap is a wrapper for \code{\link{ggmap}} and \code{\link{get_map}}.
+#' qmap is a wrapper for \code{\link{ggmap}} and
+#' \code{\link{get_map}}.
 #'
 #' @param location character; location of interest
-#' @param ... stuff to pass to \code{\link{ggmap}} and \code{\link{get_map}}.
+#' @param ... stuff to pass to \code{\link{ggmap}} and
+#'   \code{\link{get_map}}.
 #' @return a ggplot object
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso \code{\link{ggmap}} and \code{\link{get_map}}.

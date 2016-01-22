@@ -11,15 +11,17 @@ make_bbox(lon, lat, data, f = 0.05)
 
 \item{lat}{latitude}
 
-\item{data}{(optional) a data frame containing lon and lat as variables}
+\item{data}{(optional) a data frame containing lon and lat as
+variables}
 
-\item{f}{number specifying the fraction by which the range should be extended}
+\item{f}{number specifying the fraction by which the range should
+be extended}
 }
 \description{
-Compute a bounding box for a given longitude / latitude collection.
+Compute a bounding box for a given longitude / latitude
+collection.
 }
 \examples{
-\donttest{
 
 make_bbox(lon, lat, data = crime)
 
@@ -28,7 +30,6 @@ make_bbox(lon, lat, data = crime)
 make_bbox(lon, lat)
 make_bbox(lon, lat, f = .10) # bigger box
 
-}
 
 }
 

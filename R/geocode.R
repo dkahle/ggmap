@@ -1,34 +1,42 @@
 #' Geocode
 #'
-#' Geocodes a location (find latitude and longitude) using either (1) the Data
-#' Science Toolkit (\url{http://www.datasciencetoolkit.org/about}) or (2) Google
-#' Maps. Note that when using Google you are agreeing to the Google Maps API
-#' Terms of Service at \url{https://developers.google.com/maps/terms}.
+#' Geocodes a location (find latitude and longitude) using either
+#' (1) the Data Science Toolkit
+#' (\url{http://www.datasciencetoolkit.org/about}) or (2) Google
+#' Maps. Note that when using Google you are agreeing to the Google
+#' Maps API Terms of Service at
+#' \url{https://developers.google.com/maps/terms}.
 #'
 #' Note that the Google Maps api limits to 2500 queries a day. Use
 #' \code{geocodeQueryCheck} to determine how many queries remain.
 #'
-#' @param location a character vector of street addresses or place names (e.g.
-#'   "1600 pennsylvania avenue, washington dc" or "Baylor University")
-#' @param output amount of output, "latlon", "latlona", "more", or "all"
-#' @param source "dsk" for Data Science Toolkit or "google" for Google
+#' @param location a character vector of street addresses or place
+#'   names (e.g. "1600 pennsylvania avenue, washington dc" or
+#'   "Baylor University")
+#' @param output amount of output, "latlon", "latlona", "more", or
+#'   "all"
+#' @param source "dsk" for Data Science Toolkit or "google" for
+#'   Google
 #' @param messaging turn messaging on/off
 #' @param force force online query, even if previously downloaded
-#' @param sensor whether or not the geocoding request comes from a device with a
-#'   location sensor
+#' @param sensor whether or not the geocoding request comes from a
+#'   device with a location sensor
 #' @param override_limit override the current query count
 #'   (.GoogleGeocodeQueryCount)
 #' @param client client ID for business users, see
 #'   \url{https://developers.google.com/maps/documentation/business/webservices/auth}
 #'
+#'
 #' @param signature signature for business users, see
 #'   \url{https://developers.google.com/maps/documentation/business/webservices/auth}
 #'
-#' @param nameType in some cases, Google returns both a long name and a short
-#'   name. this parameter allows the user to specify which to grab.
+#'
+#' @param nameType in some cases, Google returns both a long name
+#'   and a short name. this parameter allows the user to specify
+#'   which to grab.
 #' @param data deprecated in 2.5, use \code{\link{mutate_geocode}}
-#' @return If \code{output} is "latlon", "latlona", or "more", a data frame. If
-#'   all, a list.
+#' @return If \code{output} is "latlon", "latlona", or "more", a
+#'   data frame. If all, a list.
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso \code{\link{mutate_geocode}},
 #'   \url{http://code.google.com/apis/maps/documentation/geocoding/}
