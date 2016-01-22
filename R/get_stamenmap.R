@@ -90,7 +90,10 @@
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 #'
 #'
-#'
+#' # here's an interesting example:
+#' us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
+#' map <- get_stamenmap(us, zoom = 5, maptype = "toner-labels")
+#' ggmap(map)
 #'
 #'
 #'

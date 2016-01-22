@@ -17,17 +17,15 @@ knitr::opts_chunk$set(
 
 # ggmap
 
-ggmap makes it easy to retrieve raster map tiles from popular online mapping services like google maps, open street maps, cloudmade and stamen:
+**ggmap** makes it easy to retrieve raster map tiles from popular online mapping services like [Google Maps](https://developers.google.com/maps/documentation/static-maps/?hl=en), [OpenStreetMap](https://www.openstreetmap.org), [Stamen Maps](http://maps.stamen.com), and plot them using the **ggplot2** framework:
 
 ```{r maptypes, message = FALSE}
 library(ggmap)
 
-(map <- get_map("pat neff hall", zoom = 15))
+us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
+map <- get_stamenmap(us, zoom = 5, maptype = "toner-lite")
 ggmap(map)
-
-(extent <- bb2bbox(attr(map, "bb")))
-ggmap(get_stamenmap(extent, zoom = 15))
-ggmap(get_stamenmap(extent, zoom = 15, maptype = "toner-background"))
+ggmap(map, extent = "device")
 ```
 
 Use `qmplot()` in the same way you'd use `qplot()`, but with a map automatically added in the background:
@@ -41,6 +39,35 @@ downtown <- subset(crime,
 qmplot(lon, lat, data = downtown, maptype = "toner-background", color = I("red"))
 qmplot(lon, lat, data = downtown, maptype = "toner-lite", geom = "density2d", color = I("red"))
 ```
+
+Since **ggmap**'s built on top of **ggplot2**, all your usual **ggplot2** stuff (geoms, polishing, etc.) will work, and there are some unique graphing perks **ggmap** brings to the table, too.
+
+```{r styling}
+robberies <- subset(downtown, offense == "robbery")
+
+qmplot(lon, lat, data = downtown, geom = "blank", 
+       zoom = 15, maptype = "toner-background", darken = .7) +
+  stat_density_2d(aes(fill = ..level..), geom = "polygon", alpha = .3, color = NA) +
+  scale_fill_gradient2("Robbery\nPropensity", low = "white", mid = "yellow", high = "red", midpoint = 1500)
+```
+
+Faceting works, too:
+
+```{r faceting}
+qmplot(lon, lat, data = downtown, maptype = "toner-background", color = offense) + 
+  facet_wrap(~ offense)
+```
+
+For convenience, here's a map of Europe:
+
+```{r europe}
+europe <- c(left = -12, bottom = 35, right = 30, top = 63)
+map <- get_stamenmap(europe, zoom = 5, maptype = "toner-lite")
+ggmap(map)
+```
+
+
+
 
 ## Installation
 
