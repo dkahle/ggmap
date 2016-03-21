@@ -15,23 +15,21 @@
 #' \dontrun{
 #' # these examples have been excluded for checking efficiency
 #'
-#' qmap(location = "baylor university")
-#' qmap(location = "baylor university", zoom = 14)
-#' qmap(location = "baylor university", zoom = 14, source = "osm")
-#' qmap(location = "baylor university", zoom = 14, source = "osm", scale = 20000)
-#' qmap(location = "baylor university", zoom = 14, maptype = "satellite")
-#' qmap(location = "baylor university", zoom = 14, maptype = "hybrid")
-#' qmap(location = "baylor university", zoom = 14, maptype = "toner", source = "stamen")
-#' qmap(location = "baylor university", zoom = 14, maptype = "watercolor", source = "stamen")
-#' qmap(location = "baylor university", zoom = 14, maptype = "terrain-background", source = "stamen")
-#' qmap(location = "baylor university", zoom = 14, maptype = "toner-lite", source = "stamen")
+#' location <- "marrs mclean science, waco, texas"
+#' qmap(location)
+#' qmap(location, zoom = 14)
+#' qmap(location, zoom = 14, source = "osm")
+#' qmap(location, zoom = 14, source = "osm", scale = 20000)
+#' qmap(location, zoom = 14, maptype = "satellite")
+#' qmap(location, zoom = 14, maptype = "hybrid")
+#' qmap(location, zoom = 14, maptype = "toner", source = "stamen")
+#' qmap(location, zoom = 14, maptype = "watercolor", source = "stamen")
+#' qmap(location, zoom = 14, maptype = "terrain-background", source = "stamen")
+#' qmap(location, zoom = 14, maptype = "toner-lite", source = "stamen")
 #'
-#' api_key <- "<your api key here>"
-#' qmap(location = "baylor university", zoom = 14, maptype = 15434,
-#'   source = "cloudmade", api_key = api_key)
-#'
-#' wh <- geocode("the white house")
-#' qmap("the white house", maprange = TRUE,
+#' where <- "the white house, washington dc"
+#' wh <- geocode(where)
+#' qmap(where, maprange = TRUE, zoom = 15,
 #'   base_layer = ggplot(aes(x=lon, y=lat), data = wh)) +
 #'   geom_point()
 #'
