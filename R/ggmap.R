@@ -524,14 +524,14 @@ ggmap <- function(ggmap, extent = "panel", base_layer, maprange = FALSE,
     args <- as.list(match.call()[-1])
     base <- deparse(args$base_layer) # "ggplot(aes(), data = blah)"
     # if passed from another function
-    if(base == "base_layer") base <- deparse(eval(args$base_layer))
+    if(base[1] == "base_layer") base <- deparse(eval(args$base_layer))
 
     # shorthand notation
     xmin <- attr(ggmap, "bb")$ll.lon
     xmax <- attr(ggmap, "bb")$ur.lon
   	ymin <- attr(ggmap, "bb")$ll.lat
   	ymax <- attr(ggmap, "bb")$ur.lat
-    str2parse <- paste(base, "geom_blank()",
+    str2parse <- paste(paste(base, collapse = ""), "geom_blank()",
       "inset_raster(ggmap, xmin, xmax, ymin, ymax)",
       sep = " + "
     )
