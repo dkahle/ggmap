@@ -539,8 +539,7 @@ ggmap <- function(ggmap, extent = "panel", base_layer, maprange = FALSE,
     # attempt to ensure that base_layer argument is evaluated correctly by forcing evaluation in the calling environment.
     # if that fails, the previous default behavior is provided. see https://github.com/dkahle/ggmap/issues/84 for background.
     p <- try(eval(parse(text = paste(base,collapse="")),parent.frame(1))+geom_blank()+inset_raster(ggmap, xmin, xmax, ymin, ymax))
-    if(inherits(p,"try-error"))
-      p <- eval(parse(text = str2parse))
+    if(inherits(p,"try-error")) p <- eval(parse(text = str2parse))
 
     p <- p + annotate("rect", xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
   	  fill = darken[2], alpha = as.numeric(darken[1]))
