@@ -96,9 +96,7 @@
 #'
 #' # again, qmplot is probably more useful
 #' qmplot(lon, lat, data = points, color = class, darken = .4, alpha = I(.6))
-#' qmplot(lon, lat, data = points, color = class, darken = 0,
-#'   maptype = "toner-lite"
-#' )
+#' qmplot(lon, lat, data = points, color = class, maptype = "toner-lite")
 #'
 #' ## cool examples
 #' ##################################################
@@ -110,7 +108,7 @@
 #'
 #' # adding additional content
 #' library(grid)
-#' baylor <- get_map("baylor university", zoom = 15, maptype = "satellite")
+#' baylor <- get_map("one bear place, waco, texas", zoom = 15, maptype = "satellite")
 #' ggmap(baylor)
 #'
 #' # use gglocator to find lon/lat"s of interest
@@ -120,22 +118,17 @@
 #' ggmap(baylor) + theme_bw() +
 #'   annotate("segment", x=-97.110, xend=-97.1188, y=31.5450, yend=31.5485,
 #'     colour=I("red"), arrow = arrow(length=unit(0.3,"cm")), size = 1.5) +
-#'   annotate("rect", xmin=-97.122, ymin=31.5439, xmax=-97.1050, ymax=31.5452,
-#'     fill = I("white"), alpha = I(3/4)) +
-#'   annotate("text", x=-97.113, y=31.5445, label = "Department of Statistical Science",
+#'   annotate("label", x=-97.113, y=31.5445, label = "Department of Statistical Science",
 #'     colour = I("red"), size = 3.5) +
 #'   labs(x = "Longitude", y = "Latitude") + ggtitle("Baylor University")
 #'
 #'
-#'
-#' baylor <- get_map("baylor university", zoom = 16, maptype = "satellite")
+#' baylor <- get_map("marrs mclean science, waco, texas", zoom = 16, maptype = "satellite")
 #'
 #' ggmap(baylor, extent = "panel") +
 #'   annotate("segment", x=-97.1175, xend=-97.1188, y=31.5449, yend=31.5485,
 #'     colour=I("red"), arrow = arrow(length=unit(0.4,"cm")), size = 1.5) +
-#'   annotate("rect", xmin=-97.122, ymin=31.5441, xmax=-97.113, ymax=31.5449,
-#'     fill = I("white"), alpha = I(3/4)) +
-#'   annotate("text", x=-97.1175, y=31.5445, label = "Department of Statistical Science",
+#'   annotate("label", x=-97.1175, y=31.5447, label = "Department of Statistical Science",
 #'     colour = I("red"), size = 4)
 #'
 #'
@@ -264,19 +257,6 @@
 #'    )
 #'
 #'
-#' # ... with hexagonal bins
-#' HoustonMap +
-#'   stat_binhex(aes(x = lon, y = lat, colour = offense, fill = offense),
-#'     size = .5, binwidth = c(.00225,.00225), alpha = 2/4, data = violent_crimes) +
-#'    scale_colour_discrete("Offense",
-#'      labels = c("Robery","Aggravated Assault","Rape","Murder"),
-#'      guide = FALSE) +
-#'    scale_fill_discrete("Offense", labels = c("Robery","Aggravated Assault","Rape","Murder")) +
-#'    theme(
-#'      legend.text = element_text(size = 15, vjust = .5),
-#'      legend.title = element_text(size = 15,face="bold"),
-#'      legend.key.size = grid::unit(1.8,"lines")
-#'    )
 #'
 #'
 #'
@@ -297,6 +277,7 @@
 #' overlay <- stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
 #'     bins = 4, geom = "polygon", data = violent_crimes)
 #'
+#' attr(houston,"bb") # to help finding (x/y)(min/max) vals below
 #'
 #' HoustonMap +
 #'   stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
@@ -310,12 +291,8 @@
 #'       scale_alpha(range = c(.4, .75), guide = FALSE) +
 #'       theme_inset()
 #'     ),
-#'     xmin = attr(houston,"bb")$ll.lon +
-#'       (7/10) * (attr(houston,"bb")$ur.lon - attr(houston,"bb")$ll.lon),
-#'     xmax = Inf,
-#'     ymin = -Inf,
-#'     ymax = attr(houston,"bb")$ll.lat +
-#'       (3/10) * (attr(houston,"bb")$ur.lat - attr(houston,"bb")$ll.lat)
+#'     xmin = -95.35877, xmax = -95.34229,
+#'     ymin = 29.73754, ymax = 29.75185
 #'   )
 #'
 #'
