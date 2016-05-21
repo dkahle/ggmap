@@ -17,6 +17,7 @@
 #'   device with a location sensor
 #' @param override_limit override the current query count
 #'   (.GoogleRouteQueryCount)
+#' @param add personal Google API key
 #' @return a data frame (output="simple") or all of the geocoded
 #'   information (output="all")
 #' @author David Kahle \email{david.kahle@@gmail.com}
@@ -53,13 +54,13 @@
 #'
 route <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
   structure = c("legs","route"), output = c("simple","all"), alternatives = FALSE,
-  messaging = FALSE, sensor = FALSE, override_limit = FALSE)
+  messaging = FALSE, sensor = FALSE, override_limit = FALSE, api_key=FALSE)
 {
 
   # check parameters
-  if(is.numeric(from) && length(from) == 2) from <- revgeocode(from)
+  if(is.numeric(from) && length(from) == 2) from <- revgeocode(from, override_limit=override_limit, api_key=api_key)
   stopifnot(is.character(from))
-  if(is.numeric(to) && length(to) == 2) to <- revgeocode(to)
+  if(is.numeric(to) && length(to) == 2) to <- revgeocode(to, override_limit=override_limit, api_key=api_key)
   stopifnot(is.character(to))
   mode <- match.arg(mode)
   structure <- match.arg(structure)
@@ -79,8 +80,13 @@ route <- function(from, to, mode = c("driving","walking","bicycling", "transit")
   unit4url <- paste("units=", "metric", sep = "")
   alts4url <- paste("alternatives=", tolower(as.character(alternatives)), sep = "")
   sensor4url <- paste("sensor=", tolower(as.character(sensor)), sep = "")
+  key4url <- paste("key=", api_key, sep = "")
   posturl <- paste(origin, destination, mode4url, unit4url, alts4url, sensor4url, sep = "&")
-  url_string <- paste("http://maps.googleapis.com/maps/api/directions/json?", posturl, sep = "")
+  if (api_key != FALSE) {
+     posturl <- paste(origin, destination, mode4url, unit4url, alts4url, sensor4url, key4url, sep = "&")
+ }
+
+  url_string <- paste("https://maps.googleapis.com/maps/api/directions/json?", posturl, sep = "")
   url_string <- URLencode(url_string)
 
   # check/update google query limit
@@ -427,17 +433,3 @@ legs2route <- function(legsdf){
   if(length(unique(legsdf$route)) == 1) out <- out[,-which(names(out) == "route")]
   out
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
