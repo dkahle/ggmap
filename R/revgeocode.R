@@ -18,6 +18,8 @@
 #' @param signature signature for business users, see
 #'   https://developers.google.com/maps/documentation/business/webservices/auth
 #'
+#' @param API key for personal users with API keys.
+#'
 #' @return depends (at least an address)
 #' @details note that the google maps api limits to 2500 queries a
 #'   day.
@@ -39,7 +41,7 @@
 #'
 revgeocode <- function(location, output = c('address','more','all'),
   messaging = FALSE, sensor = FALSE, override_limit = FALSE,
-  client = "", signature = ""
+  client = "", signature = "", api_key=FALSE
 ){
 
   # check parameters
@@ -64,8 +66,14 @@ revgeocode <- function(location, output = c('address','more','all'),
   sensor4url <- paste('&sensor=', sensor, sep = '') # includes &
   client4url <- paste('&client=', client, sep = '')
   signature4url <- paste('&signature=', signature, sep = '')
-  url_string <- paste("http://maps.googleapis.com/maps/api/geocode/json?latlng=",
+  key4url <- paste("&key=", api_key, sep = "")
+  url_string <- paste("https://maps.googleapis.com/maps/api/geocode/json?latlng=",
     loc4url, sensor4url, sep = "")
+  if (api_key != FALSE) {
+      url_string <- paste("https://maps.googleapis.com/maps/api/geocode/json?latlng=",
+        loc4url, sensor4url, key4url, sep = "")
+  }
+
   if(userType == "business"){
     url_string <- paste(url_string, client4url, signature4url, sep = "")
   }
