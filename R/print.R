@@ -25,8 +25,6 @@ print.ggmap <- function(x, ...){
     source <- "Stamen Maps"
   } else if(source == "osm"){
     source <- "OpenStreetMap"
-  } else if(source == "cloudmade"){
-    source <- "Cloudmade"
   } else if(source == "naver"){
     source <- "Naver Map"
   }

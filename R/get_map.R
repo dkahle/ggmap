@@ -17,20 +17,18 @@
 #' @param maptype character string providing map theme. options
 #'   available are "terrain", "terrain-background", "satellite",
 #'   "roadmap", and "hybrid" (google maps), "terrain", "watercolor",
-#'   and "toner" (stamen maps), or a positive integer for cloudmade
-#'   maps (see ?get_cloudmademap)
+#'   and "toner" (stamen maps).
 #' @param source Google Maps ("google"), OpenStreetMap ("osm"),
-#'   Stamen Maps ("stamen"), or CloudMade maps ("cloudmade")
+#'   or Stamen Maps ("stamen")
 #' @param force force new map (don't use archived version)
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
 #' @param filename destination file for download (file extension
 #'   added according to format)
-#' @param crop (stamen and cloudmade maps) crop tiles to bounding
+#' @param crop (stamen maps) crop tiles to bounding
 #'   box
 #' @param color color ("color") or black-and-white ("bw")
 #' @param language language for google maps
-#' @param api_key an api key for cloudmade maps
 #' @return a ggmap object (a classed raster object with a bounding
 #'   box attribute)
 #' @author David Kahle \email{david.kahle@@gmail.com}
@@ -61,7 +59,7 @@ get_map <- function(
     "hybrid", "toner", "watercolor", "terrain-labels",
     "terrain-lines", "toner-2010", "toner-2011", "toner-background",
     "toner-hybrid", "toner-labels", "toner-lines", "toner-lite"),
-  source = c("google","osm","stamen","cloudmade"),
+  source = c("google","osm","stamen"),
   force = ifelse(source == "google", TRUE, TRUE), messaging = FALSE, urlonly = FALSE,
   filename = "ggmapTemp",
   crop = TRUE, color = c("color","bw"), language = "en-EN",
@@ -85,11 +83,7 @@ get_map <- function(
   source <- match.arg(source)
   color <- match.arg(color)
   if(missing(maptype)){
-    if(source != "cloudmade"){
-      maptype <- "terrain"
-    } else {
       maptype <- 1
-    }
   }
   if(source == "stamen"){
     if(!(maptype %in% c("terrain","terrain-background","terrain-labels",
@@ -274,28 +268,6 @@ get_map <- function(
       get_stamenmap(bbox = location, zoom = zoom, maptype = maptype, crop = crop,
         messaging = messaging, urlonly = urlonly, filename = filename, force = force,
         color = color)
-    )
-  }
-
-
-
-  # cloudmade map
-  if(source == "cloudmade"){
-  	if(missing(api_key)) stop("an api key must be provided for cloudmade maps, see ?get_cloudmademap.",
-  	  call. = FALSE)
-
-  	if(location_type != "bbox"){
-  	  # get bounding box
-      gm <- get_googlemap(center = location, zoom = zoom,
-        filename = filename)
-      location <- as.numeric(attr(gm, "bb"))[c(2,1,4,3)]
-    }
-
-  	# get map/return
-    return(
-      get_cloudmademap(bbox = location, zoom = zoom, maptype = maptype, crop = crop,
-        messaging = messaging, urlonly = urlonly, filename = filename, highres = TRUE,
-        color = color, api_key = api_key)
     )
   }
 
