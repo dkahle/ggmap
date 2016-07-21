@@ -151,9 +151,9 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
     # geocode ply and out
     if(output == "latlon" || output == "latlona" || output == "more"){
-      return(ldply(as.list(location), geocode, output = output, source = source, messaging = messaging))
+      return(ldply(as.list(location), geocode, output = output, source = source, messaging = messaging, key = key))
     } else { # output = all
-      return(llply(as.list(location), geocode, output = output, source = source, messaging = messaging))
+      return(llply(as.list(location), geocode, output = output, source = source, messaging = messaging, key = key))
     }
   }
 
