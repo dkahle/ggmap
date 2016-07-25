@@ -123,7 +123,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     locs <- eval(substitute(location), data)
     geocodedLocs <- geocode(locs, output = output, source = source, messaging = messaging,
       override_limit = override_limit, sensor = sensor, client = client,
-      signature = signature)
+      signature = signature, key = key)
     dataSetName <- as.character(substitute(data))
     # this works, but apparently violates crans rules
     message(paste0("overwriting dataset ", dataSetName, "."))
