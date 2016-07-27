@@ -81,7 +81,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     source = c("google", "dsk"), messaging = FALSE,
     force = ifelse(source == "dsk", FALSE, TRUE), sensor = FALSE,
     override_limit = FALSE,
-    client = "", signature = "", nameType = c("long", "short"), data
+    client = "", signature = "", key = "", nameType = c("long", "short"), data
 ){
 
   # basic parameter check
@@ -101,6 +101,8 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     stop("if signature argument is specified, client must be as well.", call. = FALSE)
   } else if(client != "" && signature == ""){
     stop("if client argument is specified, signature must be as well.", call. = FALSE)
+  } else if (client == "" && signature == "" && key != "") {
+    userType <- "business"
   } else {
     userType <- "free"
   }
@@ -121,7 +123,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     locs <- eval(substitute(location), data)
     geocodedLocs <- geocode(locs, output = output, source = source, messaging = messaging,
       override_limit = override_limit, sensor = sensor, client = client,
-      signature = signature)
+      signature = signature, key = key)
     dataSetName <- as.character(substitute(data))
     # this works, but apparently violates crans rules
     message(paste0("overwriting dataset ", dataSetName, "."))
@@ -149,9 +151,9 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
     # geocode ply and out
     if(output == "latlon" || output == "latlona" || output == "more"){
-      return(ldply(as.list(location), geocode, output = output, source = source, messaging = messaging))
+      return(ldply(as.list(location), geocode, output = output, source = source, messaging = messaging, key = key))
     } else { # output = all
-      return(llply(as.list(location), geocode, output = output, source = source, messaging = messaging))
+      return(llply(as.list(location), geocode, output = output, source = source, messaging = messaging, key = key))
     }
   }
 
@@ -166,12 +168,14 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   sensor4url <- paste("sensor=", tolower(as.character(sensor)), sep = "")
   client4url <- paste("client=", client, sep = "")
   signature4url <- paste("signature=", signature, sep = "")
+  key4url <- paste("key=", key, sep = "")
   location4url <- chartr(" ", "+", location)
   posturl <- paste(location, sensor4url, sep = "&")
-  if(userType == "business") posturl <- paste(posturl, client4url, signature4url, sep = "&")
+  if(userType == "business") posturl <- paste(posturl, ifelse(key == "",paste(client4url, signature4url, sep = '&'), key4url),
+                     sep = "&")
 
   if(source == "google"){
-    url_string <- paste("http://maps.googleapis.com/maps/api/geocode/json?address=", posturl, sep = "")
+    url_string <- paste("https://maps.googleapis.com/maps/api/geocode/json?address=", posturl, sep = "")
   } else if(source == "dsk"){
     url_string <- paste("http://www.datasciencetoolkit.org/maps/api/geocode/json?address=", posturl, sep = "")
   }
