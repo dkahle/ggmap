@@ -78,7 +78,7 @@
 #' }
 #'
 geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
-    source = c("google", "dsk"), messaging = FALSE,
+    source = c("google", "dsk", "osm"), messaging = FALSE,
     force = ifelse(source == "dsk", FALSE, TRUE), sensor = FALSE,
     override_limit = FALSE,
     client = "", signature = "", nameType = c("long", "short"), data
@@ -167,13 +167,21 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   client4url <- paste("client=", client, sep = "")
   signature4url <- paste("signature=", signature, sep = "")
   location4url <- chartr(" ", "+", location)
-  posturl <- paste(location, sensor4url, sep = "&")
-  if(userType == "business") posturl <- paste(posturl, client4url, signature4url, sep = "&")
+  
+  # Slightly different format for OSM
+  if(source == "osm"){
+    posturl <- paste(location, "?format=json", sep="")
+  } else{
+    posturl <- paste(location, sensor4url, sep = "&")
+  }
 
+  if(userType == "business") posturl <- paste(posturl, client4url, signature4url, sep = "&")
   if(source == "google"){
     url_string <- paste("http://maps.googleapis.com/maps/api/geocode/json?address=", posturl, sep = "")
   } else if(source == "dsk"){
     url_string <- paste("http://www.datasciencetoolkit.org/maps/api/geocode/json?address=", posturl, sep = "")
+  } else if(source == "osm"){
+    url_string <- paste("http://nominatim.openstreetmap.org/search/", posturl, sep="")
   }
 
   url_string <- URLencode(url_string)
@@ -230,9 +238,16 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   # return if you want full output
   if(output == "all") return(gc)
 
-
+  # Assign a "status" for OSM
+  #   This is not part of the return
+  if(source == "osm" & length(gc) == 0){
+    gc$status <- "OSM fail"
+  }else if(source == "osm"){
+    gc$status <- "OK"
+  }
 
   # did geocode fail? - print(gc$status)
+  #   Added in gc length test for OSM
   if(gc$status != "OK"){
     warning(paste("geocode failed with status ", gc$status, ", location = \"",
       location, "\"", sep = ""), call. = FALSE)
@@ -256,19 +271,40 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     x
   }
 
-  gcdf <- with(gc$results[[1]], {
-  	data.frame(
-      lon = NULLtoNA(geometry$location$lng),
-      lat = NULLtoNA(geometry$location$lat),
-      type = tolower(NULLtoNA(types[1])),
-      loctype = tolower(NULLtoNA(geometry$location_type)),
-      address = location, # dsk doesn't give the address
-      north = NULLtoNA(geometry$viewport$northeast$lat),
-      south = NULLtoNA(geometry$viewport$southwest$lat),
-      east = NULLtoNA(geometry$viewport$northeast$lng),
-      west = NULLtoNA(geometry$viewport$southwest$lng)
-    )
-  })
+  # Homogenize data formats
+  if(source == "osm"){
+    
+    gcdf <- with(gc[[1]], {
+      data.frame(
+        lon = NULLtoNA(lon),
+        lat = NULLtoNA(lat),
+        type = NULLtoNA(type),
+        loctype = NULLtoNA(class),
+        address = NULLtoNA(display_name),
+        north = NULLtoNA(as.numeric(boundingbox[2])),
+        south = NULLtoNA(as.numeric(boundingbox[1])),
+        west = NULLtoNA(as.numeric(boundingbox[3])),
+        east = NULLtoNA(as.numeric(boundingbox[4]))
+      )
+    })
+  
+  } else{
+    
+    gcdf <- with(gc$results[[1]], {
+    	data.frame(
+        lon = NULLtoNA(geometry$location$lng),
+        lat = NULLtoNA(geometry$location$lat),
+        type = tolower(NULLtoNA(types[1])),
+        loctype = tolower(NULLtoNA(geometry$location_type)),
+        address = location, # dsk doesn't give the address
+        north = NULLtoNA(geometry$viewport$northeast$lat),
+        south = NULLtoNA(geometry$viewport$southwest$lat),
+        east = NULLtoNA(geometry$viewport$northeast$lng),
+        west = NULLtoNA(geometry$viewport$southwest$lng)
+      )
+    })
+
+  }
 
 
 
