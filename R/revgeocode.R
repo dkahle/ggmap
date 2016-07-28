@@ -18,6 +18,8 @@
 #' @param signature signature for business users, see
 #'   https://developers.google.com/maps/documentation/business/webservices/auth
 #'
+#' @param source source to use for reverse geocoding
+#' 
 #' @return depends (at least an address)
 #' @details note that the google maps api limits to 2500 queries a
 #'   day.
@@ -39,14 +41,17 @@
 #'
 revgeocode <- function(location, output = c('address','more','all'),
   messaging = FALSE, sensor = FALSE, override_limit = FALSE,
-  client = "", signature = ""
+  client = "", signature = "", source = c('google', 'osm')
 ){
 
   # check parameters
   stopifnot(is.numeric(location) && length(location) == 2)
   output <- match.arg(output)
+  source <- match.arg(source)
   stopifnot(is.logical(messaging))
   stopifnot(is.logical(sensor))
+
+  # Only relevant for google. Might need to add in a clause for OSM
   if(client != "" && signature != ""){
   	if(substr(client, 1, 4) != 'gme-') client <- paste("gme-", client, sep = "")
   	userType <- "business"
@@ -59,13 +64,25 @@ revgeocode <- function(location, output = c('address','more','all'),
   }
 
   # format url
-  loc4url <- paste(rev(location), collapse = ',')
   if(sensor){ sensor <- 'true' } else { sensor <- 'false' }
   sensor4url <- paste('&sensor=', sensor, sep = '') # includes &
   client4url <- paste('&client=', client, sep = '')
   signature4url <- paste('&signature=', signature, sep = '')
-  url_string <- paste("http://maps.googleapis.com/maps/api/geocode/json?latlng=",
-    loc4url, sensor4url, sep = "")
+  
+  if(source == "osm"){
+    laturl <- paste('lat=', location[2], sep = "")
+    lonurl <- paste('&lon=', location[1], sep = "")
+  
+    loc4url <- paste(laturl, lonurl, sep="")
+    url_string <- paste("http://nominatim.openstreetmap.org/reverse?", loc4url, '&format=json', sep = "")
+
+  }else{
+    loc4url <- paste(rev(location), collapse = ',')
+    url_string <- paste("http://maps.googleapis.com/maps/api/geocode/json?latlng=",
+      loc4url, sensor4url, sep = "")
+  }
+
+  
   if(userType == "business"){
     url_string <- paste(url_string, client4url, signature4url, sep = "")
   }
@@ -89,14 +106,23 @@ revgeocode <- function(location, output = c('address','more','all'),
 
   # geocode
   connect <- url(url_string)
-  rgc <- fromJSON(paste(readLines(connect), collapse = ''))
+  rgc <- fromJSON(paste(readLines(connect, warn = FALSE), collapse = ''))
   close(connect)
   if(output == 'all') return(rgc)
 
   # did geocode fail?
-  if(rgc$status != 'OK'){
+  post_warning <- FALSE
+  if(source == "osm" & !is.null(rgc$error)){
+    post_warning <- TRUE
+  } else if(source != "osm"){
+    if(rgc$status != 'OK'){
+      post_warning <- TRUE
+    }
+  }
+  
+  if(post_warning){
     warning(paste('reverse geocode failed - bad location? location = "',
-      location, '"', sep = ''))
+                  location, '"', sep = ''))
     return(data.frame(address = NA))
   }
 
@@ -109,18 +135,38 @@ revgeocode <- function(location, output = c('address','more','all'),
       '", reverse geocoding first...\n', sep = ''))
   }
 
-  # format
-  rgc <- rgc$results[[1]]
+  # Coerce OSM results to match Google
+  #   Little "hacky" but minimizes code rewriting
+  if(source == "osm"){
+    rgc$formatted_address <- rgc$display_name
+  }else{
+    # format
+    rgc <- rgc$results[[1]]
+  }
+  
+  # If user wants just the address, return the address!
   if(output == 'address') return(rgc$formatted_address)
 
   with(rgc,{rgcdf <<- data.frame(
     address = formatted_address
   )})
-  for(k in seq_along(rgc$address_components)){
-  	rgcdf <- cbind(rgcdf, rgc$address_components[[k]]$long_name)
-  }
-  names(rgcdf) <- c('address', sapply(rgc$address_components, function(l) l$types[1]))
 
+  # Requires a bit of special handling for OSM returns
+  if(source == "osm"){
+  
+    rgcdf <- cbind(rgcdf, as.data.frame(rgc$address))
+  
+  }else{
+    
+    for(k in seq_along(rgc$address_components)){
+    	rgcdf <- cbind(rgcdf, rgc$address_components[[k]]$long_name)
+    }
+    
+    names(rgcdf) <- c('address', sapply(rgc$address_components, function(l) l$types[1]))
+  
+  }
+  
   # return 'more' output
   rgcdf
+
 }
