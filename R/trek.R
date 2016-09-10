@@ -1,15 +1,15 @@
 #' Grab a trek from Google
 #'
-#' Grab a trek (curvy route) from Google. Note that in most cases by
-#' using this function you are agreeing to the Google Maps API Terms
-#' of Service at https://developers.google.com/maps/terms.
+#' Grab a trek from Google that will plot over the roadways. Note
+#' that in most cases by using this function you are agreeing to the
+#' Google Maps API Terms of Service at
+#' https://developers.google.com/maps/terms.
 #'
 #' @param from name of origin addresses in a data frame (vector
 #'   accepted)
 #' @param to name of destination addresses in a data frame (vector
 #'   accepted)
 #' @param output amount of output
-#' @param structure structure of output, see examples
 #' @param mode driving, bicycling, walking, or transit
 #' @param alternatives should more than one route be provided?
 #' @param messaging turn messaging on/off
@@ -30,20 +30,26 @@
 #'
 #' \dontrun{ # to cut down on check time
 #'
+#' from <- "rice university houston texas"
+#' to <- "1001 Bissonnet St, Houston, TX 77005"
+#' trek_df <- trek(from, to)
+#' qmplot(lon, lat, data = trek_df, geom = "path", maptype = "terrain",
+#'   color = I("red"), size = I(2), alpha = I(.5)
+#' )
+#'
+#'
 #' from <- "houson, texas"; to <- "waco, texas"
-#' trek_df <- trek(from, to, structure = "route", alternatives = TRUE)
-#'
-#' qmplot(lon, lat, data = trek_df, geom = "path")
-#'
+#' trek_df <- trek(from, to, alternatives = TRUE)
 #' qmplot(lon, lat, data = trek_df, geom = "path",
-#'   color = route, size = I(2)
+#'   color = route, size = I(2), alpha = I(.5)
 #' )
 #'
 #'
 #' from <- "los angeles, california"; to <- "new york, new york"
-#' trek_df <- trek(from, to, structure = "route", alternatives = TRUE)
+#' trek_df <- trek(from, to, alternatives = TRUE)
 #' qmplot(lon, lat, data = trek_df, geom = "path",
-#'   color = route, size = I(2), maptype = "terrain"
+#'   color = route, size = I(2), maptype = "terrain",
+#'   zoom = 5
 #' ) + facet_wrap(~ route, ncol = 1)
 #'
 #'
@@ -52,7 +58,7 @@
 #' }
 #'
 trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
-  structure = c("legs","route"), output = c("simple","all"), alternatives = FALSE,
+  output = c("simple","all"), alternatives = FALSE,
   messaging = FALSE, sensor = FALSE, override_limit = FALSE)
 {
 
@@ -62,7 +68,6 @@ trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
   if(is.numeric(to) && length(to) == 2) to <- revgeocode(to)
   stopifnot(is.character(to))
   mode <- match.arg(mode)
-  structure <- match.arg(structure)
   output <- match.arg(output)
   stopifnot(is.logical(alternatives))
   stopifnot(is.logical(messaging))

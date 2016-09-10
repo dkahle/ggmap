@@ -5,9 +5,8 @@
 \title{Grab a trek from Google}
 \usage{
 trek(from, to, mode = c("driving", "walking", "bicycling", "transit"),
-  structure = c("legs", "route"), output = c("simple", "all"),
-  alternatives = FALSE, messaging = FALSE, sensor = FALSE,
-  override_limit = FALSE)
+  output = c("simple", "all"), alternatives = FALSE, messaging = FALSE,
+  sensor = FALSE, override_limit = FALSE)
 }
 \arguments{
 \item{from}{name of origin addresses in a data frame (vector
@@ -17,8 +16,6 @@ accepted)}
 accepted)}
 
 \item{mode}{driving, bicycling, walking, or transit}
-
-\item{structure}{structure of output, see examples}
 
 \item{output}{amount of output}
 
@@ -37,28 +34,35 @@ a data frame (output="simple") or all of the geocoded
   information (output="all")
 }
 \description{
-Grab a trek (curvy route) from Google. Note that in most cases by
-using this function you are agreeing to the Google Maps API Terms
-of Service at https://developers.google.com/maps/terms.
+Grab a trek from Google that will plot over the roadways. Note
+that in most cases by using this function you are agreeing to the
+Google Maps API Terms of Service at
+https://developers.google.com/maps/terms.
 }
 \examples{
 
 \dontrun{ # to cut down on check time
 
+from <- "rice university houston texas"
+to <- "1001 Bissonnet St, Houston, TX 77005"
+trek_df <- trek(from, to)
+qmplot(lon, lat, data = trek_df, geom = "path", maptype = "terrain",
+  color = I("red"), size = I(2), alpha = I(.5)
+)
+
+
 from <- "houson, texas"; to <- "waco, texas"
-trek_df <- trek(from, to, structure = "route", alternatives = TRUE)
-
-qmplot(lon, lat, data = trek_df, geom = "path")
-
+trek_df <- trek(from, to, alternatives = TRUE)
 qmplot(lon, lat, data = trek_df, geom = "path",
-  color = route, size = I(2)
+  color = route, size = I(2), alpha = I(.5)
 )
 
 
 from <- "los angeles, california"; to <- "new york, new york"
-trek_df <- trek(from, to, structure = "route", alternatives = TRUE)
+trek_df <- trek(from, to, alternatives = TRUE)
 qmplot(lon, lat, data = trek_df, geom = "path",
-  color = route, size = I(2), maptype = "terrain"
+  color = route, size = I(2), maptype = "terrain",
+  zoom = 5
 ) + facet_wrap(~ route, ncol = 1)
 
 
