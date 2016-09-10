@@ -7,6 +7,7 @@ NEW FEATURES
 * geocode() now has a force option to override cached values. (#69, thanks
 @samfield)
 * mutate_geocode() now works for tibbles. (#106, thanks @voxnonecho)
+* trek() now allows users to get routes from google that aren't straight lines on plots. (#99, thanks stackoverflow user @akhmed) this required importing bitops.
 
 
 CHANGES

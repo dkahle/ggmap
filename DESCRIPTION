@@ -24,7 +24,8 @@ Imports:
     geosphere,
     digest,
     scales,
-    dplyr
+    dplyr,
+    bitops
 Suggests:
     MASS,
     stringr,

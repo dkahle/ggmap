@@ -22,8 +22,8 @@
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso
 #' \url{https://developers.google.com/maps/documentation/directions/},
-#' \code{\link{legs2route}}, \code{\link{routeQueryCheck}},
-#' \code{\link{geom_leg}}
+#' \code{\link{trek}}, \code{\link{legs2route}},
+#' \code{\link{routeQueryCheck}}, \code{\link{geom_leg}}
 #' @export
 #' @examples
 #'
@@ -45,7 +45,6 @@
 #'   )
 #'
 #' routeQueryCheck()
-#'
 #'
 #'
 #'
@@ -201,6 +200,19 @@ check_route_query_limit <- function(url_string, elems, override, messaging){
 
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #' Check Google Maps Directions API query limit
@@ -427,6 +439,12 @@ legs2route <- function(legsdf){
   if(length(unique(legsdf$route)) == 1) out <- out[,-which(names(out) == "route")]
   out
 }
+
+
+
+
+
+
 
 
 
