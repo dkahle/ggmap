@@ -35,6 +35,8 @@ mutate_geocode(df, address)
 
 library(dplyr)
 df \%>\% mutate_geocode(address)
+
+tibble::tbl_df(df) \%>\% mutate_geocode(address)
 }
 
 }
