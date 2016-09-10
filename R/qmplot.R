@@ -91,6 +91,10 @@
 #'   yend = lat + delta_lat, data = seals,
 #'   geom = "segment", zoom = 6)
 #'
+#' qmplot(long, lat, xend = long + delta_long, maptype = "terrain",
+#'   yend = lat + delta_lat, data = seals,
+#'   geom = "segment", zoom = 6)
+#'
 #'
 #' qmplot(lon, lat, data = wind, size = I(.5), alpha = I(.5)) +
 #'   ggtitle("NOAA Wind Report Sites")
@@ -196,7 +200,7 @@
 #'
 #' # linear regression
 #' lin <- krige(log(zinc) ~ 1, meuse, meuse.grid, degree = 1)
-#' mg$lin <- exp(slot(idw, "lin")$var1.pred)
+#' mg$lin <- exp(slot(lin, "data")$var1.pred)
 #'
 #' qmplot(lon, lat, data = mg, shape = I(15), color = lin,
 #'   zoom = 14, legend = "topleft", alpha = I(.75), darken = .4

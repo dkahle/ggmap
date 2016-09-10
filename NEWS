@@ -3,6 +3,7 @@ ggmap 2.6.2
 
 NEW FEATURES
 
+* stamen now provides its terrain tileset for the whole globe.
 * geocode() now has a force option to override cached values. (#69, thanks
 @samfield)
 * mutate_geocode() now works for tibbles. (#106, thanks @voxnonecho)
