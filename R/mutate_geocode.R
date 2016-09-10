@@ -25,12 +25,14 @@
 #'
 #' library(dplyr)
 #' df %>% mutate_geocode(address)
+#'
+#' tibble::tbl_df(df) %>% mutate_geocode(address)
 #' }
 #'
 mutate_geocode <- function(data, location, ...){
-  locs <- data[, deparse(substitute(location)), drop = TRUE]
+  locs <- data[[deparse(substitute(location))]]
   gcdf <- geocode(locs, ...)
-  data.frame(data, gcdf)
+  dplyr::bind_cols(data, gcdf)
 }
 
 

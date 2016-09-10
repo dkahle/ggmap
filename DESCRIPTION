@@ -1,5 +1,5 @@
 Package: ggmap
-Version: 2.6.1
+Version: 2.6.2
 Title: Spatial Visualization with ggplot2
 Description: A collection of functions to visualize spatial data and models
     on top of static maps from various online sources (e.g Google Maps and Stamen
@@ -23,12 +23,13 @@ Imports:
     jpeg,
     geosphere,
     digest,
-    scales
+    scales,
+    dplyr
 Suggests:
     MASS,
     stringr,
     hexbin,
-    dplyr
+    tibble
 License: GPL-2
 LazyData: true
 RoxygenNote: 5.0.1

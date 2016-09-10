@@ -1,3 +1,25 @@
+ggmap 2.6.2
+-------------------------------------------------------------------------
+
+NEW FEATURES
+
+* geocode() now has a force option to override cached values. (#69, thanks
+@samfield)
+* mutate_geocode() now works for tibbles. (#106, thanks @voxnonecho)
+
+
+CHANGES
+
+* dplyr is now listed as a dependency (for bind_cols in mutate_geocode).
+
+
+FIXES
+
+* get_stamenmap() now works again for terrain and terrain-background images (#102, thanks @UrbanDemog).
+* a bug in parsing the base_layer argument is now fixed. (thanks to @restonslacker)
+* gglocator now properly adapts to scaling. (minor update, thanks to @Nikolai-Hlubek)
+
+
 ggmap 2.6.1
 -------------------------------------------------------------------------
 
