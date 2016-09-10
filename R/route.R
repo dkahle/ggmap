@@ -97,6 +97,13 @@ route <- function(from, to, mode = c("driving","walking","bicycling", "transit")
   if(output == "all") return(tree)
 
 
+  # return NA if zero results are found
+  if (tree$status == "ZERO_RESULTS") {
+    warning("No route was returned from Google.")
+    return(NA)
+  }
+
+
   # message user
   message(paste0("Information from URL : ", url_string))
 
