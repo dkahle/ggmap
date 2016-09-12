@@ -21,15 +21,15 @@
 #'
 #' \dontrun{ # Server response can be slow; this cuts down check time.
 #'
-#' ( gc <- as.numeric(geocode('Baylor University')) )
+#' ( gc <- as.numeric(geocode("the white house")) )
 #' revgeocode(gc)
-#' revgeocode(gc, output = 'more')
-#' revgeocode(gc, output = 'all')
+#' revgeocode(gc, output = "more")
+#' revgeocode(gc, output = "all")
 #' geocodeQueryCheck()
 #'
 #' }
 #'
-revgeocode <- function(location, output = c('address','more','all'),
+revgeocode <- function(location, output = c("address","more","all"),
   messaging = FALSE, sensor = FALSE, override_limit = FALSE
 ){
 
@@ -41,10 +41,10 @@ revgeocode <- function(location, output = c('address','more','all'),
 
 
   # format url
-  loc4url <- paste(rev(location), collapse = ',')
+  latlng <- paste(rev(location), collapse = ',')
   if(sensor){ sensor <- 'true' } else { sensor <- 'false' }
-  sensor4url <- paste('&sensor=', sensor, sep = '') # includes &
-  url_string <- paste("http://maps.googleapis.com/maps/api/geocode/json?latlng=", loc4url, sensor4url, sep = "")
+  posturl <- paste(fmteq(latlng), fmteq(sensor), sep = "&")
+  url_string <- paste0("https://maps.googleapis.com/maps/api/geocode/json?", posturl)
 
   if (has_client() && has_signature()) {
     client <- goog_client()
@@ -56,7 +56,7 @@ revgeocode <- function(location, output = c('address','more','all'),
   }
 
 
-  url_string <- URLencode(url_string)
+  url_string <- enc2utf8( URLencode(url_string) )
 
   # check/update google query limit
   check <- checkGeocodeQueryLimit(url_string, elems = 1, override = override_limit, messaging = messaging)
@@ -78,7 +78,7 @@ revgeocode <- function(location, output = c('address','more','all'),
   connect <- url(url_string)
   rgc <- fromJSON(paste(readLines(connect), collapse = ''))
   close(connect)
-  if(output == 'all') return(rgc)
+  if(output == "all") return(rgc)
 
   # did geocode fail?
   if(rgc$status != 'OK'){
@@ -92,21 +92,21 @@ revgeocode <- function(location, output = c('address','more','all'),
 
   # more than one location found?
   if(length(rgc$results) > 1 && messaging){
-    message(paste('more than one location found for "', location,
-      '", reverse geocoding first...\n', sep = ''))
+    message("more than one location found for \"", location, "\", reverse geocoding first...\n")
   }
 
   # format
   rgc <- rgc$results[[1]]
   if(output == 'address') return(rgc$formatted_address)
 
-  with(rgc,{rgcdf <<- data.frame(
-    address = formatted_address
-  )})
+  with(rgc, {
+    rgcdf <<- data.frame(address = formatted_address)
+  })
+
   for(k in seq_along(rgc$address_components)){
   	rgcdf <- cbind(rgcdf, rgc$address_components[[k]]$long_name)
   }
-  names(rgcdf) <- c('address', sapply(rgc$address_components, function(l) l$types[1]))
+  names(rgcdf) <- c("address", sapply(rgc$address_components, function(l) l$types[1]))
 
   # return 'more' output
   rgcdf

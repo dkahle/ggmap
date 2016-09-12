@@ -33,10 +33,10 @@ https://developers.google.com/maps/terms.
 
 \dontrun{ # Server response can be slow; this cuts down check time.
 
-( gc <- as.numeric(geocode('Baylor University')) )
+( gc <- as.numeric(geocode("the white house")) )
 revgeocode(gc)
-revgeocode(gc, output = 'more')
-revgeocode(gc, output = 'all')
+revgeocode(gc, output = "more")
+revgeocode(gc, output = "all")
 geocodeQueryCheck()
 
 }

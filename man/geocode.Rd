@@ -59,21 +59,32 @@ Note that the Google Maps API limits to 2500 queries a day. Use
 
 \dontrun{ # Server response can be slow; this cuts down check time.
 
-# types of input
+##### basic usage
+########################################
+
 geocode("houston texas")
 geocode("1600 pennsylvania avenue, washington dc")
 geocode("the white house")
 geocode(c("the white house", "washington dc"))
+# see also mutate_geocode()
 
 
-register_google(key = "your code here")
-geocode("houston texas")
+
+##### types of output
+########################################
 
 # types of output
 geocode("houston texas", output = "latlona")
 geocode("houston texas", output = "more")
 geocode("Baylor University", output = "more")
 str(geocode("Baylor University", output = "all"))
+
+
+##### interfacing with the google geocoding api
+########################################
+
+register_google(key = "your code here")
+geocode("houston texas")
 
 
 # see how many requests we have left with google
@@ -83,10 +94,13 @@ geocode("houston texas", force = TRUE)
 
 
 
-# known issues :
-# (1) source = "dsk" can't reliably geocode colloquial place names
+##### known issues
+########################################
+# sources often have a hard time reliably geocoding colloquial place names
 geocode("city hall houston")
+geocode("city hall houston texas")
 geocode("rice university")
+geocode("rice university houston texas")
 
 
 }

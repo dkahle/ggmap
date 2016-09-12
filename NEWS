@@ -4,6 +4,7 @@ ggmap 2.6.2
 NEW FEATURES
 
 * stamen now provides its terrain tileset for the whole globe.
+* geocode() and revgeocode() can now use google credentials stored in options("ggmap") to better interface with those components of the google api. (#29, #92, #83)
 * geocode() now has a force option to override cached values. (#69, thanks
 @samfield)
 * mutate_geocode() now works for tibbles. (#106, thanks @voxnonecho)
@@ -20,6 +21,7 @@ FIXES
 * get_stamenmap() now works again for terrain and terrain-background images (#102, thanks @UrbanDemog).
 * a bug in parsing the base_layer argument is now fixed. (thanks to @restonslacker)
 * gglocator now properly adapts to scaling. (minor update, thanks to @Nikolai-Hlubek)
+* geocode() and revgeocode() now use enc2utf8() to better handle foreign character sets. (#98, #89, thanks dapper2dan)
 
 
 ggmap 2.6.1
