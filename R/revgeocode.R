@@ -12,18 +12,10 @@
 #'   device with a location sensor
 #' @param override_limit override the current query count
 #'   (.GoogleGeocodeQueryCount)
-#' @param client client ID for business users, see
-#'   https://developers.google.com/maps/documentation/business/webservices/auth
-#'
-#' @param signature signature for business users, see
-#'   https://developers.google.com/maps/documentation/business/webservices/auth
-#'
 #' @return depends (at least an address)
-#' @details note that the google maps api limits to 2500 queries a
-#'   day.
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso
-#'   \url{http://code.google.com/apis/maps/documentation/geocoding/}
+#' \url{http://code.google.com/apis/maps/documentation/geocoding/}
 #' @export
 #' @examples
 #'
@@ -38,8 +30,7 @@
 #' }
 #'
 revgeocode <- function(location, output = c('address','more','all'),
-  messaging = FALSE, sensor = FALSE, override_limit = FALSE,
-  client = "", signature = ""
+  messaging = FALSE, sensor = FALSE, override_limit = FALSE
 ){
 
   # check parameters
@@ -47,45 +38,41 @@ revgeocode <- function(location, output = c('address','more','all'),
   output <- match.arg(output)
   stopifnot(is.logical(messaging))
   stopifnot(is.logical(sensor))
-  if(client != "" && signature != ""){
-  	if(substr(client, 1, 4) != 'gme-') client <- paste("gme-", client, sep = "")
-  	userType <- "business"
-  } else if(client == "" && signature != ""){
-    stop("if signature argument is specified, client must be as well.", call. = FALSE)
-  } else if(client != "" && signature == ""){
-    stop("if client argument is specified, signature must be as well.", call. = FALSE)
-  } else {
-    userType <- "free"
-  }
+
 
   # format url
   loc4url <- paste(rev(location), collapse = ',')
   if(sensor){ sensor <- 'true' } else { sensor <- 'false' }
   sensor4url <- paste('&sensor=', sensor, sep = '') # includes &
-  client4url <- paste('&client=', client, sep = '')
-  signature4url <- paste('&signature=', signature, sep = '')
-  url_string <- paste("http://maps.googleapis.com/maps/api/geocode/json?latlng=",
-    loc4url, sensor4url, sep = "")
-  if(userType == "business"){
-    url_string <- paste(url_string, client4url, signature4url, sep = "")
+  url_string <- paste("http://maps.googleapis.com/maps/api/geocode/json?latlng=", loc4url, sensor4url, sep = "")
+
+  if (has_client() && has_signature()) {
+    client <- goog_client()
+    signature <- goog_signature()
+    url_string <- paste(url_string, fmteq(client), fmteq(signature), sep = "&")
+  } else if (has_key()) {
+    key <- goog_key()
+    url_string <- paste(url_string, fmteq(key), sep = "&")
   }
+
+
   url_string <- URLencode(url_string)
 
   # check/update google query limit
-  check <- checkGeocodeQueryLimit(url_string, elems = 1,
-    override = override_limit, messaging = messaging, userType = userType)
-    if(check == "stop"){
-      if(output == "address"){
-        return(NA)
-      } else if(output == "more") {
-        return(c(address = NA, street_number = NA, route = NA,
-          locality = NA, administrative_area_level_2 = NA,
-          administrative_area_level_1 = NA, country = NA, postal_code = NA)
-        )
-      } else {
-        return(NA)
-      }
+  check <- checkGeocodeQueryLimit(url_string, elems = 1, override = override_limit, messaging = messaging)
+
+  if(check == "stop"){
+    if(output == "address"){
+      return(NA)
+    } else if(output == "more") {
+      return(c(address = NA, street_number = NA, route = NA,
+        locality = NA, administrative_area_level_2 = NA,
+        administrative_area_level_1 = NA, country = NA, postal_code = NA)
+      )
+    } else {
+      return(NA)
     }
+  }
 
   # geocode
   connect <- url(url_string)

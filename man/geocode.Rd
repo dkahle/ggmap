@@ -8,9 +8,9 @@
 geocode(location, output = c("latlon", "latlona", "more", "all"),
   source = c("google", "dsk"), messaging = FALSE, force = ifelse(source ==
   "dsk", FALSE, TRUE), sensor = FALSE, override_limit = FALSE,
-  client = "", signature = "", nameType = c("long", "short"), data)
+  nameType = c("long", "short"), inject = "")
 
-geocodeQueryCheck(userType = "free")
+geocodeQueryCheck()
 }
 \arguments{
 \item{location}{a character vector of street addresses or place
@@ -33,19 +33,11 @@ device with a location sensor}
 \item{override_limit}{override the current query count
 (.GoogleGeocodeQueryCount)}
 
-\item{client}{client ID for business users, see
-\url{https://developers.google.com/maps/documentation/business/webservices/auth}}
-
-\item{signature}{signature for business users, see
-\url{https://developers.google.com/maps/documentation/business/webservices/auth}}
-
 \item{nameType}{in some cases, Google returns both a long name
 and a short name. this parameter allows the user to specify
 which to grab.}
 
-\item{data}{deprecated in 2.5, use \code{\link{mutate_geocode}}}
-
-\item{userType}{User type, "free" or "business"}
+\item{inject}{character string to add to the url}
 }
 \value{
 If \code{output} is "latlon", "latlona", or "more", a
@@ -60,7 +52,7 @@ Maps API Terms of Service at
 \url{https://developers.google.com/maps/terms}.
 }
 \details{
-Note that the Google Maps api limits to 2500 queries a day. Use
+Note that the Google Maps API limits to 2500 queries a day. Use
 \code{geocodeQueryCheck} to determine how many queries remain.
 }
 \examples{
@@ -69,13 +61,13 @@ Note that the Google Maps api limits to 2500 queries a day. Use
 
 # types of input
 geocode("houston texas")
-geocode("baylor university") # see known issues below
 geocode("1600 pennsylvania avenue, washington dc")
 geocode("the white house")
-geocode(c("baylor university", "salvation army waco"))
+geocode(c("the white house", "washington dc"))
 
 
-
+register_google(key = "your code here")
+geocode("houston texas")
 
 # types of output
 geocode("houston texas", output = "latlona")
@@ -105,6 +97,7 @@ David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
 \code{\link{mutate_geocode}},
-  \url{http://code.google.com/apis/maps/documentation/geocoding/}
+  \url{http://code.google.com/apis/maps/documentation/geocoding/},
+  \url{https://developers.google.com/maps/documentation/geocoding/usage-limits}
 }
 

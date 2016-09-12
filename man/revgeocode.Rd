@@ -5,8 +5,7 @@
 \title{Reverse geocode}
 \usage{
 revgeocode(location, output = c("address", "more", "all"),
-  messaging = FALSE, sensor = FALSE, override_limit = FALSE,
-  client = "", signature = "")
+  messaging = FALSE, sensor = FALSE, override_limit = FALSE)
 }
 \arguments{
 \item{location}{a location in longitude/latitude format}
@@ -20,12 +19,6 @@ device with a location sensor}
 
 \item{override_limit}{override the current query count
 (.GoogleGeocodeQueryCount)}
-
-\item{client}{client ID for business users, see
-https://developers.google.com/maps/documentation/business/webservices/auth}
-
-\item{signature}{signature for business users, see
-https://developers.google.com/maps/documentation/business/webservices/auth}
 }
 \value{
 depends (at least an address)
@@ -35,10 +28,6 @@ reverse geocodes a longitude/latitude location using Google Maps.
 Note that in most cases by using this function you are agreeing
 to the Google Maps API Terms of Service at
 https://developers.google.com/maps/terms.
-}
-\details{
-note that the google maps api limits to 2500 queries a
-  day.
 }
 \examples{
 
