@@ -63,7 +63,7 @@ register_google <- function (key, account_type, client, signature, second_limit,
   options(ggmap = options)
 
   # return
-  NULL
+  invisible(NULL)
 }
 
 
