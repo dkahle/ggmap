@@ -84,6 +84,8 @@ goog_key <- function () {
 #' @export
 has_key <- function () {
 
+  if(is.null(getOption("ggmap"))) return(FALSE)
+
   !is.na(goog_key())
 
 }
@@ -121,6 +123,8 @@ goog_client <- function () {
 #' @export
 has_client <- function () {
 
+  if(is.null(getOption("ggmap"))) return(FALSE)
+
   !is.na(goog_client())
 
 }
@@ -143,6 +147,8 @@ goog_signature <- function () {
 #' @rdname register_google
 #' @export
 has_signature <- function () {
+
+  if(is.null(getOption("ggmap"))) return(FALSE)
 
   !is.na(goog_signature())
 
