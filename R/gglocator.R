@@ -50,7 +50,7 @@ gglocator <- function(n = 1, message = FALSE,
 
   # find the correct viewport for the npc coordinates
   x <- grid.ls(print = message)$name
-  x <- x[grep("panel.", x)][1]
+  x <- x[grep("layout", x)][1]
   seekViewport(x)
 
   # get the position relative to that viewport

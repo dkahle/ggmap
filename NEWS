@@ -15,7 +15,7 @@ NEW FEATURES
 CHANGES
 
 * dplyr is now listed as a dependency (for bind_cols in mutate_geocode).
-* get_stamenmap() now issues a warning if a location parameter is passed (#55, thanks cguwilliams).
+* get_stamenmap() now issues a warning if a location parameter is passed (#55, thanks @cguwilliams).
 
 
 FIXES
@@ -25,6 +25,7 @@ FIXES
 * gglocator now properly adapts to scaling. (minor update, thanks to @Nikolai-Hlubek)
 * google functions now use enc2utf8() to better handle foreign character sets. (#98, #89, thanks dapper2dan)
 * google functions now better handle special characters. (#104, thanks casa-henrym)
+* gglocator now properly works again. (#87, thanks @salah31416)
 
 
 ggmap 2.6.1
