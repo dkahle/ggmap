@@ -56,7 +56,7 @@ revgeocode <- function(location, output = c("address","more","all"),
   }
 
 
-  url_string <- enc2utf8( URLencode(url_string) )
+  url_string <- URLencode( enc2utf8(url_string) )
 
   # check/update google query limit
   check <- checkGeocodeQueryLimit(url_string, elems = 1, override = override_limit, messaging = messaging)

@@ -48,7 +48,6 @@
 #' # see also mutate_geocode()
 #'
 #'
-#'
 #' ##### types of output
 #' ########################################
 #'
@@ -159,7 +158,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   url_string <- paste0(url_string, inject)
 
   # encode
-  url_string <- enc2utf8( URLencode(url_string) )
+  url_string <- URLencode( enc2utf8(url_string) )
   url_hash   <- digest::digest(url_string)
 
 
