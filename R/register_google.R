@@ -162,6 +162,9 @@ has_signature <- function () {
 #' @export
 goog_second_limit <- function () {
 
+  # set to 50 if no key present (ggmap not loaded)
+  if(!has_key()) return(50)
+
   getOption("ggmap")$google$second_limit
 
 }
@@ -171,6 +174,9 @@ goog_second_limit <- function () {
 #' @rdname register_google
 #' @export
 goog_day_limit <- function () {
+
+  # set to 2500 if no key present (ggmap not loaded)
+  if(!has_key()) return(2500)
 
   getOption("ggmap")$google$day_limit
 
