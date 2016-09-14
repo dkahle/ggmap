@@ -12,18 +12,19 @@
 #' @param structure structure of output, see examples
 #' @param mode driving, bicycling, walking, or transit
 #' @param alternatives should more than one route be provided?
+#' @param units "metric"
 #' @param messaging turn messaging on/off
-#' @param sensor whether or not the geocoding request comes from a
-#'   device with a location sensor
 #' @param override_limit override the current query count
 #'   (.GoogleRouteQueryCount)
+#' @param ... ...
 #' @return a data frame (output="simple") or all of the geocoded
 #'   information (output="all")
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso
 #' \url{https://developers.google.com/maps/documentation/directions/},
 #' \code{\link{trek}}, \code{\link{legs2route}},
-#' \code{\link{routeQueryCheck}}, \code{\link{geom_leg}}
+#' \code{\link{routeQueryCheck}}, \code{\link{geom_leg}},
+#' \code{\link{register_google}}
 #' @export
 #' @examples
 #'
@@ -32,10 +33,17 @@
 #' from <- "houson, texas"
 #' to <- "waco, texas"
 #' route_df <- route(from, to, structure = "route")
+#' trek_df  <-  trek(from, to, structure = "route")
 #' qmap("college station, texas", zoom = 8) +
 #'   geom_path(
-#'     aes(x = lon, y = lat),  colour = "red", size = 1.5,
+#'     aes(x = lon, y = lat),  colour = "red",
+#'     size = 1.5, alpha = .5,
 #'     data = route_df, lineend = "round"
+#'   ) +
+#'   geom_path(
+#'     aes(x = lon, y = lat),  colour = "blue",
+#'     size = 1.5, alpha = .5,
+#'     data = trek_df, lineend = "round"
 #'   )
 #'
 #' qmap("college station, texas", zoom = 6) +
@@ -52,7 +60,7 @@
 #'
 route <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
   structure = c("legs","route"), output = c("simple","all"), alternatives = FALSE,
-  messaging = FALSE, sensor = FALSE, override_limit = FALSE)
+  units = "metric", messaging = FALSE, override_limit = FALSE, ...)
 {
 
   # check parameters
@@ -65,26 +73,29 @@ route <- function(from, to, mode = c("driving","walking","bicycling", "transit")
   output <- match.arg(output)
   stopifnot(is.logical(alternatives))
   stopifnot(is.logical(messaging))
-  stopifnot(is.logical(sensor))
 
   # format url
-  origin <- from
-  origin <- gsub(" ", "+", origin)
-  origin <- paste("origin=", origin, sep = "")
-  destination <- to
-  destination <- gsub(" ", "+", destination)
-  destination <- paste("destination=", destination, sep = "")
-  mode4url <- paste("mode=", mode, sep = "")
-  unit4url <- paste("units=", "metric", sep = "")
-  alts4url <- paste("alternatives=", tolower(as.character(alternatives)), sep = "")
-  sensor4url <- paste("sensor=", tolower(as.character(sensor)), sep = "")
-  posturl <- paste(origin, destination, mode4url, unit4url, alts4url, sensor4url, sep = "&")
-  url_string <- paste("http://maps.googleapis.com/maps/api/directions/json?", posturl, sep = "")
-  url_string <- URLencode(url_string)
+  origin <- URLencode(from, reserved = TRUE)
+  destination <- URLencode(to, reserved = TRUE)
+  posturl <- paste(fmteq(origin), fmteq(destination), fmteq(mode), fmteq(units),
+    fmteq(alternatives, tolower), sep = "&"
+  )
+
+  # add google account stuff
+  if (has_client() && has_signature()) {
+    client <- goog_client()
+    signature <- goog_signature()
+    posturl <- paste(posturl, fmteq(client), fmteq(signature), sep = "&")
+  } else if (has_key()) {
+    key <- goog_key()
+    posturl <- paste(posturl, fmteq(key), sep = "&")
+  }
+
+  url_string <- paste0("https://maps.googleapis.com/maps/api/directions/json?", posturl)
+  url_string <- URLencode( enc2utf8(url_string) )
 
   # check/update google query limit
-  check_route_query_limit(url_string, elems = 1,
-    override = override_limit, messaging = messaging)
+  check_route_query_limit(url_string, elems = 1, override = override_limit, messaging = messaging)
 
 
   # distance lookup
@@ -105,7 +116,7 @@ route <- function(from, to, mode = c("driving","walking","bicycling", "transit")
 
 
   # message user
-  message(paste0("Information from URL : ", url_string))
+  message("Source : ", url_string)
 
 
   # extract output from tree and format
@@ -130,8 +141,10 @@ route <- function(from, to, mode = c("driving","walking","bicycling", "transit")
   })
 
   # label routes
-  stepsPerRoute <-
-    sapply(tree$routes, function(route) length(route$legs[[1]]$steps))
+  stepsPerRoute <- vapply(tree$routes,
+    function(route) length(route$legs[[1]]$steps),
+    numeric(1)
+  )
 
   nRoutes <- length(stepsPerRoute)
   routeLabel <- NULL
@@ -163,37 +176,31 @@ check_route_query_limit <- function(url_string, elems, override, messaging){
 
   if(exists(".GoogleRouteQueryCount", .GlobalEnv)){
 
-    .GoogleRouteQueryCount <<-
-      subset(.GoogleRouteQueryCount, time >= Sys.time() - 24*60*60)
+    .GoogleRouteQueryCount <<- dplyr::filter(.GoogleRouteQueryCount, time >= Sys.time() - 24*60*60)
 
-    # 2500 per 24 hours
-    if(sum(.GoogleRouteQueryCount$elements) + elems > 2500){
-      message("query max exceeded, see ?route.  current total = ",
-        sum(.GoogleRouteQueryCount$elements))
-      if(!override) stop("google query limit exceeded.", call. = FALSE)
+    # limit per 24 hours
+    dayQueriesUsed <- sum(.GoogleRouteQueryCount$elements)
+    if(dayQueriesUsed + elems > goog_day_limit()){
+      message("query max exceeded, see ?route  current total = ", dayQueriesUsed)
+      if(!override) return("stop")
     }
 
-    # 100 per 10 seconds
-    if(with(.GoogleRouteQueryCount,
-      sum(elements[time >= Sys.time() - 10]) + elems > 100
-    )){
-      if(messaging) message("waiting 10 seconds for another 100 queries...", appendLF=F)
-      Sys.sleep(10) # can do better
-      if(messaging) message(" done")
+    # limit per second
+    secondQueriesUsed <- with(.GoogleRouteQueryCount, sum(elements[time >= Sys.time() - 1]))
+    if(secondQueriesUsed + elems > goog_second_limit()){
+      message(".", appendLF = FALSE)
+      Sys.sleep(.2) # can do better
     }
+
 
     # append to .GoogleRouteQueryCount
     if(length(grep("transit", url_string)) == 1){ # a transit request
-      tmp <- data.frame(time = Sys.time(),  url = url_string,
-          elements = elems, stringsAsFactors = FALSE)
-      tmp <- rbind(tmp, tmp, tmp, tmp)
-      .GoogleRouteQueryCount <<- rbind(.GoogleRouteQueryCount,
-        tmp
-      )
+      tmp <- data.frame(time = Sys.time(),  url = url_string, elements = elems, stringsAsFactors = FALSE)
+      tmp <- bind_rows(tmp, tmp, tmp, tmp)
+      .GoogleRouteQueryCount <<- rbind(.GoogleRouteQueryCount, tmp)
     } else {
       .GoogleRouteQueryCount <<- rbind(.GoogleRouteQueryCount,
-        data.frame(time = Sys.time(),  url = url_string,
-          elements = elems, stringsAsFactors = FALSE)
+        data.frame(time = Sys.time(),  url = url_string, elements = elems, stringsAsFactors = FALSE)
       )
     }
 
@@ -201,9 +208,9 @@ check_route_query_limit <- function(url_string, elems, override, messaging){
 
   } else {
 
-    .GoogleRouteQueryCount <<-
-      data.frame(time = Sys.time(),  url = url_string,
-        elements = elems, stringsAsFactors = FALSE)
+    .GoogleRouteQueryCount <<- data.frame(
+      time = Sys.time(),  url = url_string, elements = elems, stringsAsFactors = FALSE
+    )
 
   }
 }
@@ -235,17 +242,25 @@ check_route_query_limit <- function(url_string, elems, override, messaging){
 #' routeQueryCheck()
 #' }
 routeQueryCheck <- function(){
-  .GoogleRouteQueryCount <- NULL; rm(.GoogleRouteQueryCount); # R CMD check trick
+
+  .GoogleRouteQueryCount <- NULL; rm(.GoogleRouteQueryCount);
+
   if(exists(".GoogleRouteQueryCount", .GlobalEnv)){
-  	remaining <- 2500-sum(
-  	  subset(.GoogleRouteQueryCount, time >= Sys.time() - 24*60*60)$elements
-  	  )
-    message(remaining, " route queries remaining.")
+
+  	remaining <- goog_day_limit() - sum(
+  	  dplyr::filter(.GoogleRouteQueryCount, time >= Sys.time() - 24*60*60)$elements
+  	)
+    message(remaining, " routing queries remaining.")
+
   } else {
-  	remaining <- 2500
-    message(remaining, " route queries remaining.")
+
+  	remaining <- goog_day_limit()
+    message(remaining, " routing queries remaining.")
+
   }
+
   invisible(remaining)
+
 }
 
 

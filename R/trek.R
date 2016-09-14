@@ -12,11 +12,11 @@
 #' @param output amount of output
 #' @param mode driving, bicycling, walking, or transit
 #' @param alternatives should more than one route be provided?
+#' @param units "metric"
 #' @param messaging turn messaging on/off
-#' @param sensor whether or not the geocoding request comes from a
-#'   device with a location sensor
 #' @param override_limit override the current query count
 #'   (.GoogleRouteQueryCount)
+#' @param ... ...
 #' @return a data frame (output="simple") or all of the geocoded
 #'   information (output="all")
 #' @author David Kahle \email{david.kahle@@gmail.com} with the key
@@ -25,10 +25,29 @@
 #' \url{https://developers.google.com/maps/documentation/directions/},
 #' \url{http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads},
 #' \code{\link{route}}, \code{\link{routeQueryCheck}}
+#' \code{\link{register_google}}
 #' @export
 #' @examples
 #'
 #' \dontrun{ # to cut down on check time
+#'
+#' from <- "houson, texas"
+#' to <- "waco, texas"
+#' route_df <- route(from, to, structure = "route")
+#' trek_df <- trek(from, to, structure = "route")
+#' qmap("college station, texas", zoom = 8) +
+#'   geom_path(
+#'     aes(x = lon, y = lat),  colour = "red",
+#'     size = 1.5, alpha = .5,
+#'     data = route_df, lineend = "round"
+#'   ) +
+#'   geom_path(
+#'     aes(x = lon, y = lat),  colour = "blue",
+#'     size = 1.5, alpha = .5,
+#'     data = trek_df, lineend = "round"
+#'   )
+#'
+#'
 #'
 #' from <- "rice university houston texas"
 #' to <- "1001 Bissonnet St, Houston, TX 77005"
@@ -58,8 +77,8 @@
 #' }
 #'
 trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
-  output = c("simple","all"), alternatives = FALSE,
-  messaging = FALSE, sensor = FALSE, override_limit = FALSE)
+  output = c("simple","all"), alternatives = FALSE, units = "metric",
+  messaging = FALSE, override_limit = FALSE, ...)
 {
 
   # check parameters
@@ -71,22 +90,28 @@ trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
   output <- match.arg(output)
   stopifnot(is.logical(alternatives))
   stopifnot(is.logical(messaging))
-  stopifnot(is.logical(sensor))
+
 
   # format url
-  origin <- from
-  origin <- gsub(" ", "+", origin)
-  origin <- paste("origin=", origin, sep = "")
-  destination <- to
-  destination <- gsub(" ", "+", destination)
-  destination <- paste("destination=", destination, sep = "")
-  mode4url <- paste("mode=", mode, sep = "")
-  unit4url <- paste("units=", "metric", sep = "")
-  alts4url <- paste("alternatives=", tolower(as.character(alternatives)), sep = "")
-  sensor4url <- paste("sensor=", tolower(as.character(sensor)), sep = "")
-  posturl <- paste(origin, destination, mode4url, unit4url, alts4url, sensor4url, sep = "&")
-  url_string <- paste("http://maps.googleapis.com/maps/api/directions/json?", posturl, sep = "")
-  url_string <- URLencode(url_string)
+  origin <- URLencode(from, reserved = TRUE)
+  destination <- URLencode(to, reserved = TRUE)
+  posturl <- paste(fmteq(origin), fmteq(destination), fmteq(mode), fmteq(units),
+    fmteq(alternatives, tolower), sep = "&"
+  )
+
+  # add google account stuff
+  if (has_client() && has_signature()) {
+    client <- goog_client()
+    signature <- goog_signature()
+    posturl <- paste(posturl, fmteq(client), fmteq(signature), sep = "&")
+  } else if (has_key()) {
+    key <- goog_key()
+    posturl <- paste(posturl, fmteq(key), sep = "&")
+  }
+
+  url_string <- paste0("https://maps.googleapis.com/maps/api/directions/json?", posturl)
+  url_string <- URLencode( enc2utf8(url_string) )
+
 
   # check/update google query limit
   check_route_query_limit(url_string, elems = 1,
@@ -109,7 +134,7 @@ trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
   }
 
   # message user
-  message(paste0("Information from URL : ", url_string))
+  message("Source : ", url_string)
 
   # extract output from tree and format
   treks <- llply(tree$routes, function(route){

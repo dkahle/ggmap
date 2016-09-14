@@ -5,8 +5,8 @@
 \title{Grab a trek from Google}
 \usage{
 trek(from, to, mode = c("driving", "walking", "bicycling", "transit"),
-  output = c("simple", "all"), alternatives = FALSE, messaging = FALSE,
-  sensor = FALSE, override_limit = FALSE)
+  output = c("simple", "all"), alternatives = FALSE, units = "metric",
+  messaging = FALSE, override_limit = FALSE, ...)
 }
 \arguments{
 \item{from}{name of origin addresses in a data frame (vector
@@ -21,13 +21,14 @@ accepted)}
 
 \item{alternatives}{should more than one route be provided?}
 
-\item{messaging}{turn messaging on/off}
+\item{units}{"metric"}
 
-\item{sensor}{whether or not the geocoding request comes from a
-device with a location sensor}
+\item{messaging}{turn messaging on/off}
 
 \item{override_limit}{override the current query count
 (.GoogleRouteQueryCount)}
+
+\item{...}{...}
 }
 \value{
 a data frame (output="simple") or all of the geocoded
@@ -42,6 +43,24 @@ https://developers.google.com/maps/terms.
 \examples{
 
 \dontrun{ # to cut down on check time
+
+from <- "houson, texas"
+to <- "waco, texas"
+route_df <- route(from, to, structure = "route")
+trek_df <- trek(from, to, structure = "route")
+qmap("college station, texas", zoom = 8) +
+  geom_path(
+    aes(x = lon, y = lat),  colour = "red",
+    size = 1.5, alpha = .5,
+    data = route_df, lineend = "round"
+  ) +
+  geom_path(
+    aes(x = lon, y = lat),  colour = "blue",
+    size = 1.5, alpha = .5,
+    data = trek_df, lineend = "round"
+  )
+
+
 
 from <- "rice university houston texas"
 to <- "1001 Bissonnet St, Houston, TX 77005"
@@ -79,5 +98,6 @@ David Kahle \email{david.kahle@gmail.com} with the key
 \url{https://developers.google.com/maps/documentation/directions/},
 \url{http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads},
 \code{\link{route}}, \code{\link{routeQueryCheck}}
+\code{\link{register_google}}
 }
 
