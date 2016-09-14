@@ -130,15 +130,7 @@ qmap <- function(location = "houston", ...){
     crop <- TRUE
   }
 
-  if("api_key" %in% names(args)){
-    api_key <- eval(args$api_key)
-  } else {
-    if(source == "cloudmade"){
-      stop("an api key must be specified for cloudmade maps, see ?get_cloudmademap.",
-      call. = F)
-    }
-    api_key <- NULL
-  }
+
 
 
 
@@ -194,7 +186,7 @@ qmap <- function(location = "houston", ...){
   # return
   ggmap(
     get_map(location = location, zoom = zoom, scale = scale, source = source,
-      color = color, maptype = maptype, language = language, api_key = api_key, force = force),
+      color = color, maptype = maptype, language = language, force = force),
     maprange = maprange, extent = extent, base_layer = base_layer, legend = legend,
       padding = padding, darken = darken
   )

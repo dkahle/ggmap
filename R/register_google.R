@@ -63,7 +63,7 @@ register_google <- function (key, account_type, client, signature, second_limit,
   options(ggmap = options)
 
   # return
-  NULL
+  invisible(NULL)
 }
 
 
@@ -83,6 +83,8 @@ goog_key <- function () {
 #' @rdname register_google
 #' @export
 has_key <- function () {
+
+  if(is.null(getOption("ggmap"))) return(FALSE)
 
   !is.na(goog_key())
 
@@ -121,6 +123,8 @@ goog_client <- function () {
 #' @export
 has_client <- function () {
 
+  if(is.null(getOption("ggmap"))) return(FALSE)
+
   !is.na(goog_client())
 
 }
@@ -144,6 +148,8 @@ goog_signature <- function () {
 #' @export
 has_signature <- function () {
 
+  if(is.null(getOption("ggmap"))) return(FALSE)
+
   !is.na(goog_signature())
 
 }
@@ -156,6 +162,9 @@ has_signature <- function () {
 #' @export
 goog_second_limit <- function () {
 
+  # set to 50 if no key present (ggmap not loaded)
+  if(!has_key()) return(50)
+
   getOption("ggmap")$google$second_limit
 
 }
@@ -165,6 +174,9 @@ goog_second_limit <- function () {
 #' @rdname register_google
 #' @export
 goog_day_limit <- function () {
+
+  # set to 2500 if no key present (ggmap not loaded)
+  if(!has_key()) return(2500)
 
   getOption("ggmap")$google$day_limit
 

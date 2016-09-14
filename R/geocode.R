@@ -19,14 +19,13 @@
 #'   Google
 #' @param messaging turn messaging on/off
 #' @param force force online query, even if previously downloaded
-#' @param sensor whether or not the geocoding request comes from a
-#'   device with a location sensor
 #' @param override_limit override the current query count
 #'   (.GoogleGeocodeQueryCount)
 #' @param nameType in some cases, Google returns both a long name
 #'   and a short name. this parameter allows the user to specify
 #'   which to grab.
 #' @param inject character string to add to the url
+#' @param ... ...
 #' @return If \code{output} is "latlon", "latlona", or "more", a
 #'   data frame. If all, a list.
 #' @author David Kahle \email{david.kahle@@gmail.com}
@@ -46,7 +45,6 @@
 #' geocode("the white house")
 #' geocode(c("the white house", "washington dc"))
 #' # see also mutate_geocode()
-#'
 #'
 #'
 #' ##### types of output
@@ -86,9 +84,9 @@
 #'
 geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     source = c("google", "dsk"), messaging = FALSE,
-    force = ifelse(source == "dsk", FALSE, TRUE), sensor = FALSE,
+    force = ifelse(source == "dsk", FALSE, TRUE),
     override_limit = FALSE, nameType = c("long", "short"),
-    inject = ""
+    inject = "", ...
 ){
 
   # basic parameter check
@@ -130,11 +128,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
 
   # start constructing the url
-  posturl <- paste(
-    chartr(" ", "+", location),
-    fmteq(sensor, tolower),
-    sep = "&"
-  )
+  posturl <- chartr(" ", "+", location)
 
   if(source == "google"){
 
@@ -159,7 +153,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   url_string <- paste0(url_string, inject)
 
   # encode
-  url_string <- enc2utf8( URLencode(url_string) )
+  url_string <- URLencode( enc2utf8(url_string) )
   url_hash   <- digest::digest(url_string)
 
 
@@ -184,7 +178,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     }
 
     # message user
-    message("From URL : ", url_string)
+    message("Source : ", url_string)
 
     # geocode
     connect <- url(url_string)

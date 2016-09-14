@@ -7,8 +7,8 @@
 \usage{
 geocode(location, output = c("latlon", "latlona", "more", "all"),
   source = c("google", "dsk"), messaging = FALSE, force = ifelse(source ==
-  "dsk", FALSE, TRUE), sensor = FALSE, override_limit = FALSE,
-  nameType = c("long", "short"), inject = "")
+  "dsk", FALSE, TRUE), override_limit = FALSE, nameType = c("long",
+  "short"), inject = "", ...)
 
 geocodeQueryCheck()
 }
@@ -27,9 +27,6 @@ Google}
 
 \item{force}{force online query, even if previously downloaded}
 
-\item{sensor}{whether or not the geocoding request comes from a
-device with a location sensor}
-
 \item{override_limit}{override the current query count
 (.GoogleGeocodeQueryCount)}
 
@@ -38,6 +35,8 @@ and a short name. this parameter allows the user to specify
 which to grab.}
 
 \item{inject}{character string to add to the url}
+
+\item{...}{...}
 }
 \value{
 If \code{output} is "latlon", "latlona", or "more", a
@@ -67,7 +66,6 @@ geocode("1600 pennsylvania avenue, washington dc")
 geocode("the white house")
 geocode(c("the white house", "washington dc"))
 # see also mutate_geocode()
-
 
 
 ##### types of output

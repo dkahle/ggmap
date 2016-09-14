@@ -5,7 +5,7 @@
 \title{Reverse geocode}
 \usage{
 revgeocode(location, output = c("address", "more", "all"),
-  messaging = FALSE, sensor = FALSE, override_limit = FALSE)
+  messaging = FALSE, override_limit = FALSE)
 }
 \arguments{
 \item{location}{a location in longitude/latitude format}
@@ -13,9 +13,6 @@ revgeocode(location, output = c("address", "more", "all"),
 \item{output}{amount of output}
 
 \item{messaging}{turn messaging on/off}
-
-\item{sensor}{whether or not the geocoding request comes from a
-device with a location sensor}
 
 \item{override_limit}{override the current query count
 (.GoogleGeocodeQueryCount)}
