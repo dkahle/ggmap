@@ -15,6 +15,7 @@ NEW FEATURES
 CHANGES
 
 * dplyr is now listed as a dependency (for bind_cols in mutate_geocode).
+* get_stamenmap() now issues a warning if a location parameter is passed (#55, thanks cguwilliams).
 
 
 FIXES

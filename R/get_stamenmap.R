@@ -222,6 +222,10 @@ get_stamenmap <- function(
   args <- as.list(match.call(expand.dots = TRUE)[-1])
   argsgiven <- names(args)
 
+  if ("location" %in% argsgiven) {
+    warning("location is not a valid argument to get_stamenmap(); it is ignored.")
+  }
+
   if("bbox" %in% argsgiven){
     if(!(is.numeric(bbox) && length(bbox) == 4)){
       stop("bounding box improperly specified.  see ?get_openstreetmap", call. = F)
