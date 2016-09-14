@@ -7,10 +7,10 @@
 get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836), zoom = 10,
   size = c(640, 640), scale = 2, format = c("png8", "gif", "jpg",
   "jpg-baseline", "png32"), maptype = c("terrain", "satellite", "roadmap",
-  "hybrid"), language = "en-EN", sensor = FALSE, messaging = FALSE,
-  urlonly = FALSE, filename = "ggmapTemp", color = c("color", "bw"),
-  force = FALSE, where = tempdir(), archiving = FALSE, key = "", region,
-  markers, path, visible, style, ...)
+  "hybrid"), language = "en-EN", messaging = FALSE, urlonly = FALSE,
+  filename = "ggmapTemp", color = c("color", "bw"), force = FALSE,
+  where = tempdir(), archiving = FALSE, region, markers, path, visible,
+  style, ext = "com", ...)
 }
 \arguments{
 \item{center}{the center of the map.  Either a longitude/latitude
@@ -42,9 +42,6 @@ options available are "terrain", "satellite", "roadmap", and
 languages are supported; for those which aren't the default
 language is used}
 
-\item{sensor}{specifies whether the application requesting the
-static map is using a sensor to determine the user's location}
-
 \item{messaging}{turn messaging on/off}
 
 \item{urlonly}{return url only}
@@ -64,8 +61,6 @@ terminating "/")}
 you agree to the one of the approved uses listed in the Google
 Maps API Terms of Service :
 http://developers.google.com/maps/terms.}
-
-\item{key}{an api_key for business users}
 
 \item{region}{borders to display as a region code specified as a
 two-character ccTLD ("top-level domain") value, see
@@ -89,6 +84,8 @@ map extent}
 for the style argument or a named vector (see examples). this
 is a powerful complex specification, see
 \url{https://developers.google.com/maps/documentation/staticmaps/}}
+
+\item{ext}{domain extension (e.g. "com", "co.nz")}
 
 \item{...}{...}
 }
@@ -119,7 +116,7 @@ d <- function(x=-95.36, y=29.76, n,r,a){
   ), digits = r)
 }
 df <- d(n=50,r=3,a=.3)
-map <- get_googlemap(markers = df, path = df,, scale = 2)
+map <- get_googlemap(markers = df, path = df, scale = 2)
 ggmap(map)
 ggmap(map, extent = "device") +
   geom_point(aes(x = lon, y = lat), data = df, size = 3, colour = "black") +
@@ -141,7 +138,11 @@ ggmap(map)
 
 
 # style
-map <- get_googlemap(style = c(feature = "all", element = "labels", visibility = "off"))
+map <- get_googlemap(
+  maptype = "roadmap",
+  style = c(feature = "all", element = "labels", visibility = "off"),
+  color = "bw"
+)
 ggmap(map)
 
 
@@ -155,6 +156,6 @@ David Kahle \email{david.kahle@gmail.com}
 }
 \seealso{
 \url{https://developers.google.com/maps/documentation/staticmaps/},
-\code{\link{ggmap}}
+\code{\link{ggmap}}, \code{\link{register_google}}
 }
 
