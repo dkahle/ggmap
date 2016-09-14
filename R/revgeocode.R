@@ -8,8 +8,6 @@
 #' @param location a location in longitude/latitude format
 #' @param output amount of output
 #' @param messaging turn messaging on/off
-#' @param sensor whether or not the geocoding request comes from a
-#'   device with a location sensor
 #' @param override_limit override the current query count
 #'   (.GoogleGeocodeQueryCount)
 #' @return depends (at least an address)
@@ -30,20 +28,18 @@
 #' }
 #'
 revgeocode <- function(location, output = c("address","more","all"),
-  messaging = FALSE, sensor = FALSE, override_limit = FALSE
+  messaging = FALSE, override_limit = FALSE
 ){
 
   # check parameters
   stopifnot(is.numeric(location) && length(location) == 2)
   output <- match.arg(output)
   stopifnot(is.logical(messaging))
-  stopifnot(is.logical(sensor))
 
 
   # format url
   latlng <- paste(rev(location), collapse = ',')
-  if(sensor){ sensor <- 'true' } else { sensor <- 'false' }
-  posturl <- paste(fmteq(latlng), fmteq(sensor), sep = "&")
+  posturl <- fmteq(latlng)
   url_string <- paste0("https://maps.googleapis.com/maps/api/geocode/json?", posturl)
 
   if (has_client() && has_signature()) {
