@@ -5,8 +5,9 @@
 \title{Compute map distances using Google}
 \usage{
 mapdist(from, to, mode = c("driving", "walking", "bicycling"),
-  output = c("simple", "all"), messaging = FALSE, sensor = FALSE,
-  language = "en-EN", override_limit = FALSE)
+  output = c("simple", "all"), messaging = FALSE, language = "en-EN",
+  urlonly = FALSE, override_limit = FALSE, ext = "com", inject = "",
+  ...)
 }
 \arguments{
 \item{from}{name of origin addresses in a data frame (vector
@@ -21,13 +22,18 @@ accepted)}
 
 \item{messaging}{turn messaging on/off}
 
-\item{sensor}{whether or not the geocoding request comes from a
-device with a location sensor}
-
 \item{language}{language}
+
+\item{urlonly}{return only the url?}
 
 \item{override_limit}{override the current query count
 (.GoogleDistQueryCount)}
+
+\item{ext}{domain extension (e.g. "com", "co.nz")}
+
+\item{inject}{character string to add to the url}
+
+\item{...}{...}
 }
 \value{
 a data frame (output="simple") or all of the geocoded

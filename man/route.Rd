@@ -7,7 +7,8 @@
 route(from, to, mode = c("driving", "walking", "bicycling", "transit"),
   structure = c("legs", "route"), output = c("simple", "all"),
   alternatives = FALSE, units = "metric", messaging = FALSE,
-  override_limit = FALSE, ...)
+  urlonly = FALSE, override_limit = FALSE, ext = "com", inject = "",
+  ...)
 }
 \arguments{
 \item{from}{name of origin addresses in a data frame (vector
@@ -28,8 +29,14 @@ accepted)}
 
 \item{messaging}{turn messaging on/off}
 
+\item{urlonly}{return only the url?}
+
 \item{override_limit}{override the current query count
 (.GoogleRouteQueryCount)}
+
+\item{ext}{domain extension (e.g. "com", "co.nz")}
+
+\item{inject}{character string to add to the url}
 
 \item{...}{...}
 }

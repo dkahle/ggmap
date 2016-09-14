@@ -7,8 +7,8 @@
 \usage{
 geocode(location, output = c("latlon", "latlona", "more", "all"),
   source = c("google", "dsk"), messaging = FALSE, force = ifelse(source ==
-  "dsk", FALSE, TRUE), override_limit = FALSE, nameType = c("long",
-  "short"), inject = "", ...)
+  "dsk", FALSE, TRUE), urlonly = FALSE, override_limit = FALSE,
+  nameType = c("long", "short"), ext = "com", inject = "", ...)
 
 geocodeQueryCheck()
 }
@@ -27,12 +27,16 @@ Google}
 
 \item{force}{force online query, even if previously downloaded}
 
+\item{urlonly}{return only the url?}
+
 \item{override_limit}{override the current query count
 (.GoogleGeocodeQueryCount)}
 
 \item{nameType}{in some cases, Google returns both a long name
 and a short name. this parameter allows the user to specify
 which to grab.}
+
+\item{ext}{domain extension (e.g. "com", "co.nz")}
 
 \item{inject}{character string to add to the url}
 
@@ -66,6 +70,7 @@ geocode("1600 pennsylvania avenue, washington dc")
 geocode("the white house")
 geocode(c("the white house", "washington dc"))
 # see also mutate_geocode()
+geocode("ninos", inject = "region=es", urlonly = TRUE)
 
 
 ##### types of output

@@ -8,8 +8,12 @@
 #' @param location a location in longitude/latitude format
 #' @param output amount of output
 #' @param messaging turn messaging on/off
+#' @param urlonly return only the url?
 #' @param override_limit override the current query count
 #'   (.GoogleGeocodeQueryCount)
+#' @param ext domain extension (e.g. "com", "co.nz")
+#' @param inject character string to add to the url
+#' @param ... ...
 #' @return depends (at least an address)
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso
@@ -28,7 +32,8 @@
 #' }
 #'
 revgeocode <- function(location, output = c("address","more","all"),
-  messaging = FALSE, override_limit = FALSE
+  messaging = FALSE, urlonly = FALSE, override_limit = FALSE,
+  ext = "com", inject = "", ...
 ){
 
   # check parameters
@@ -40,8 +45,12 @@ revgeocode <- function(location, output = c("address","more","all"),
   # format url
   latlng <- paste(rev(location), collapse = ',')
   posturl <- fmteq(latlng)
-  url_string <- paste0("https://maps.googleapis.com/maps/api/geocode/json?", posturl)
+  url_string <- paste0(
+    sprintf("https://maps.googleapis.%s/maps/api/geocode/json?", ext),
+    posturl
+  )
 
+  # do google credentials
   if (has_client() && has_signature()) {
     client <- goog_client()
     signature <- goog_signature()
@@ -51,8 +60,12 @@ revgeocode <- function(location, output = c("address","more","all"),
     url_string <- paste(url_string, fmteq(key), sep = "&")
   }
 
+  # inject any remaining stuff
+  if(inject != "") url_string <- paste(url_string, inject, sep = "&")
 
+  # encode
   url_string <- URLencode( enc2utf8(url_string) )
+  if(urlonly) return(url_string)
 
   # check/update google query limit
   check <- checkGeocodeQueryLimit(url_string, elems = 1, override = override_limit, messaging = messaging)
@@ -71,9 +84,8 @@ revgeocode <- function(location, output = c("address","more","all"),
   }
 
   # geocode
-  connect <- url(url_string)
+  connect <- url(url_string); on.exit(close(connect), add = TRUE)
   rgc <- fromJSON(paste(readLines(connect), collapse = ''))
-  close(connect)
   if(output == "all") return(rgc)
 
   # did geocode fail?

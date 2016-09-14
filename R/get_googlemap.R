@@ -40,6 +40,8 @@
 #'   you agree to the one of the approved uses listed in the Google
 #'   Maps API Terms of Service :
 #'   http://developers.google.com/maps/terms.
+#' @param ext domain extension (e.g. "com", "co.nz")
+#' @param inject character string to add to the url
 #' @param region borders to display as a region code specified as a
 #'   two-character ccTLD ("top-level domain") value, see
 #'   \url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}
@@ -58,7 +60,6 @@
 #'   for the style argument or a named vector (see examples). this
 #'   is a powerful complex specification, see
 #'   \url{https://developers.google.com/maps/documentation/staticmaps/}
-#' @param ext domain extension (e.g. "com", "co.nz")
 #' @param ... ...
 #' @return a ggmap object (a classed raster object with a bounding
 #'   box attribute)
@@ -125,7 +126,8 @@ get_googlemap <- function(
   language = "en-EN",
   messaging = FALSE, urlonly = FALSE, filename = "ggmapTemp", color = c("color","bw"),
   force = FALSE, where = tempdir(), archiving = FALSE,
-  region, markers, path, visible, style, ext = "com", ...
+  ext = "com", inject = "",
+  region, markers, path, visible, style, ...
 ){
 
   ##### do argument checking
@@ -316,6 +318,10 @@ get_googlemap <- function(
   if(substr(url, nchar(url), nchar(url)) == "&"){ # if ends with &
     url <- substr(url, 1, nchar(url)-1)
   }
+
+  # inject any remaining stuff
+  if(inject != "") url <- paste(url, inject, sep = "&")
+
   url <- URLencode( enc2utf8(url) )
   if(urlonly) return(url)
   if(nchar(url) > 2048) stop("max url length is 2048 characters.", call. = FALSE)

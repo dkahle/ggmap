@@ -14,8 +14,11 @@
 #' @param alternatives should more than one route be provided?
 #' @param units "metric"
 #' @param messaging turn messaging on/off
+#' @param urlonly return only the url?
 #' @param override_limit override the current query count
 #'   (.GoogleRouteQueryCount)
+#' @param ext domain extension (e.g. "com", "co.nz")
+#' @param inject character string to add to the url
 #' @param ... ...
 #' @return a data frame (output="simple") or all of the geocoded
 #'   information (output="all")
@@ -78,7 +81,8 @@
 #'
 trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
   output = c("simple","all"), alternatives = FALSE, units = "metric",
-  messaging = FALSE, override_limit = FALSE, ...)
+  messaging = FALSE, urlonly = FALSE, override_limit = FALSE,
+  ext = "com", inject = "", ...)
 {
 
   # check parameters
@@ -109,8 +113,18 @@ trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
     posturl <- paste(posturl, fmteq(key), sep = "&")
   }
 
-  url_string <- paste0("https://maps.googleapis.com/maps/api/directions/json?", posturl)
+  # construct url
+  url_string <- paste0(
+    sprintf("https://maps.googleapis.%s/maps/api/directions/json?", ext),
+    posturl
+  )
+
+  # inject any remaining stuff
+  if(inject != "") url_string <- paste(url_string, inject, sep = "&")
+
+  # encode
   url_string <- URLencode( enc2utf8(url_string) )
+  if(urlonly) return(url_string)
 
 
   # check/update google query limit

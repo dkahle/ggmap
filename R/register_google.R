@@ -181,3 +181,24 @@ goog_day_limit <- function () {
   getOption("ggmap")$google$day_limit
 
 }
+
+
+
+
+
+
+
+#' @rdname register_google
+#' @param tree a json tree from \code{\link{fromJSON}}
+#' @export
+check_google_for_error <- function (tree) {
+
+  if (tree$status == "REQUEST_DENIED") {
+    warning("REQUEST_DENIED : ", tree$error_message)
+  }
+
+}
+
+
+
+

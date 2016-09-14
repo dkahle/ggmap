@@ -14,8 +14,11 @@
 #' @param alternatives should more than one route be provided?
 #' @param units "metric"
 #' @param messaging turn messaging on/off
+#' @param urlonly return only the url?
 #' @param override_limit override the current query count
 #'   (.GoogleRouteQueryCount)
+#' @param ext domain extension (e.g. "com", "co.nz")
+#' @param inject character string to add to the url
 #' @param ... ...
 #' @return a data frame (output="simple") or all of the geocoded
 #'   information (output="all")
@@ -59,8 +62,10 @@
 #' }
 #'
 route <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
-  structure = c("legs","route"), output = c("simple","all"), alternatives = FALSE,
-  units = "metric", messaging = FALSE, override_limit = FALSE, ...)
+  structure = c("legs","route"), output = c("simple","all"),
+  alternatives = FALSE, units = "metric", messaging = FALSE,
+  urlonly = FALSE, override_limit = FALSE,
+  ext = "com", inject = "", ...)
 {
 
   # check parameters
@@ -91,8 +96,18 @@ route <- function(from, to, mode = c("driving","walking","bicycling", "transit")
     posturl <- paste(posturl, fmteq(key), sep = "&")
   }
 
-  url_string <- paste0("https://maps.googleapis.com/maps/api/directions/json?", posturl)
+  # construct url
+  url_string <- paste0(
+    sprintf("https://maps.googleapis.%s/maps/api/directions/json?", ext),
+    posturl
+  )
+
+  # inject any remaining stuff
+  if(inject != "") url_string <- paste(url_string, inject, sep = "&")
+
+  # encode
   url_string <- URLencode( enc2utf8(url_string) )
+  if(urlonly) return(url_string)
 
   # check/update google query limit
   check_route_query_limit(url_string, elems = 1, override = override_limit, messaging = messaging)
@@ -100,9 +115,9 @@ route <- function(from, to, mode = c("driving","walking","bicycling", "transit")
 
   # distance lookup
   if(messaging) message("trying url ", url_string)
-  connect <- url(url_string)
+  connect <- url(url_string); on.exit(close(connect), add = TRUE)
   tree <- fromJSON(paste(readLines(connect), collapse = ""))
-  close(connect)
+
 
   # return output = "all"
   if(output == "all") return(tree)

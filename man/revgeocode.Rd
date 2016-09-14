@@ -5,7 +5,8 @@
 \title{Reverse geocode}
 \usage{
 revgeocode(location, output = c("address", "more", "all"),
-  messaging = FALSE, override_limit = FALSE)
+  messaging = FALSE, urlonly = FALSE, override_limit = FALSE,
+  ext = "com", inject = "", ...)
 }
 \arguments{
 \item{location}{a location in longitude/latitude format}
@@ -14,8 +15,16 @@ revgeocode(location, output = c("address", "more", "all"),
 
 \item{messaging}{turn messaging on/off}
 
+\item{urlonly}{return only the url?}
+
 \item{override_limit}{override the current query count
 (.GoogleGeocodeQueryCount)}
+
+\item{ext}{domain extension (e.g. "com", "co.nz")}
+
+\item{inject}{character string to add to the url}
+
+\item{...}{...}
 }
 \value{
 depends (at least an address)

@@ -9,6 +9,7 @@ NEW FEATURES
 @samfield)
 * mutate_geocode() now works for tibbles. (#106, thanks @voxnonecho)
 * trek() now allows users to get routes from google that aren't straight lines on plots. (#99, thanks stackoverflow user @akhmed) this required importing bitops.
+* google functions have domain name extension options, urlonly options, and inject options for any code that you manually want to pass to the url (i.e. anything that isn't built into ggmap).
 
 
 CHANGES

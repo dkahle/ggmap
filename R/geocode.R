@@ -19,11 +19,13 @@
 #'   Google
 #' @param messaging turn messaging on/off
 #' @param force force online query, even if previously downloaded
+#' @param urlonly return only the url?
 #' @param override_limit override the current query count
 #'   (.GoogleGeocodeQueryCount)
 #' @param nameType in some cases, Google returns both a long name
 #'   and a short name. this parameter allows the user to specify
 #'   which to grab.
+#' @param ext domain extension (e.g. "com", "co.nz")
 #' @param inject character string to add to the url
 #' @param ... ...
 #' @return If \code{output} is "latlon", "latlona", or "more", a
@@ -45,6 +47,7 @@
 #' geocode("the white house")
 #' geocode(c("the white house", "washington dc"))
 #' # see also mutate_geocode()
+#' geocode("ninos", inject = "region=es", urlonly = TRUE)
 #'
 #'
 #' ##### types of output
@@ -84,9 +87,9 @@
 #'
 geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     source = c("google", "dsk"), messaging = FALSE,
-    force = ifelse(source == "dsk", FALSE, TRUE),
+    force = ifelse(source == "dsk", FALSE, TRUE), urlonly = FALSE,
     override_limit = FALSE, nameType = c("long", "short"),
-    inject = "", ...
+    ext = "com", inject = "", ...
 ){
 
   # basic parameter check
@@ -143,17 +146,21 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     }
 
     # add to url
-    url_string <- paste0("https://maps.googleapis.com/maps/api/geocode/json?address=", posturl)
+    url_string <- paste0(
+      sprintf("https://maps.googleapis.%s/maps/api/geocode/json?address=", ext),
+      posturl
+    )
 
   } else if(source == "dsk"){
     url_string <- paste0("http://www.datasciencetoolkit.org/maps/api/geocode/json?address=", posturl)
   }
 
   # inject any remaining stuff
-  url_string <- paste0(url_string, inject)
+  if(inject != "") url_string <- paste(url_string, inject, sep = "&")
 
   # encode
   url_string <- URLencode( enc2utf8(url_string) )
+  if(urlonly) return(url_string)
   url_hash   <- digest::digest(url_string)
 
 
@@ -181,9 +188,8 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     message("Source : ", url_string)
 
     # geocode
-    connect <- url(url_string)
+    connect <- url(url_string); on.exit(close(connect), add = TRUE)
     lines <- try(readLines(connect, warn = FALSE), silent = TRUE)
-    close(connect)
 
     if(class(lines) == "try-error"){
       warning(
