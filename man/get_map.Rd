@@ -9,7 +9,7 @@ get_map(location = c(lon = -95.3632715, lat = 29.7632836), zoom = "auto",
   "roadmap", "hybrid", "toner", "watercolor", "terrain-labels", "terrain-lines",
   "toner-2010", "toner-2011", "toner-background", "toner-hybrid",
   "toner-labels", "toner-lines", "toner-lite"), source = c("google", "osm",
-  "stamen", "cloudmade"), force = ifelse(source == "google", TRUE, TRUE),
+  "stamen"), force = ifelse(source == "google", TRUE, TRUE),
   messaging = FALSE, urlonly = FALSE, filename = "ggmapTemp",
   crop = TRUE, color = c("color", "bw"), language = "en-EN", api_key)
 }
@@ -31,11 +31,10 @@ supported.}
 \item{maptype}{character string providing map theme. options
 available are "terrain", "terrain-background", "satellite",
 "roadmap", and "hybrid" (google maps), "terrain", "watercolor",
-and "toner" (stamen maps), or a positive integer for cloudmade
-maps (see ?get_cloudmademap)}
+and "toner" (stamen maps).}
 
 \item{source}{Google Maps ("google"), OpenStreetMap ("osm"),
-Stamen Maps ("stamen"), or CloudMade maps ("cloudmade")}
+or Stamen Maps ("stamen")}
 
 \item{force}{force new map (don't use archived version)}
 
@@ -46,14 +45,13 @@ Stamen Maps ("stamen"), or CloudMade maps ("cloudmade")}
 \item{filename}{destination file for download (file extension
 added according to format)}
 
-\item{crop}{(stamen and cloudmade maps) crop tiles to bounding
+\item{crop}{(stamen maps) crop tiles to bounding
 box}
 
 \item{color}{color ("color") or black-and-white ("bw")}
 
 \item{language}{language for google maps}
 
-\item{api_key}{an api key for cloudmade maps}
 }
 \value{
 a ggmap object (a classed raster object with a bounding

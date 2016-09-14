@@ -116,13 +116,9 @@ qmap <- function(location = "houston", ...){
 
   if("maptype" %in% names(args)){
     maptype <- eval(args$maptype)
-  } else {
-  	if(source != "cloudmade"){
-      maptype <- "terrain"
     } else {
       maptype <- 1
     }
-  }
 
   if("crop" %in% names(args)){
     crop <- eval(args$crop)
@@ -132,13 +128,6 @@ qmap <- function(location = "houston", ...){
 
   if("api_key" %in% names(args)){
     api_key <- eval(args$api_key)
-  } else {
-    if(source == "cloudmade"){
-      stop("an api key must be specified for cloudmade maps, see ?get_cloudmademap.",
-      call. = F)
-    }
-    api_key <- NULL
-  }
 
 
 
