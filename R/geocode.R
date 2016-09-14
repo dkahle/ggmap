@@ -128,7 +128,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
 
   # start constructing the url
-  posturl <- chartr(" ", "+", location)
+  posturl <- URLencode(location, reserved = TRUE)
 
   if(source == "google"){
 

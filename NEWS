@@ -21,7 +21,8 @@ FIXES
 * get_stamenmap() now works again for terrain and terrain-background images (#102, thanks @UrbanDemog).
 * a bug in parsing the base_layer argument is now fixed. (thanks to @restonslacker)
 * gglocator now properly adapts to scaling. (minor update, thanks to @Nikolai-Hlubek)
-* geocode() and revgeocode() now use enc2utf8() to better handle foreign character sets. (#98, #89, thanks dapper2dan)
+* google functions now use enc2utf8() to better handle foreign character sets. (#98, #89, thanks dapper2dan)
+* google functions now better handle special characters. (#104, thanks casa-henrym)
 
 
 ggmap 2.6.1
