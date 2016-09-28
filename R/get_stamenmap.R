@@ -469,9 +469,9 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, force = FALSE, messaging = T
   # message url
   download_error <- inherits(downloaded, "try-error")
   if(download_error) {
-    message(paste0("Map from URL FAILED : ", url))
+    message(paste0("Source FAILED : ", url))
   } else {
-    message(paste0("Map from URL : ", url))
+    message(paste0("Source : ", url))
   }
 
   # read in/format tile
