@@ -83,11 +83,11 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling"),
     )
 
     # add google account stuff
-    if (has_client() && has_signature()) {
+    if (has_goog_client() && has_goog_signature()) {
       client <- goog_client()
       signature <- goog_signature()
       posturl <- paste(posturl, fmteq(client), fmteq(signature), sep = "&")
-    } else if (has_key()) {
+    } else if (has_goog_key()) {
       key <- goog_key()
       posturl <- paste(posturl, fmteq(key), sep = "&")
     }

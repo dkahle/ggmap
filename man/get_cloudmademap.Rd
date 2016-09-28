@@ -52,6 +52,7 @@ http://maps.cloudmade.com/editor (defunct).
 \dontrun{ # in what follows, enter your own api key
 
 api_key <- '<your api key here>'
+api_key <- 'b23b0358e87c4ff99f81029eda25c903'
 
 map <- get_cloudmademap(api_key = api_key)
 ggmap(map)

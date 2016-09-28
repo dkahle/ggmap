@@ -23,8 +23,8 @@
 #'
 #' \dontrun{ # Server response can be slow; this cuts down check time.
 #'
-#' get_google_key()
-#' get_google_type()
+#' has_goog_key()
+#' goog_key()
 #'
 #' }
 
@@ -59,6 +59,9 @@ register_google <- function (key, account_type, client, signature, second_limit,
   if(!missing(second_limit)) options$google$second_limit <- second_limit
   if(!missing(day_limit)) options$google$day_limit <- day_limit
 
+  # class
+  class(options) <- "ggmap_credentials"
+
   # set new options
   options(ggmap = options)
 
@@ -82,7 +85,7 @@ goog_key <- function () {
 
 #' @rdname register_google
 #' @export
-has_key <- function () {
+has_goog_key <- function () {
 
   if(is.null(getOption("ggmap"))) return(FALSE)
 
@@ -121,7 +124,7 @@ goog_client <- function () {
 
 #' @rdname register_google
 #' @export
-has_client <- function () {
+has_goog_client <- function () {
 
   if(is.null(getOption("ggmap"))) return(FALSE)
 
@@ -146,7 +149,7 @@ goog_signature <- function () {
 
 #' @rdname register_google
 #' @export
-has_signature <- function () {
+has_goog_signature <- function () {
 
   if(is.null(getOption("ggmap"))) return(FALSE)
 
@@ -163,7 +166,7 @@ has_signature <- function () {
 goog_second_limit <- function () {
 
   # set to 50 if no key present (ggmap not loaded)
-  if(!has_key()) return(50)
+  if(!has_goog_key()) return(50)
 
   getOption("ggmap")$google$second_limit
 
@@ -176,7 +179,7 @@ goog_second_limit <- function () {
 goog_day_limit <- function () {
 
   # set to 2500 if no key present (ggmap not loaded)
-  if(!has_key()) return(2500)
+  if(!has_goog_key()) return(2500)
 
   getOption("ggmap")$google$day_limit
 
@@ -198,6 +201,9 @@ check_google_for_error <- function (tree) {
   }
 
 }
+
+
+
 
 
 

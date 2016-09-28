@@ -8,9 +8,9 @@
 \alias{goog_key}
 \alias{goog_second_limit}
 \alias{goog_signature}
-\alias{has_client}
-\alias{has_key}
-\alias{has_signature}
+\alias{has_goog_client}
+\alias{has_goog_key}
+\alias{has_goog_signature}
 \alias{register_google}
 \title{Register a Google API}
 \usage{
@@ -18,17 +18,17 @@ register_google(key, account_type, client, signature, second_limit, day_limit)
 
 goog_key()
 
-has_key()
+has_goog_key()
 
 goog_account()
 
 goog_client()
 
-has_client()
+has_goog_client()
 
 goog_signature()
 
-has_signature()
+has_goog_signature()
 
 goog_second_limit()
 
@@ -63,8 +63,8 @@ entire session.
 
 \dontrun{ # Server response can be slow; this cuts down check time.
 
-get_google_key()
-get_google_type()
+has_goog_key()
+goog_key()
 
 }
 }
