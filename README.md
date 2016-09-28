@@ -202,7 +202,13 @@ If you have a Google API key, you can exceed the standard limits Google places o
 
 ``` r
 ggmap_credentials()
-#  NULL
+#  Google - 
+#     key :  
+#     account_type : standard 
+#     day_limit : 2500 
+#     second_limit : 50 
+#     client :  
+#     signature :
 ```
 
 Look at the documentation of `?register_google()` to learn more. If you do have an API key, you set it with:
@@ -213,20 +219,25 @@ ggmap_credentials()
 #  Google - 
 #     key : [your key here] 
 #     account_type : premium 
-#     day_limit : 1e+05
+#     day_limit : 1e+05 
+#     second_limit : 50 
+#     client :  
+#     signature :
 ```
 
 These will then be used and checked when creating the query URL:
 
 ``` r
 register_google(key = "AbCdEfGhIjKlMnOpQrStUvWxYz")
-# get_googlemap("waco texas", urlonly = TRUE)
+get_googlemap("waco texas", urlonly = TRUE)
+#  [1] "https://maps.googleapis.com/maps/api/staticmap?center=waco+texas&zoom=10&size=640x640&scale=2&maptype=terrain&key=AbCdEfGhIjKlMnOpQrStUvWxYz"
 ```
 
 For anything that hasn't been implemente (URL-wise), you can inject code into the query usin g `inject`:
 
 ``` r
-# get_googlemap("waco texas", urlonly = TRUE, inject = "otherItem = Stuff")
+get_googlemap("waco texas", urlonly = TRUE, inject = "otherItem = Stuff")
+#  [1] "https://maps.googleapis.com/maps/api/staticmap?center=waco+texas&zoom=10&size=640x640&scale=2&maptype=terrain&key=AbCdEfGhIjKlMnOpQrStUvWxYz&otherItem%20=%20Stuff"
 ```
 
 Installation

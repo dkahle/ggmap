@@ -8,7 +8,7 @@ output:
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
+  collapse = TRUE, cache = TRUE,
   comment = "# ",
   fig.path = "figures/README-"
 )
@@ -145,12 +145,12 @@ ggmap_credentials()
 These will then be used and checked when creating the query URL:
 ```{r key}
 register_google(key = "AbCdEfGhIjKlMnOpQrStUvWxYz")
-# get_googlemap("waco texas", urlonly = TRUE)
+get_googlemap("waco texas", urlonly = TRUE)
 ```
 
 For anything that hasn't been implemente (URL-wise), you can inject code into the query usin g `inject`:
 ```{r otherStuff}
-# get_googlemap("waco texas", urlonly = TRUE, inject = "otherItem = Stuff")
+get_googlemap("waco texas", urlonly = TRUE, inject = "otherItem = Stuff")
 ```
 
 
