@@ -21,12 +21,12 @@
 #' \url{https://developers.google.com/maps/documentation/geocoding/usage-limits}
 #' @examples
 #'
-#' \dontrun{ # Server response can be slow; this cuts down check time.
 #'
 #' has_goog_key()
 #' goog_key()
+#' has_goog_client()
+#' has_goog_signature()
 #'
-#' }
 
 
 
@@ -54,10 +54,15 @@ register_google <- function (key, account_type, client, signature, second_limit,
   # construct new ones
   if(!missing(key)) options$google$key <- key
   if(!missing(account_type)) options$google$account_type <- account_type
+  if(!missing(day_limit)) options$google$day_limit <- day_limit
+  if(!missing(second_limit)) options$google$second_limit <- second_limit
   if(!missing(client)) options$google$client <- client
   if(!missing(signature)) options$google$signature <- signature
-  if(!missing(second_limit)) options$google$second_limit <- second_limit
-  if(!missing(day_limit)) options$google$day_limit <- day_limit
+
+  # # set premium defaults
+  if (!missing(account_type) && account_type == "premium") {
+    if(missing(day_limit)) options$google$day_limit <- 100000
+  }
 
   # class
   class(options) <- "ggmap_credentials"

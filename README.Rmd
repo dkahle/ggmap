@@ -81,6 +81,75 @@ get_stamenmap(europe, zoom = 5, maptype = "toner-lite") %>% ggmap()
 
 
 
+
+## Google Maps and Credentials
+
+[Google Maps](http://developers.google.com/maps/terms) can be used just as easily.  However, since Google Maps use a center/zoom specification, their input is a bit different:
+```{r google_maps}
+get_googlemap("waco texas", zoom = 12) %>% ggmap()
+```
+
+Moreover, you can get various different styles of Google Maps with __ggmap__ (just like Stamen Maps):
+```{r google_styles}
+get_googlemap("waco texas", zoom = 12, maptype = "satellite") %>% ggmap()
+get_googlemap("waco texas", zoom = 12, maptype = "roadmap") %>% ggmap()
+get_googlemap("waco texas", zoom = 12, maptype = "hybrid") %>% ggmap()
+```
+
+Google's geocoding and reverse geocoding API's are available through `geocode()` and `revgeocode()`, respectively:
+```{r geocode}
+geocode("1301 S University Parks Dr, Waco, TX 76798")
+revgeocode(c(lon = -97.1161, lat = 31.55098))
+```
+
+
+Treks use Google's routing API to give you routes (`route()` and `trek()` give slightly different results; the latter hugs roads):
+```{r route_trek}
+trek_df <- trek("houson, texas", "waco, texas", structure = "route")
+qmap("college station, texas", zoom = 8) +
+  geom_path(
+    aes(x = lon, y = lat),  colour = "blue",
+    size = 1.5, alpha = .5,
+    data = trek_df, lineend = "round"
+  )
+```
+(They also provide information on how long it takes to get from point A to point B.)
+
+
+Map distances, in both length and anticipated time, can be computed with `mapdist()`).  Moreover the function is vectorized:
+```{r mapdist}
+mapdist(c("houston, texas", "dallas"), "waco, texas")
+```
+
+
+
+### Google credentialing
+
+If you have a Google API key, you can exceed the standard limits Google places on queries.  By default, when __ggmap__ is loaded it will set the following credentials and limits:
+```{r basic_credentials}
+ggmap_credentials()
+```
+Look at the documentation of `?register_google()` to learn more.  If you do have an API key, you set it with:
+```{r google_api}
+register_google(key = "[your key here]", account_type = "premium", day_limit = 100000)
+ggmap_credentials()
+```
+These will then be used and checked when creating the query URL:
+```{r key}
+register_google(key = "AbCdEfGhIjKlMnOpQrStUvWxYz")
+# get_googlemap("waco texas", urlonly = TRUE)
+```
+
+For anything that hasn't been implemente (URL-wise), you can inject code into the query usin g `inject`:
+```{r otherStuff}
+# get_googlemap("waco texas", urlonly = TRUE, inject = "otherItem = Stuff")
+```
+
+
+
+
+
+
 ## Installation
 
 * From CRAN: `install.packages("ggmap")`
