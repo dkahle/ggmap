@@ -105,9 +105,7 @@ revgeocode(c(lon = -97.1161, lat = 31.55098))
 There is also a `mutate_geocode()` that works similarly to [__dplyr__](https://github.com/hadley/dplyr)'s `mutate()` function:
 ```{r mutate_geocode, messages = FALSE}
 library(tidyverse)
-tb <- data_frame(
-  address = c("1600 Pennsylvania Avenue, Washington DC", "", "waco texas")
-)
+tb <- data_frame(address = c("1600 Pennsylvania Avenue, Washington DC", "", "waco texas"))
 tb %>% mutate_geocode(address)
 ```
 

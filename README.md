@@ -151,9 +151,7 @@ library(tidyverse)
 #  Conflicts with tidy packages ----------------------------------------------
 #  filter(): dplyr, stats
 #  lag():    dplyr, stats
-tb <- data_frame(
-  address = c("1600 Pennsylvania Avenue, Washington DC", "", "waco texas")
-)
+tb <- data_frame(address = c("1600 Pennsylvania Avenue, Washington DC", "", "waco texas"))
 tb %>% mutate_geocode(address)
 #  Source : https://maps.googleapis.com/maps/api/geocode/json?address=1600%20Pennsylvania%20Avenue%2C%20Washington%20DC
 #  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco%20texas
