@@ -140,6 +140,31 @@ revgeocode(c(lon = -97.1161, lat = 31.55098))
 #  [1] "1301 S University Parks Dr, Waco, TX 76706, USA"
 ```
 
+There is also a `mutate_geocode()` that works similarly to [**dplyr**](https://github.com/hadley/dplyr)'s `mutate()` function:
+
+``` r
+library(tidyverse)
+#  Loading tidyverse: tibble
+#  Loading tidyverse: tidyr
+#  Loading tidyverse: readr
+#  Loading tidyverse: purrr
+#  Conflicts with tidy packages ----------------------------------------------
+#  filter(): dplyr, stats
+#  lag():    dplyr, stats
+tb <- data_frame(
+  address = c("1600 Pennsylvania Avenue, Washington DC", "", "waco texas")
+)
+tb %>% mutate_geocode(address)
+#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=1600%20Pennsylvania%20Avenue%2C%20Washington%20DC
+#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco%20texas
+#  # A tibble: 3 × 3
+#                                    address       lon      lat
+#                                      <chr>     <dbl>    <dbl>
+#  1 1600 Pennsylvania Avenue, Washington DC -76.98184 38.87920
+#  2                                                NA       NA
+#  3                              waco texas -97.14667 31.54933
+```
+
 Treks use Google's routing API to give you routes (`route()` and `trek()` give slightly different results; the latter hugs roads):
 
 ``` r
@@ -155,7 +180,9 @@ qmap("college station, texas", zoom = 8) +
 #  Source : https://maps.googleapis.com/maps/api/geocode/json?address=college%20station%2C%20texas
 ```
 
-![](figures/README-route_trek-1.png) (They also provide information on how long it takes to get from point A to point B.)
+![](figures/README-route_trek-1.png)
+
+(They also provide information on how long it takes to get from point A to point B.)
 
 Map distances, in both length and anticipated time, can be computed with `mapdist()`). Moreover the function is vectorized:
 

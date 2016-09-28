@@ -8,6 +8,7 @@
 \alias{goog_key}
 \alias{goog_second_limit}
 \alias{goog_signature}
+\alias{has_goog_account}
 \alias{has_goog_client}
 \alias{has_goog_key}
 \alias{has_goog_signature}
@@ -19,6 +20,8 @@ register_google(key, account_type, client, signature, second_limit, day_limit)
 goog_key()
 
 has_goog_key()
+
+has_goog_account()
 
 goog_account()
 
@@ -61,12 +64,12 @@ entire session.
 }
 \examples{
 
-\dontrun{ # Server response can be slow; this cuts down check time.
 
 has_goog_key()
 goog_key()
+has_goog_client()
+has_goog_signature()
 
-}
 }
 \author{
 David Kahle \email{david.kahle@gmail.com}

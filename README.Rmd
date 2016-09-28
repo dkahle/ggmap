@@ -102,6 +102,15 @@ geocode("1301 S University Parks Dr, Waco, TX 76798")
 revgeocode(c(lon = -97.1161, lat = 31.55098))
 ```
 
+There is also a `mutate_geocode()` that works similarly to [__dplyr__](https://github.com/hadley/dplyr)'s `mutate()` function:
+```{r mutate_geocode, messages = FALSE}
+library(tidyverse)
+tb <- data_frame(
+  address = c("1600 Pennsylvania Avenue, Washington DC", "", "waco texas")
+)
+tb %>% mutate_geocode(address)
+```
+
 
 Treks use Google's routing API to give you routes (`route()` and `trek()` give slightly different results; the latter hugs roads):
 ```{r route_trek}
@@ -113,6 +122,7 @@ qmap("college station, texas", zoom = 8) +
     data = trek_df, lineend = "round"
   )
 ```
+
 (They also provide information on how long it takes to get from point A to point B.)
 
 

@@ -106,6 +106,16 @@ has_goog_key <- function () {
 
 #' @rdname register_google
 #' @export
+has_goog_account <- function () {
+
+  if(is.null(getOption("ggmap"))) return(FALSE)
+
+  !is.na(goog_account())
+
+}
+
+#' @rdname register_google
+#' @export
 goog_account <- function () {
 
   getOption("ggmap")$google$account_type
