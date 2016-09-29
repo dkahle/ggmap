@@ -4,27 +4,40 @@ ggmap 2.6.2
 NEW FEATURES
 
 * stamen now provides its terrain tileset for the whole globe.
-* all google functions can now use google credentials stored in options("ggmap") to better interface with those components of the google api. make sure your api key is registered for each before you use them. (#29, #92, #83)
-* geocode() now has a force option to override cached values. (#69, thanks
-@samfield)
+* all google functions can now use google credentials stored in
+  options("ggmap") to better interface with those components of the google
+  api. make sure your api key is registered for each before you use them.
+  (#29, #92, #83)
+* geocode() now has a force option to override cached values. (#69,
+  thanks @samfield)
 * mutate_geocode() now works for tibbles. (#106, thanks @voxnonecho)
-* trek() now allows users to get routes from google that aren't straight lines on plots. (#99, thanks stackoverflow user @akhmed) this required importing bitops.
-* google functions have domain name extension options, urlonly options, and inject options for any code that you manually want to pass to the url (i.e. anything that isn't built into ggmap).
+* trek() now allows users to get routes from google that aren't straight
+  lines on plots. (#99, thanks stackoverflow user @akhmed) this required
+  importing bitops.
+* google functions have domain name extension options, urlonly options,
+  and inject options for any code that you manually want to pass to the
+  url (i.e. anything that isn't built into ggmap).
 
 
 CHANGES
 
 * dplyr is now listed as a dependency (for bind_cols in mutate_geocode).
-* get_stamenmap() now issues a warning if a location parameter is passed (#55, thanks @cguwilliams).
+* get_stamenmap() now issues a warning if a location parameter is passed
+  (#55, thanks @cguwilliams).
 
 
 FIXES
 
-* get_stamenmap() now works again for terrain and terrain-background images (#102, thanks @UrbanDemog).
-* a bug in parsing the base_layer argument is now fixed. (thanks to @restonslacker)
-* gglocator now properly adapts to scaling. (minor update, thanks to @Nikolai-Hlubek)
-* google functions now use enc2utf8() to better handle foreign character sets. (#98, #89, thanks dapper2dan)
-* google functions now better handle special characters. (#104, thanks casa-henrym)
+* get_stamenmap() now works again for terrain and terrain-background
+  images (#102, thanks @UrbanDemog).
+* a bug in parsing the base_layer argument is now fixed. (thanks to
+  @restonslacker)
+* gglocator now properly adapts to scaling. (minor update, thanks to
+  @Nikolai-Hlubek)
+* google functions now use enc2utf8() to better handle foreign character
+  sets. (#98, #89, thanks dapper2dan)
+* google functions now better handle special characters. (#104, thanks
+  casa-henrym)
 * gglocator now properly works again. (#87, thanks @salah31416)
 
 
