@@ -28,12 +28,12 @@ when using ggmap.)
 if(interactive()){
 
 # only run for interactive sessions
-
-
 df <- expand.grid(x = 0:-5, y = 0:-5)
 (p <- qplot(x, y, data = df) +
-  annotate(geom = 'point', x = -2, y = -2, colour = 'red'))
-gglocator()
+  annotate(geom = "point", x = -2, y = -2, colour = "red"))
+(pt <- gglocator())
+last_plot() +
+  annotate("point", pt$x, pt$y, color = "blue", size = 3, alpha = .5)
 
 p +
   scale_x_continuous(expand = c(0,0)) +

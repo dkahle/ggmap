@@ -19,12 +19,12 @@
 #' if(interactive()){
 #'
 #' # only run for interactive sessions
-#'
-#'
 #' df <- expand.grid(x = 0:-5, y = 0:-5)
 #' (p <- qplot(x, y, data = df) +
-#'   annotate(geom = 'point', x = -2, y = -2, colour = 'red'))
-#' gglocator()
+#'   annotate(geom = "point", x = -2, y = -2, colour = "red"))
+#' (pt <- gglocator()) # click red point
+#' last_plot() +
+#'   annotate("point", pt$x, pt$y, color = "blue", size = 3, alpha = .5)
 #'
 #' p +
 #'   scale_x_continuous(expand = c(0,0)) +
@@ -49,19 +49,23 @@ gglocator <- function(n = 1, message = FALSE,
   }
 
   # find the correct viewport for the npc coordinates
-  x <- grid.ls(print = message)$name
-  x <- x[grep("layout", x)][1]
-  seekViewport(x)
+  # x <- grid.ls(print = message)$name
+  # x <- x[grep("layout", x)][1]
+  # seekViewport(x)
 
   # get the position relative to that viewport
   loc <-  as.numeric(grid.locator("npc"))
 
   # scale the position to the plot
   object <- last_plot()
+
   # get the x.range and y.range from ggplot
   plot_info <- ggplot_build(object)
-  xrng <- plot_info$panel$ranges[[1]]$x.range
-  yrng <- plot_info$panel$ranges[[1]]$y.range
+  # xrng <- plot_info$layout$panel_ranges[[1]]$x.range
+  # yrng <- plot_info$layout$panel_ranges[[1]]$y.range
+
+  xrng <- layer_scales(last_plot())$x$range$range
+  yrng <- layer_scales(last_plot())$y$range$range
 
   xrng <- expand_range(range = xrng, mul = xexpand[1], add = xexpand[2])
   yrng <- expand_range(range = yrng, mul = yexpand[1], add = yexpand[2])
