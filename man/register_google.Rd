@@ -69,6 +69,7 @@ has_goog_key()
 goog_key()
 has_goog_client()
 has_goog_signature()
+register_google(key = "[your key here]")
 
 }
 \author{
