@@ -17,6 +17,7 @@ NEW FEATURES
 * google functions have domain name extension options, urlonly options,
   and inject options for any code that you manually want to pass to the
   url (i.e. anything that isn't built into ggmap).
+* mode = "transit" can now be used with mapdist().
 
 
 CHANGES
