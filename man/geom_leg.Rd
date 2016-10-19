@@ -23,7 +23,7 @@ geom_leg(mapping = NULL, data = NULL, stat = "identity",
 
 \item{arrow}{arrow}
 
-\item{lineend}{Line end style (round, butt, square)}
+\item{lineend}{Line end style (round, butt, square).}
 
 \item{na.rm}{If \code{FALSE} (the default), removes missing values with
 a warning.  If \code{TRUE} silently removes missing values.}

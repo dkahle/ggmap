@@ -59,6 +59,16 @@
 #'   color = I("red"), size = I(2), alpha = I(.5)
 #' )
 #'
+#' trek_df <- trek(from, to, mode = "walking")
+#' qmplot(lon, lat, data = trek_df, geom = "path", maptype = "terrain",
+#'   color = I("red"), size = I(2), alpha = I(.5)
+#' )
+#'
+#' trek_df <- trek(from, to, mode = "transit")
+#' qmplot(lon, lat, data = trek_df, geom = "path", maptype = "terrain",
+#'   color = I("red"), size = I(2), alpha = I(.5)
+#' )
+#'
 #'
 #' from <- "houson, texas"; to <- "waco, texas"
 #' trek_df <- trek(from, to, alternatives = TRUE)
