@@ -1,4 +1,11 @@
-
+#' Sign a url using a google digital signature
+#' @author Richard Beare
+#' @param input_url The url to be signed. Should include a client field.
+#' @param secret The private key
+#' @return The signed url
+#' @details Derived from the python urlsigner: 
+#' https://raw.githubusercontent.com/googlemaps/js-v2-samples/61b3f58eb1286a428843f8401048226b8648a76b/urlsigning/urlsigner.py
+#' 
 signurl <- function(input_url, secret)
 {
   secret.safe <- chartr("-_", "+/", secret)
