@@ -99,8 +99,6 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   nameType <- match.arg(nameType)
   source   <- match.arg(source)
 
-
-
   # vectorize for many locations
   if(length(location) > 1){
     # set limit
@@ -135,13 +133,15 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   # start constructing the url
   posturl <- URLencode(location, reserved = TRUE)
 
+  NeedToSign <- FALSE
   if(source == "google"){
 
     # add google account stuff
     if (has_goog_client() && has_goog_signature()) {
+      NeedToSign <- TRUE
       client <- goog_client()
-      signature <- goog_signature()
-      posturl <- paste(posturl, fmteq(client), fmteq(signature), sep = "&")
+      #signature <- goog_signature()
+      posturl <- paste(posturl, fmteq(client), sep = "&")
     } else if (has_goog_key()) {
       key <- goog_key()
       posturl <- paste(posturl, fmteq(key), sep = "&")
@@ -165,8 +165,11 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   if(urlonly) return(url_string)
   url_hash   <- digest::digest(url_string)
 
-
-
+  if (NeedToSign) {
+    # Sign if we are using google client and digital signature
+    url_string <- signurl(url_string, secret=goog_signature())
+  }
+  
   # lookup info if on file
   if(isGeocodedInformationOnFile(url_hash) && force == FALSE){
 

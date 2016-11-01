@@ -89,10 +89,11 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
     )
 
     # add google account stuff
+    NeedToSign <- FALSE
     if (has_goog_client() && has_goog_signature()) {
+      NeedToSign <- TRUE
       client <- goog_client()
-      signature <- goog_signature()
-      posturl <- paste(posturl, fmteq(client), fmteq(signature), sep = "&")
+      posturl <- paste(posturl, fmteq(client), sep = "&")
     } else if (has_goog_key()) {
       key <- goog_key()
       posturl <- paste(posturl, fmteq(key), sep = "&")
@@ -111,7 +112,12 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
     url_string <- URLencode( enc2utf8(url_string) )
     if(urlonly) return(url_string)
 
-    # check if query is too long
+    if (NeedToSign) {
+      # Sign if we are using google client and digital signature
+      url_string <- signurl(url_string, secret=goog_signature())
+    }
+    # check if query is too long - not sure if the signature is included
+    # in the maximum length - sign before check to be sure.
     if(nchar(url_string) >= 2048){
       n <- nrow(df)
       half_df <- floor(n/2)
