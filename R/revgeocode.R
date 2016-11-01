@@ -51,10 +51,11 @@ revgeocode <- function(location, output = c("address","more","all"),
   )
 
   # do google credentials
+  NeedToSign <- FALSE
   if (has_goog_client() && has_goog_signature()) {
+    NeedToSign <- TRUE
     client <- goog_client()
-    signature <- goog_signature()
-    url_string <- paste(url_string, fmteq(client), fmteq(signature), sep = "&")
+    url_string <- paste(url_string, fmteq(client), sep = "&")
   } else if (has_goog_key()) {
     key <- goog_key()
     url_string <- paste(url_string, fmteq(key), sep = "&")
@@ -67,7 +68,12 @@ revgeocode <- function(location, output = c("address","more","all"),
   url_string <- URLencode( enc2utf8(url_string) )
   if(urlonly) return(url_string)
 
-  # check/update google query limit
+  if (NeedToSign) {
+    # Sign if we are using google client and digital signature
+    url_string <- signurl(url_string, secret=goog_signature())
+  }
+
+    # check/update google query limit
   check <- checkGeocodeQueryLimit(url_string, elems = 1, override = override_limit, messaging = messaging)
 
   if(check == "stop"){

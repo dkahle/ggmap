@@ -7,7 +7,7 @@
 mapdist(from, to, mode = c("driving", "walking", "bicycling", "transit"),
   output = c("simple", "all"), messaging = FALSE, language = "en-EN",
   urlonly = FALSE, override_limit = FALSE, ext = "com", inject = "",
-  ...)
+  usingPlaceIDs = FALSE, ...)
 }
 \arguments{
 \item{from}{name of origin addresses in a data frame (vector
@@ -33,6 +33,9 @@ accepted)}
 
 \item{inject}{character string to add to the url}
 
+\item{usingPlaceIDs}{indicate that from and to fields contain placeIDs. 
+Turns of URL encoding of addresses.}
+
 \item{...}{...}
 }
 \value{
@@ -48,6 +51,9 @@ Terms of Service at https://developers.google.com/maps/terms.
 if parameters from and to are specified as geographic
   coordinates, they are reverse geocoded with revgeocode.  note
   that the google maps api limits to 2500 element queries a day.
+  
+  mapdist now makes a single query to the mapdist api. The returned
+  data frame will have length(from)*length(to) rows
 }
 \examples{
 
