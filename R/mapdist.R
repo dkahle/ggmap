@@ -26,6 +26,9 @@
 #' @details if parameters from and to are specified as geographic
 #'   coordinates, they are reverse geocoded with revgeocode.  note
 #'   that the google maps api limits to 2500 element queries a day.
+#'   
+#'   mapdist now makes a single query to the mapdist api. The returned
+#'   data frame will have length(from)*length(to) rows
 #' @seealso
 #' \url{http://code.google.com/apis/maps/documentation/distancematrix/}
 #' @export
