@@ -7,7 +7,7 @@
 mapdist(from, to, mode = c("driving", "walking", "bicycling", "transit"),
   output = c("simple", "all"), messaging = FALSE, language = "en-EN",
   urlonly = FALSE, override_limit = FALSE, ext = "com", inject = "",
-  ...)
+  usingPlaceIDs = FALSE, ...)
 }
 \arguments{
 \item{from}{name of origin addresses in a data frame (vector
@@ -32,6 +32,9 @@ accepted)}
 \item{ext}{domain extension (e.g. "com", "co.nz")}
 
 \item{inject}{character string to add to the url}
+
+\item{usingPlaceIDs}{indicate that from and to fields contain placeIDs. 
+Turns of URL encoding of addresses.}
 
 \item{...}{...}
 }

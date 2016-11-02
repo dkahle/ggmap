@@ -17,6 +17,8 @@
 #'   (.GoogleDistQueryCount)
 #' @param ext domain extension (e.g. "com", "co.nz")
 #' @param inject character string to add to the url
+#' @param usingPlaceIDs indicate that from and to fields contain placeIDs. 
+#' Turns of URL encoding of addresses.
 #' @param ... ...
 #' @return a data frame (output="simple") or all of the geocoded
 #'   information (output="all")
@@ -61,7 +63,7 @@
 mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"),
   output = c("simple","all"), messaging = FALSE,
   language = "en-EN", urlonly = FALSE, override_limit = FALSE,
-  ext = "com", inject = "", ...)
+  ext = "com", inject = "", usingPlaceIDs=FALSE, ...)
 {
 
   # check parameters
@@ -69,21 +71,28 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
   stopifnot(is.character(from))
   if(is.numeric(to) && length(to) == 2) to <- revgeocode(to)
   stopifnot(is.character(to))
-  from_to_df <- data.frame(from = from, to = to, stringsAsFactors = FALSE)
-  origins <- from_to_df$from
-  destinations <- from_to_df$to # this ensures # from = # to
+
+  #  from_to_df <- data.frame(from = from, to = to, stringsAsFactors = FALSE)
+  # Don't need to ensure that # from = # to - that happens in google
+  origins <- from
+  destinations <- to # this ensures # from = # to
+  
   mode <- match.arg(mode)
   output <- match.arg(output)
   stopifnot(is.logical(messaging))
 
 
-  getdists <- function(df){
-
+  getdists <- function(From, To){
   	# format basic url
-    origins <- URLencode(df$from[1], reserved = TRUE)
-    destinations <- URLencode(df$to, reserved = TRUE)
+    if (usingPlaceIDs) {
+      origins <- From
+      destinations <- To
+    } else {
+      origins <- sapply(From, URLencode, reserved = TRUE)
+      destinations <- sapply(To, URLencode, reserved = TRUE)
+    }
     posturl <- paste(
-      fmteq(origins), fmteq(destinations, paste, collapse = "|"),
+      fmteq(origins, paste, collapse = "|"), fmteq(destinations, paste, collapse = "|"),
       fmteq(mode), fmteq(language),
       sep = "&"
     )
@@ -107,7 +116,6 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
 
     # inject
     if(inject != "") url_string <- paste(url_string, inject, sep = "&")
-
     # encode
     url_string <- URLencode( enc2utf8(url_string) )
     if(urlonly) return(url_string)
@@ -117,8 +125,8 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
       url_string <- signurl(url_string, secret=goog_signature())
     }
     # check if query is too long - not sure if the signature is included
-    # in the maximum length - sign before check to be sure.
-    if(nchar(url_string) >= 2048){
+    # in the maximum length - sign before check to be surTT$e.
+    if(nchar(url_string) >= 8192){
       n <- nrow(df)
       half_df <- floor(n/2)
       return(
@@ -129,8 +137,8 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
       )
     }
 
-    # check/update google query limit
-    check_dist_query_limit(url_string, elems = nrow(df),
+    # check/update google query limit - this is a single query
+    check_dist_query_limit(url_string, elems = 1,
       override = override_limit, messaging = messaging)
 
 
@@ -140,50 +148,51 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
     tree <- fromJSON(paste(readLines(connect), collapse = ""))
     check_google_for_error(tree)
 
-
     # message user
     message(paste0("Source : ", url_string))
-
     # label destinations - first check if all were found
-    if(length(df$to) != length(tree$destination_addresses)){
+    if(length(To) != length(tree$destination_addresses)){
       message("matching was not perfect, returning what was found.")
-      names( tree$rows[[c(1,1)]] ) <- tree$destination_addresses
       output <<- "all"
-      # stringdist::amatch(df$to, tree$destination_addresses, maxDist = 10)
-    } else {
-      names( tree$rows[[c(1,1)]] ) <- df$to
-    }
-
-    # return
-    tree$rows[[c(1,1)]]
+    } 
+    if(length(From) != length(tree$origin_addresses)){
+      message("matching was not perfect, returning what was found.")
+      output <<- "all"
+    } 
+    return(tree)
   }
 
-  out <- dlply(from_to_df, "from", getdists)
+  out <- getdists(origins, destinations)
 
   # return all
   if(output == "all") return(out)
-
-
-
+  
+  # out$rows has length(from)
+  # out$rows[[j]]$elements has length(to)
   # format output
-  out <-
-    ldply(out, function(oneFromList){
-      ldply(oneFromList, function(oneToList){
-        data.frame(
-          m = oneToList$distance$value,
-  	      km = oneToList$distance$value/1000,
-          miles = 0.0006214 * oneToList$distance$value,
-          seconds = oneToList$duration$value,
-          minutes = oneToList$duration$value / 60,
-  	      hours = oneToList$duration$value / 3600
-        )
-      })
+  out_df <-  plyr::ldply(out$rows, function(aToList){
+    res <- plyr::ldply(aToList[[1]], function(oneToList){
+      data.frame(
+        m = oneToList$distance$value,
+        km = oneToList$distance$value/1000,
+        miles = 0.0006214 * oneToList$distance$value,
+        seconds = oneToList$duration$value,
+        minutes = oneToList$duration$value / 60,
+        hours = oneToList$duration$value / 3600
+      )
     })
+    return(res)
+  })
+  
+  destadd <- rep(out$destination_addresses, length(out$origin_addresses))
+  originadd <- rep(out$origin_address, rep(length(out$destination_addresses), length(out$origin_addresses)))
+  
+  tos <- rep(to, length(from))
+  froms <- rep(from, rep(length(to), length(from)))
 
-  names(out) <- c("from", "to", names(out)[3:ncol(out)])
-
+  from_to_df <- data.frame(destination.address=destadd, origin.address=originadd, from=froms, to=tos)
   # "simple" return
-  suppressMessages(join(from_to_df, out))
+  suppressMessages(cbind(from_to_df, out_df))
 }
 
 
