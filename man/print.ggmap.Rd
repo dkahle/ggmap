@@ -12,7 +12,7 @@
 \item{...}{additional parameters}
 }
 \value{
-Invisible string of the printed object.
+Invisibly returns \code{x}.
 }
 \description{
 Print a console description of a map
