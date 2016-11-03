@@ -56,7 +56,7 @@ file_drawer_set <- function(url, map, name = NULL) {
   index <- file_drawer_index()
 
   if (url %in% names(index)) {
-    file.remove(index[[url]])
+    file.remove(file_drawer(index[[url]]))
   }
   index[[url]] <- name
   saveRDS(index, file_drawer("index.rds"))
