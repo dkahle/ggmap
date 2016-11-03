@@ -32,7 +32,7 @@ print.ggmap <- function(x, ...){
   }
 
   cat(paste0(r, "x", c, " ", attr(x, "maptype"), " map image from ", source, ".",
-             "  see ?ggmap to plot it."), ...)
+             "  see ?ggmap to plot it.\n"), ...)
 
   invisible()
 }
