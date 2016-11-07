@@ -384,8 +384,6 @@ get_googlemap <- function(
   out <- map # t(map)
 
   # archive map for future use
-  fileNameCenter <- as.character(center)
-  fileNameCenter <- paste0(gsub("\\.", "_", fileNameCenter),collapse = "-")
   if (archiving) file_drawer_set(url, out)
 
   # kick out

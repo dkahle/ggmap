@@ -60,7 +60,7 @@ gglocator <- function(n = 1, message = FALSE,
   object <- last_plot()
 
   # get the x.range and y.range from ggplot
-  plot_info <- ggplot_build(object)
+  # plot_info <- ggplot_build(object)
   # xrng <- plot_info$layout$panel_ranges[[1]]$x.range
   # yrng <- plot_info$layout$panel_ranges[[1]]$y.range
 

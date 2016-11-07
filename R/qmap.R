@@ -42,15 +42,15 @@ qmap <- function(location = "houston", ...){
   # location formatting
   location_stop <- TRUE
   if(is.character(location) && length(location) == 1){
-    location_type <- "address"
+    # address
     location_stop <- FALSE
   }
   if(is.numeric(location) && length(location) == 2){
-    location_type <- "lonlat"
+    # lonlat
     location_stop <- FALSE
   }
   if(is.numeric(location) && length(location) == 4){
-    location_type <- "bbox"
+    # bbox
     location_stop <- FALSE
   }
   if(location_stop){
@@ -72,24 +72,6 @@ qmap <- function(location = "houston", ...){
     scale <- eval(args$scale)
   } else {
   	scale <- "auto"
-  }
-
-  if("messaging" %in% names(args)){
-    messaging <- eval(args$messaging)
-  } else {
-    messaging <- FALSE
-  }
-
-  if("urlonly" %in% names(args)){
-    urlonly <- eval(args$urlonly)
-  } else {
-    urlonly <- FALSE
-  }
-
-  if("filename" %in% names(args)){
-    filename <- eval(args$filename)
-  } else {
-    filename <- "ggmapTemp"
   }
 
   if("color" %in% names(args)){
@@ -123,17 +105,6 @@ qmap <- function(location = "houston", ...){
       maptype <- 1
     }
   }
-
-  if("crop" %in% names(args)){
-    crop <- eval(args$crop)
-  } else {
-    crop <- TRUE
-  }
-
-
-
-
-
 
   # ggmap args
   ##################
