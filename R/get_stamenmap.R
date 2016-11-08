@@ -55,7 +55,7 @@
 #' place <- "mount everest"
 #' (google <- get_googlemap(place, zoom = 9))
 #' ggmap(google)
-#' bbox_everest <- bb2bbox(attr(google, "bb"))
+#' bbox_everest <- c(left = 86.05, bottom = 27.21, right = 87.81, top = 28.76)
 #' ggmap(get_stamenmap(bbox_everest, zoom = 9))
 #'
 #'
