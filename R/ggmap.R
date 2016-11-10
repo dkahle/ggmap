@@ -112,7 +112,9 @@
 #' ggmap(baylor)
 #'
 #' # use gglocator to find lon/lat"s of interest
-#' (clicks <- clicks <- gglocator(2) )
+#' (clicks <- gglocator(2) )
+#' ggmap(baylor) +
+#'   geom_point(aes(x = lon, y = lat), data = clicks, colour = "red", alpha = .5)
 #' expand.grid(lon = clicks$lon, lat = clicks$lat)
 #'
 #' ggmap(baylor) + theme_bw() +
