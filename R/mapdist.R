@@ -29,7 +29,7 @@
 #' @export
 #' @examples
 #'
-#' \dontrun{ online queries draw R CMD check times
+#' \dontrun{# online queries draw R CMD check times
 #'
 #' mapdist("waco, texas", "houston, texas")
 #'

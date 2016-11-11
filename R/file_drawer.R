@@ -11,7 +11,7 @@
 #' @keywords internal
 #' @examples
 #'
-#' \dontrun{ if server is unresponsive, R check will fail
+#' \dontrun{# if server is unresponsive, R check will fail
 #'
 #' file_drawer()
 #' dir(file_drawer())
