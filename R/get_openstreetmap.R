@@ -44,11 +44,12 @@
 #' @export
 #' @examples
 #'
+#' get_openstreetmap(urlonly = TRUE)
 #' \dontrun{
 #' # osm servers get overloaded, which can result in
 #' # erroneous failed checks
 #'
-#' osm <- get_openstreetmap(urlonly = TRUE)
+#' osm <- get_openstreetmap()
 #' ggmap(osm)
 #'
 #' }
