@@ -35,7 +35,7 @@
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
 #' @param filename destination file for download (file extension added according
-#'   to format)
+#'   to format). Default \code{NULL} means a random \code{\link{tempfile}}.
 #' @param color color or black-and-white
 #' @param ... ...
 #' @return a ggmap object (a classed raster object with a bounding box attribute)
@@ -56,12 +56,15 @@
 get_openstreetmap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
   scale = 606250, format = c('png', 'jpeg', 'svg', 'pdf', 'ps'), messaging = FALSE,
-  urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
+  urlonly = FALSE, filename = NULL, color = c('color','bw'), ...
 ){
 
   # enumerate argument checking (added in lieu of checkargs function)
   args <- as.list(match.call(expand.dots = TRUE)[-1])
   argsgiven <- names(args)
+
+  # argument checking (no checks for language, region, markers, path, visible, style)
+  #if(checkargs) get_openstreetmap_checkargs(args)
 
   if('bbox' %in% argsgiven){
     if(!(is.numeric(bbox) && length(bbox) == 4)){
@@ -80,25 +83,26 @@ get_openstreetmap <- function(
 
   if('urlonly' %in% argsgiven) stopifnot(is.logical(urlonly))
 
-  if('filename' %in% argsgiven){
+  format <- match.arg(format)
+  if(format != 'png') stop('currently only the png format is supported.', call. = F)
+
+  if(is.null(filename)){
+    destfile <- tempfile(fileext = paste(".", format, sep = ""))
+  } else{
     filename_stop <- TRUE
     if(is.character(filename) && length(filename) == 1) filename_stop <- FALSE
     if(filename_stop) stop('improper filename specification, see ?get_openstreetmap.', call. = F)
+    destfile <- paste(filename, format, sep = '.')
   }
 
   # color arg checked by match.arg
+  color <- match.arg(color)
 
   if('checkargs' %in% argsgiven){
     .Deprecated(msg = 'checkargs argument deprecated, args are always checked after v2.1.')
   }
 
 
-  # argument checking (no checks for language, region, markers, path, visible, style)
-  #args <- as.list(match.call(expand.dots = TRUE)[-1])
-  #if(checkargs) get_openstreetmap_checkargs(args)
-  format <- match.arg(format)
-  if(format != 'png') stop('currently only the png format is supported.', call. = F)
-  color <- match.arg(color)
 
 
 
@@ -116,7 +120,6 @@ get_openstreetmap <- function(
   if(urlonly) return(url)
 
   # read in file
-  destfile <- paste(filename, format, sep = '.')
   m <- try(download.file(url, destfile = destfile, quiet = !messaging, mode = 'wb'), silent = T)
   if(class(m) == 'try-error'){
     stop('map grabbing failed - see details in ?get_openstreetmap.',

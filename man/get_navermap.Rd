@@ -10,7 +10,7 @@ get_navermap(center = c(lon = 126.9849208, lat = 37.5664519), zoom = 4,
   "EPSG:2096", "EPSG:2097", "EPSG:2098", "EPSG:900913"),
   baselayer = c("default", "satellite"), color = c("color", "bw"),
   overlayers = c("anno_satellite", "bicycle", "roadview", "traffic"), markers,
-  key, uri, filename = "ggmapTemp", messaging = FALSE, urlonly = FALSE,
+  key, uri, filename = NULL, messaging = FALSE, urlonly = FALSE,
   force = FALSE, where = tempdir(), archiving = TRUE, ...)
 }
 \arguments{
@@ -45,7 +45,8 @@ the map image, or character string to be passed directly to api}
 \item{uri}{registered host url}
 
 \item{filename}{destination file for download (file extension
-added according to format)}
+added according to format). Default \code{NULL} means a random
+\code{\link{tempfile}}.}
 
 \item{messaging}{turn messaging on/off}
 

@@ -7,7 +7,7 @@
 get_openstreetmap(bbox = c(left = -95.80204, bottom = 29.38048, right =
   -94.92313, top = 30.14344), scale = 606250, format = c("png", "jpeg",
   "svg", "pdf", "ps"), messaging = FALSE, urlonly = FALSE,
-  filename = "ggmapTemp", color = c("color", "bw"), ...)
+  filename = NULL, color = c("color", "bw"), ...)
 }
 \arguments{
 \item{bbox}{a bounding box in the format c(lowerleftlon, lowerleftlat,
@@ -34,7 +34,7 @@ and ps formats}
 \item{urlonly}{return url only}
 
 \item{filename}{destination file for download (file extension added according
-to format)}
+to format). Default \code{NULL} means a random \code{\link{tempfile}}.}
 
 \item{color}{color or black-and-white}
 

@@ -25,7 +25,8 @@
 #' @param key key code from naver api center
 #' @param uri registered host url
 #' @param filename destination file for download (file extension
-#'   added according to format)
+#'   added according to format). Default \code{NULL} means a random
+#'   \code{\link{tempfile}}.
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
 #' @param force if the map is on file, should a new map be looked
@@ -55,7 +56,7 @@ get_navermap <- function(
   crs = c("EPSG:4326", "NHN:2048", "NHN:128", "EPSG:4258", "EPSG:4162", "EPSG:2096", "EPSG:2097", "EPSG:2098", "EPSG:900913"),
   baselayer = c("default", "satellite"), color = c("color","bw"),
   overlayers = c("anno_satellite", "bicycle", "roadview", "traffic"),
-  markers, key, uri, filename = "ggmapTemp", messaging = FALSE, urlonly = FALSE,
+  markers, key, uri, filename = NULL, messaging = FALSE, urlonly = FALSE,
   force = FALSE, where = tempdir(), archiving = TRUE, ...
 ){
 
@@ -95,8 +96,11 @@ get_navermap <- function(
   }
 
   # format arg checked by match.arg
+  format <- match.arg(format)
 
   # baselayer, overlayers arg checked by match.arg
+  baselayer <- match.arg(baselayer)
+  overlayers <- match.arg(overlayers, several.ok=TRUE)
 
   if("markers" %in% argsgiven){
     markers_stop <- TRUE
@@ -112,11 +116,13 @@ get_navermap <- function(
     if(markers_stop) stop("improper marker specification, see ?get_navermap.", call. = F)
   }
 
-  if("filename" %in% argsgiven){
+  if(is.null(filename)){
+    destfile <- tempfile(fileext = paste(".", format, sep = ""))
+  } else{
     filename_stop <- TRUE
     if(is.character(filename) && length(filename) == 1) filename_stop <- FALSE
     if(filename_stop) stop("improper filename specification, see ?get_navermap", call. = F)
-
+    destfile <- paste(filename, format, sep = '.')
   }
 
   if("messaging" %in% argsgiven) stopifnot(is.logical(messaging))
@@ -125,11 +131,8 @@ get_navermap <- function(
 
 
   # argument checking (no checks for language, region, markers, path, visible, style)
-  format <- match.arg(format)
   color <- match.arg(color)
-  baselayer <- match.arg(baselayer)
   crs <- match.arg(crs)
-  overlayers <- match.arg(overlayers, several.ok=TRUE)
 
   if(!missing(markers) && class(markers) == "list") markers <- list_to_dataframe(markers)
 
@@ -186,14 +189,13 @@ get_navermap <- function(
   if (!is.null(map) && !force) return(map)
 
   # finalize filename
-  tmp <- tempfile()
-  download.file(url, tmp, quiet = !messaging, mode = "wb")
+  download.file(url, destfile, quiet = !messaging, mode = "wb")
   message(paste0("Map from URL : ", url))
 
   if(format == "png"){
-    map <- readPNG(tmp)
-  } else if(format == "jpg"){
-    map <- readJPEG(tmp)
+    map <- readPNG(destfile)
+  } else{
+    map <- readJPEG(destfile)
   }
 
   # format file

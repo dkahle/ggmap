@@ -10,8 +10,8 @@ get_map(location = c(lon = -95.3632715, lat = 29.7632836), zoom = "auto",
   "toner-2010", "toner-2011", "toner-background", "toner-hybrid",
   "toner-labels", "toner-lines", "toner-lite"), source = c("google", "osm",
   "stamen", "cloudmade"), force = ifelse(source == "google", TRUE, TRUE),
-  messaging = FALSE, urlonly = FALSE, filename = "ggmapTemp",
-  crop = TRUE, color = c("color", "bw"), language = "en-EN", api_key)
+  messaging = FALSE, urlonly = FALSE, filename = NULL, crop = TRUE,
+  color = c("color", "bw"), language = "en-EN", api_key)
 }
 \arguments{
 \item{location}{an address, longitude/latitude pair (in that
@@ -44,7 +44,8 @@ Stamen Maps ("stamen"), or CloudMade maps ("cloudmade")}
 \item{urlonly}{return url only}
 
 \item{filename}{destination file for download (file extension
-added according to format)}
+added according to format). Default \code{NULL} means a random
+\code{\link{tempfile}}.}
 
 \item{crop}{(stamen and cloudmade maps) crop tiles to bounding
 box}
