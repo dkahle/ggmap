@@ -4,7 +4,7 @@
 #' when using ggmap.)
 #'
 #' @param n number of points to locate.
-#' @param message turn messaging from grid.ls on/off
+#' @param message unused
 #' @param xexpand expand argument in scale_x_continuous
 #' @param yexpand expand argument in scale_y_continuous
 #' @return a data frame with columns according to the x and y
@@ -54,24 +54,48 @@ gglocator <- function(n = 1, message = FALSE,
     return(df)
   }
 
+  object <- last_plot()
+  if(is.null(object)){
+    stop("no plots available")
+  }
+
   # find the correct viewport for the npc coordinates
-  # x <- grid.ls(print = message)$name
-  # x <- x[grep("layout", x)][1]
-  # seekViewport(x)
+  x <- unlist(current.vpTree())
+  x <- unname(x[grep("\\.name$", names(x))])
+  x <- grep("panel", x, fixed = TRUE, value = TRUE)
+  n_panels <- length(x)
+  if(n_panels == 0){
+    stop("ggmap plot not detected in current device")
+  }
+  if(n_panels > 1){
+    x <- x[1]
+    warning(gettextf("multiple plots detected, choosing one (\"%s\")",
+                     x), domain = NA)
+  }
+  previous_viewport <- current.vpPath()
+  seekViewport(x, recording = FALSE)
+
+  # when exiting function, return to previous position in viewport tree
+  on.exit(upViewport(0, recording = FALSE))
+  if(!is.null(previous_viewport)){
+    on.exit(downViewport(previous_viewport, strict = TRUE, recording = FALSE),
+            add = TRUE)
+  }
 
   # get the position relative to that viewport
   loc <-  as.numeric(grid.locator("npc"))
 
   # scale the position to the plot
-  object <- last_plot()
 
   # get the x.range and y.range from ggplot
   plot_info <- ggplot_build(object)
-  # xrng <- plot_info$layout$panel_ranges[[1]]$x.range
-  # yrng <- plot_info$layout$panel_ranges[[1]]$y.range
-
-  xrng <- layer_scales(last_plot())$x$range$range
-  yrng <- layer_scales(last_plot())$y$range$range
+  if("layout" %in% names(plot_info)){
+    ranges <- plot_info$layout$panel_ranges[[1]]
+  } else{
+    ranges <- plot_info$panel$ranges[[1]]
+  }
+  xrng <- ranges$x.range
+  yrng <- ranges$y.range
 
   xrng <- expand_range(range = xrng, mul = xexpand[1], add = xexpand[2])
   yrng <- expand_range(range = yrng, mul = yexpand[1], add = yexpand[2])
