@@ -33,7 +33,7 @@
 #'
 #' \dontrun{ # to cut down on check time
 #'
-#' from <- "houson, texas"
+#' from <- "houston, texas"
 #' to <- "waco, texas"
 #' route_df <- route(from, to, structure = "route")
 #' trek_df  <-  trek(from, to, structure = "route")
@@ -428,7 +428,7 @@ geom_leg <- function(mapping = NULL, data = NULL, stat = "identity",
 #'
 #'
 #'
-#' from <- "houson, texas"
+#' from <- "houston, texas"
 #' to <- "waco, texas"
 #' legs_df <- route(from, to)
 #'
