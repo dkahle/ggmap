@@ -72,7 +72,7 @@ get_openstreetmap <- function(
   if('scale' %in% argsgiven){
     if(!(is.numeric(scale) && length(scale) == 1 &&
     scale == round(scale) && scale > 0)){
-      stop('scale must be a postive integer.', call. = F)
+      stop('scale must be a positive integer.', call. = F)
     }
   }
 
@@ -188,7 +188,7 @@ get_openstreetmap_checkargs <- function(args){
     if('scale' %in% argsgiven){
       if(!(is.numeric(scale) && length(scale) == 1 &&
       scale == round(scale) && scale > 0)){
-        stop('scale must be a postive integer.', call. = F)
+        stop('scale must be a positive integer.', call. = F)
       }
     }
 

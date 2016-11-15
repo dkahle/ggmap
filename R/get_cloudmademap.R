@@ -61,7 +61,7 @@ get_cloudmademap <- function(
   if('zoom' %in% argsgiven){
     if(!(is.numeric(zoom) && length(zoom) == 1 &&
     zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
-      stop('scale must be a postive integer 0-18, see ?get_stamenmap.', call. = F)
+      stop('scale must be a positive integer 0-18, see ?get_stamenmap.', call. = F)
     }
   }
 
@@ -267,7 +267,7 @@ get_cloudmademap_checkargs <- function(args){
     if('zoom' %in% argsgiven){
       if(!(is.numeric(zoom) && length(zoom) == 1 &&
       zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
-        stop('scale must be a postive integer 0-18, see ?get_stamenmap.', call. = F)
+        stop('scale must be a positive integer 0-18, see ?get_stamenmap.', call. = F)
       }
     }
 
