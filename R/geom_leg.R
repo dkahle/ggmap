@@ -7,7 +7,7 @@
 #' @seealso geom_segment in ggplot2, inspired by
 #'   \url{http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/},
 #'   \code{\link{route}}
-#' @details only intended for use in ggmaps package.  only designed
+#' @details only intended for use in ggmap package.  only designed
 #'   for mercator projection.
 #' @export
 #' @examples
