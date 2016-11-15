@@ -28,7 +28,7 @@ legs2route(legs_df)
 
 
 
-from <- "houson, texas"
+from <- "houston, texas"
 to <- "waco, texas"
 legs_df <- route(from, to)
 

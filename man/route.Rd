@@ -53,7 +53,7 @@ at https://developers.google.com/maps/terms.
 
 \dontrun{ # to cut down on check time
 
-from <- "houson, texas"
+from <- "houston, texas"
 to <- "waco, texas"
 route_df <- route(from, to, structure = "route")
 trek_df  <-  trek(from, to, structure = "route")

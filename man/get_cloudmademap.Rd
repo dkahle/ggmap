@@ -42,7 +42,7 @@ a ggmap object (a classed raster object with a bounding
 }
 \description{
 \code{get_cloudmademap} accesses a tile server for Stamen Maps
-and downloads/stiches map tiles/formats a map image. This
+and downloads/stitches map tiles/formats a map image. This
 function requires an api key which can be obtained for free from
 http://cloudmade.com/user/show (defunct?). Thousands of maptypes
 ("styles"), including create-your-own options, are available from
