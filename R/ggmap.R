@@ -192,8 +192,8 @@
 #' # the bubble chart
 #' HoustonMap +
 #'    geom_point(aes(x = lon, y = lat, colour = offense, size = offense), data = violent_crimes) +
-#'    scale_colour_discrete("Offense", labels = c("Robery","Aggravated Assault","Rape","Murder")) +
-#'    scale_size_discrete("Offense", labels = c("Robery","Aggravated Assault","Rape","Murder"),
+#'    scale_colour_discrete("Offense", labels = c("Robbery","Aggravated Assault","Rape","Murder")) +
+#'    scale_size_discrete("Offense", labels = c("Robbery","Aggravated Assault","Rape","Murder"),
 #'      range = c(1.75,6)) +
 #'    guides(size = guide_legend(override.aes = list(size = 6))) +
 #'    theme(
@@ -213,8 +213,8 @@
 #' qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite",
 #'   color = offense, size = offense, legend = "topleft"
 #' ) +
-#'   scale_colour_discrete("Offense", labels = c("Robery","Aggravated Assault","Rape","Murder")) +
-#'   scale_size_discrete("Offense", labels = c("Robery","Aggravated Assault","Rape","Murder"),
+#'   scale_colour_discrete("Offense", labels = c("Robbery","Aggravated Assault","Rape","Murder")) +
+#'   scale_size_discrete("Offense", labels = c("Robbery","Aggravated Assault","Rape","Murder"),
 #'     range = c(1.75,6)) +
 #'   guides(size = guide_legend(override.aes = list(size = 6))) +
 #'   theme(
@@ -233,7 +233,7 @@
 #' HoustonMap +
 #'   stat_density2d(aes(x = lon, y = lat, colour = offense),
 #'     size = 3, bins = 2, alpha = 3/4, data = violent_crimes) +
-#'    scale_colour_discrete("Offense", labels = c("Robery","Aggravated Assault","Rape","Murder")) +
+#'    scale_colour_discrete("Offense", labels = c("Robbery","Aggravated Assault","Rape","Murder")) +
 #'    theme(
 #'      legend.text = element_text(size = 15, vjust = .5),
 #'      legend.title = element_text(size = 15,face="bold"),
@@ -247,9 +247,9 @@
 #'   stat_bin2d(aes(x = lon, y = lat, colour = offense, fill = offense),
 #'     size = .5, bins = 30, alpha = 2/4, data = violent_crimes) +
 #'    scale_colour_discrete("Offense",
-#'      labels = c("Robery","Aggravated Assault","Rape","Murder"),
+#'      labels = c("Robbery","Aggravated Assault","Rape","Murder"),
 #'      guide = FALSE) +
-#'    scale_fill_discrete("Offense", labels = c("Robery","Aggravated Assault","Rape","Murder")) +
+#'    scale_fill_discrete("Offense", labels = c("Robbery","Aggravated Assault","Rape","Murder")) +
 #'    theme(
 #'      legend.text = element_text(size = 15, vjust = .5),
 #'      legend.title = element_text(size = 15,face="bold"),
