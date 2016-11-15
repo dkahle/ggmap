@@ -433,7 +433,7 @@ ggmap <- function(ggmap, extent = "panel", base_layer, maprange = FALSE,
   # deprecated syntaxes
   args <- as.list(match.call(expand.dots = TRUE)[-1])
   if("ggmapplot" %in% names(args)){
-    .Deprecated(msg = "ggmaplot syntax deprecated, use ggmap.")
+    .Deprecated(msg = "ggmapplot syntax deprecated, use ggmap.")
   }
 
   if("b" %in% names(args)){
