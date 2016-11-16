@@ -49,7 +49,7 @@ theme_nothing <- function(base_size = 12, legend = FALSE){
      panel.grid.major =   element_blank(),
      panel.grid.minor =   element_blank(),
      axis.ticks.length =  unit(0, "cm"),
-     panel.margin =       unit(0, "lines"),
+     panel.spacing =      unit(0, "lines"),
      plot.margin =        unit(c(0, 0, 0, 0), "lines"),
      complete = TRUE
    ))
@@ -60,7 +60,7 @@ theme_nothing <- function(base_size = 12, legend = FALSE){
      text =               element_blank(),
      axis.ticks.length =  unit(0, "cm"),
      legend.position =    "none",
-     panel.margin =       unit(0, "lines"),
+     panel.spacing =      unit(0, "lines"),
      plot.margin =        unit(c(0, 0, 0, 0), "lines"),
      complete = TRUE
    ))
