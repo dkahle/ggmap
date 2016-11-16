@@ -244,7 +244,7 @@
 #'
 #' # 2d histogram...
 #' HoustonMap +
-#'   stat_bin2d(aes(x = lon, y = lat, colour = offense, fill = offense),
+#'   stat_bin_2d(aes(x = lon, y = lat, colour = offense, fill = offense),
 #'     size = .5, bins = 30, alpha = 2/4, data = violent_crimes) +
 #'    scale_colour_discrete("Offense",
 #'      labels = c("Robery","Aggravated Assault","Rape","Murder"),
