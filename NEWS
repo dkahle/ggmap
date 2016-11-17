@@ -39,7 +39,7 @@ FIXES
   sets. (#98, #89, thanks dapper2dan)
 * google functions now better handle special characters. (#104, thanks
   casa-henrym)
-* gglocator now properly works again. (#87, thanks @salah31416)
+* gglocator now properly works again. (#87, thanks @salah31416 and @mvkorpel)
 
 
 ggmap 2.6.1

@@ -12,7 +12,7 @@
 #' @author Tyler Rinker with help from Baptiste Auguie and
 #'   StackOverflow user DWin with additions and canning by David
 #'   Kahle \email{david.kahle@@gmail.com}. Updated by
-#'   \@Nikolai-Hlubek
+#'   \@Nikolai-Hlubek and \@mvkorpel.
 #' @export
 #' @examples
 #'

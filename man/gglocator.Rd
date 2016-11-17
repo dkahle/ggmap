@@ -55,6 +55,6 @@ print(gglocator(1, xexpand = c(0,0), yexpand = c(0,0)))
 Tyler Rinker with help from Baptiste Auguie and
   StackOverflow user DWin with additions and canning by David
   Kahle \email{david.kahle@gmail.com}. Updated by
-  \@Nikolai-Hlubek
+  \@Nikolai-Hlubek and \@mvkorpel.
 }
 
