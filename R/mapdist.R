@@ -29,7 +29,7 @@
 #' @export
 #' @examples
 #'
-#' \dontrun{ online queries draw R CMD check times
+#' \dontrun{# online queries draw R CMD check times
 #'
 #' mapdist("waco, texas", "houston, texas")
 #'
@@ -70,8 +70,6 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
   if(is.numeric(to) && length(to) == 2) to <- revgeocode(to)
   stopifnot(is.character(to))
   from_to_df <- data.frame(from = from, to = to, stringsAsFactors = FALSE)
-  origins <- from_to_df$from
-  destinations <- from_to_df$to # this ensures # from = # to
   mode <- match.arg(mode)
   output <- match.arg(output)
   stopifnot(is.logical(messaging))

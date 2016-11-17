@@ -22,7 +22,7 @@ functions (e.g. get_stamenmap).
 }
 \examples{
 
-\dontrun{ cut down on R CMD check time
+\dontrun{# cut down on R CMD check time
 
 # grab a center/zoom map and compute its bounding box
 gc <- geocode("white house, washington dc")

@@ -46,10 +46,10 @@ included in ggmap for historical reasons.
 Single line segments with rounded ends
 }
 \details{
-only intended for use in ggmaps package.  only designed
+only intended for use in ggmap package.  only designed
   for mercator projection.
 
-only intended for use in ggmaps package.  only designed
+only intended for use in ggmap package.  only designed
   for mercator projection.
 }
 \examples{

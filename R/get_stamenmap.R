@@ -235,7 +235,7 @@ get_stamenmap <- function(
   if("zoom" %in% argsgiven){
     if(!(is.numeric(zoom) && length(zoom) == 1 &&
     zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
-      stop("scale must be a postive integer 0-18, see ?get_stamenmap.", call. = F)
+      stop("scale must be a positive integer 0-18, see ?get_stamenmap.", call. = F)
     }
   }
 
@@ -274,9 +274,7 @@ get_stamenmap <- function(
   fourCornersTiles <- apply(fourCorners, 1, function(v) LonLat2XY(v[1],v[2],v[3]))
 
   xsNeeded <- Reduce(":", sort(unique(as.numeric(sapply(fourCornersTiles, function(df) df$X)))))
-  numXTiles <- length(xsNeeded)
   ysNeeded <- Reduce(":", sort(unique(as.numeric(sapply(fourCornersTiles, function(df) df$Y)))))
-  numYTiles <- length(ysNeeded)
   tilesNeeded <- expand.grid(x = xsNeeded, y = ysNeeded)
   if(nrow(tilesNeeded) > 40){
     message(paste0(nrow(tilesNeeded), " tiles needed, this may take a while ",
@@ -296,8 +294,6 @@ get_stamenmap <- function(
 
 
   # make list of tiles
-  count <- 0
-  nTiles <- nrow(tilesNeeded)
   listOfTiles <- lapply(split(tilesNeeded, 1:nrow(tilesNeeded)), function(v){
     v <- as.numeric(v)
     get_stamenmap_tile(maptype, zoom, v[1], v[2], force = force, messaging = messaging)
@@ -402,7 +398,7 @@ get_stamenmap_checkargs <- function(args){
     if("zoom" %in% argsgiven){
       if(!(is.numeric(zoom) && length(zoom) == 1 &&
       zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
-        stop("scale must be a postive integer 0-18, see ?get_stamenmap.", call. = F)
+        stop("scale must be a positive integer 0-18, see ?get_stamenmap.", call. = F)
       }
     }
 

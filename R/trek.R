@@ -34,7 +34,7 @@
 #'
 #' \dontrun{ # to cut down on check time
 #'
-#' from <- "houson, texas"
+#' from <- "houston, texas"
 #' to <- "waco, texas"
 #' route_df <- route(from, to, structure = "route")
 #' trek_df <- trek(from, to, structure = "route")
@@ -70,7 +70,7 @@
 #' )
 #'
 #'
-#' from <- "houson, texas"; to <- "waco, texas"
+#' from <- "houston, texas"; to <- "waco, texas"
 #' trek_df <- trek(from, to, alternatives = TRUE)
 #' qmplot(lon, lat, data = trek_df, geom = "path",
 #'   color = route, size = I(2), alpha = I(.5)

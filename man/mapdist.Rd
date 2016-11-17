@@ -51,7 +51,7 @@ if parameters from and to are specified as geographic
 }
 \examples{
 
-\dontrun{ online queries draw R CMD check times
+\dontrun{# online queries draw R CMD check times
 
 mapdist("waco, texas", "houston, texas")
 

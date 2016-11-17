@@ -29,8 +29,9 @@
 #'   language is used
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
-#' @param filename destination file for download (file extension
-#'   added according to format)
+#' @param filename destination file for download (file extension added
+#'   according to format). Default \code{NULL} means a random
+#'   \code{\link{tempfile}}.
 #' @param color color or black-and-white
 #' @param force if the map is on file, should a new map be looked
 #'   up?
@@ -124,7 +125,7 @@ get_googlemap <- function(
   scale = 2, format = c("png8", "gif", "jpg", "jpg-baseline","png32"),
   maptype = c("terrain", "satellite", "roadmap", "hybrid"),
   language = "en-EN",
-  messaging = FALSE, urlonly = FALSE, filename = "ggmapTemp", color = c("color","bw"),
+  messaging = FALSE, urlonly = FALSE, filename = NULL, color = c("color","bw"),
   force = FALSE, where = tempdir(), archiving = FALSE,
   ext = "com", inject = "",
   region, markers, path, visible, style, ...
@@ -135,6 +136,9 @@ get_googlemap <- function(
 
   args <- as.list(match.call(expand.dots = TRUE)[-1])
   argsgiven <- names(args)
+
+  # argument checking (no checks for language, region, markers, path, visible, style)
+  #if(checkargs) get_googlemap_checkargs(args)
 
   if("center" %in% argsgiven){
     if(!(
@@ -169,7 +173,12 @@ get_googlemap <- function(
   if("scale" %in% argsgiven) stopifnot(scale %in% c(1,2,4))
 
   # format arg checked by match.arg
+  format <- match.arg(format)
+  if(format != "png8") stop("currently only the png format is supported.", call. = FALSE)
+  format0 <- sub("[[:digit:]]+|-.*", "", format)
+
   # maptype arg checked by match.arg
+  maptype <- match.arg(maptype)
 
   if("markers" %in% argsgiven){
     markers_stop <- TRUE
@@ -226,19 +235,15 @@ get_googlemap <- function(
   if("messaging" %in% argsgiven) stopifnot(is.logical(messaging))
   if(  "urlonly" %in% argsgiven) stopifnot(is.logical(  urlonly))
 
-  if("filename" %in% argsgiven){
+  if(is.null(filename)){
+    destfile <- tempfile(fileext = paste(".", format0, sep = ""))
+  } else{
     filename_stop <- TRUE
     if(is.character(filename) && length(filename) == 1) filename_stop <- FALSE
     if(filename_stop) stop("improper filename specification, see ?get_googlemap.", call. = FALSE)
-
+    destfile <- paste(filename, format0, sep = '.')
   }
 
-  # argument checking (no checks for language, region, markers, path, visible, style)
-  #args <- as.list(match.call(expand.dots = TRUE)[-1])
-  #if(checkargs) get_googlemap_checkargs(args)
-  format <- match.arg(format)
-  if(format != "png8") stop("currently only the png format is supported.", call. = FALSE)
-  maptype <- match.arg(maptype)
   color <- match.arg(color)
   if(!missing(markers) && class(markers) == "list") markers <- list_to_dataframe(markers)
   if(!missing(path) && is.data.frame(path)) path <- list(path)
@@ -335,15 +340,14 @@ get_googlemap <- function(
   if (!is.null(map) && !force) return(map)
 
   # finalize filename
-  tmp <- tempfile()
-  download.file(url, destfile = tmp, quiet = !messaging, mode = "wb")
+  download.file(url, destfile = destfile, quiet = !messaging, mode = "wb")
   message(paste0("Source : ", url))
 
 
   ##### read in map and format, add meta data
   ############################################################
 
-  map <- readPNG(tmp)
+  map <- readPNG(destfile)
   map <- aperm(map, c(2, 1, 3))
 
   # format file
@@ -384,8 +388,6 @@ get_googlemap <- function(
   out <- map # t(map)
 
   # archive map for future use
-  fileNameCenter <- as.character(center)
-  fileNameCenter <- paste0(gsub("\\.", "_", fileNameCenter),collapse = "-")
   if (archiving) file_drawer_set(url, out)
 
   # kick out
