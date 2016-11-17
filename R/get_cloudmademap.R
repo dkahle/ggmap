@@ -19,7 +19,8 @@
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
 #' @param filename destination file for download (file extension
-#'   added according to format)
+#'   added according to format). Default \code{NULL} means a random
+#'   \code{\link{tempfile}}.
 #' @param color color or black-and-white
 #' @param ... ...
 #' @return a ggmap object (a classed raster object with a bounding
@@ -43,7 +44,7 @@
 get_cloudmademap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
   zoom = 10, api_key, maptype = 1, highres = TRUE, crop = TRUE, messaging = FALSE,
-  urlonly = FALSE, filename = 'ggmapTemp', color = c('color','bw'), ...
+  urlonly = FALSE, filename = NULL, color = c('color','bw'), ...
 ){
 
   .Deprecated(msg = "cloudmademap is deprecated.")
@@ -86,10 +87,13 @@ get_cloudmademap <- function(
 
   if('urlonly' %in% argsgiven) stopifnot(is.logical(urlonly))
 
-  if('filename' %in% argsgiven){
+  if(is.null(filename)){
+    destfile <- tempfile(fileext = ".png")
+  } else{
     filename_stop <- TRUE
     if(is.character(filename) && length(filename) == 1) filename_stop <- FALSE
     if(filename_stop) stop('improper filename specification, see ?get_googlemap.', call. = F)
+    destfile <- paste(filename, 'png', sep = '.')
   }
 
   # color arg checked by match.arg
@@ -141,7 +145,6 @@ get_cloudmademap <- function(
   # download and stich
   size <- 256 * c(length(xsNeeded), length(ysNeeded))
   map <- matrix('NA', nrow = size[2], ncol = size[1])
-  destfile <- paste(filename, 'png', sep = '.')
 
   for(k in seq_along(urls)){
     download.file(urls[[k]], destfile = destfile, quiet = !messaging, mode = 'wb')

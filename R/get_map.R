@@ -25,7 +25,8 @@
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
 #' @param filename destination file for download (file extension
-#'   added according to format)
+#'   added according to format). Default \code{NULL} means a random
+#'   \code{\link{tempfile}}.
 #' @param crop (stamen and cloudmade maps) crop tiles to bounding
 #'   box
 #' @param color color ("color") or black-and-white ("bw")
@@ -63,7 +64,7 @@ get_map <- function(
     "toner-hybrid", "toner-labels", "toner-lines", "toner-lite"),
   source = c("google","osm","stamen","cloudmade"),
   force = ifelse(source == "google", TRUE, TRUE), messaging = FALSE, urlonly = FALSE,
-  filename = "ggmapTemp",
+  filename = NULL,
   crop = TRUE, color = c("color","bw"), language = "en-EN",
   api_key
 ){

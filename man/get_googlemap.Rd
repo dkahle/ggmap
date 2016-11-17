@@ -8,7 +8,7 @@ get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836), zoom = 10,
   size = c(640, 640), scale = 2, format = c("png8", "gif", "jpg",
   "jpg-baseline", "png32"), maptype = c("terrain", "satellite", "roadmap",
   "hybrid"), language = "en-EN", messaging = FALSE, urlonly = FALSE,
-  filename = "ggmapTemp", color = c("color", "bw"), force = FALSE,
+  filename = NULL, color = c("color", "bw"), force = FALSE,
   where = tempdir(), archiving = FALSE, ext = "com", inject = "",
   region, markers, path, visible, style, ...)
 }
@@ -46,8 +46,9 @@ language is used}
 
 \item{urlonly}{return url only}
 
-\item{filename}{destination file for download (file extension
-added according to format)}
+\item{filename}{destination file for download (file extension added
+according to format). Default \code{NULL} means a random
+\code{\link{tempfile}}.}
 
 \item{color}{color or black-and-white}
 
