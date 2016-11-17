@@ -33,7 +33,7 @@
 #'
 #' \dontrun{ # to cut down on check time
 #'
-#' from <- "houson, texas"
+#' from <- "houston, texas"
 #' to <- "waco, texas"
 #' route_df <- route(from, to, structure = "route")
 #' trek_df  <-  trek(from, to, structure = "route")
@@ -295,7 +295,7 @@ routeQueryCheck <- function(){
 #' @seealso geom_segment in ggplot2, inspired by
 #'   \url{http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/},
 #'   \code{\link{route}}
-#' @details only intended for use in ggmaps package.  only designed
+#' @details only intended for use in ggmap package.  only designed
 #'   for mercator projection.
 #' @export
 #' @examples
@@ -428,7 +428,7 @@ geom_leg <- function(mapping = NULL, data = NULL, stat = "identity",
 #'
 #'
 #'
-#' from <- "houson, texas"
+#' from <- "houston, texas"
 #' to <- "waco, texas"
 #' legs_df <- route(from, to)
 #'

@@ -1,7 +1,7 @@
 #' Get a CloudMade map.
 #'
 #' \code{get_cloudmademap} accesses a tile server for Stamen Maps
-#' and downloads/stiches map tiles/formats a map image. This
+#' and downloads/stitches map tiles/formats a map image. This
 #' function requires an api key which can be obtained for free from
 #' http://cloudmade.com/user/show (defunct?). Thousands of maptypes
 #' ("styles"), including create-your-own options, are available from
@@ -62,7 +62,7 @@ get_cloudmademap <- function(
   if('zoom' %in% argsgiven){
     if(!(is.numeric(zoom) && length(zoom) == 1 &&
     zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
-      stop('scale must be a postive integer 0-18, see ?get_stamenmap.', call. = F)
+      stop('scale must be a positive integer 0-18, see ?get_stamenmap.', call. = F)
     }
   }
 
@@ -142,7 +142,7 @@ get_cloudmademap <- function(
   if(messaging) message(length(urls), ' tiles required.')
   if(urlonly) return(urls)
 
-  # download and stich
+  # download and stitch
   size <- 256 * c(length(xsNeeded), length(ysNeeded))
   map <- matrix('NA', nrow = size[2], ncol = size[1])
 
@@ -270,7 +270,7 @@ get_cloudmademap_checkargs <- function(args){
     if('zoom' %in% argsgiven){
       if(!(is.numeric(zoom) && length(zoom) == 1 &&
       zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
-        stop('scale must be a postive integer 0-18, see ?get_stamenmap.', call. = F)
+        stop('scale must be a positive integer 0-18, see ?get_stamenmap.', call. = F)
       }
     }
 

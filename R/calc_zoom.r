@@ -2,7 +2,7 @@
 #'
 #' calc_zoom can calculate a zoom based on either (1) a data frame
 #' with longitude and latitude variables, (2) a longitude range and
-#' latitude range, or (3) a bounding box (bbox specifcation). The
+#' latitude range, or (3) a bounding box (bbox specification). The
 #' specification for (1) is identical to that of most R functions,
 #' for (2) simply put in a longitude range into lon and a latitude
 #' range into lat, and for (3) put the bounding box in for the lon
