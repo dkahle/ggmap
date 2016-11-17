@@ -43,7 +43,7 @@ ggmap plots the raster object produced by \code{\link{get_map}}.
 }
 \examples{
 
-\dontrun{ map queries drag R CMD check
+\dontrun{## map queries drag R CMD check
 
 
 ## extents and legends
@@ -131,7 +131,9 @@ baylor <- get_map("one bear place, waco, texas", zoom = 15, maptype = "satellite
 ggmap(baylor)
 
 # use gglocator to find lon/lat"s of interest
-(clicks <- clicks <- gglocator(2) )
+(clicks <- gglocator(2) )
+ggmap(baylor) +
+  geom_point(aes(x = lon, y = lat), data = clicks, colour = "red", alpha = .5)
 expand.grid(lon = clicks$lon, lat = clicks$lat)
 
 ggmap(baylor) + theme_bw() +
