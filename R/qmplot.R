@@ -369,7 +369,7 @@ qmplot <- function(x, y, ..., data, zoom, source = "stamen", maptype = "toner-li
     inset_raster(map, xmin, xmax, ymin, ymax) +
     annotate("rect", xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
   	  fill = darken[2], alpha = as.numeric(darken[1])) +
-    coord_map(projection = "mercator")
+    coord_map2()
 
 
   # enforce extent
