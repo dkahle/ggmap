@@ -79,7 +79,8 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
 
   	# format basic url
     origins <- URLencode(df$from[1], reserved = TRUE)
-    destinations <- URLencode(df$to, reserved = TRUE)
+    destinations <- vapply(df$to, URLencode, "", reserved = TRUE,
+                           USE.NAMES = FALSE)
     posturl <- paste(
       fmteq(origins), fmteq(destinations, paste, collapse = "|"),
       fmteq(mode), fmteq(language),
