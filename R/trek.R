@@ -50,9 +50,9 @@
 #'     size = 1.5, alpha = .5,
 #'     data = trek_df, lineend = "round"
 #'   )
+#' }
 #'
-#'
-#'
+#' \dontrun{
 #' from <- "rice university houston texas"
 #' to <- "1001 Bissonnet St, Houston, TX 77005"
 #' trek_df <- trek(from, to)
@@ -84,10 +84,6 @@
 #'   color = route, size = I(2), maptype = "terrain",
 #'   zoom = 5
 #' ) + facet_wrap(~ route, ncol = 1)
-#'
-#'
-#'
-#'
 #' }
 #'
 trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
