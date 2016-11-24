@@ -59,7 +59,7 @@
 #' (map <- get_map(source = "stamen", maptype = "watercolor"))
 #'
 #' map <- get_map(location = "texas", zoom = 6, source = "stamen")
-#' ggmap(map, fullpage = TRUE)
+#' ggmap(map, extent = "device")
 #'
 #' }
 get_map <- function(
