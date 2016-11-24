@@ -104,10 +104,9 @@ Service at \url{https://developers.google.com/maps/terms}.
 }
 \examples{
 
-\dontrun{ # to diminish run check time
-
-
 get_googlemap(urlonly = TRUE)
+
+\donttest{ # to diminish run check time
 ggmap(get_googlemap())
 
 
@@ -133,13 +132,16 @@ ggmap(get_googlemap(center = center, color = "bw", scale = 2), extent = "device"
 # (make your graphics device as large as possible)
 ggmap(get_googlemap(center, scale = 1), extent = "panel") # pixelated
 ggmap(get_googlemap(center, scale = 2), extent = "panel") # fine
+}
 
+\dontrun{
 # archiving; note that you must meet google's terms for this condition
 map <- get_googlemap(archiving = TRUE)
 map <- get_googlemap()
 ggmap(map)
+}
 
-
+\donttest{
 # style
 map <- get_googlemap(
   maptype = "roadmap",
@@ -147,10 +149,6 @@ map <- get_googlemap(
   color = "bw"
 )
 ggmap(map)
-
-
-
-
 }
 
 }

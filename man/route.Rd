@@ -50,11 +50,12 @@ function you are agreeing to the Google Maps API Terms of Service
 at https://developers.google.com/maps/terms.
 }
 \examples{
-
-\dontrun{ # to cut down on check time
-
 from <- "houston, texas"
 to <- "waco, texas"
+route(from, to, urlonly = TRUE)
+
+\donttest{ # to cut down on check time
+
 route_df <- route(from, to, structure = "route")
 trek_df  <-  trek(from, to, structure = "route")
 qmap("college station, texas", zoom = 8) +

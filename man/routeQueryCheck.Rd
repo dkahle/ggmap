@@ -13,7 +13,7 @@ a data frame
 Check Google Maps Directions API query limit
 }
 \examples{
-\dontrun{
+\donttest{
 routeQueryCheck()
 }
 }

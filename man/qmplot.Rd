@@ -80,7 +80,7 @@ data/models/etc.
 }
 \examples{
 
-\dontrun{ # these are skipped to conserve R check time
+\donttest{ # these are skipped to conserve R check time
 
 qmplot(lon, lat, data = crime)
 
@@ -293,7 +293,7 @@ qmplot(lon, lat, data = mg, shape = I(15), color = univKrige,
 
 
 
-} # end dontrun
+} # end donttest
 
 }
 

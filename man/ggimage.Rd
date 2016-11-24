@@ -31,7 +31,7 @@ ggimage(t(img[,4:1]), fullpage = FALSE, scale_axes = TRUE)
 ggimage(t(img[,4:1]), fullpage = FALSE)
 
 
-\dontrun{
+\donttest{
 # not run due to slow performance
 
 data(hadley)

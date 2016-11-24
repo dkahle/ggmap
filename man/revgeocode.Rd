@@ -36,8 +36,9 @@ to the Google Maps API Terms of Service at
 https://developers.google.com/maps/terms.
 }
 \examples{
+revgeocode(c(24, 64), urlonly = TRUE)
 
-\dontrun{ # Server response can be slow; this cuts down check time.
+\donttest{ # Server response can be slow; this cuts down check time.
 
 ( gc <- as.numeric(geocode("the white house")) )
 revgeocode(gc)

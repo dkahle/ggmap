@@ -21,14 +21,20 @@ qmap is a wrapper for \code{\link{ggmap}} and
 }
 \examples{
 
-\dontrun{
+\donttest{
 # these examples have been excluded for checking efficiency
 
 location <- "marrs mclean science, waco, texas"
 qmap(location)
 qmap(location, zoom = 14)
+}
+
+\dontrun{
 qmap(location, zoom = 14, source = "osm")
 qmap(location, zoom = 14, source = "osm", scale = 20000)
+}
+
+\donttest{
 qmap(location, zoom = 14, maptype = "satellite")
 qmap(location, zoom = 14, maptype = "hybrid")
 qmap(location, zoom = 14, maptype = "toner", source = "stamen")
