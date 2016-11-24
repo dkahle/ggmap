@@ -528,7 +528,7 @@ ggmap <- function(ggmap, extent = "panel", base_layer, maprange = FALSE,
   if(maprange) p <- p + xlim(xmin, xmax) + ylim(ymin, ymax)
 
   # set scales
-  p <- p + coord_map(projection = "mercator")
+  p <- p + coord_map2()
 
   # set extent
   xmin <- attr(ggmap, "bb")$ll.lon
