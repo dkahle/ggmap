@@ -152,9 +152,9 @@ qmplot(lon, lat, data = thinwind, geom = "tile", fill = spd, alpha = spd,
   scale_alpha("Wind Speed\\nand\\nDirection", range = c(.1, .75)) +
   guides(fill = guide_legend(), alpha = guide_legend())
 
+} # end donttest
 
-
-
+\dontrun{
 ## kriging
 ############################################################
 # the below examples show kriging based on undeclared packages
@@ -163,9 +163,7 @@ qmplot(lon, lat, data = thinwind, geom = "tile", fill = spd, alpha = spd,
 # they also require the rgdal library
 
 
-library(lattice)
-library(sp)
-library(rgdal)
+if (require("lattice") && require("sp") && require("rgdal")) {
 
 # load in and format the meuse dataset (see bivand, pebesma, and gomez-rubio)
 data(meuse)
@@ -194,10 +192,8 @@ qmplot(lon, lat, data = m, size = zinc,
 
 
 
-
-
+if (require("gstat")) { # still requiring lattice, sp and rgdal
 # load in the meuse.grid dataset (looking toward kriging)
-library(gstat)
 data(meuse.grid)
 coordinates(meuse.grid) <- c("x", "y")
 proj4string(meuse.grid) <- CRS("+init=epsg:28992")
@@ -287,13 +283,9 @@ qmplot(lon, lat, data = mg, shape = I(15), color = univKrige,
   ) +
   scale +
   scale_size("Observed\\nLog Zinc")
+}} # end two cases of if (require ...)
 
-
-
-
-
-
-} # end donttest
+} # end dontrun
 
 }
 
