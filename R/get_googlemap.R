@@ -73,7 +73,7 @@
 #'
 #' get_googlemap(urlonly = TRUE)
 #'
-#' \dontrun{ # to diminish run check time
+#' \donttest{ # to diminish run check time
 #' ggmap(get_googlemap())
 #'
 #'
@@ -99,13 +99,16 @@
 #' # (make your graphics device as large as possible)
 #' ggmap(get_googlemap(center, scale = 1), extent = "panel") # pixelated
 #' ggmap(get_googlemap(center, scale = 2), extent = "panel") # fine
+#' }
 #'
+#' \dontrun{
 #' # archiving; note that you must meet google's terms for this condition
 #' map <- get_googlemap(archiving = TRUE)
 #' map <- get_googlemap()
 #' ggmap(map)
+#' }
 #'
-#'
+#' \donttest{
 #' # style
 #' map <- get_googlemap(
 #'   maptype = "roadmap",
@@ -113,10 +116,6 @@
 #'   color = "bw"
 #' )
 #' ggmap(map)
-#'
-#'
-#'
-#'
 #' }
 #'
 get_googlemap <- function(

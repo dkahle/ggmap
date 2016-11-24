@@ -7,7 +7,7 @@
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library(ggplot2)
 #'
 #' n <- 50

@@ -42,7 +42,7 @@
 #'
 #' geocode("ninos", inject = "region=es", urlonly = TRUE)
 #'
-#' \dontrun{ # Server response can be slow; this cuts down check time.
+#' \donttest{ # Server response can be slow; this cuts down check time.
 #' geocode("houston texas")
 #' geocode("1600 pennsylvania avenue, washington dc")
 #' geocode("the white house")
@@ -58,21 +58,21 @@
 #' geocode("houston texas", output = "more")
 #' geocode("Baylor University", output = "more")
 #' str(geocode("Baylor University", output = "all"))
+#' }
 #'
-#'
+#' \dontrun{
 #' ##### interfacing with the google geocoding api
 #' ########################################
 #'
 #' register_google(key = "your code here")
 #' geocode("houston texas")
+#' }
 #'
-#'
+#' \donttest{
 #' # see how many requests we have left with google
 #' geocodeQueryCheck()
 #' geocode("one bear place, waco, texas")
 #' geocode("houston texas", force = TRUE)
-#'
-#'
 #'
 #' ##### known issues
 #' ########################################

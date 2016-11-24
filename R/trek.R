@@ -35,7 +35,7 @@
 #' to <- "waco, texas"
 #' trek(from, to, urlonly = TRUE)
 #'
-#' \dontrun{ # to cut down on check time
+#' \donttest{ # to cut down on check time
 #'
 #' route_df <- route(from, to, structure = "route")
 #' trek_df <- trek(from, to, structure = "route")

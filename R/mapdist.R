@@ -39,13 +39,17 @@
 #' mapdist(from, to)
 #' mapdist(from, to, mode = "bicycling")
 #' mapdist(from, to, mode = "walking")
+#' }
 #'
+#' \dontrun{
 #' # google requires a key for mode="transit"
 #' register_google(key = "[your key here]")
 #' from <- "city hall houston texas"
 #' to <- "nrg stadium houston texas"
 #' mapdist(from, to, mode = "transit")
+#' }
 #'
+#' \donttest{
 #' from <- c("houston", "houston", "dallas")
 #' to <- c("waco, texas", "san antonio", "houston")
 #' mapdist(from, to)

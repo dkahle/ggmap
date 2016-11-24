@@ -12,7 +12,7 @@
 #' @export
 #' @examples
 #'
-#' \dontrun{ # removed for R CMD check speed
+#' \donttest{ # removed for R CMD check speed
 #'
 #' map <- get_map(
 #'   location = c(-77.0425, 38.8925), # painfully picked by hand

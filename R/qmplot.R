@@ -45,7 +45,7 @@
 #' @export
 #' @examples
 #'
-#' \dontrun{ # these are skipped to conserve R check time
+#' \donttest{ # these are skipped to conserve R check time
 #'
 #' qmplot(lon, lat, data = crime)
 #'
@@ -258,7 +258,7 @@
 #'
 #'
 #'
-#' } # end dontrun
+#' } # end donttest
 #'
 qmplot <- function(x, y, ..., data, zoom, source = "stamen", maptype = "toner-lite",
   extent = "device", legend = "right", padding = .02, force = FALSE,
