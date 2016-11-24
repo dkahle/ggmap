@@ -155,8 +155,8 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
     tree$rows[[c(1,1)]]
   }
 
-  if(urlonly) return(daply(from_to_df, "from", getdists))
-  out <- dlply(from_to_df, "from", getdists)
+  if(urlonly) return(daply(unique(from_to_df), "from", getdists))
+  out <- dlply(unique(from_to_df), "from", getdists)
 
   # return all
   if(output == "all") return(out)
