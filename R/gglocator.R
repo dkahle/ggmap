@@ -7,6 +7,9 @@
 #' @param message unused
 #' @param xexpand expand argument in scale_x_continuous
 #' @param yexpand expand argument in scale_y_continuous
+#' @param mercator logical flag; should the plot be treated as using
+#'   the projection common to most web map services? Set to FALSE if
+#'   the axes on the plot use a linear scale.
 #' @return a data frame with columns according to the x and y
 #'   aesthetics
 #' @author Tyler Rinker with help from Baptiste Auguie and
@@ -24,7 +27,7 @@
 #'   annotate(geom = "point", x = -2, y = -2, colour = "red")
 #' print(p)
 #' cat("click red point\n")
-#' print(pt <- gglocator())
+#' print(pt <- gglocator(mercator = FALSE))
 #' p2 <- last_plot() +
 #'   annotate("point", pt$x, pt$y, color = "blue", size = 3, alpha = .5)
 #' cat("a blue point should appear where you clicked\n")
@@ -35,21 +38,22 @@
 #'   scale_y_continuous(expand = c(0,0))
 #' print(p3)
 #' cat("click any point\n")
-#' print(gglocator(1, xexpand = c(0,0), yexpand = c(0,0)))
+#' print(gglocator(1, xexpand = c(0,0), yexpand = c(0,0),
+#'                 mercator = FALSE))
 #'
 #'
 #' }
 #'
 #'
 gglocator <- function(n = 1, message = FALSE,
-  xexpand = c(.0, 0), yexpand = c(.0, 0)
+  xexpand = c(.0, 0), yexpand = c(.0, 0), mercator = TRUE
 ){
 
   if(n > 1){
     df <- NULL
     for(k in 1:n){
       df <- rbind(df, gglocator(message = message,
-        xexpand = xexpand, yexpand = yexpand))
+        xexpand = xexpand, yexpand = yexpand, mercator = mercator))
     }
     return(df)
   }
@@ -101,7 +105,13 @@ gglocator <- function(n = 1, message = FALSE,
   yrng <- expand_range(range = yrng, mul = yexpand[1], add = yexpand[2])
 
   # format and return
-  point <- data.frame(xrng[1] + loc[1]*diff(xrng), yrng[1] + loc[2]*diff(yrng))
+  point <- data.frame(xrng[1] + loc[1]*diff(xrng),
+                      yrng[1] + loc[2]*diff(yrng))
+  if(isTRUE(mercator)){
+    yrng2 <- LonLat2XY(0, yrng, zoom = 0, ypix = 256)$y
+    point[[2]] <- XY2LonLat(y = yrng2[1] + loc[2] * diff(yrng2),
+                            x = 0, X = 0, Y = 0, zoom = 0, ypix = 256)[[2]]
+  }
   names(point) <- with(object, c(deparse(mapping$x), deparse(mapping$y)))
   point
 }
