@@ -4,7 +4,8 @@
 \alias{gglocator}
 \title{Locator for ggplots.}
 \usage{
-gglocator(n = 1, message = FALSE, xexpand = c(0, 0), yexpand = c(0, 0))
+gglocator(n = 1, message = FALSE, xexpand = c(0, 0), yexpand = c(0, 0),
+  mercator = TRUE)
 }
 \arguments{
 \item{n}{number of points to locate.}
@@ -14,6 +15,10 @@ gglocator(n = 1, message = FALSE, xexpand = c(0, 0), yexpand = c(0, 0))
 \item{xexpand}{expand argument in scale_x_continuous}
 
 \item{yexpand}{expand argument in scale_y_continuous}
+
+\item{mercator}{logical flag; should the plot be treated as using
+the projection common to most web map services? Set to FALSE if
+the axes on the plot use a linear scale.}
 }
 \value{
 a data frame with columns according to the x and y
@@ -33,7 +38,7 @@ p <- qplot(x, y, data = df) +
   annotate(geom = "point", x = -2, y = -2, colour = "red")
 print(p)
 cat("click red point\\n")
-print(pt <- gglocator())
+print(pt <- gglocator(mercator = FALSE))
 p2 <- last_plot() +
   annotate("point", pt$x, pt$y, color = "blue", size = 3, alpha = .5)
 cat("a blue point should appear where you clicked\\n")
@@ -44,7 +49,8 @@ p3 <- p +
   scale_y_continuous(expand = c(0,0))
 print(p3)
 cat("click any point\\n")
-print(gglocator(1, xexpand = c(0,0), yexpand = c(0,0)))
+print(gglocator(1, xexpand = c(0,0), yexpand = c(0,0),
+                mercator = FALSE))
 
 
 }
