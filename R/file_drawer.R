@@ -11,10 +11,10 @@
 #' @keywords internal
 #' @examples
 #'
-#' \dontrun{# if server is unresponsive, R check will fail
-#'
 #' file_drawer()
 #' dir(file_drawer())
+#'
+#' \dontrun{# if server is unresponsive, R check will fail
 #'
 #' # The first time you run this, the tiles are downloaded from the server
 #' map <- get_stamenmap()

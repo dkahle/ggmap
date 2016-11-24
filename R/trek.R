@@ -31,11 +31,12 @@
 #' \code{\link{register_google}}
 #' @export
 #' @examples
+#' from <- "houston, texas"
+#' to <- "waco, texas"
+#' trek(from, to, urlonly = TRUE)
 #'
 #' \dontrun{ # to cut down on check time
 #'
-#' from <- "houston, texas"
-#' to <- "waco, texas"
 #' route_df <- route(from, to, structure = "route")
 #' trek_df <- trek(from, to, structure = "route")
 #' qmap("college station, texas", zoom = 8) +

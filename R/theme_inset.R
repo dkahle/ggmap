@@ -7,9 +7,8 @@
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @export
 #' @examples
-#' library(ggplot2)
 #' \dontrun{
-#'
+#' library(ggplot2)
 #'
 #' n <- 50
 #' df <- expand.grid(x = 1:n,y = 1:n)[sample(n^2,.5*n^2),]

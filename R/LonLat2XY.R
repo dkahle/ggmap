@@ -17,6 +17,7 @@
 #' @export
 #' @examples
 #'
+#' LonLat2XY(13, 60, 4)
 #'
 #' \dontrun{
 #' gc <- geocode('baylor university')

@@ -28,8 +28,9 @@
 #' @export
 #' @examples
 #'
-#' \dontrun{ # to diminish run check time
+#' get_stamenmap(urlonly = TRUE)
 #'
+#' \dontrun{ # to diminish run check time
 #'
 #' ##### basic usage
 #' ########################################

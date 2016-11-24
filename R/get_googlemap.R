@@ -71,10 +71,9 @@
 #' @export
 #' @examples
 #'
-#' \dontrun{ # to diminish run check time
-#'
-#'
 #' get_googlemap(urlonly = TRUE)
+#'
+#' \dontrun{ # to diminish run check time
 #' ggmap(get_googlemap())
 #'
 #'

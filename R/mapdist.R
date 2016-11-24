@@ -28,6 +28,7 @@
 #' \url{http://code.google.com/apis/maps/documentation/distancematrix/}
 #' @export
 #' @examples
+#' mapdist("waco, texas", "houston, texas", urlonly = TRUE)
 #'
 #' \dontrun{# online queries draw R CMD check times
 #'
@@ -150,6 +151,7 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
     tree$rows[[c(1,1)]]
   }
 
+  if(urlonly) return(daply(from_to_df, "from", getdists))
   out <- dlply(from_to_df, "from", getdists)
 
   # return all
