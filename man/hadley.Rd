@@ -10,4 +10,3 @@ Highly unofficial ggplot2 image
 \author{
 Garrett Grolemund \email{grolemund@gmail.com}
 }
-

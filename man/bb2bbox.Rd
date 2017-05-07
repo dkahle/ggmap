@@ -53,4 +53,3 @@ ggmap(stamMap) +
 \author{
 David Kahle \email{david.kahle@gmail.com}
 }
-

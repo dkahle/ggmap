@@ -17,10 +17,9 @@ Check Google Maps Directions API query limit
 routeQueryCheck()
 }
 }
-\author{
-David Kahle \email{david.kahle@gmail.com}
-}
 \seealso{
 \url{https://developers.google.com/maps/documentation/directions/}
 }
-
+\author{
+David Kahle \email{david.kahle@gmail.com}
+}

@@ -237,4 +237,3 @@ qmap(location = c(lon = -74.0445, lat = 40.68925),
 \url{http://maps.stamen.com/#watercolor},
   \code{\link{ggmap}}
 }
-

@@ -109,12 +109,11 @@ geocode("rice university houston texas")
 }
 
 }
-\author{
-David Kahle \email{david.kahle@gmail.com}
-}
 \seealso{
 \code{\link{mutate_geocode}},
   \url{http://code.google.com/apis/maps/documentation/geocoding/},
   \url{https://developers.google.com/maps/documentation/geocoding/usage-limits}
 }
-
+\author{
+David Kahle \email{david.kahle@gmail.com}
+}

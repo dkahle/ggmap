@@ -63,4 +63,3 @@ Tyler Rinker with help from Baptiste Auguie and
   Kahle \email{david.kahle@gmail.com}. Updated by
   \@Nikolai-Hlubek and \@mvkorpel.
 }
-

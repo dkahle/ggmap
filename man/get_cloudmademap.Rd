@@ -62,11 +62,10 @@ map <- get_cloudmademap(maptype = 997, api_key = api_key)
 ggmap(map)
 }
 }
-\author{
-David Kahle \email{david.kahle@gmail.com}
-}
 \seealso{
 http://maps.cloudmade.com/ (defunct),
   \code{\link{ggmap}}
 }
-
+\author{
+David Kahle \email{david.kahle@gmail.com}
+}

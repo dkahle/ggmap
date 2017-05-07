@@ -67,16 +67,17 @@ get_openstreetmap(urlonly = TRUE)
 # osm servers get overloaded, which can result in
 # erroneous failed checks
 
+get_openstreetmap(urlonly=TRUE)
+
 osm <- get_openstreetmap()
 ggmap(osm)
 
 }
 
 }
-\author{
-David Kahle \email{david.kahle@gmail.com}
-}
 \seealso{
 \url{http://www.openstreetmap.org/}, \code{\link{ggmap}}
 }
-
+\author{
+David Kahle \email{david.kahle@gmail.com}
+}

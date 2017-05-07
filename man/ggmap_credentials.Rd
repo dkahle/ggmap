@@ -23,10 +23,9 @@ point.
 ggmap_credentials()
 
 }
-\author{
-David Kahle \email{david.kahle@gmail.com}
-}
 \seealso{
 \code{\link{register_google}}
 }
-
+\author{
+David Kahle \email{david.kahle@gmail.com}
+}

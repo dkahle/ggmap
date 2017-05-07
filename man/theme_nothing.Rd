@@ -54,4 +54,3 @@ p + theme_nothing(legend = TRUE)
 \author{
 David Kahle \email{david.kahle@gmail.com}
 }
-

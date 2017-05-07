@@ -62,4 +62,3 @@ qmap("college station, texas", zoom = 8) +
 \seealso{
 geom_path in ggplot2
 }
-

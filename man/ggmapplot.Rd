@@ -31,10 +31,9 @@ ggmap plots the raster object produced by \code{\link{get_map}}.
 this is a deprecated function, use ggmap.
 }
 }
-\author{
-David Kahle \email{david.kahle@gmail.com}
-}
 \seealso{
 \code{\link{get_map}}, \code{\link{qmap}}
 }
-
+\author{
+David Kahle \email{david.kahle@gmail.com}
+}

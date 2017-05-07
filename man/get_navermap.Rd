@@ -80,11 +80,10 @@ ggmap(map)
 
 }
 }
-\author{
-Heewon Jeon \email{madjakarta@gmail.com}
-}
 \seealso{
 \url{http://dev.naver.com/openapi/apis/map/staticmap/},
   \code{\link{ggmap}}
 }
-
+\author{
+Heewon Jeon \email{madjakarta@gmail.com}
+}

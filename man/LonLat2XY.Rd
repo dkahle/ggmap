@@ -34,12 +34,11 @@ LonLat2XY(gc$lon, gc$lat, 10)
 }
 
 }
+\seealso{
+\url{http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
+}
 \author{
 David Kahle \email{david.kahle@gmail.com}, based on
   function LatLon2XY by Markus Loecher, Sense Networks
   \email{markus@sensenetworks.com} in package RgoogleMaps
 }
-\seealso{
-\url{http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
-}
-

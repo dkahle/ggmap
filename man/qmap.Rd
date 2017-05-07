@@ -47,10 +47,9 @@ qmap(where, maprange = TRUE, zoom = 15,
 }
 
 }
-\author{
-David Kahle \email{david.kahle@gmail.com}
-}
 \seealso{
 \code{\link{ggmap}} and \code{\link{get_map}}.
 }
-
+\author{
+David Kahle \email{david.kahle@gmail.com}
+}

@@ -12,13 +12,13 @@ map <- get_stamenmap(us, zoom = 5, maptype = "toner-lite")
 ggmap(map)
 ```
 
-![](figures/README-maptypes-1.png)
+![](tools/README-maptypes-1.png)
 
 ``` r
 ggmap(map, extent = "device")
 ```
 
-![](figures/README-maptypes-2.png)
+![](tools/README-maptypes-2.png)
 
 Use `qmplot()` in the same way you'd use `qplot()`, but with a map automatically added in the background:
 
@@ -45,13 +45,13 @@ violent_crimes <- filter(violent_crimes,
 qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", color = I("red"))
 ```
 
-![](figures/README-qmplot-1.png)
+![](tools/README-qmplot-1.png)
 
 ``` r
 qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", geom = "density2d", color = I("red"))
 ```
 
-![](figures/README-qmplot-2.png)
+![](tools/README-qmplot-2.png)
 
 Since **ggmap**'s built on top of **ggplot2**, all your usual **ggplot2** stuff (geoms, polishing, etc.) will work, and there are some unique graphing perks **ggmap** brings to the table, too.
 
@@ -63,7 +63,7 @@ qmplot(lon, lat, data = violent_crimes, geom = "blank", zoom = 15, maptype = "to
   scale_fill_gradient2("Robbery\nPropensity", low = "white", mid = "yellow", high = "red", midpoint = 650)
 ```
 
-![](figures/README-styling-1.png)
+![](tools/README-styling-1.png)
 
 Faceting works, too:
 
@@ -72,7 +72,7 @@ qmplot(lon, lat, data = violent_crimes, maptype = "toner-background", color = of
   facet_wrap(~ offense)
 ```
 
-![](figures/README-faceting-1.png)
+![](tools/README-faceting-1.png)
 
 For convenience, here's a map of Europe:
 
@@ -81,13 +81,13 @@ europe <- c(left = -12, bottom = 35, right = 30, top = 63)
 get_stamenmap(europe, zoom = 5) %>% ggmap()
 ```
 
-![](figures/README-europe-1.png)
+![](tools/README-europe-1.png)
 
 ``` r
 get_stamenmap(europe, zoom = 5, maptype = "toner-lite") %>% ggmap()
 ```
 
-![](figures/README-europe-2.png)
+![](tools/README-europe-2.png)
 
 Google Maps and Credentials
 ---------------------------
@@ -100,7 +100,7 @@ get_googlemap("waco texas", zoom = 12) %>% ggmap()
 #  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco%20texas
 ```
 
-![](figures/README-google_maps-1.png)
+![](tools/README-google_maps-1.png)
 
 Moreover, you can get various different styles of Google Maps with **ggmap** (just like Stamen Maps):
 
@@ -110,7 +110,7 @@ get_googlemap("waco texas", zoom = 12, maptype = "satellite") %>% ggmap()
 #  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco%20texas
 ```
 
-![](figures/README-google_styles-1.png)
+![](tools/README-google_styles-1.png)
 
 ``` r
 get_googlemap("waco texas", zoom = 12, maptype = "roadmap") %>% ggmap()
@@ -118,7 +118,7 @@ get_googlemap("waco texas", zoom = 12, maptype = "roadmap") %>% ggmap()
 #  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco%20texas
 ```
 
-![](figures/README-google_styles-2.png)
+![](tools/README-google_styles-2.png)
 
 ``` r
 get_googlemap("waco texas", zoom = 12, maptype = "hybrid") %>% ggmap()
@@ -126,7 +126,7 @@ get_googlemap("waco texas", zoom = 12, maptype = "hybrid") %>% ggmap()
 #  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco%20texas
 ```
 
-![](figures/README-google_styles-3.png)
+![](tools/README-google_styles-3.png)
 
 Google's geocoding and reverse geocoding API's are available through `geocode()` and `revgeocode()`, respectively:
 
@@ -144,13 +144,6 @@ There is also a `mutate_geocode()` that works similarly to [**dplyr**](https://g
 
 ``` r
 library(tidyverse)
-#  Loading tidyverse: tibble
-#  Loading tidyverse: tidyr
-#  Loading tidyverse: readr
-#  Loading tidyverse: purrr
-#  Conflicts with tidy packages ----------------------------------------------
-#  filter(): dplyr, stats
-#  lag():    dplyr, stats
 tb <- data_frame(address = c("1600 Pennsylvania Avenue, Washington DC", "", "waco texas"))
 tb %>% mutate_geocode(address)
 #  Source : https://maps.googleapis.com/maps/api/geocode/json?address=1600%20Pennsylvania%20Avenue%2C%20Washington%20DC
@@ -158,7 +151,7 @@ tb %>% mutate_geocode(address)
 #  # A tibble: 3 × 3
 #                                    address       lon      lat
 #                                      <chr>     <dbl>    <dbl>
-#  1 1600 Pennsylvania Avenue, Washington DC -76.98184 38.87920
+#  1 1600 Pennsylvania Avenue, Washington DC -77.03657 38.89766
 #  2                                                NA       NA
 #  3                              waco texas -97.14667 31.54933
 ```
@@ -178,7 +171,7 @@ qmap("college station, texas", zoom = 8) +
 #  Source : https://maps.googleapis.com/maps/api/geocode/json?address=college%20station%2C%20texas
 ```
 
-![](figures/README-route_trek-1.png)
+![](tools/README-route_trek-1.png)
 
 (They also provide information on how long it takes to get from point A to point B.)
 
@@ -189,11 +182,11 @@ mapdist(c("houston, texas", "dallas"), "waco, texas")
 #  Source : https://maps.googleapis.com/maps/api/distancematrix/json?origins=dallas&destinations=waco%2C%20texas&mode=driving&language=en-EN
 #  Source : https://maps.googleapis.com/maps/api/distancematrix/json?origins=houston%2C%20texas&destinations=waco%2C%20texas&mode=driving&language=en-EN
 #              from          to      m      km     miles seconds   minutes
-#  1 houston, texas waco, texas 298242 298.242 185.32758   10176 169.60000
-#  2         dallas waco, texas 152652 152.652  94.85795    5291  88.18333
+#  1 houston, texas waco, texas 298587 298.587 185.54196   10314 171.90000
+#  2         dallas waco, texas 152823 152.823  94.96421    5329  88.81667
 #       hours
-#  1 2.826667
-#  2 1.469722
+#  1 2.865000
+#  2 1.480278
 ```
 
 ### Google credentialing

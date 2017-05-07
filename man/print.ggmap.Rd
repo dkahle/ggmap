@@ -24,4 +24,3 @@ ggmap(get_map())
 
 
 }
-

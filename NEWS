@@ -40,6 +40,7 @@ FIXES
 * google functions now better handle special characters. (#104, thanks
   casa-henrym)
 * gglocator now properly works again. (#87, thanks @salah31416 and @mvkorpel)
+* README images moved from figures/ to tools/
 
 
 ggmap 2.6.1

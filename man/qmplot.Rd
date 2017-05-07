@@ -296,4 +296,3 @@ qmplot(lon, lat, data = mg, shape = I(15), color = univKrige,
 } # end dontrun
 
 }
-
