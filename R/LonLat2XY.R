@@ -34,7 +34,7 @@ LonLat2XY <- function(lon_deg, lat_deg, zoom, xpix=256, ypix=256){
     X = floor(X),
     Y = floor(Y),
     x = xpix*(X - floor(X)),
-    y = xpix*(Y - floor(Y))
+    y = ypix*(Y - floor(Y))
   )
   row.names(df) <- NULL
   df
