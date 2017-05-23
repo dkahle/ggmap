@@ -185,7 +185,8 @@ get_navermap <- function(
   if(nchar(url) > 2048) stop("max url length is 2048 characters.", call. = FALSE)
 
   # check to see if url is on file
-  map <- file_drawer_get(url)
+  file_drawer_url <- paste(url, "&color=", color)
+  map <- file_drawer_get(file_drawer_url)
   if (!is.null(map) && !force) return(map)
 
   # finalize filename
@@ -224,7 +225,7 @@ get_navermap <- function(
   attr(map, "zoom")    <- zoom
 
   # archive map for future use
-  if (archiving) file_drawer_set(url, out)
+  if (archiving) file_drawer_set(file_drawer_url, out)
 
   out
 }
