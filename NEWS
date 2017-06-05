@@ -42,6 +42,7 @@ FIXES
 * gglocator now properly works again. (#87, thanks @salah31416 and @mvkorpel)
 * README images moved from figures/ to tools/
 * mutate_geocode() now works with tibbles (#68, thanks dannguyen)
+* get_stamenmap() now properly changes colors to black and white.
 
 
 ggmap 2.6.1

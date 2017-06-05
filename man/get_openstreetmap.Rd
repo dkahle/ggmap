@@ -67,8 +67,6 @@ get_openstreetmap(urlonly = TRUE)
 # osm servers get overloaded, which can result in
 # erroneous failed checks
 
-get_openstreetmap(urlonly=TRUE)
-
 osm <- get_openstreetmap()
 ggmap(osm)
 

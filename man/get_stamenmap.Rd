@@ -29,7 +29,8 @@ watercolor.}
 
 \item{urlonly}{return url only}
 
-\item{color}{color or black-and-white}
+\item{color}{color or black-and-white (use force = TRUE if you've
+already downloaded the images)}
 
 \item{force}{if the map is on file, should a new map be looked
 up?}
