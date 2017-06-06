@@ -133,7 +133,6 @@ get_googlemap <- function(
 
   ##### do argument checking
   ############################################################
-
   args <- as.list(match.call(expand.dots = TRUE)[-1])
   argsgiven <- names(args)
 
@@ -309,10 +308,11 @@ get_googlemap <- function(
     sep = "&")
 
   # add google account stuff
+  NeedToSign <- FALSE
   if (has_goog_client() && has_goog_signature()) {
+    NeedToSign <- TRUE
     client <- goog_client()
-    signature <- goog_signature()
-    post_url <- paste(post_url, fmteq(client), fmteq(signature), sep = "&")
+    post_url <- paste(post_url, fmteq(client), sep = "&")
   } else if (has_goog_key()) {
     key <- goog_key()
     post_url <- paste(post_url, fmteq(key), sep = "&")
@@ -331,7 +331,11 @@ get_googlemap <- function(
   if(urlonly) return(url)
   if(nchar(url) > 2048) stop("max url length is 2048 characters.", call. = FALSE)
 
-
+  if (NeedToSign) {
+    # Sign if we are using google client and digital signature
+    url <- signurl(url, secret=goog_signature())
+  }
+  
   ##### get map
   ############################################################
 

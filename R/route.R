@@ -87,10 +87,12 @@ route <- function(from, to, mode = c("driving","walking","bicycling", "transit")
   )
 
   # add google account stuff
+  NeedToSign <- FALSE
   if (has_goog_client() && has_goog_signature()) {
+    NeedToSign <- TRUE
     client <- goog_client()
-    signature <- goog_signature()
-    posturl <- paste(posturl, fmteq(client), fmteq(signature), sep = "&")
+    #signature <- goog_signature()
+    posturl <- paste(posturl, fmteq(client), sep = "&")
   } else if (has_goog_key()) {
     key <- goog_key()
     posturl <- paste(posturl, fmteq(key), sep = "&")
@@ -112,7 +114,10 @@ route <- function(from, to, mode = c("driving","walking","bicycling", "transit")
   # check/update google query limit
   check_route_query_limit(url_string, elems = 1, override = override_limit, messaging = messaging)
 
-
+  if (NeedToSign) {
+    # Sign if we are using google client and digital signature
+    url_string <- signurl(url_string, secret=goog_signature())
+  }
   # distance lookup
   if(messaging) message("trying url ", url_string)
   connect <- url(url_string); on.exit(close(connect), add = TRUE)

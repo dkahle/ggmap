@@ -25,7 +25,9 @@ Imports:
     digest,
     scales,
     dplyr,
-    bitops
+    bitops,
+    base64enc,
+    urltools
 Suggests:
     MASS,
     stringr,
