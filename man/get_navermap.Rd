@@ -72,7 +72,7 @@ Service at \url{http://dev.naver.com/openapi/apis/map/staticmap}.
 }
 \examples{
 
-\dontrun{
+\donttest{
 # not run to reduce R CMD check time
 
 map <- get_navermap(key="c75a09166a38196955adee04d3a51bf8", uri="www.r-project.org")

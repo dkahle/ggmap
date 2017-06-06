@@ -26,12 +26,10 @@
 #' goog_key()
 #' has_goog_client()
 #' has_goog_signature()
+#' \dontrun{
 #' register_google(key = "[your key here]")
+#' }
 #'
-
-
-
-
 #' @rdname register_google
 #' @export
 register_google <- function (key, account_type, client, signature, second_limit, day_limit) {

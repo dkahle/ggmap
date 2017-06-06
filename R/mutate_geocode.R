@@ -13,13 +13,12 @@
 #' @export
 #' @examples
 #'
-#'
+#' \donttest{ # Server response can be slow; this cuts down check time.
 #' df <- data.frame(
 #'   address = c("1600 Pennsylvania Avenue, Washington DC", "", "houston texas"),
 #'   stringsAsFactors = FALSE
 #' )
 #'
-#' \dontrun{ # Server response can be slow; this cuts down check time.
 #' mutate_geocode(df, address)
 #'
 #'

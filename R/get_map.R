@@ -44,16 +44,22 @@
 #' str(map)
 #' ggmap(map)
 #'
-#' \dontrun{
+#' \donttest{
 #' # not run by check to reduce time; also,
 #' # osm may error due to server overload
 #'
 #' (map <- get_map(maptype = "roadmap"))
+#' }
+#'
+#' \dontrun{
 #' (map <- get_map(source = "osm"))
+#' }
+#'
+#' \donttest{
 #' (map <- get_map(source = "stamen", maptype = "watercolor"))
 #'
 #' map <- get_map(location = "texas", zoom = 6, source = "stamen")
-#' ggmap(map, fullpage = TRUE)
+#' ggmap(map, extent = "device")
 #'
 #' }
 get_map <- function(

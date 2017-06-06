@@ -30,11 +30,12 @@
 #' \code{\link{register_google}}
 #' @export
 #' @examples
-#'
-#' \dontrun{ # to cut down on check time
-#'
 #' from <- "houston, texas"
 #' to <- "waco, texas"
+#' route(from, to, urlonly = TRUE)
+#'
+#' \donttest{ # to cut down on check time
+#'
 #' route_df <- route(from, to, structure = "route")
 #' trek_df  <-  trek(from, to, structure = "route")
 #' qmap("college station, texas", zoom = 8) +
@@ -253,7 +254,7 @@ check_route_query_limit <- function(url_string, elems, override, messaging){
 #' @seealso \url{https://developers.google.com/maps/documentation/directions/}
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' routeQueryCheck()
 #' }
 routeQueryCheck <- function(){
@@ -300,7 +301,7 @@ routeQueryCheck <- function(){
 #' @export
 #' @examples
 #'
-#' \dontrun{ # removed for R CMD check speed
+#' \donttest{ # removed for R CMD check speed
 #'
 #' map <- get_map(
 #'   location = c(-77.0425, 38.8925), # painfully picked by hand
@@ -413,7 +414,7 @@ geom_leg <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @export
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #'
 #' (legs_df <- route("houston","galveston"))
 #' legs2route(legs_df)

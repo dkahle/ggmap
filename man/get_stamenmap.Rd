@@ -52,8 +52,24 @@ Stamen maps don't cover the entire world, e.g.
 }
 \examples{
 
-\dontrun{ # to diminish run check time
+get_stamenmap(urlonly = TRUE)
 
+\donttest{
+# since mid-2016, stamen's terrain tileset is available for
+# the entire globe
+place <- "mount everest"
+(google <- get_googlemap(place, zoom = 9))
+ggmap(google)
+bbox_everest <- c(left = 86.05, bottom = 27.21, right = 87.81, top = 28.76)
+ggmap(get_stamenmap(bbox_everest, zoom = 9))
+
+# here's an interesting example:
+us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
+map <- get_stamenmap(us, zoom = 5, maptype = "toner-labels")
+ggmap(map)
+}
+
+\dontrun{ # to diminish run check time
 
 ##### basic usage
 ########################################
@@ -71,16 +87,6 @@ ggmap(get_stamenmap(bbox, zoom = 14))
 ggmap(get_stamenmap(bbox, zoom = 15))
 # ggmap(get_stamenmap(bbox, zoom = 16))
 # ggmap(get_stamenmap(bbox, zoom = 17))
-
-
-
-# since mid-2016, stamen's terrain tileset is available for
-# the entire globe
-place <- "mount everest"
-(google <- get_googlemap(place, zoom = 9))
-ggmap(google)
-bbox_everest <- c(left = 86.05, bottom = 27.21, right = 87.81, top = 28.76)
-ggmap(get_stamenmap(bbox_everest, zoom = 9))
 
 
 # note that the osm code may not run due to overloaded
@@ -133,13 +139,6 @@ ggmap(get_stamenmap(bbox, zoom = 15, maptype = "watercolor"))+
 
 ggmap(get_stamenmap(bbox, zoom = 15, maptype = "toner"))+
   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
-
-
-# here's an interesting example:
-us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
-map <- get_stamenmap(us, zoom = 5, maptype = "toner-labels")
-ggmap(map)
-
 
 
 # accuracy check - white house

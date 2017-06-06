@@ -50,6 +50,7 @@ if parameters from and to are specified as geographic
   that the google maps api limits to 2500 element queries a day.
 }
 \examples{
+mapdist("waco, texas", "houston, texas", urlonly = TRUE)
 
 \dontrun{# online queries draw R CMD check times
 
@@ -60,13 +61,17 @@ to <- "waco, texas"
 mapdist(from, to)
 mapdist(from, to, mode = "bicycling")
 mapdist(from, to, mode = "walking")
+}
 
+\dontrun{
 # google requires a key for mode="transit"
 register_google(key = "[your key here]")
 from <- "city hall houston texas"
 to <- "nrg stadium houston texas"
 mapdist(from, to, mode = "transit")
+}
 
+\donttest{
 from <- c("houston", "houston", "dallas")
 to <- c("waco, texas", "san antonio", "houston")
 mapdist(from, to)

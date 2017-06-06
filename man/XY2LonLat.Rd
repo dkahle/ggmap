@@ -30,14 +30,9 @@ zoom.  Decimal tile coordinates are accepted.
 }
 \examples{
 
-
-\dontrun{
 XY2LonLat(480, 845, zoom = 11)
 XY2LonLat(0, 0, zoom = 1)
 XY2LonLat(0, 0, 255, 255, zoom = 1)
-XY2LonLat(0, 0, 255, 255, zoom = 1)
-
-}
 
 }
 \seealso{

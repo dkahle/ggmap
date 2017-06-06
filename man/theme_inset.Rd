@@ -16,9 +16,8 @@ a ggplot2 theme (i.e., a list of class options).
 theme_inset is a ggplot2 theme geared towards making inset plots.
 }
 \examples{
+\donttest{
 library(ggplot2)
-\dontrun{
-
 
 n <- 50
 df <- expand.grid(x = 1:n,y = 1:n)[sample(n^2,.5*n^2),]

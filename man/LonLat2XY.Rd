@@ -26,8 +26,9 @@ zoom.  Decimal tile coordinates (x, y) are reported.
 }
 \examples{
 
+LonLat2XY(13, 60, 4)
 
-\dontrun{
+\donttest{
 gc <- geocode('baylor university')
 LonLat2XY(gc$lon, gc$lat, 10)
 

@@ -28,6 +28,7 @@
 #' \url{http://code.google.com/apis/maps/documentation/distancematrix/}
 #' @export
 #' @examples
+#' mapdist("waco, texas", "houston, texas", urlonly = TRUE)
 #'
 #' \dontrun{# online queries draw R CMD check times
 #'
@@ -38,13 +39,17 @@
 #' mapdist(from, to)
 #' mapdist(from, to, mode = "bicycling")
 #' mapdist(from, to, mode = "walking")
+#' }
 #'
+#' \dontrun{
 #' # google requires a key for mode="transit"
 #' register_google(key = "[your key here]")
 #' from <- "city hall houston texas"
 #' to <- "nrg stadium houston texas"
 #' mapdist(from, to, mode = "transit")
+#' }
 #'
+#' \donttest{
 #' from <- c("houston", "houston", "dallas")
 #' to <- c("waco, texas", "san antonio", "houston")
 #' mapdist(from, to)
@@ -79,7 +84,8 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
 
   	# format basic url
     origins <- URLencode(df$from[1], reserved = TRUE)
-    destinations <- URLencode(df$to, reserved = TRUE)
+    destinations <- vapply(df$to, URLencode, "", reserved = TRUE,
+                           USE.NAMES = FALSE)
     posturl <- paste(
       fmteq(origins), fmteq(destinations, paste, collapse = "|"),
       fmteq(mode), fmteq(language),
@@ -150,7 +156,8 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
     tree$rows[[c(1,1)]]
   }
 
-  out <- dlply(from_to_df, "from", getdists)
+  if(urlonly) return(daply(unique(from_to_df), "from", getdists))
+  out <- dlply(unique(from_to_df), "from", getdists)
 
   # return all
   if(output == "all") return(out)

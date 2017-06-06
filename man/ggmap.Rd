@@ -44,7 +44,7 @@ ggmap plots the raster object produced by \code{\link{get_map}}.
 }
 \examples{
 
-\dontrun{## map queries drag R CMD check
+\donttest{## map queries drag R CMD check
 
 
 ## extents and legends

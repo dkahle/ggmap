@@ -19,14 +19,9 @@
 #' @export
 #' @examples
 #'
-#'
-#' \dontrun{
 #' XY2LonLat(480, 845, zoom = 11)
 #' XY2LonLat(0, 0, zoom = 1)
 #' XY2LonLat(0, 0, 255, 255, zoom = 1)
-#' XY2LonLat(0, 0, 255, 255, zoom = 1)
-#'
-#' }
 #'
 XY2LonLat <- function(X, Y, zoom, x = 0, y = 0, xpix=255, ypix=255){
   n <- 2^zoom
