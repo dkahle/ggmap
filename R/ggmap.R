@@ -486,8 +486,8 @@ ggmap <- function(ggmap, extent = "panel", base_layer, maprange = FALSE,
       ymin <- attr(ggmap, "bb")$ll.lat
   	  ymax <- attr(ggmap, "bb")$ur.lat
 
-      p <- ggplot(aes(x = lon, y = lat), data = fourCorners) +
-  	    geom_blank() +
+      p <- ggplot(data = fourCorners) +
+  	    geom_blank(aes(x = lon, y = lat)) +
   	    inset_raster(ggmap, xmin, xmax, ymin, ymax) +
   	    annotate("rect", xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax,
   	      fill = darken[2], alpha = as.numeric(darken[1]))
