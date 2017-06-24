@@ -3,7 +3,7 @@
 #' \code{get_navermap} accesses the Naver Static Maps API version
 #' 1.1 to download a static map. Note that in most cases by using
 #' this function you are agreeing to the Naver Maps API Terms of
-#' Service at \url{http://dev.naver.com/openapi/apis/map/staticmap}.
+#' Service at \url{https://developers.naver.com/products/terms/}.
 #'
 #' @param center the center of the map.  this can be
 #'   longitude/latitude numeric vector.
@@ -38,7 +38,7 @@
 #'   maps
 #' @param ... ...
 #' @author Heewon Jeon \email{madjakarta@@gmail.com}
-#' @seealso \url{http://dev.naver.com/openapi/apis/map/staticmap/},
+#' @seealso \url{https://developers.naver.com/docs/map/overview/},
 #'   \code{\link{ggmap}}
 #' @export
 #' @examples
@@ -139,7 +139,7 @@ get_navermap <- function(
 
 
   # url segments
-  base_url <- "http://openapi.naver.com/map/getStaticMap?version=1.1&"
+  base_url <- "https://openapi.naver.com/v1/map/staticmap.bin?"
   center_url <- if(all(is.numeric(center))){ # lon/lat specification
     center <- round(center, digits = 6)
     lon <- center[1]; lat <- center[2]
@@ -153,8 +153,8 @@ get_navermap <- function(
 
   baselayer_url <- paste0("baselayer=", baselayer)
   overlayers_url <- paste0("overlayers=", paste(overlayers, collapse=","))
-  key_url <- paste0("key=", key)
-  uri_url <- paste0("uri=", uri)
+  key_url <- paste0("clientId=", key)
+  uri_url <- paste0("url=", uri)
   crs_url <- paste0("crs=", crs)
   color_url <- paste0("color=", color)
 
