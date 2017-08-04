@@ -40,6 +40,8 @@ FIXES
 * google functions now better handle special characters. (#104, thanks
   casa-henrym)
 * gglocator now properly works again. (#87, thanks @salah31416 and @mvkorpel)
+* geocode() throws rate limit errors only when source is google (#150,
+  thanks @royalts)
 
 
 ggmap 2.6.1
