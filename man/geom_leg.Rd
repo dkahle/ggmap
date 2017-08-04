@@ -2,6 +2,7 @@
 % Please edit documentation in R/geom_leg.R, R/route.R
 \name{geom_leg}
 \alias{geom_leg}
+\alias{geom_leg}
 \title{Single line segments with rounded ends}
 \usage{
 geom_leg(mapping = NULL, data = NULL, stat = "identity",
@@ -197,4 +198,3 @@ geom_segment in ggplot2, inspired by
   \url{http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/},
   \code{\link{route}}
 }
-

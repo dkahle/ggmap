@@ -29,4 +29,3 @@ decorations
   different (absolute) size will be center-justified in that
   region. Inf values can be used to fill the full plot panel
 }
-

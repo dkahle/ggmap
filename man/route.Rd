@@ -82,13 +82,12 @@ routeQueryCheck()
 }
 
 }
-\author{
-David Kahle \email{david.kahle@gmail.com}
-}
 \seealso{
 \url{https://developers.google.com/maps/documentation/directions/},
 \code{\link{trek}}, \code{\link{legs2route}},
 \code{\link{routeQueryCheck}}, \code{\link{geom_leg}},
 \code{\link{register_google}}
 }
-
+\author{
+David Kahle \email{david.kahle@gmail.com}
+}

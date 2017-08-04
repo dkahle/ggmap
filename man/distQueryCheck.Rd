@@ -15,10 +15,9 @@ Check Google Maps Distance Matrix API query limit
 \examples{
 distQueryCheck()
 }
-\author{
-David Kahle \email{david.kahle@gmail.com}
-}
 \seealso{
 \url{http://code.google.com/apis/maps/documentation/distancematrix/}
 }
-
+\author{
+David Kahle \email{david.kahle@gmail.com}
+}

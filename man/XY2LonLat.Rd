@@ -40,12 +40,11 @@ XY2LonLat(0, 0, 255, 255, zoom = 1)
 }
 
 }
+\seealso{
+\url{http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
+}
 \author{
 David Kahle \email{david.kahle@gmail.com}, based on
   function XY2LatLon by Markus Loecher, Sense Networks
   \email{markus@sensenetworks.com} in package RgoogleMaps
 }
-\seealso{
-\url{http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
-}
-

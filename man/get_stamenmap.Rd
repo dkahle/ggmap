@@ -29,7 +29,8 @@ watercolor.}
 
 \item{urlonly}{return url only}
 
-\item{color}{color or black-and-white}
+\item{color}{color or black-and-white (use force = TRUE if you've
+already downloaded the images)}
 
 \item{force}{if the map is on file, should a new map be looked
 up?}
@@ -237,4 +238,3 @@ qmap(location = c(lon = -74.0445, lat = 40.68925),
 \url{http://maps.stamen.com/#watercolor},
   \code{\link{ggmap}}
 }
-

@@ -154,11 +154,10 @@ ggmap(map)
 }
 
 }
-\author{
-David Kahle \email{david.kahle@gmail.com}
-}
 \seealso{
 \url{https://developers.google.com/maps/documentation/staticmaps/},
 \code{\link{ggmap}}, \code{\link{register_google}}
 }
-
+\author{
+David Kahle \email{david.kahle@gmail.com}
+}

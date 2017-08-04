@@ -15,7 +15,8 @@
 #' @param crop crop raw map tiles to specified bounding box
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
-#' @param color color or black-and-white
+#' @param color color or black-and-white (use force = TRUE if you've
+#'   already downloaded the images)
 #' @param force if the map is on file, should a new map be looked
 #'   up?
 #' @param where where should the file drawer be located (without
@@ -296,7 +297,7 @@ get_stamenmap <- function(
   # make list of tiles
   listOfTiles <- lapply(split(tilesNeeded, 1:nrow(tilesNeeded)), function(v){
     v <- as.numeric(v)
-    get_stamenmap_tile(maptype, zoom, v[1], v[2], force = force, messaging = messaging)
+    get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, messaging = messaging)
   })
 
 
@@ -435,7 +436,7 @@ get_stamenmap_checkargs <- function(args){
 
 
 
-get_stamenmap_tile <- function(maptype, zoom, x, y, force = FALSE, messaging = TRUE, where = tempdir()){
+get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messaging = TRUE, where = tempdir()){
 
   # check arguments
   is.wholenumber <- function (x, tol = .Machine$double.eps^0.5) abs(x - round(x)) < tol
@@ -488,9 +489,20 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, force = FALSE, messaging = T
     # toner-lines treated differently for alpha
     if(maptype %in% c("toner-hybrid", "toner-labels", "toner-lines",
                       "terrain-labels", "terrain-lines")){
-      tile <- t(apply(tile, 1:2, function(x) rgb(x[1], x[2], x[3], x[4])))
+      if(color == "color") {
+        tile <- t(apply(tile, 1:2, function(x) rgb(x[1], x[2], x[3], x[4])))
+      } else {  # color == "bw" (all these are black and white naturally)
+        tile <- t(apply(tile, 1:2, function(x) rgb(x[1], x[2], x[3], x[4])))
+      }
     } else {
-      tile <- t(apply(tile, 2, rgb))
+      if(color == "color") {
+        tile <- t(apply(tile, 2, rgb))
+      } else {  # color == "bw"
+        tiled <- dim(tile)
+      	tile <- gray(.30 * tile[,,1] + .59 * tile[,,2] + .11 * tile[,,3])
+      	dim(tile) <- tiled[1:2]
+      	tile <- t(tile)
+      }
     }
 
   }

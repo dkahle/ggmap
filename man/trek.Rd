@@ -107,14 +107,13 @@ qmplot(lon, lat, data = trek_df, geom = "path",
 }
 
 }
-\author{
-David Kahle \email{david.kahle@gmail.com} with the key
-  decoding algorithm due to stackoverflow user akhmed
-}
 \seealso{
 \url{https://developers.google.com/maps/documentation/directions/},
 \url{http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads},
 \code{\link{route}}, \code{\link{routeQueryCheck}}
 \code{\link{register_google}}
 }
-
+\author{
+David Kahle \email{david.kahle@gmail.com} with the key
+  decoding algorithm due to stackoverflow user akhmed
+}

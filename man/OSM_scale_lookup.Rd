@@ -63,4 +63,3 @@ qmap(lonR = lonR, latR = latR, source = 'osm', scale = 325E5)
 \author{
 David Kahle \email{david.kahle@gmail.com}
 }
-

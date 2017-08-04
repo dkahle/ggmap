@@ -43,4 +43,3 @@ calc_zoom(box)
 \seealso{
 \code{\link{make_bbox}}, \code{\link{bb2bbox}}
 }
-

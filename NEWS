@@ -40,6 +40,9 @@ FIXES
 * google functions now better handle special characters. (#104, thanks
   casa-henrym)
 * gglocator now properly works again. (#87, thanks @salah31416 and @mvkorpel)
+* README images moved from figures/ to tools/
+* mutate_geocode() now works with tibbles (#68, thanks dannguyen)
+* get_stamenmap() now properly changes colors to black and white.
 * geocode() throws rate limit errors only when source is google (#150,
   thanks @royalts)
 

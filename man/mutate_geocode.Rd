@@ -40,10 +40,9 @@ tbl_df(df) \%>\% mutate_geocode(address)
 }
 
 }
-\author{
-David Kahle \email{david.kahle@gmail.com}
-}
 \seealso{
 \code{\link{geocode}}
 }
-
+\author{
+David Kahle \email{david.kahle@gmail.com}
+}

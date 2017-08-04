@@ -83,11 +83,10 @@ ggmap(map, fullpage = TRUE)
 
 }
 }
-\author{
-David Kahle \email{david.kahle@gmail.com}
-}
 \seealso{
 \code{\link{ggmap}}, \code{\link{GetMap}} in package
   RgoogleMaps
 }
-
+\author{
+David Kahle \email{david.kahle@gmail.com}
+}

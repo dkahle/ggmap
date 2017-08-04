@@ -52,4 +52,3 @@ ggimage(hadley, fullpage = FALSE) +
 \author{
 David Kahle \email{david.kahle@gmail.com}
 }
-

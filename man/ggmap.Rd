@@ -3,8 +3,9 @@
 \docType{package}
 \name{ggmap}
 \alias{ggmap}
-\alias{ggmap-package}
+\alias{ggmap}
 \alias{package-ggmap}
+\alias{ggmap-package}
 \title{Plot a ggmap object}
 \usage{
 ggmap(ggmap, extent = "panel", base_layer, maprange = FALSE,
@@ -443,10 +444,9 @@ ggmap(get_map(), darken = c(.5,"red")) # silly, but possible
 
 }
 }
-\author{
-David Kahle \email{david.kahle@gmail.com}
-}
 \seealso{
 \code{\link{get_map}}, \code{\link{qmap}}
 }
-
+\author{
+David Kahle \email{david.kahle@gmail.com}
+}

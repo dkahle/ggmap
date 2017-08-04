@@ -73,10 +73,9 @@ ggmap(osm)
 }
 
 }
-\author{
-David Kahle \email{david.kahle@gmail.com}
-}
 \seealso{
 \url{http://www.openstreetmap.org/}, \code{\link{ggmap}}
 }
-
+\author{
+David Kahle \email{david.kahle@gmail.com}
+}

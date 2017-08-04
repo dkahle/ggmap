@@ -49,4 +49,3 @@ qplot(1:10, 1:10) +
 \author{
 David Kahle \email{david.kahle@gmail.com}
 }
-
