@@ -1,4 +1,5 @@
-#' Grab a route from Google
+#' Grab a route from Google, modified by Nick Eubank to 
+#' accomodate API keys
 #'
 #' Grab a route from Google. Note that in most cases by using this
 #' function you are agreeing to the Google Maps API Terms of Service
