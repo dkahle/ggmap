@@ -58,17 +58,40 @@ route <- function(from, to, mode = c("driving","walking","bicycling", "transit")
   messaging = FALSE, sensor = FALSE, override_limit = FALSE, api_key=FALSE)
 {
 
-  # check parameters
-  if(is.numeric(from) && length(from) == 2) from <- revgeocode(from, override_limit=override_limit, api_key=api_key)
+  # Old route first reverse geocoded. 
+  # That lead to errors. Better to feed lat-long as strings. 
+  # Note that wants it in latitude (Y), then longitude (x). 
+  # So flip order from what route is used to. 
+
+  if(is.numeric(from) && length(from) == 2) {
+    from <- paste(from[2], from[1], sep=",")
+  }
   stopifnot(is.character(from))
-  if(is.numeric(to) && length(to) == 2) to <- revgeocode(to, override_limit=override_limit, api_key=api_key)
+
+  if(is.numeric(to) && length(to) == 2) {
+    to <- paste(to[2], to[1], sep=",")
+  }
   stopifnot(is.character(to))
+
   mode <- match.arg(mode)
   structure <- match.arg(structure)
   output <- match.arg(output)
   stopifnot(is.logical(alternatives))
   stopifnot(is.logical(messaging))
   stopifnot(is.logical(sensor))
+
+  # Clean ampersands in strings -- cause geocode errors. 
+  
+  if (is.character(from)) {
+    sub("&", " and ", from)
+    stopifnot(!grep('&', from))
+  }
+
+  if (is.character(to)) {
+    sub("&", " and ", to)
+    stopifnot(!grep('&', to))
+  }
+
 
   # format url
   origin <- from
