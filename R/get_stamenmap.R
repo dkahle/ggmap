@@ -15,8 +15,7 @@
 #' @param crop crop raw map tiles to specified bounding box
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
-#' @param color color or black-and-white (use force = TRUE if you've
-#'   already downloaded the images)
+#' @param color color or black-and-white
 #' @param force if the map is on file, should a new map be looked
 #'   up?
 #' @param where where should the file drawer be located (without
@@ -236,7 +235,7 @@ get_stamenmap <- function(
   if("zoom" %in% argsgiven){
     if(!(is.numeric(zoom) && length(zoom) == 1 &&
     zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
-      stop("scale must be a positive integer 0-18, see ?get_stamenmap.", call. = F)
+      stop("zoom must be a positive integer 0-18, see ?get_stamenmap.", call. = F)
     }
   }
 
@@ -451,11 +450,19 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messag
   } else {
     filetype <- "png"
   }
+  bw_types <- c("toner-hybrid", "toner-labels", "toner-lines",
+                "terrain-labels", "terrain-lines")
   url <- sprintf("http://tile.stamen.com/%s/%i/%i/%i.%s", maptype, zoom, x, y, filetype)
 
   # lookup in archive
   tile <- file_drawer_get(url)
-  if (!is.null(tile) && !force) return(tile)
+  if (!is.null(tile) && !force) {
+    if (color == "color" || maptype %in% bw_types) {
+      return(tile)
+    } else {
+      return(tile_to_bw(tile))
+    }
+  }
 
   # grab if not in archive
   tmp <- tempfile()
@@ -487,22 +494,11 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messag
 
     # convert to colors
     # toner-lines treated differently for alpha
-    if(maptype %in% c("toner-hybrid", "toner-labels", "toner-lines",
-                      "terrain-labels", "terrain-lines")){
-      if(color == "color") {
-        tile <- t(apply(tile, 1:2, function(x) rgb(x[1], x[2], x[3], x[4])))
-      } else {  # color == "bw" (all these are black and white naturally)
-        tile <- t(apply(tile, 1:2, function(x) rgb(x[1], x[2], x[3], x[4])))
-      }
+    if(maptype %in% bw_types) {
+      # (all these are black and white naturally)
+      tile <- t(apply(tile, 1:2, function(x) rgb(x[1], x[2], x[3], x[4])))
     } else {
-      if(color == "color") {
-        tile <- t(apply(tile, 2, rgb))
-      } else {  # color == "bw"
-        tiled <- dim(tile)
-      	tile <- gray(.30 * tile[,,1] + .59 * tile[,,2] + .11 * tile[,,3])
-      	dim(tile) <- tiled[1:2]
-      	tile <- t(tile)
-      }
+      tile <- t(apply(tile, 2, rgb))
     }
 
   }
@@ -536,7 +532,11 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messag
   if(!download_error) file_drawer_set(url, tile)
 
   # return
-  tile
+  if (color == "color" || maptype %in% bw_types) {
+    tile
+  } else {
+    tile_to_bw(tile)
+  }
 }
 
 
