@@ -2,11 +2,13 @@
 #'   jpeg geosphere bitops
 #' @docType package
 #' @name ggmap
-#' @importFrom grDevices as.raster extendrange gray rgb
+#' @importFrom grDevices as.raster extendrange gray rgb col2rgb
 #' @importFrom stats time asOneSidedFormula
 #' @importFrom utils URLencode download.file tail
 #' @importFrom grid rasterGrob seekViewport grid.locator upViewport downViewport current.vpTree current.vpPath
 #' @importFrom scales expand_range
 #' @importFrom dplyr bind_cols filter bind_rows
+#' @importFrom utils packageVersion
+#' @importFrom curl curl_download new_handle
 #' @aliases ggmap package-ggmap
 NULL
