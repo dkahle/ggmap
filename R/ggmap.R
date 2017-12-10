@@ -17,6 +17,14 @@
 #'   is in [0, 1] and color is a character string indicating the
 #'   color of the darken.  0 indicates no darkening, 1 indicates a
 #'   black-out.
+#' @param b Deprecated, renamed to `padding`. Overrides any
+#'   `padding` argument.
+#' @param fullpage Deprecated, equivalent to `extent = "device"`
+#'   when `TRUE`. Overrides any `extent` argument.
+#' @param expand Deprecated, equivalent to `extent = "panel"`
+#'   when `TRUE` and `fullpage` is `FALSE`. When `fullpage`
+#'   is `FALSE` and `expand` is `FALSE`, equivalent to
+#'   `extent="normal"`. Overrides any `extent` argument.
 #' @param ... ...
 #' @return a ggplot object
 #' @author David Kahle \email{david.kahle@@gmail.com}
