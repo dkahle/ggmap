@@ -48,10 +48,11 @@ theme_nothing <- function(base_size = 12, legend = FALSE){
      panel.background =   element_blank(),
      panel.grid.major =   element_blank(),
      panel.grid.minor =   element_blank(),
+     panel.ontop =        FALSE,
      axis.ticks.length =  unit(0, "cm"),
      panel.spacing =      unit(0, "lines"),
      plot.margin =        unit(c(0, 0, 0, 0), "lines"),
-     complete = TRUE
+     complete =           TRUE
    ))
   } else {
    return(theme(
@@ -61,8 +62,9 @@ theme_nothing <- function(base_size = 12, legend = FALSE){
      axis.ticks.length =  unit(0, "cm"),
      legend.position =    "none",
      panel.spacing =      unit(0, "lines"),
+     panel.ontop =        FALSE,
      plot.margin =        unit(c(0, 0, 0, 0), "lines"),
-     complete = TRUE
+     complete =           TRUE
    ))
  }
 }
