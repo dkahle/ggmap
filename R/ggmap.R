@@ -424,7 +424,7 @@
 #'
 #' }
 ggmap <- function(ggmap, extent = "panel", base_layer, maprange = FALSE,
-  legend = "right", padding = .02, darken = c(0, "black"), ...)
+  legend = "right", padding = .02, darken = c(0, "black"), b, fullpage, expand, ...)
 {
 
   # dummies to trick R CMD check
@@ -433,22 +433,16 @@ ggmap <- function(ggmap, extent = "panel", base_layer, maprange = FALSE,
   ll.lat <- NULL; rm(ll.lat); ur.lat <- NULL; rm(ur.lat);
 
   # deprecated syntaxes
-  args <- as.list(match.call(expand.dots = TRUE)[-1])
-  if("ggmapplot" %in% names(args)){
-    .Deprecated(msg = "ggmapplot syntax deprecated, use ggmap.")
-  }
-
-  if("b" %in% names(args)){
+  if(!missing(b)) {
     .Deprecated(msg = "b syntax deprecated, use padding.")
-    b <- NULL; rm(b);
-    padding <- eval(args$b)
+    padding <- b
   }
 
-  if("fullpage" %in% names(args) || "expand" %in% names(args)){
+  if(!missing(fullpage) || !missing(expand)){
     .Deprecated(msg = "fullpage and expand syntaxes deprecated, use extent.")
-    if("fullpage" %in% names(args)){fullpage <- eval(args$fullpage)}else{fullpage <- FALSE}
+    if(missing(fullpage)) { fullpage <- FALSE }
+    if(missing(expand)) { expand <- FALSE }
     if(fullpage) extent <- "device"
-    if("expand" %in% names(args)){expand <- eval(args$expand)}else{expand <- FALSE}
     if(fullpage == FALSE && expand == TRUE) extent <- "panel"
     if(fullpage == FALSE && expand == FALSE) extent <- "normal"
   }
@@ -603,6 +597,7 @@ ggmap <- function(ggmap, extent = "panel", base_layer, maprange = FALSE,
 ggmapplot <- function(ggmap, fullpage = FALSE,
   base_layer, maprange = FALSE, expand = FALSE, ...)
 {
+  .Deprecated(msg = "ggmapplot syntax deprecated, use ggmap.")
   ggmap(ggmap, fullpage = fullpage, base_layer = base_layer,
     maprange = FALSE, expand = FALSE, ggmapplot = TRUE)
 }
