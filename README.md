@@ -2,7 +2,7 @@
 ggmap
 =====
 
-**ggmap** makes it easy to retrieve raster map tiles from popular online mapping services like [Google Maps](https://developers.google.com/maps/documentation/static-maps/?hl=en), [OpenStreetMap](https://www.openstreetmap.org), [Stamen Maps](http://maps.stamen.com), and plot them using the **ggplot2** framework:
+**ggmap** makes it easy to retrieve raster map tiles from popular online mapping services like [Google Maps](https://developers.google.com/maps/documentation/static-maps/?hl=en) and [Stamen Maps](http://maps.stamen.com) and plot them using the **ggplot2** framework:
 
 ``` r
 library(ggmap)
