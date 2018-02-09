@@ -1,4 +1,4 @@
-#' @import ggplot2 proto RgoogleMaps reshape2 rjson mapproj jpeg png
+#' @import ggplot2 proto RgoogleMaps rjson mapproj jpeg png
 #' @docType package
 #' @name ggmap
 #' @importFrom plyr arrange compact ddply desc dlply is.discrete is.formula join
