@@ -104,9 +104,9 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   # vectorize for many locations
   if(length(location) > 1){
     # set limit
-    if(has_goog_account() && goog_account() == "standard"){
+    if(has_google_account() && google_account() == "standard"){
       limit <- "2500"
-    } else if(has_goog_account() && goog_account() == "premium"){
+    } else if(has_google_account() && google_account() == "premium"){
       limit <- "100000"
     } else { # if ggmap's not loaded
       limit <- "2500"
@@ -138,12 +138,12 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   if(source == "google"){
 
     # add google account stuff
-    if (has_goog_client() && has_goog_signature()) {
-      client <- goog_client()
-      signature <- goog_signature()
+    if (has_google_client() && has_google_signature()) {
+      client <- google_client()
+      signature <- google_signature()
       posturl <- paste(posturl, fmteq(client), fmteq(signature), sep = "&")
-    } else if (has_goog_key()) {
-      key <- goog_key()
+    } else if (has_google_key()) {
+      key <- google_key()
       posturl <- paste(posturl, fmteq(key), sep = "&")
     }
 
@@ -304,14 +304,14 @@ checkGeocodeQueryLimit <- function(url_hash, elems, override, messaging){
 
     # limit per 24 hours
     dayQueriesUsed <- sum(.GoogleGeocodeQueryCount$elements)
-    if(dayQueriesUsed + elems > goog_day_limit()){
+    if(dayQueriesUsed + elems > google_day_limit()){
       message("query max exceeded, see ?geocode.  current total = ", dayQueriesUsed)
       if(!override) return("stop")
     }
 
     # limit per second
     secondQueriesUsed <- with(.GoogleGeocodeQueryCount, sum(elements[time >= Sys.time() - 1]))
-    if(secondQueriesUsed + elems > goog_second_limit()){
+    if(secondQueriesUsed + elems > google_second_limit()){
       message(".", appendLF = FALSE)
       Sys.sleep(.2) # can do better
     }
@@ -359,14 +359,14 @@ geocodeQueryCheck <- function() {
 
   if(exists(".GoogleGeocodeQueryCount", .GlobalEnv)){
 
-  	remaining <- goog_day_limit() - sum(
+  	remaining <- google_day_limit() - sum(
   	  dplyr::filter(.GoogleGeocodeQueryCount, time >= Sys.time() - 24*60*60)$elements
   	)
     message(remaining, " geocoding queries remaining.")
 
   } else {
 
-  	remaining <- goog_day_limit()
+  	remaining <- google_day_limit()
     message(remaining, " geocoding queries remaining.")
 
   }

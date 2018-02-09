@@ -22,12 +22,15 @@
 #' @examples
 #'
 #'
-#' has_goog_key()
-#' goog_key()
-#' has_goog_client()
-#' has_goog_signature()
+#' has_google_key()
+#' google_key()
+#' has_google_client()
+#' has_google_signature()
 #' register_google(key = "[your key here]")
 #'
+
+
+
 
 
 
@@ -83,23 +86,14 @@ register_google <- function (key, account_type, client, signature, second_limit,
 
 #' @rdname register_google
 #' @export
+google_key <- function () getOption("ggmap")$google$key
+
+#' @rdname register_google
+#' @export
 goog_key <- function () {
-
-  getOption("ggmap")$google$key
-
+  .Deprecated("google_key()")
+  google_key()
 }
-
-#' @rdname register_google
-#' @export
-has_goog_key <- function () {
-
-  if(is.null(getOption("ggmap"))) return(FALSE)
-
-  !is.na(goog_key())
-
-}
-
-
 
 
 
@@ -107,24 +101,56 @@ has_goog_key <- function () {
 
 #' @rdname register_google
 #' @export
-has_goog_account <- function () {
+has_google_key <- function () {
 
   if(is.null(getOption("ggmap"))) return(FALSE)
 
-  !is.na(goog_account())
+  !is.na(google_key())
 
 }
+
+#' @rdname register_google
+#' @export
+has_goog_key <- function() {
+  .Deprecated("has_google_key()")
+  has_google_key()
+}
+
+
+
+
+
+#' @rdname register_google
+#' @export
+has_google_account <- function () {
+
+  if(is.null(getOption("ggmap"))) return(FALSE)
+
+  !is.na(google_account())
+
+}
+
+#' @rdname register_google
+#' @export
+has_goog_account <- function() {
+  .Deprecated("has_google_account()")
+  has_google_key()
+}
+
+
+
+
+
+#' @rdname register_google
+#' @export
+google_account <- function () getOption("ggmap")$google$account_type
 
 #' @rdname register_google
 #' @export
 goog_account <- function () {
-
-  getOption("ggmap")$google$account_type
-
+  .Deprecated("google_account()")
+  google_account()
 }
-
-
-
 
 
 
@@ -132,24 +158,35 @@ goog_account <- function () {
 
 #' @rdname register_google
 #' @export
-goog_client <- function () {
+google_client <- function () getOption("ggmap")$google$client
 
-  getOption("ggmap")$google$client
+#' @rdname register_google
+#' @export
+goog_client <- function () {
+  .Deprecated("google_client()")
+  google_client()
+}
+
+
+
+
+
+#' @rdname register_google
+#' @export
+has_google_client <- function () {
+
+  if(is.null(getOption("ggmap"))) return(FALSE)
+
+  !is.na(google_client())
 
 }
 
 #' @rdname register_google
 #' @export
 has_goog_client <- function () {
-
-  if(is.null(getOption("ggmap"))) return(FALSE)
-
-  !is.na(goog_client())
-
+  .Deprecated("has_google_client")
+  has_google_client()
 }
-
-
-
 
 
 
@@ -157,20 +194,34 @@ has_goog_client <- function () {
 
 #' @rdname register_google
 #' @export
-goog_signature <- function () {
+google_signature <- function () getOption("ggmap")$google$signature
 
-  getOption("ggmap")$google$signature
+#' @rdname register_google
+#' @export
+goog_signature <- function () {
+  .Deprecated("google_signature()")
+  google_signature()
+}
+
+
+
+
+
+#' @rdname register_google
+#' @export
+has_google_signature <- function () {
+
+  if(is.null(getOption("ggmap"))) return(FALSE)
+
+  !is.na(google_signature())
 
 }
 
 #' @rdname register_google
 #' @export
 has_goog_signature <- function () {
-
-  if(is.null(getOption("ggmap"))) return(FALSE)
-
-  !is.na(goog_signature())
-
+  .Deprecated("has_google_signature()")
+  has_google_signature()
 }
 
 
@@ -179,29 +230,43 @@ has_goog_signature <- function () {
 
 #' @rdname register_google
 #' @export
-goog_second_limit <- function () {
+google_second_limit <- function () {
 
   # set to 50 if no key present (ggmap not loaded)
-  if(!has_goog_key()) return(50)
+  if(!has_google_key()) return(50L)
 
   getOption("ggmap")$google$second_limit
 
 }
 
+#' @rdname register_google
+#' @export
+goog_second_limit <- function () {
+  .Deprecated("google_second_limit()")
+  google_second_limit()
+}
+
+
+
 
 
 #' @rdname register_google
 #' @export
-goog_day_limit <- function () {
+google_day_limit <- function () {
 
   # set to 2500 if no key present (ggmap not loaded)
-  if(!has_goog_key()) return(2500)
+  if(!has_google_key()) return(2500L)
 
   getOption("ggmap")$google$day_limit
 
 }
 
-
+#' @rdname register_google
+#' @export
+goog_day_limit <- function () {
+  .Deprecated("google_day_limit()")
+  google_day_limit()
+}
 
 
 

@@ -51,11 +51,11 @@ revgeocode <- function(location, output = c("address","more","all"),
   )
 
   # do google credentials
-  if (has_goog_client() && has_goog_signature()) {
+  if (has_google_client() && has_google_signature()) {
     client <- goog_client()
     signature <- goog_signature()
     url_string <- paste(url_string, fmteq(client), fmteq(signature), sep = "&")
-  } else if (has_goog_key()) {
+  } else if (has_google_key()) {
     key <- goog_key()
     url_string <- paste(url_string, fmteq(key), sep = "&")
   }

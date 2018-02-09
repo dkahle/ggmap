@@ -87,11 +87,11 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
     )
 
     # add google account stuff
-    if (has_goog_client() && has_goog_signature()) {
+    if (has_google_client() && has_google_signature()) {
       client <- goog_client()
       signature <- goog_signature()
       posturl <- paste(posturl, fmteq(client), fmteq(signature), sep = "&")
-    } else if (has_goog_key()) {
+    } else if (has_google_key()) {
       key <- goog_key()
       posturl <- paste(posturl, fmteq(key), sep = "&")
     }
@@ -191,14 +191,14 @@ check_dist_query_limit <- function(url_string, elems, override, messaging){
 
     # limit per 24 hours
     dayQueriesUsed <- sum(.GoogleDistQueryCount$elements)
-    if(dayQueriesUsed + elems > goog_day_limit()){
+    if(dayQueriesUsed + elems > google_day_limit()){
       message("query max exceeded, see ?mapdist.  current total = ", dayQueriesUsed)
       if(!override) return("stop")
     }
 
     # limit per second
     secondQueriesUsed <- with(.GoogleDistQueryCount, sum(elements[time >= Sys.time() - 1]))
-    if(secondQueriesUsed + elems > goog_second_limit()){
+    if(secondQueriesUsed + elems > google_second_limit()){
       message(".", appendLF = FALSE)
       Sys.sleep(.2) # can do better
     }
@@ -241,14 +241,14 @@ distQueryCheck <- function(){
 
   if(exists(".GoogleDistQueryCount", .GlobalEnv)){
 
-  	remaining <- goog_day_limit() - sum(
+  	remaining <- google_day_limit() - sum(
   	  dplyr::filter(.GoogleDistQueryCount, time >= Sys.time() - 24*60*60)$elements
   	)
     message(remaining, " mapdist queries remaining.")
 
   } else {
 
-  	remaining <- goog_day_limit()
+  	remaining <- google_day_limit()
     message(remaining, " mapdist queries remaining.")
 
   }

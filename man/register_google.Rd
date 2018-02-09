@@ -2,38 +2,68 @@
 % Please edit documentation in R/register_google.R
 \name{register_google}
 \alias{register_google}
+\alias{google_key}
 \alias{goog_key}
+\alias{has_google_key}
 \alias{has_goog_key}
+\alias{has_google_account}
 \alias{has_goog_account}
+\alias{google_account}
 \alias{goog_account}
+\alias{google_client}
 \alias{goog_client}
+\alias{has_google_client}
 \alias{has_goog_client}
+\alias{google_signature}
 \alias{goog_signature}
+\alias{has_google_signature}
 \alias{has_goog_signature}
+\alias{google_second_limit}
 \alias{goog_second_limit}
+\alias{google_day_limit}
 \alias{goog_day_limit}
 \alias{check_google_for_error}
 \title{Register a Google API}
 \usage{
 register_google(key, account_type, client, signature, second_limit, day_limit)
 
+google_key()
+
 goog_key()
+
+has_google_key()
 
 has_goog_key()
 
+has_google_account()
+
 has_goog_account()
+
+google_account()
 
 goog_account()
 
+google_client()
+
 goog_client()
+
+has_google_client()
 
 has_goog_client()
 
+google_signature()
+
 goog_signature()
+
+has_google_signature()
 
 has_goog_signature()
 
+google_second_limit()
+
 goog_second_limit()
+
+google_day_limit()
 
 goog_day_limit()
 
@@ -65,10 +95,10 @@ entire session.
 \examples{
 
 
-has_goog_key()
-goog_key()
-has_goog_client()
-has_goog_signature()
+has_google_key()
+google_key()
+has_google_client()
+has_google_signature()
 register_google(key = "[your key here]")
 
 }
