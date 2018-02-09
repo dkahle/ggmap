@@ -9,9 +9,12 @@
 #' @export
 #' @examples
 #'
+#' \dontrun{ to diminish run check time
+#'
 #' get_map()
 #' ggmap(get_map())
 #'
+#' }
 #'
 print.ggmap <- function(x, ...){
 

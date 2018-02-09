@@ -39,14 +39,15 @@
 #'   RgoogleMaps
 #' @export
 #' @examples
-#' map <- get_map()
-#' map
-#' str(map)
-#' ggmap(map)
 #'
 #' \dontrun{
 #' # not run by check to reduce time; also,
 #' # osm may error due to server overload
+#'
+#' map <- get_map()
+#' map
+#' str(map)
+#' ggmap(map)
 #'
 #' (map <- get_map(maptype = "roadmap"))
 #' (map <- get_map(source = "osm"))
