@@ -7,7 +7,7 @@ test_that("ggmap example works", {
   ggmap(map)
 })
 
-test_that("ggmapplot example works", { 
+test_that("ggmapplot example works", {
   skip("FIXME: Doesn't work with cran ggplot. When fixed, remove skip.")
   map <- getFakeMap()
   ggmapplot(map)
