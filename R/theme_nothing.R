@@ -43,15 +43,16 @@
 theme_nothing <- function(base_size = 12, legend = FALSE){
   if(legend){
    return(theme(
-     axis.text =          element_blank(),
-     axis.title =         element_blank(),
-     panel.background =   element_blank(),
-     panel.grid.major =   element_blank(),
-     panel.grid.minor =   element_blank(),
+     line =               element_blank(),
+     rect =               element_blank(),
+     text =               element_blank(),
      axis.ticks.length =  unit(0, "cm"),
+     legend.position =    "right",
+     legend.key.size =    unit(0, "cm"),
+     panel.ontop =        FALSE,
      panel.spacing =      unit(0, "lines"),
      plot.margin =        unit(c(0, 0, 0, 0), "lines"),
-     complete = TRUE
+     complete =           TRUE
    ))
   } else {
    return(theme(
@@ -60,9 +61,11 @@ theme_nothing <- function(base_size = 12, legend = FALSE){
      text =               element_blank(),
      axis.ticks.length =  unit(0, "cm"),
      legend.position =    "none",
+     legend.key.size =    unit(0, "cm"),
      panel.spacing =      unit(0, "lines"),
+     panel.ontop =        FALSE,
      plot.margin =        unit(c(0, 0, 0, 0), "lines"),
-     complete = TRUE
+     complete =           TRUE
    ))
  }
 }
