@@ -17,7 +17,6 @@ Imports:
     RgoogleMaps,
     png,
     plyr,
-    reshape2,
     rjson,
     mapproj,
     jpeg,
