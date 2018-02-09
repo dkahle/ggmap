@@ -2,6 +2,7 @@
 #'   geosphere
 #' @docType package
 #' @name ggmap
+#' @importFrom rjson fromJSON
 #' @importFrom bitops bitOr bitShiftL bitShiftR bitAnd
 #' @importFrom grDevices as.raster extendrange gray rgb
 #' @importFrom stats time asOneSidedFormula
