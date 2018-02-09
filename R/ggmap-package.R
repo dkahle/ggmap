@@ -1,6 +1,9 @@
-#' @import ggplot2 proto RgoogleMaps rjson jpeg png
+#' @import ggplot2 proto
 #' @docType package
 #' @name ggmap
+#' @importFrom RgoogleMaps XY2LatLon
+#' @importFrom png readPNG
+#' @importFrom jpeg readJPEG
 #' @importFrom plyr arrange compact ddply desc dlply is.discrete is.formula join
 #'   ldply llply .
 #' @importFrom rjson fromJSON
