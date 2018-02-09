@@ -1,4 +1,4 @@
-#' @import ggplot2 proto
+#' @import ggplot2
 #' @docType package
 #' @name ggmap
 #' @importFrom RgoogleMaps XY2LatLon

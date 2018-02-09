@@ -425,9 +425,6 @@ qmplot <- function(x, y, ..., data, zoom, source = "stamen", maptype = "toner-li
   if (!is.null(main)) p <- p + ggtitle(main)
 
   # Add geoms/statistics
-  if (is.proto(position)) position <- list(position)
-
-  # Add geoms/statistics
   for (g in geom) {
     # Arguments are unevaluated because some are aesthetics. Need to evaluate
     # params - can't do in correct env because that's lost (no lazyeval)
