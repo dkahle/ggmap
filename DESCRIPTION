@@ -21,7 +21,8 @@ Imports:
     digest,
     scales,
     dplyr,
-    bitops
+    bitops,
+    grid
 Suggests:
     MASS,
     stringr,

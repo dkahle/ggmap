@@ -12,7 +12,7 @@
 #' @importFrom stats time asOneSidedFormula
 #' @importFrom utils URLencode download.file tail
 #' @importFrom grid rasterGrob seekViewport grid.locator upViewport downViewport
-#'   current.vpTree current.vpPath
+#'   current.vpTree current.vpPath viewport
 #' @importFrom scales expand_range
 #' @importFrom dplyr bind_cols filter bind_rows
 #' @aliases ggmap package-ggmap
