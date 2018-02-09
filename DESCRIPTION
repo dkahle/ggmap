@@ -21,7 +21,6 @@ Imports:
     rjson,
     mapproj,
     jpeg,
-    geosphere,
     digest,
     scales,
     dplyr,
