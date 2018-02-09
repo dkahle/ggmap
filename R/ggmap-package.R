@@ -1,5 +1,4 @@
 #' @import ggplot2 proto RgoogleMaps png plyr reshape2 rjson mapproj jpeg
-#'   geosphere
 #' @docType package
 #' @name ggmap
 #' @importFrom rjson fromJSON
