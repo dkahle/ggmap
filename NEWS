@@ -1,9 +1,11 @@
-ggmap **
+ggmap ***
 -------------------------------------------------------------------------
 
 CHANGES
 
 * has_goog*() functions are now has_google*(); the former are .Deprecated().
+* Mikko Korpela (@mvkorpel) has been added as a contributor.  Thanks for
+  your additions, Mikko!
 
 
 
