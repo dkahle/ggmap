@@ -17,6 +17,14 @@
 #'   is in [0, 1] and color is a character string indicating the
 #'   color of the darken.  0 indicates no darkening, 1 indicates a
 #'   black-out.
+#' @param b Deprecated, renamed to `padding`. Overrides any
+#'   `padding` argument.
+#' @param fullpage Deprecated, equivalent to `extent = "device"`
+#'   when `TRUE`. Overrides any `extent` argument.
+#' @param expand Deprecated, equivalent to `extent = "panel"`
+#'   when `TRUE` and `fullpage` is `FALSE`. When `fullpage`
+#'   is `FALSE` and `expand` is `FALSE`, equivalent to
+#'   `extent="normal"`. Overrides any `extent` argument.
 #' @param ... ...
 #' @return a ggplot object
 #' @author David Kahle \email{david.kahle@@gmail.com}
@@ -424,7 +432,7 @@
 #'
 #' }
 ggmap <- function(ggmap, extent = "panel", base_layer, maprange = FALSE,
-  legend = "right", padding = .02, darken = c(0, "black"), ...)
+  legend = "right", padding = .02, darken = c(0, "black"), b, fullpage, expand, ...)
 {
 
   # dummies to trick R CMD check
@@ -433,22 +441,16 @@ ggmap <- function(ggmap, extent = "panel", base_layer, maprange = FALSE,
   ll.lat <- NULL; rm(ll.lat); ur.lat <- NULL; rm(ur.lat);
 
   # deprecated syntaxes
-  args <- as.list(match.call(expand.dots = TRUE)[-1])
-  if("ggmapplot" %in% names(args)){
-    .Deprecated(msg = "ggmapplot syntax deprecated, use ggmap.")
-  }
-
-  if("b" %in% names(args)){
+  if(!missing(b)) {
     .Deprecated(msg = "b syntax deprecated, use padding.")
-    b <- NULL; rm(b);
-    padding <- eval(args$b)
+    padding <- b
   }
 
-  if("fullpage" %in% names(args) || "expand" %in% names(args)){
+  if(!missing(fullpage) || !missing(expand)){
     .Deprecated(msg = "fullpage and expand syntaxes deprecated, use extent.")
-    if("fullpage" %in% names(args)){fullpage <- eval(args$fullpage)}else{fullpage <- FALSE}
+    if(missing(fullpage)) { fullpage <- FALSE }
+    if(missing(expand)) { expand <- FALSE }
     if(fullpage) extent <- "device"
-    if("expand" %in% names(args)){expand <- eval(args$expand)}else{expand <- FALSE}
     if(fullpage == FALSE && expand == TRUE) extent <- "panel"
     if(fullpage == FALSE && expand == FALSE) extent <- "normal"
   }
@@ -603,6 +605,7 @@ ggmap <- function(ggmap, extent = "panel", base_layer, maprange = FALSE,
 ggmapplot <- function(ggmap, fullpage = FALSE,
   base_layer, maprange = FALSE, expand = FALSE, ...)
 {
+  .Deprecated(msg = "ggmapplot syntax deprecated, use ggmap.")
   ggmap(ggmap, fullpage = fullpage, base_layer = base_layer,
     maprange = FALSE, expand = FALSE, ggmapplot = TRUE)
 }

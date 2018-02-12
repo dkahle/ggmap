@@ -2,13 +2,17 @@ context("ggmap")
 source("util.R")
 
 test_that("ggmap example works", {
-  skip("FIXME: Doesn't work with cran ggplot. When fixed, remove skip.")
   map <- getFakeMap()
   ggmap(map)
+  expect_true(TRUE) # didn't stop: good!
 })
 
 test_that("ggmapplot example works", {
-  skip("FIXME: Doesn't work with cran ggplot. When fixed, remove skip.")
   map <- getFakeMap()
-  ggmapplot(map)
+  expect_warning(
+    # deprecated, and uses deprecated syntax
+    # warns twice
+    ggmapplot(map)
+  )
+  expect_true(TRUE) # didn't stop: good!
 })
