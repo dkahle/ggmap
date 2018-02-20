@@ -329,7 +329,7 @@ get_googlemap <- function(
 
   url <- URLencode( enc2utf8(url) )
   if(urlonly) return(url)
-  if(nchar(url) > 2048) stop("max url length is 2048 characters.", call. = FALSE)
+  if(nchar(url) > 8192) stop("max url length is 8192 characters.", call. = FALSE)
 
 
   ##### get map
