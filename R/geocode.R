@@ -114,8 +114,8 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
     # message/stop as neeeded
     s <- sprintf("google restricts requests to %s requests a day for non-premium use.", limit)
-    if(length(location) > as.numeric(limit)) stop(s, call. = FALSE)
-    if(length(location) > 200 && messaging) message(paste("Reminder", s, sep = " : "))
+    if(length(location) > as.numeric(limit) && source == "google") stop(s, call. = FALSE)
+    if(length(location) > 200 && messaging && source == "google") message(paste("Reminder", s, sep = " : "))
 
     # geocode ply and out
     if(output == "latlon" || output == "latlona" || output == "more"){
