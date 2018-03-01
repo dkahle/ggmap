@@ -43,6 +43,8 @@ FIXES
 * README images moved from figures/ to tools/
 * mutate_geocode() now works with tibbles (#68, thanks dannguyen)
 * get_stamenmap() now properly changes colors to black and white.
+* geocode() now stops with a rate limiter error only when source = 'google'
+  (#150, thanks @phively)
 
 
 ggmap 2.6.1
