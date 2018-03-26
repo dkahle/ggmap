@@ -119,9 +119,37 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
     # geocode ply and out
     if(output == "latlon" || output == "latlona" || output == "more"){
-      return(ldply(as.list(location), geocode, output = output, source = source, messaging = messaging, inject = inject))
+      return(
+        ldply(
+          as.list(location),
+          geocode,
+          output = output,
+          source = source,
+          messaging = messaging,
+          force = force,
+          urlonly = urlonly,
+          override_limit = override_limit,
+          nameType = nameType,
+          ext = ext,
+          inject = inject
+        )
+      )
     } else { # output = all
-      return(llply(as.list(location), geocode, output = output, source = source, messaging = messaging, inject = inject))
+      return(
+        llply(
+          as.list(location),
+          geocode,
+          output = output,
+          source = source,
+          messaging = messaging,
+          force = force,
+          urlonly = urlonly,
+          override_limit = override_limit,
+          nameType = nameType,
+          ext = ext,
+          inject = inject
+        )
+      )
     }
   }
 
