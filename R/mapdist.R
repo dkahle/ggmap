@@ -17,7 +17,7 @@
 #'   (.GoogleDistQueryCount)
 #' @param ext domain extension (e.g. "com", "co.nz")
 #' @param inject character string to add to the url
-#' @param usingPlaceIDs indicate that from and to fields contain placeIDs. 
+#' @param usingPlaceIDs indicate that from and to fields contain placeIDs.
 #' Turns of URL encoding of addresses.
 #' @param ... ...
 #' @return a data frame (output="simple") or all of the geocoded
@@ -26,7 +26,7 @@
 #' @details if parameters from and to are specified as geographic
 #'   coordinates, they are reverse geocoded with revgeocode.  note
 #'   that the google maps api limits to 2500 element queries a day.
-#'   
+#'
 #'   mapdist now makes a single query to the mapdist api. The returned
 #'   data frame will have length(from)*length(to) rows
 #' @seealso
@@ -147,7 +147,7 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
     # distance lookup
     if(messaging) message("trying url ", url_string)
     connect <- url(url_string); on.exit(close(connect), add = TRUE)
-    tree <- fromJSON(paste(readLines(connect), collapse = ""))
+    tree <- rjson::fromJSON(paste(readLines(connect), collapse = ""), simplify=FALSE)
     check_google_for_error(tree)
 
     # message user
@@ -156,11 +156,11 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
     if(length(To) != length(tree$destination_addresses)){
       message("matching was not perfect, returning what was found.")
       output <<- "all"
-    } 
+    }
     if(length(From) != length(tree$origin_addresses)){
       message("matching was not perfect, returning what was found.")
       output <<- "all"
-    } 
+    }
     return(tree)
   }
 
@@ -168,7 +168,7 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
 
   # return all
   if(output == "all") return(out)
-  
+
   # out$rows has length(from)
   # out$rows[[j]]$elements has length(to)
   # format output
@@ -185,10 +185,10 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
     })
     return(res)
   })
-  
+
   destadd <- rep(out$destination_addresses, length(out$origin_addresses))
   originadd <- rep(out$origin_address, rep(length(out$destination_addresses), length(out$origin_addresses)))
-  
+
   tos <- rep(to, length(from))
   froms <- rep(from, rep(length(to), length(from)))
 
