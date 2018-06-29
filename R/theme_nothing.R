@@ -13,7 +13,7 @@
 #' # no legend example
 #' n <- 50
 #' df <- expand.grid(x = 1:n,y = 1:n)[sample(n^2,.5*n^2),]
-#' p <- qplot(x, y, data = df, geom = 'tile')
+#' p <- ggplot(df, aes(x, y)) + geom_raster()
 #' p
 #' p + theme_nothing()
 #' p + theme_nothing(legend = TRUE) # no difference
@@ -26,7 +26,7 @@
 #'
 #' # legend example
 #' df$class <- factor(sample(0:1, .5*n^2,  replace = TRUE))
-#' p <- qplot(x, y, data = df, geom = "tile", fill = class)
+#' p <- ggplot(df, aes(x, y)) + geom_raster(aes(fill = class))
 #' p
 #' p + theme_nothing()
 #' p + theme_nothing(legend = TRUE)
@@ -51,7 +51,7 @@ theme_nothing <- function(base_size = 12, legend = FALSE){
      axis.ticks.length =  unit(0, "cm"),
      panel.spacing =      unit(0, "lines"),
      plot.margin =        unit(c(0, 0, 0, 0), "lines"),
-     complete = TRUE
+     complete = FALSE
    ))
   } else {
    return(theme(
@@ -62,7 +62,7 @@ theme_nothing <- function(base_size = 12, legend = FALSE){
      legend.position =    "none",
      panel.spacing =      unit(0, "lines"),
      plot.margin =        unit(c(0, 0, 0, 0), "lines"),
-     complete = TRUE
+     complete = FALSE
    ))
  }
 }

@@ -23,7 +23,7 @@ theme_nothing simply strips all thematic element in ggplot2.
 # no legend example
 n <- 50
 df <- expand.grid(x = 1:n,y = 1:n)[sample(n^2,.5*n^2),]
-p <- qplot(x, y, data = df, geom = 'tile')
+p <- ggplot(df, aes(x, y)) + geom_raster()
 p
 p + theme_nothing()
 p + theme_nothing(legend = TRUE) # no difference
@@ -36,7 +36,7 @@ p +
 
 # legend example
 df$class <- factor(sample(0:1, .5*n^2,  replace = TRUE))
-p <- qplot(x, y, data = df, geom = "tile", fill = class)
+p <- ggplot(df, aes(x, y)) + geom_raster(aes(fill = class))
 p
 p + theme_nothing()
 p + theme_nothing(legend = TRUE)
