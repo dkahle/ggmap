@@ -36,7 +36,7 @@ ggmap_credentials <- function () {
 print.ggmap_credentials <- function (x, ...) {
 
   for (k in 1:length(x)) {
-    cat(capitalize(names(x)[k]), "- \n")
+    cat(str_to_title(names(x)[k]), "- \n")
     for (i in 1:length(x[[k]])) {
       cat("  ", names(x[[k]])[i], ": ")
       val <- x[[k]][[i]]
@@ -47,7 +47,3 @@ print.ggmap_credentials <- function (x, ...) {
 }
 
 
-
-capitalize <- function(s) {
-  paste0(toupper(substr(s, 1, 1)), substr(s, 2, nchar(s)))
-}
