@@ -23,12 +23,14 @@ Imports:
     digest,
     scales,
     dplyr,
-    bitops
+    bitops,
+    grid
 Suggests:
     MASS,
     stringr,
     hexbin,
-    tibble
+    tibble,
+    testthat
 License: GPL-2
 LazyData: true
 RoxygenNote: 6.0.1

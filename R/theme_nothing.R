@@ -42,27 +42,25 @@
 #'
 theme_nothing <- function(base_size = 12, legend = FALSE){
   if(legend){
-   return(theme(
-     axis.text =          element_blank(),
-     axis.title =         element_blank(),
-     panel.background =   element_blank(),
-     panel.grid.major =   element_blank(),
-     panel.grid.minor =   element_blank(),
-     axis.ticks.length =  unit(0, "cm"),
-     panel.spacing =      unit(0, "lines"),
-     plot.margin =        unit(c(0, 0, 0, 0), "lines"),
-     complete = FALSE
-   ))
+    theme(
+      axis.text =          element_blank(),
+      axis.title =         element_blank(),
+      panel.background =   element_blank(),
+      panel.grid.major =   element_blank(),
+      panel.grid.minor =   element_blank(),
+      axis.ticks.length =  unit(0, "cm"),
+      panel.spacing =      unit(0, "lines"),
+      plot.margin =        unit(c(0, 0, 0, 0), "lines")
+    )
   } else {
-   return(theme(
-     line =               element_blank(),
-     rect =               element_blank(),
-     text =               element_blank(),
-     axis.ticks.length =  unit(0, "cm"),
-     legend.position =    "none",
-     panel.spacing =      unit(0, "lines"),
-     plot.margin =        unit(c(0, 0, 0, 0), "lines"),
-     complete = FALSE
-   ))
- }
+    theme(
+      line =               element_blank(),
+      rect =               element_blank(),
+      text =               element_blank(),
+      axis.ticks.length =  unit(0, "cm"),
+      legend.position =    "none",
+      panel.spacing =      unit(0, "lines"),
+      plot.margin =        unit(c(0, 0, 0, 0), "lines")
+    )
+  }
 }
