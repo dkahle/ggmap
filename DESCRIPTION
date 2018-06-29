@@ -24,7 +24,10 @@ Imports:
     scales,
     dplyr,
     bitops,
-    grid
+    grid,
+    glue,
+    httr,
+    stringr
 Suggests:
     MASS,
     stringr,

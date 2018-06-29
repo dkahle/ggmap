@@ -15,5 +15,8 @@
 #'   current.vpTree current.vpPath viewport
 #' @importFrom scales expand_range
 #' @importFrom dplyr bind_cols filter bind_rows
+#' @importFrom glue glue
+#' @importFrom httr GET http_status warn_for_status stop_for_status
+#' @importFrom stringr str_to_title
 #' @aliases ggmap package-ggmap
 NULL
