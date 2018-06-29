@@ -30,7 +30,6 @@ Imports:
     stringr
 Suggests:
     MASS,
-    stringr,
     hexbin,
     tibble,
     testthat
