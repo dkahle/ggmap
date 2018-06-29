@@ -6,6 +6,9 @@ CHANGES
 * has_goog*() functions are now has_google*(); the former are .Deprecated().
 * Mikko Korpela (@mvkorpel) has been added as a contributor.  Thanks for
   your additions, Mikko!
+* Scott M M Jackson (@scottmmjackson) has been added as an author. Scott
+  has been a huge help with maintenance and has some great ideas for the
+  future. Thanks, Scott!
 
 
 
