@@ -2,16 +2,15 @@
 % Please edit documentation in R/geom_leg.R, R/route.R
 \name{geom_leg}
 \alias{geom_leg}
-\alias{geom_leg}
 \title{Single line segments with rounded ends}
 \usage{
 geom_leg(mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", arrow = NULL, lineend = "round", na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE, ...)
+  position = "identity", arrow = NULL, lineend = "round",
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
 
 geom_leg(mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", arrow = NULL, lineend = "round", na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE, ...)
+  position = "identity", arrow = NULL, lineend = "round",
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{mapping}

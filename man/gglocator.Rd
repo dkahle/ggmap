@@ -4,8 +4,8 @@
 \alias{gglocator}
 \title{Locator for ggplots.}
 \usage{
-gglocator(n = 1, message = FALSE, xexpand = c(0, 0), yexpand = c(0, 0),
-  mercator = TRUE)
+gglocator(n = 1, message = FALSE, xexpand = c(0, 0), yexpand = c(0,
+  0), mercator = TRUE)
 }
 \arguments{
 \item{n}{number of points to locate.}

@@ -25,7 +25,8 @@
 \alias{check_google_for_error}
 \title{Register a Google API}
 \usage{
-register_google(key, account_type, client, signature, second_limit, day_limit)
+register_google(key, account_type, client, signature, second_limit,
+  day_limit)
 
 google_key()
 

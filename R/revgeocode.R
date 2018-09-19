@@ -56,7 +56,7 @@ revgeocode <- function(location, output = c("address","more","all"),
     signature <- goog_signature()
     url_string <- paste(url_string, fmteq(client), fmteq(signature), sep = "&")
   } else if (has_google_key()) {
-    key <- goog_key()
+    key <- google_key()
     url_string <- paste(url_string, fmteq(key), sep = "&")
   }
 

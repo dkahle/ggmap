@@ -6,9 +6,10 @@
 \title{Geocode}
 \usage{
 geocode(location, output = c("latlon", "latlona", "more", "all"),
-  source = c("google", "dsk"), messaging = FALSE, force = ifelse(source ==
-  "dsk", FALSE, TRUE), urlonly = FALSE, override_limit = FALSE,
-  nameType = c("long", "short"), ext = "com", inject = "", ...)
+  source = c("google", "dsk"), messaging = FALSE,
+  force = ifelse(source == "dsk", FALSE, TRUE), urlonly = FALSE,
+  override_limit = FALSE, nameType = c("long", "short"), ext = "com",
+  inject = "", ...)
 
 geocodeQueryCheck()
 }
@@ -63,8 +64,6 @@ Note that the Google Maps API limits to 2500 queries a day. Use
 ########################################
 
 geocode("houston texas")
-
-geocode("houston texas", source = "dsk")
 geocode("1600 pennsylvania avenue, washington dc")
 geocode("the white house")
 geocode(c("the white house", "washington dc"))
@@ -101,6 +100,8 @@ geocode("houston texas", force = TRUE)
 ########################################
 # sources sometime have a hard time reliably geocoding colloquial place names
 
+# datasciencetoolkit.org no longer serves map tiles
+# geocode("houston texas", source = "dsk")
 
 }
 

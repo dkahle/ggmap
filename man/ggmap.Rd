@@ -5,12 +5,11 @@
 \alias{ggmap}
 \alias{package-ggmap}
 \alias{ggmap-package}
-\alias{ggmap}
 \title{Plot a ggmap object}
 \usage{
 ggmap(ggmap, extent = "panel", base_layer, maprange = FALSE,
-  legend = "right", padding = 0.02, darken = c(0, "black"), b, fullpage,
-  expand, ...)
+  legend = "right", padding = 0.02, darken = c(0, "black"), b,
+  fullpage, expand, ...)
 }
 \arguments{
 \item{ggmap}{an object of class ggmap (from function get_map)}

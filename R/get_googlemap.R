@@ -314,7 +314,7 @@ get_googlemap <- function(
     signature <- goog_signature()
     post_url <- paste(post_url, fmteq(client), fmteq(signature), sep = "&")
   } else if (has_google_key()) {
-    key <- goog_key()
+    key <- google_key()
     post_url <- paste(post_url, fmteq(key), sep = "&")
   }
 

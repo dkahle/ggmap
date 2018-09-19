@@ -4,13 +4,14 @@
 \alias{get_googlemap}
 \title{Get a Google Map.}
 \usage{
-get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836), zoom = 10,
-  size = c(640, 640), scale = 2, format = c("png8", "gif", "jpg",
-  "jpg-baseline", "png32"), maptype = c("terrain", "satellite", "roadmap",
-  "hybrid"), language = "en-EN", messaging = FALSE, urlonly = FALSE,
-  filename = NULL, color = c("color", "bw"), force = FALSE,
-  where = tempdir(), archiving = FALSE, ext = "com", inject = "",
-  region, markers, path, visible, style, ...)
+get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836),
+  zoom = 10, size = c(640, 640), scale = 2, format = c("png8",
+  "gif", "jpg", "jpg-baseline", "png32"), maptype = c("terrain",
+  "satellite", "roadmap", "hybrid"), language = "en-EN",
+  messaging = FALSE, urlonly = FALSE, filename = NULL,
+  color = c("color", "bw"), force = FALSE, where = tempdir(),
+  archiving = FALSE, ext = "com", inject = "", region, markers, path,
+  visible, style, ...)
 }
 \arguments{
 \item{center}{the center of the map.  Either a longitude/latitude

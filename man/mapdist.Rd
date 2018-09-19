@@ -6,8 +6,8 @@
 \usage{
 mapdist(from, to, mode = c("driving", "walking", "bicycling", "transit"),
   output = c("simple", "all"), messaging = FALSE, language = "en-EN",
-  urlonly = FALSE, override_limit = FALSE, ext = "com", inject = "",
-  ...)
+  urlonly = FALSE, override_limit = FALSE, ext = "com",
+  inject = "", ...)
 }
 \arguments{
 \item{from}{name of origin addresses in a data frame (vector

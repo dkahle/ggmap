@@ -5,9 +5,9 @@
 \title{Grab a trek from Google}
 \usage{
 trek(from, to, mode = c("driving", "walking", "bicycling", "transit"),
-  output = c("simple", "all"), alternatives = FALSE, units = "metric",
-  messaging = FALSE, urlonly = FALSE, override_limit = FALSE,
-  ext = "com", inject = "", ...)
+  output = c("simple", "all"), alternatives = FALSE,
+  units = "metric", messaging = FALSE, urlonly = FALSE,
+  override_limit = FALSE, ext = "com", inject = "", ...)
 }
 \arguments{
 \item{from}{name of origin addresses in a data frame (vector

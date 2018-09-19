@@ -119,7 +119,7 @@ trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
     signature <- goog_signature()
     posturl <- paste(posturl, fmteq(client), fmteq(signature), sep = "&")
   } else if (has_google_key()) {
-    key <- goog_key()
+    key <- google_key()
     posturl <- paste(posturl, fmteq(key), sep = "&")
   }
 
