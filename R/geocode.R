@@ -101,8 +101,13 @@ geocode <- function (location, output = c("latlon", "latlona", "more", "all"),
   source   <- match.arg(source)
 
 
-  # kill dsk
-  if (source == "dsk") stop("datasciencetoolkit.org terminated its map service, sorry!")
+
+  # source checking
+  if (source == "google" && is.na(google_key()))
+    stop("google now requires a (free) api key, see ?google_key.")
+
+  if (source == "dsk")
+    stop("datasciencetoolkit.org terminated its map service, sorry!")
 
 
   # vectorize for many locations
