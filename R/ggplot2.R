@@ -4,7 +4,13 @@
 # Stat        <- get("Stat",        envir = asNamespace("ggplot2"))
 is.constant <- get("is.constant", envir = asNamespace("ggplot2"))
 rename_aes  <- get("rename_aes",  envir = asNamespace("ggplot2"))
-.all_aesthetics <- get(".all_aesthetics", envir = asNamespace("ggplot2"))
+# .all_aesthetics <- get(".all_aesthetics", envir = asNamespace("ggplot2"))
+.all_aesthetics <- c("adj", "alpha", "angle", "bg", "cex", "col", "color", "colour",
+  "fg", "fill", "group", "hjust", "label", "linetype", "lower",
+  "lty", "lwd", "max", "middle", "min", "pch", "radius", "sample",
+  "shape", "size", "srt", "upper", "vjust", "weight", "width",
+  "x", "xend", "xmax", "xmin", "xintercept", "y", "yend", "ymax",
+  "ymin", "yintercept", "z")
 
 list_to_dataframe <- get("list_to_dataframe", envir = asNamespace("plyr"))
 
