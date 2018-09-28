@@ -341,19 +341,6 @@ get_googlemap <- function(
 
   # deal with bad responses
   if (response$status_code != 200) stop_for_status(response)
-  # {
-  #
-  #   tryCatch(stop_for_status(response),
-  #     http_400 = function(c) "HTTP 400 Bad Request - Bad inject?",
-  #     http_402 = function(c) "HTTP 402 Payment Required - May indicate over Google query limit",
-  #     http_403 = function(c) "HTTP 403 Forbidden - Server refuses query",
-  #     http_404 = function(c) "HTTP 404 Not Found - Server reports page not found",
-  #     http_414 = function(c) "HTTP 414 URI Too Long - URL query too long",
-  #     http_500 = function(c) "HTTP 500 Internal Server Error - If dsk, try Google",
-  #     http_503 = function(c) "HTTP 503 Service Unavailable - Server bogged down, try later"
-  #   )
-  #
-  # }
 
 
   ## read in map and format, add meta data
