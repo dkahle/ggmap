@@ -131,7 +131,7 @@ get_googlemap <- function(
   region, markers, path, visible, style, ...
 ){
 
-  ##### do argument checking
+  ## do argument checking
   ############################################################
 
   args <- as.list(match.call(expand.dots = TRUE)[-1])
@@ -250,17 +250,19 @@ get_googlemap <- function(
 
 
 
-  ##### construct url
+
+  ## construct url
   ############################################################
 
-  base_url <- sprintf("https://maps.googleapis.%s/maps/api/staticmap?", ext)
-  center_url <- if(all(is.numeric(center))){ # lon/lat specification
+  # base_url <- sprintf("https://maps.googleapis.%s/maps/api/staticmap?", ext)
+  url_base <- glue("https://maps.googleapis.{ext}/maps/api/staticmap?")
+
+  center_url <- if (all(is.numeric(center))) { # lon/lat specification
     center <- round(center, digits = 6)
     lon <- center[1]; lat <- center[2]
-    paste0("center=", paste(lat,lon,sep = ","))
+    str_c("center=", str_c(lat, lon, sep = ","))
   } else { # address specification
-    centerPlus <- gsub(" ", "+", center)
-    paste0("center=", centerPlus)
+    str_c("center=", URLencode( enc2utf8(center) ))
   }
 
   size_url <- fmteq(size, paste, collapse = "x")
@@ -318,21 +320,20 @@ get_googlemap <- function(
     post_url <- paste(post_url, fmteq(key), sep = "&")
   }
 
-  url <- paste0(base_url, post_url)
-  url <- gsub("[&]+","&",url) # removes missing arguments
-  if(substr(url, nchar(url), nchar(url)) == "&"){ # if ends with &
-    url <- substr(url, 1, nchar(url)-1)
-  }
+  # merge url and clean
+  url <- str_c(url_base, post_url)
+  url <- str_replace_all(url, "[&]+", "&") # removes missing arguments
+  if (str_sub(url, -1L) == "&") url <- str_sub(url, end = -2L)
 
   # inject any remaining stuff
-  if(inject != "") url <- paste(url, inject, sep = "&")
+  if (inject != "") url <- str_c(url, inject, sep = "&")
 
   url <- URLencode( enc2utf8(url) )
   if(urlonly) return(url)
   if(nchar(url) > 8192) stop("max url length is 8192 characters.", call. = FALSE)
 
 
-  ##### get map
+  ## get map
   ############################################################
 
   # check to see if url is on file
@@ -340,14 +341,33 @@ get_googlemap <- function(
   if (!is.null(map) && !force) return(map)
 
   # finalize filename
-  download.file(url, destfile = destfile, quiet = !messaging, mode = "wb")
-  message(paste0("Source : ", url))
+  # download.file(url, destfile = destfile, quiet = !messaging, mode = "wb")
+  # message(paste0("Source : ", url))
+  message("Source : ", url)
+  response <- httr::GET(url)
+  if (messaging) message(" done.")
+
+  # deal with bad responses
+  if (response$status_code != 200) {
+
+    tryCatch(stop_for_status(response),
+      http_400 = function(c) "HTTP 400 Bad Request - Bad inject?",
+      http_402 = function(c) "HTTP 402 Payment Required - May indicate over Google query limit",
+      http_403 = function(c) "HTTP 403 Forbidden - Server refuses query",
+      http_404 = function(c) "HTTP 404 Not Found - Server reports page not found",
+      http_414 = function(c) "HTTP 414 URI Too Long - URL query too long",
+      http_500 = function(c) "HTTP 500 Internal Server Error - If dsk, try Google",
+      http_503 = function(c) "HTTP 503 Service Unavailable - Server bogged down, try later"
+    )
+
+  }
 
 
-  ##### read in map and format, add meta data
+  ## read in map and format, add meta data
   ############################################################
 
-  map <- readPNG(destfile)
+  # map <- readPNG(destfile)
+  map <- httr::content(response)
   map <- aperm(map, c(2, 1, 3))
 
   # format file
@@ -358,12 +378,10 @@ get_googlemap <- function(
   	map <- gray(.30 * map[,,1] + .59 * map[,,2] + .11 * map[,,3])
   	dim(map) <- mapd[1:2]
   }
-  map <- matrix(map, nrow = scale*size[2], ncol = scale*size[1])
-  class(map) <- c("ggmap","raster")
-  # plot(map)
 
   # map spatial info
   if(is.character(center)) center <- as.numeric(geocode(center, source = "google"))
+
   ll <- XY2LatLon(
     list(lat = center[2], lon = center[1], zoom = zoom),
     -size[1]/2 + 0.5,
@@ -374,24 +392,25 @@ get_googlemap <- function(
     size[1]/2 + 0.5,
     size[2]/2 - 0.5
   )
-  attr(map, "bb") <- data.frame(
-    ll.lat = ll[1], ll.lon = ll[2],
-    ur.lat = ur[1], ur.lon = ur[2]
-  )
 
   # additional map meta-data
-  attr(map, "source")  <- "google"
-  attr(map, "maptype") <- maptype
-  attr(map, "zoom")    <- zoom
-
-  # transpose
-  out <- map # t(map)
+  map <- structure(
+    map,
+    "class" = c("ggmap","raster"),
+    "source" = "google",
+    "maptype" = maptype,
+    "zoom" = zoom,
+    "bb" = data.frame(
+      ll.lat = ll[1], ll.lon = ll[2],
+      ur.lat = ur[1], ur.lon = ur[2]
+    )
+  )
 
   # archive map for future use
-  if (archiving) file_drawer_set(url, out)
+  if (archiving) file_drawer_set(url, map)
 
   # kick out
-  out
+  map
 }
 
 
