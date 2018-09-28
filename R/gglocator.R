@@ -8,6 +8,7 @@
 #' @param mercator logical flag; should the plot be treated as using the
 #'   projection common to most web map services? Set to FALSE if the axes on the
 #'   plot use a linear scale.
+#' @param ... additional arguments (including deprecated, e.g. xexpand)
 #' @return a data frame with columns according to the x and y aesthetics
 #' @author Tyler Rinker, Baptiste Auguie, DWin, David Kahle, \@Nikolai-Hlubek
 #'   and \@mvkorpel.
@@ -57,13 +58,8 @@ gglocator <- function(n = 1, message = FALSE, mercator = TRUE, ...){
 
   if (n > 1) {
     df <- NULL
-    for(k in 1:n){
-      df <- rbind(df,
-        gglocator(
-          message = message, xexpand = xexpand,
-          yexpand = yexpand, mercator = mercator
-        )
-      )
+    for (k in 1:n) {
+      df <- rbind(df, gglocator(message = message, mercator = mercator, ...))
     }
     return(df)
   }

@@ -14,6 +14,8 @@ gglocator(n = 1, message = FALSE, mercator = TRUE, ...)
 \item{mercator}{logical flag; should the plot be treated as using the
 projection common to most web map services? Set to FALSE if the axes on the
 plot use a linear scale.}
+
+\item{...}{additional arguments (including deprecated, e.g. xexpand)}
 }
 \value{
 a data frame with columns according to the x and y aesthetics
