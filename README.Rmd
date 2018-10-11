@@ -23,7 +23,7 @@ devtools::install_github("dkahle/ggmap", ref = "tidyup")
 ```
 When you load __ggmap__, you can set your API key with `register_google()` (see `?register_google` for details), but don't forget to enable the Maps Static API in the Google Cloud interface and enable billing! See #51 for an extended discussion on details.
 
-The details of the readme below will be changed shortly to reflect these changes. Thanks for your patience!i
+The details of the readme below will be changed shortly to reflect these changes. Thanks for your patience!
 
 <hr>
 

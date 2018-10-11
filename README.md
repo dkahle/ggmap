@@ -18,7 +18,7 @@ forget to enable the Maps Static API in the Google Cloud interface and
 enable billing! See \#51 for an extended discussion on details.
 
 The details of the readme below will be changed shortly to reflect these
-changes. Thanks for your patience!i
+changes. Thanks for your patience!
 
 <hr>
 ggmap
