@@ -2,6 +2,26 @@
 ggmap
 =====
 
+*Attention!* Google has [recently changed its API
+requirements](https://developers.google.com/maps/documentation/geocoding/usage-and-billing),
+and **ggmap** users are now required to provide an API key *and* enable
+billing. **ggmap** itself is outdated on CRAN; we hope to have the new
+version up on CRAN soon, but until then, here is the workaround:
+
+``` r
+if(!requireNamespace("devtools")) install.packages("devtools")
+devtools::install_github("dkahle/ggmap", ref = "tidyup")
+```
+
+When you load **ggmap**, you can set your API key with
+`register_google()` (see `?register_google` for details), but don’t
+forget to enable the Maps Static API in the Google Cloud interface and
+enable billing! See \#51 for an extended discussion on details.
+
+The details of the readme below will be changed shortly to reflect these
+changes. Thanks for your patience!
+
+<hr>
 **ggmap** makes it easy to retrieve raster map tiles from popular online
 mapping services like [Google
 Maps](https://developers.google.com/maps/documentation/static-maps/?hl=en),
