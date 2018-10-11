@@ -17,8 +17,8 @@
 #' @name register_google
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso
-#' \url{http://code.google.com/apis/maps/documentation/geocoding/},
-#' \url{https://developers.google.com/maps/documentation/geocoding/usage-limits}
+#' \url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
+#' \url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
 #' @examples
 #'
 #'
@@ -43,14 +43,10 @@ register_google <- function (key, account_type, client, signature, second_limit,
   options <- getOption("ggmap")
 
   # check for client/sig specs
-  if (!missing(client) &&  missing(signature) ) {
-    stop("if client is specified, signature must be also.")
-  }
-  if ( missing(client) && !missing(signature) ) {
-    stop("if signature is specified, client must be also.")
-  }
+  if (!missing(client) &&  missing(signature) ) stop("if client is specified, signature must be also.")
+  if ( missing(client) && !missing(signature) ) stop("if signature is specified, client must be also.")
   if (!missing(client) && !missing(signature) ) {
-    if (goog_account() == "standard" && missing(account_type)) {
+    if (google_account() == "standard" && missing(account_type)) {
       stop("if providing client and signature, the account type must be premium.")
     }
   }
@@ -63,7 +59,7 @@ register_google <- function (key, account_type, client, signature, second_limit,
   if(!missing(client)) options$google$client <- client
   if(!missing(signature)) options$google$signature <- signature
 
-  # # set premium defaults
+  # set premium defaults
   if (!missing(account_type) && account_type == "premium") {
     if(missing(day_limit)) options$google$day_limit <- 100000
   }

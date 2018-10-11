@@ -104,8 +104,8 @@ register_google(key = "[your key here]")
 
 }
 \seealso{
-\url{http://code.google.com/apis/maps/documentation/geocoding/},
-\url{https://developers.google.com/maps/documentation/geocoding/usage-limits}
+\url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
+\url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
 }
 \author{
 David Kahle \email{david.kahle@gmail.com}
