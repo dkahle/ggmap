@@ -1,14 +1,19 @@
 #' Get a Google Map.
 #'
-#' \code{get_googlemap} accesses the Google Static Maps API version 2 to
-#' download a static map.  Note that in most cases by using this function you
-#' are agreeing to the Google Maps API Terms of Service at
-#' \url{https://developers.google.com/maps/terms}.
+#' \code{get_googlemap} queries the Google Maps Static API version 2 to download
+#' a static map.  Note that in most cases by using this function you are
+#' agreeing to the Google Maps API Terms of Service at
+#' \url{https://cloud.google.com/maps-platform/terms/}. Note that as of
+#' mid-2018, registering with Google Cloud to obtain an API key is required to
+#' use any of Google's services, including \code{get_googlemap}. Usage and
+#' billing may apply, see the links under See Also further down in this
+#' documentation for more details.
 #'
-#' @param center the center of the map.  Either a longitude/latitude numeric
-#'   vector, a string address (note that the latter uses \code{geocode} with
-#'   \code{source = "google"}).
-#' @param zoom map zoom, an integer from 3 (continent) to 21 (building), default
+#' @param center the center of the map; either a longitude/latitude numeric
+#'   vector or a string containing a location, in which case
+#'   \code{\link{geocode}} is called with \code{source = "google"}.
+#'   (default: c(lon = -95.3632715, lat = 29.7632836), houston, texas)
+#' @param zoom map zoom; an integer from 3 (continent) to 21 (building), default
 #'   value 10 (city)
 #' @param size rectangular dimensions of map in pixels - horizontal x vertical -
 #'   with a max of c(640, 640). this parameter is affected in a multiplicative
@@ -41,6 +46,8 @@
 #'   two-character ccTLD ("top-level domain") value, see
 #'   \url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}
 #'
+#'
+#'
 #' @param markers data.frame with first column longitude, second column
 #'   latitude, for which google markers should be embedded in the map image, or
 #'   character string to be passed directly to api
@@ -58,13 +65,16 @@
 #' @return a ggmap object (a classed raster object with a bounding box
 #'   attribute)
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \url{https://developers.google.com/maps/documentation/staticmaps/},
+#' @seealso
+#' \url{https://developers.google.com/maps/documentation/maps-static/intro},
+#' \url{https://developers.google.com/maps/documentation/maps-static/dev-guide},
+#' \url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
+#' \url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
 #' \code{\link{ggmap}}, \code{\link{register_google}}
 #' @export
 #' @examples
 #'
 #' \dontrun{ # to diminish run check time
-#'
 #'
 #' get_googlemap(urlonly = TRUE)
 #' ggmap(get_googlemap())
@@ -113,14 +123,28 @@
 #' }
 #'
 get_googlemap <- function(
-  center = c(lon = -95.3632715, lat = 29.7632836), zoom = 10, size = c(640,640),
-  scale = 2, format = c("png8", "gif", "jpg", "jpg-baseline","png32"),
+  center = c(lon = -95.3632715, lat = 29.7632836),
+  zoom = 10,
+  size = c(640,640),
+  scale = 2,
+  format = c("png8", "gif", "jpg", "jpg-baseline","png32"),
   maptype = c("terrain", "satellite", "roadmap", "hybrid"),
   language = "en-EN",
-  messaging = FALSE, urlonly = FALSE, filename = NULL, color = c("color","bw"),
-  force = FALSE, where = tempdir(), archiving = FALSE,
-  ext = "com", inject = "",
-  region, markers, path, visible, style, ...
+  messaging = FALSE,
+  urlonly = FALSE,
+  filename = NULL,
+  color = c("color","bw"),
+  force = FALSE,
+  where = tempdir(),
+  archiving = FALSE,
+  ext = "com",
+  inject = "",
+  region,
+  markers,
+  path,
+  visible,
+  style,
+  ...
 ){
 
   ## do argument checking
@@ -132,23 +156,14 @@ get_googlemap <- function(
   # argument checking (no checks for language, region, markers, path, visible, style)
   #if(checkargs) get_googlemap_checkargs(args)
 
-  if("center" %in% argsgiven){
-    if(!(
-      (is.numeric(center) && length(center) == 2) ||
-      (is.character(center) && length(center) == 1)
-    )){
+  if ("center" %in% argsgiven) {
+    if (!( (is.numeric(center) && length(center) == 2) || (is.character(center) && length(center) == 1) )) {
       stop("center of map misspecified, see ?get_googlemap.", call. = FALSE)
     }
-    if(all(is.numeric(center))){
+    if (all(is.numeric(center))) {
       lon <- center[1]; lat <- center[2]
-      if(lon < -180 || lon > 180){
-        stop("longitude of center must be between -180 and 180 degrees.",
-          " note ggmap uses lon/lat, not lat/lon.", call. = FALSE)
-      }
-      if(lat < -90 || lat > 90){
-        stop("latitude of center must be between -90 and 90 degrees.",
-          " note ggmap uses lon/lat, not lat/lon.", call. = FALSE)
-      }
+      if (lon < -180 || lon > 180) stop("longitude of center must be between -180 and 180 degrees. note ggmap uses lon/lat, not lat/lon.", call. = FALSE)
+      if (lat < -90 || lat > 90) stop("latitude of center must be between -90 and 90 degrees. note ggmap uses lon/lat, not lat/lon.", call. = FALSE)
     }
   }
 

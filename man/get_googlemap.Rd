@@ -14,11 +14,12 @@ get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836),
   visible, style, ...)
 }
 \arguments{
-\item{center}{the center of the map.  Either a longitude/latitude numeric
-vector, a string address (note that the latter uses \code{geocode} with
-\code{source = "google"}).}
+\item{center}{the center of the map; either a longitude/latitude numeric
+vector or a string containing a location, in which case
+\code{\link{geocode}} is called with \code{source = "google"}.
+(default: c(lon = -95.3632715, lat = 29.7632836), houston, texas)}
 
-\item{zoom}{map zoom, an integer from 3 (continent) to 21 (building), default
+\item{zoom}{map zoom; an integer from 3 (continent) to 21 (building), default
 value 10 (city)}
 
 \item{size}{rectangular dimensions of map in pixels - horizontal x vertical -
@@ -90,15 +91,18 @@ a ggmap object (a classed raster object with a bounding box
   attribute)
 }
 \description{
-\code{get_googlemap} accesses the Google Static Maps API version 2 to
-download a static map.  Note that in most cases by using this function you
-are agreeing to the Google Maps API Terms of Service at
-\url{https://developers.google.com/maps/terms}.
+\code{get_googlemap} queries the Google Maps Static API version 2 to download
+a static map.  Note that in most cases by using this function you are
+agreeing to the Google Maps API Terms of Service at
+\url{https://cloud.google.com/maps-platform/terms/}. Note that as of
+mid-2018, registering with Google Cloud to obtain an API key is required to
+use any of Google's services, including \code{get_googlemap}. Usage and
+billing may apply, see the links under See Also further down in this
+documentation for more details.
 }
 \examples{
 
 \dontrun{ # to diminish run check time
-
 
 get_googlemap(urlonly = TRUE)
 ggmap(get_googlemap())
@@ -148,7 +152,10 @@ ggmap(map)
 
 }
 \seealso{
-\url{https://developers.google.com/maps/documentation/staticmaps/},
+\url{https://developers.google.com/maps/documentation/maps-static/intro},
+\url{https://developers.google.com/maps/documentation/maps-static/dev-guide},
+\url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
+\url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
 \code{\link{ggmap}}, \code{\link{register_google}}
 }
 \author{
