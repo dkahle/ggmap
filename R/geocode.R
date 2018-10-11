@@ -441,12 +441,12 @@ failedGeocodeReturn <- function(output){
   } else if(output == "latlona"){
     return(c(lon = NA_real_, lat = NA_real_, address = NA_character_))
   } else if(output == "more") {
-    return(c(
+    return(data.frame(list(
       lon = NA_real_, lat = NA_real_, type = NA_character_, loctype = NA_character_,
       address = NA_character_,
       north = NA_real_, south = NA_real_, east = NA_real_, west = NA_real_,
       locality = NA_character_, country = NA_character_
-    ))
+    )))
   } else {
     return(NA_real_)
   }
