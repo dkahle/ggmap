@@ -35,7 +35,7 @@ ggmap_credentials <- function () {
 #' @export
 print.ggmap_credentials <- function (x, ...) {
 
-  for (k in 1:length(x)) {
+  for (k in seq_along(x)) {
     cat(str_to_title(names(x)[k]), "- \n")
     for (i in 1:length(x[[k]])) {
       cat("  ", names(x[[k]])[i], ": ")
@@ -45,5 +45,8 @@ print.ggmap_credentials <- function (x, ...) {
   }
 
 }
+
+
+
 
 
