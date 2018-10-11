@@ -14,18 +14,20 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ggmap
+### _Attention!_ 
 
-_Attention!_ Google has [recently changed its API requirements](https://developers.google.com/maps/documentation/geocoding/usage-and-billing), and __ggmap__ users are now required to provide an API key _and_ enable billing. __ggmap__ itself is outdated on CRAN; we hope to have the new version up on CRAN soon, but until then, here is the workaround:
+Google has [recently changed its API requirements](https://developers.google.com/maps/documentation/geocoding/usage-and-billing), and __ggmap__ users are now required to provide an API key _and_ enable billing. __ggmap__ itself is outdated on CRAN; we hope to have the new version up on CRAN soon, but until then, here is the workaround:
 ```{r attn, eval=FALSE}
 if(!requireNamespace("devtools")) install.packages("devtools")
 devtools::install_github("dkahle/ggmap", ref = "tidyup")
 ```
 When you load __ggmap__, you can set your API key with `register_google()` (see `?register_google` for details), but don't forget to enable the Maps Static API in the Google Cloud interface and enable billing! See #51 for an extended discussion on details.
 
-The details of the readme below will be changed shortly to reflect these changes. Thanks for your patience!
+The details of the readme below will be changed shortly to reflect these changes. Thanks for your patience!i
 
 <hr>
+
+# ggmap
 
 __ggmap__ makes it easy to retrieve raster map tiles from popular online mapping services like [Google Maps](https://developers.google.com/maps/documentation/static-maps/?hl=en), [OpenStreetMap](https://www.openstreetmap.org), [Stamen Maps](http://maps.stamen.com), and plot them using the [__ggplot2__](https://github.com/tidyverse/ggplot2) framework:
 

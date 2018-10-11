@@ -1,8 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-ggmap
-=====
+### *Attention!*
 
-*Attention!* Google has [recently changed its API
+Google has [recently changed its API
 requirements](https://developers.google.com/maps/documentation/geocoding/usage-and-billing),
 and **ggmap** users are now required to provide an API key *and* enable
 billing. **ggmap** itself is outdated on CRAN; we hope to have the new
@@ -19,9 +18,12 @@ forget to enable the Maps Static API in the Google Cloud interface and
 enable billing! See \#51 for an extended discussion on details.
 
 The details of the readme below will be changed shortly to reflect these
-changes. Thanks for your patience!
+changes. Thanks for your patience!i
 
 <hr>
+ggmap
+=====
+
 **ggmap** makes it easy to retrieve raster map tiles from popular online
 mapping services like [Google
 Maps](https://developers.google.com/maps/documentation/static-maps/?hl=en),
