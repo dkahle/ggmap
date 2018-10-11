@@ -8,14 +8,15 @@
   if ( is.null(getOption("ggmap")) ) {
 
     options <- list(
-      google = list(
+      "google" = list(
         key = NA,
         account_type = "standard",
         day_limit = 2500,
         second_limit = 50,
         client = NA,
         signature = NA
-      )
+      ),
+      "print_api_key" = FALSE
     )
     class(options) <- "ggmap_credentials"
     options(ggmap = options)
