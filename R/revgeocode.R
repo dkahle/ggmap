@@ -96,7 +96,12 @@ revgeocode <- function(location, output = c("address","more","all"),
   }
 
   # message user
-  message(paste0('Information from URL : ', url_string))
+  if (showing_key()) {
+    message("Source : ", url_string)
+  } else {
+    message("Source : ", scrub_key(url_string))
+  }
+
 
   # more than one location found?
   if(length(rgc$results) > 1 && messaging){

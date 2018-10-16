@@ -45,9 +45,6 @@
 #' @param region borders to display as a region code specified as a
 #'   two-character ccTLD ("top-level domain") value, see
 #'   \url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}
-#'
-#'
-#'
 #' @param markers data.frame with first column longitude, second column
 #'   latitude, for which google markers should be embedded in the map image, or
 #'   character string to be passed directly to api
@@ -348,9 +345,11 @@ get_googlemap <- function(
   if (!is.null(map) && !force) return(map)
 
   # finalize filename
-  # download.file(url, destfile = destfile, quiet = !messaging, mode = "wb")
-  # message(paste0("Source : ", url))
-  message("Source : ", url)
+  if (showing_key()) {
+    message("Source : ", url)
+  } else {
+    message("Source : ", scrub_key(url))
+  }
   response <- httr::GET(url)
   if (messaging) message(" done.")
 

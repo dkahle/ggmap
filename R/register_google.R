@@ -1,18 +1,23 @@
 #' Register a Google API
 #'
-#' Many features of the Google web mapping services can be improved
-#' by using standard or premium credentials, such as usage limits
-#' and query rates. This function allows users to input this
-#' information into R as a global option to be retained for the
-#' entire session.
+#' Many features of the Google web mapping services can be improved by using
+#' standard or premium credentials, such as usage limits and query rates. This
+#' function allows users to input this information into R as a global option to
+#' be retained for the entire session.
 #'
 #' @param key an api key
 #' @param account_type \code{"standard"} or \code{"premium"}
 #' @param client client code
 #' @param signature signature code
 #' @param second_limit query limit per second (default 50)
-#' @param day_limit query limit per day (default 2500 for standard
-#'   accounts, 100000 for premium accounts)
+#' @param day_limit query limit per day (default 2500 for standard accounts,
+#'   100000 for premium accounts)
+#' @param string a url string to be scrubbed. currently key, signature, and
+#'   client keywords are scrubbed from the url and replace with the with
+#'   argument
+#' @param with a string to replace
+#' @param x a google credentials class object
+#' @param ... a dumped formal argument to the generic print method
 #' @return NULL
 #' @name register_google
 #' @author David Kahle \email{david.kahle@@gmail.com}
@@ -22,16 +27,53 @@
 #' @examples
 #'
 #'
+#' register_google(key = "[your key here]")
+#'
 #' has_google_key()
 #' google_key()
 #' has_google_client()
 #' has_google_signature()
-#' register_google(key = "[your key here]")
+#' scrub_key("key=d_5iD")
+#' scrub_key("key=d_5iD", "[your \\1]")
+#' scrub_key("signature=d_5iD")
+#' scrub_key("client=a_5sS&signature=d_5iD")
 #'
 
 
 
+#' @rdname register_google
+#' @export
+showing_key <- function () {
+  getOption("ggmap")$display_api_key
+}
 
+
+#' @rdname register_google
+#' @export
+ggmap_show_api_key <- function () {
+  set_ggmap_option("display_api_key" = TRUE)
+  message("ggmap will now display PRIVATE api keys in the console.")
+}
+
+
+#' @rdname register_google
+#' @export
+ggmap_hide_api_key <- function () {
+  set_ggmap_option("display_api_key" = FALSE)
+  message("ggmap will now suppress private api keys in the console.")
+}
+
+
+
+#' @rdname register_google
+#' @export
+scrub_key <- function (string, with = "xxx") {
+  str_replace_all(
+    string,
+    "(key|client|signature)=(\\w+)",
+    str_c("\\1=", with)
+  )
+}
 
 
 
@@ -77,6 +119,20 @@ register_google <- function (key, account_type, client, signature, second_limit,
 
 
 
+
+
+#' @rdname register_google
+#' @export
+print.google_credentials <- function (x, ...) {
+
+  cat("Key -", ifelse(is.na(x[["key"]]), '', x[["key"]]), "\n")
+  cat("Account Type -", ifelse(is.na(x[["account_type"]]), '', x[["account_type"]]), "\n")
+  cat("Day Limit -", ifelse(is.na(x[["day_limit"]]), '', x[["day_limit"]]), "\n")
+  cat("Second Limit -", ifelse(is.na(x[["second_limit"]]), '', x[["second_limit"]]), "\n")
+  cat("Client -", ifelse(is.na(x[["client"]]), '', x[["client"]]), "\n")
+  cat("Signature -", ifelse(is.na(x[["signature"]]), '', x[["signature"]]), "\n")
+
+}
 
 
 
@@ -251,7 +307,7 @@ goog_second_limit <- function () {
 google_day_limit <- function () {
 
   # set to 2500 if no key present (ggmap not loaded)
-  if(!has_google_key()) return(2500L)
+  if(!has_google_key()) return(Inf)
 
   getOption("ggmap")$google$day_limit
 

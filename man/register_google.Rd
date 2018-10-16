@@ -2,6 +2,11 @@
 % Please edit documentation in R/register_google.R
 \name{register_google}
 \alias{register_google}
+\alias{showing_key}
+\alias{ggmap_show_api_key}
+\alias{ggmap_hide_api_key}
+\alias{scrub_key}
+\alias{print.google_credentials}
 \alias{google_key}
 \alias{goog_key}
 \alias{has_google_key}
@@ -25,8 +30,18 @@
 \alias{check_google_for_error}
 \title{Register a Google API}
 \usage{
+showing_key()
+
+ggmap_show_api_key()
+
+ggmap_hide_api_key()
+
+scrub_key(string, with = "xxx")
+
 register_google(key, account_type, client, signature, second_limit,
   day_limit)
+
+\method{print}{google_credentials}(x, ...)
 
 google_key()
 
@@ -71,6 +86,12 @@ goog_day_limit()
 check_google_for_error(tree)
 }
 \arguments{
+\item{string}{a url string to be scrubbed. currently key, signature, and
+client keywords are scrubbed from the url and replace with the with
+argument}
+
+\item{with}{a string to replace}
+
 \item{key}{an api key}
 
 \item{account_type}{\code{"standard"} or \code{"premium"}}
@@ -81,26 +102,34 @@ check_google_for_error(tree)
 
 \item{second_limit}{query limit per second (default 50)}
 
-\item{day_limit}{query limit per day (default 2500 for standard
-accounts, 100000 for premium accounts)}
+\item{day_limit}{query limit per day (default 2500 for standard accounts,
+100000 for premium accounts)}
+
+\item{x}{a google credentials class object}
+
+\item{...}{a dumped formal argument to the generic print method}
 
 \item{tree}{a json tree from \code{\link{fromJSON}}}
 }
 \description{
-Many features of the Google web mapping services can be improved
-by using standard or premium credentials, such as usage limits
-and query rates. This function allows users to input this
-information into R as a global option to be retained for the
-entire session.
+Many features of the Google web mapping services can be improved by using
+standard or premium credentials, such as usage limits and query rates. This
+function allows users to input this information into R as a global option to
+be retained for the entire session.
 }
 \examples{
 
+
+register_google(key = "[your key here]")
 
 has_google_key()
 google_key()
 has_google_client()
 has_google_signature()
-register_google(key = "[your key here]")
+scrub_key("key=d_5iD")
+scrub_key("key=d_5iD", "[your \\\\1]")
+scrub_key("signature=d_5iD")
+scrub_key("client=a_5sS&signature=d_5iD")
 
 }
 \seealso{

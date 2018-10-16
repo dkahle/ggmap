@@ -103,8 +103,8 @@ geocode <- function (location, output = c("latlon", "latlona", "more", "all"),
 
 
   # source checking
-  if (source == "google" && is.na(google_key()))
-    stop("google now requires a (free) api key, see ?google_key.")
+  if (source == "google" && !has_google_key())
+    stop("Google now requires a (free) API key, see ?register_google")
 
   if (source == "dsk")
     stop("datasciencetoolkit.org terminated its map service, sorry!")
@@ -112,19 +112,19 @@ geocode <- function (location, output = c("latlon", "latlona", "more", "all"),
 
   # vectorize for many locations
   if (length(location) > 1) {
-    # set limit
-    if (has_google_account() && google_account() == "standard") {
-      limit <- "2500"
-    } else if (has_google_account() && google_account() == "premium") {
-      limit <- "100000"
-    } else { # if ggmap's not loaded
-      limit <- "2500"
-    }
+    # # set limit
+    # if (has_google_account() && google_account() == "standard") {
+    #   limit <- "2500"
+    # } else if (has_google_account() && google_account() == "premium") {
+    #   limit <- "100000"
+    # } else { # if ggmap's not loaded
+    #   limit <- "2500"
+    # }
 
     # message/stop as neeeded
-    s <- sprintf("google restricts requests to %s requests a day for non-premium use.", limit)
-    if (length(location) > as.numeric(limit)) stop(s, call. = FALSE)
-    if (length(location) > 200 && messaging) message(str_c("Reminder", s, sep = " : "))
+    # s <- sprintf("google restricts requests to %s requests a day for non-premium use.", limit)
+    # if (length(location) > as.numeric(limit)) stop(s, call. = FALSE)
+    # if (length(location) > 200 && messaging) message(str_c("Reminder", s, sep = " : "))
 
     # geocode ply and out
     if (output == "latlon" || output == "latlona" || output == "more") {
@@ -178,7 +178,7 @@ geocode <- function (location, output = c("latlon", "latlona", "more", "all"),
   # encode
   url <- URLencode( enc2utf8(url) )
   if (urlonly) return(url)
-  url_hash   <- digest::digest(url)
+  url_hash <- digest::digest(url)
 
 
 
@@ -190,8 +190,6 @@ geocode <- function (location, output = c("latlon", "latlona", "more", "all"),
 
   } else {
 
-    if (messaging) message(glue("contacting {url}..."), appendLF = FALSE)
-
     # if using google, check/update google query limit
     if (source == "google") {
       check <- checkGeocodeQueryLimit(url_hash, elems = 1, override = override_limit, messaging = messaging)
@@ -199,7 +197,11 @@ geocode <- function (location, output = c("latlon", "latlona", "more", "all"),
     }
 
     # query server
-    message("Source : ", url)
+    if (showing_key()) {
+      message("Source : ", url)
+    } else {
+      message("Source : ", scrub_key(url))
+    }
     response <- httr::GET(url)
     if (messaging) message(" done.")
 

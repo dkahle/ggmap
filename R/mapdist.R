@@ -73,6 +73,7 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
   mode <- match.arg(mode)
   output <- match.arg(output)
   stopifnot(is.logical(messaging))
+  if (!has_google_key()) stop("Google now requires a (free) API key, see ?register_google")
 
 
   getdists <- function(df){
@@ -127,14 +128,15 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling","transit"
 
 
     # distance lookup
-    if(messaging) message("trying url ", url_string)
+    if (showing_key()) {
+      message("Source : ", url_string)
+    } else {
+      message("Source : ", scrub_key(url_string))
+    }
     connect <- url(url_string); on.exit(close(connect), add = TRUE)
     tree <- fromJSON(paste(readLines(connect), collapse = ""))
     check_google_for_error(tree)
 
-
-    # message user
-    message(paste0("Source : ", url_string))
 
     # label destinations - first check if all were found
     if(length(df$to) != length(tree$destination_addresses)){

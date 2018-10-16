@@ -1,7 +1,4 @@
-`%notin%` <- function(elem, set){
-  !(elem %in% set)
-}
-
+`%notin%` <- function (elem, set) !(elem %in% set)
 
 # key <- "aBc"
 # fmteq(key)
@@ -10,3 +7,9 @@
 fmteq <- function (x, f = function(.) ., ...) {
   paste0(deparse(substitute(x)), "=", f(x, ...))
 }
+
+
+`%>%` <- dplyr::`%>%`
+
+
+

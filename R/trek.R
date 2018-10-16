@@ -104,6 +104,7 @@ trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
   output <- match.arg(output)
   stopifnot(is.logical(alternatives))
   stopifnot(is.logical(messaging))
+  if (!has_google_key()) stop("Google now requires a (free) API key, see ?register_google")
 
 
   # format url
@@ -143,7 +144,11 @@ trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
 
 
   # distance lookup
-  if(messaging) message("trying url ", url_string)
+  if (showing_key()) {
+    message("Source : ", url_string)
+  } else {
+    message("Source : ", scrub_key(url_string))
+  }
   connect <- url(url_string)
   tree <- fromJSON(paste(readLines(connect), collapse = ""))
   close(connect)
@@ -156,9 +161,6 @@ trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
     warning("No route was returned from Google.")
     return(NA)
   }
-
-  # message user
-  message("Source : ", url_string)
 
   # extract output from tree and format
   treks <- llply(tree$routes, function(route){
