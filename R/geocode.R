@@ -221,7 +221,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   if(gc$status != "OK"){
     warning(paste("geocode failed with status ", gc$status, ", location = \"",
       location, "\"", sep = ""), call. = FALSE)
-    return(data.frame(lon = NA, lat = NA))
+    return(data.frame(lat = NA, lon = NA))
   }
 
 
@@ -244,8 +244,8 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
 
   gcdf <- with(gc$results[[1]], {
   	data.frame(
-      lon = NULLtoNA(geometry$location$lng),
       lat = NULLtoNA(geometry$location$lat),
+      lon = NULLtoNA(geometry$location$lng),
       type = tolower(NULLtoNA(types[1])),
       loctype = tolower(NULLtoNA(geometry$location_type)),
       address = location, # dsk doesn't give the address
@@ -263,8 +263,8 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     gcdf$address <- tolower(NULLtoNA(gc$results[[1]]$formatted_address))
   }
 
-  if(output == "latlon") return(gcdf[,c("lon","lat")])
-  if(output == "latlona") return(gcdf[,c("lon","lat","address")])
+  if(output == "latlon") return(gcdf[,c("lat", "lon")])
+  if(output == "latlona") return(gcdf[,c("lat", "lon", "address")])
 
 
 
@@ -437,12 +437,12 @@ clearGeocodedInformation <- function(){
 
 failedGeocodeReturn <- function(output){
   if(output == "latlon"){
-    return(data.frame(lon = NA_real_, lat = NA_real_))
+    return(data.frame(lat = NA_real_, lon = NA_real_))
   } else if(output == "latlona"){
-    return(c(lon = NA_real_, lat = NA_real_, address = NA_character_))
+    return(c(lat = NA_real_, lon = NA_real_, address = NA_character_))
   } else if(output == "more") {
     return(c(
-      lon = NA_real_, lat = NA_real_, type = NA_character_, loctype = NA_character_,
+      lat = NA_real_, lon = NA_real_, type = NA_character_, loctype = NA_character_,
       address = NA_character_,
       north = NA_real_, south = NA_real_, east = NA_real_, west = NA_real_,
       locality = NA_character_, country = NA_character_
