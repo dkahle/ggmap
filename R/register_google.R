@@ -37,7 +37,12 @@
 #' compromised package, accesses the key and uploads it to a third party. For
 #' this reason, when using ggmap we recommend a heightened sense of security and
 #' self-awareness: only use trusted packages, do not save API keys in script
-#' files, etc.
+#' files, routinely cycle keys (regenerate new keys and retire old ones), etc.
+#' Google offers features to help in securing your API key, including things
+#' like limiting queries using that key to a particular IP address, as well as
+#' guidance on security best practices. See
+#' \url{https://cloud.google.com/docs/authentication/api-keys#securing_an_api_key}
+#' for details.
 #'
 #' @param key an api key
 #' @param account_type \code{"standard"} or \code{"premium"}
@@ -57,7 +62,11 @@
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso \url{https://cloud.google.com/maps-platform/},
 #'   \url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
+#'
+#'
 #'   \url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
+#'
+#'
 #' @examples
 #'
 #'

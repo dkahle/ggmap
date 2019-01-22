@@ -150,7 +150,11 @@ consequence, ggmap will not know if another function, potentially from a
 compromised package, accesses the key and uploads it to a third party. For
 this reason, when using ggmap we recommend a heightened sense of security and
 self-awareness: only use trusted packages, do not save API keys in script
-files, etc.
+files, etc. Google also offers other features to help in securing your API
+key, including things like limiting queries using that key to a particular IP
+address. See
+\url{https://cloud.google.com/docs/authentication/api-keys#securing_an_api_key}
+for details.
 }
 \examples{
 
