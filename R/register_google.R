@@ -1,9 +1,43 @@
 #' Register a Google API
 #'
-#' Many features of the Google web mapping services can be improved by using
-#' standard or premium credentials, such as usage limits and query rates. This
-#' function allows users to input this information into R as a global option to
-#' be retained for the entire session.
+#' This page contains documentation for tools related to enabling Google
+#' services in R. See the Details section of this file for background
+#' information.
+#'
+#' As of mid-2018, the Google Maps Platform requires a registered API key. While
+#' this alleviates previous burdens (e.g. query limits), it creates some
+#' challenges as well. The most immediate challenge for most R users is that
+#' ggmap functions that use Google's services no longer function out of the box,
+#' since the user has to setup an account with Google, enable the relevant APIs,
+#' and then tell R about the user's setup.
+#'
+#' To obtain an API key and enable services, go to
+#' \url{https://cloud.google.com/maps-platform/}.
+#'
+#' This documentation shows you how to input the requisite information (e.g.
+#' your API key) into R, and it also shows you a few tools that can help you
+#' work with the credentialing. Note that you will need to register the key at
+#' the beginning of the R session in which you're using ggmap - restarting R
+#' will require re-registering the key.
+#'
+#' Users should be aware that the API key, a string of jarbled
+#' characters/numbers/symbols, is a PRIVATE key - it uniquely identifies and
+#' authenticates you to Google's services. If anyone gets your API key, they can
+#' use it to masquerade as you to Google and use services that you have enabled.
+#' Since Google requires a valid credit card to use its online cloud services,
+#' this also means that anyone who obtains your key can, in theory, make charges
+#' to your card in the form of Google services. So be sure to not share your API
+#' key. To mitigate against users inadvertantly sharing their keys, by default
+#' ggmap never displays a user's key in messages displayed to the console.
+#'
+#' Users should also be aware that ggmap has no mechanism with which to
+#' safeguard the private key once registered with R. That is to say, once you
+#' register your API key, any function R will have access to it. As a
+#' consequence, ggmap will not know if another function, potentially from a
+#' compromised package, accesses the key and uploads it to a third party. For
+#' this reason, when using ggmap we recommend a heightened sense of security and
+#' self-awareness: only use trusted packages, do not save API keys in script
+#' files, etc.
 #'
 #' @param key an api key
 #' @param account_type \code{"standard"} or \code{"premium"}
@@ -21,9 +55,9 @@
 #' @return NULL
 #' @name register_google
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso
-#' \url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
-#' \url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
+#' @seealso \url{https://cloud.google.com/maps-platform/},
+#'   \url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
+#'   \url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
 #' @examples
 #'
 #'
@@ -33,6 +67,13 @@
 #' google_key()
 #' has_google_client()
 #' has_google_signature()
+#'
+#' geocode("waco, texas", urlonly = TRUE)
+#' ggmap_show_api_key()
+#' geocode("waco, texas", urlonly = TRUE)
+#' ggmap_hide_api_key()
+#' geocode("waco, texas", urlonly = TRUE)
+#'
 #' scrub_key("key=d_5iD")
 #' scrub_key("key=d_5iD", "[your \\1]")
 #' scrub_key("signature=d_5iD")
@@ -330,8 +371,12 @@ goog_day_limit <- function () {
 check_google_for_error <- function (tree) {
 
   if (tree$status == "REQUEST_DENIED") {
-    warning("REQUEST_DENIED : ", tree$error_message)
+    warning(
+      "Request denied by Google with the following message -\n", tree$error_message,
+      call. = FALSE, immediate. = TRUE
+    )
   }
+
 
 }
 
