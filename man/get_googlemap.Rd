@@ -16,8 +16,8 @@ get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836),
 \arguments{
 \item{center}{the center of the map; either a longitude/latitude numeric
 vector or a string containing a location, in which case
-\code{\link{geocode}} is called with \code{source = "google"}.
-(default: c(lon = -95.3632715, lat = 29.7632836), houston, texas)}
+\code{\link{geocode}} is called with \code{source = "google"}. (default:
+c(lon = -95.3632715, lat = 29.7632836), houston, texas)}
 
 \item{zoom}{map zoom; an integer from 3 (continent) to 21 (building), default
 value 10 (city)}
@@ -102,7 +102,7 @@ documentation for more details.
 }
 \examples{
 
-\dontrun{ # to diminish run check time
+\dontrun{ # requires Google API key, see ?register_google
 
 get_googlemap(urlonly = TRUE)
 ggmap(get_googlemap())

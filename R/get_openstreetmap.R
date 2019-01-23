@@ -85,7 +85,7 @@ get_openstreetmap <- function(
   if('urlonly' %in% argsgiven) stopifnot(is.logical(urlonly))
 
   format <- match.arg(format)
-  if(format != 'png') stop('currently only the png format is supported.', call. = F)
+  if(format != 'png') stop('currently only the png format is supported.', call. = FALSE)
 
   if(is.null(filename)){
     destfile <- tempfile(fileext = paste(".", format, sep = ""))
@@ -122,15 +122,10 @@ get_openstreetmap <- function(
 
   # read in file
   m <- try(download.file(url, destfile = destfile, quiet = !messaging, mode = 'wb'), silent = T)
-  if(class(m) == 'try-error'){
-    stop('map grabbing failed - see details in ?get_openstreetmap.',
-      call. = FALSE)
-  }
+  if (class(m) == 'try-error') stop('map grabbing failed - see details in ?get_openstreetmap.', call. = FALSE)
+
   map <- try(readPNG(destfile), silent = T)
-  if(class(map) == 'try-error'){
-    stop('map grabbing failed - see details in ?get_openstreetmap.',
-      call. = FALSE)
-  }
+  if (class(map) == 'try-error') stop('map grabbing failed - see details in ?get_openstreetmap.', call. = FALSE)
 
   # format file
   if(color == 'color'){

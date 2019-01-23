@@ -1,4 +1,4 @@
-#' Grab a route from Google
+#' Grab a route or trek from Google
 #'
 #' Grab a route from Google. Note that in most cases by using this
 #' function you are agreeing to the Google Maps API Terms of Service
@@ -13,10 +13,8 @@
 #' @param mode driving, bicycling, walking, or transit
 #' @param alternatives should more than one route be provided?
 #' @param units "metric"
-#' @param messaging turn messaging on/off
 #' @param urlonly return only the url?
 #' @param override_limit override the current query count
-#'   (.GoogleRouteQueryCount)
 #' @param ext domain extension (e.g. "com", "co.nz")
 #' @param inject character string to add to the url
 #' @param ... ...
@@ -31,7 +29,10 @@
 #' @export
 #' @examples
 #'
-#' \dontrun{ # to cut down on check time
+#' \dontrun{ # requires Google API key, see ?register_google
+#'
+#' ## basic usage
+#' ########################################
 #'
 #' from <- "houston, texas"
 #' to <- "waco, texas"
@@ -61,12 +62,19 @@
 #'
 #' }
 #'
-route <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
+route <- function (
+  from,
+  to,
+  mode = c("driving","walking","bicycling", "transit"),
   structure = c("legs","route"), output = c("simple","all"),
-  alternatives = FALSE, units = "metric", messaging = FALSE,
-  urlonly = FALSE, override_limit = FALSE,
-  ext = "com", inject = "", ...)
-{
+  alternatives = FALSE,
+  units = "metric",
+  urlonly = FALSE,
+  override_limit = FALSE,
+  ext = "com",
+  inject = "",
+  ...
+) {
 
   # check parameters
   if(is.numeric(from) && length(from) == 2) from <- revgeocode(from)
@@ -77,7 +85,6 @@ route <- function(from, to, mode = c("driving","walking","bicycling", "transit")
   structure <- match.arg(structure)
   output <- match.arg(output)
   stopifnot(is.logical(alternatives))
-  stopifnot(is.logical(messaging))
   if (!has_google_key()) stop("Google now requires a (free) API key, see ?register_google")
 
   # format url
@@ -111,7 +118,7 @@ route <- function(from, to, mode = c("driving","walking","bicycling", "transit")
   if(urlonly) return(url_string)
 
   # check/update google query limit
-  check_route_query_limit(url_string, elems = 1, override = override_limit, messaging = messaging)
+  check_route_query_limit(url_string, elems = 1, override = override_limit)
 
 
   # distance lookup
@@ -187,7 +194,7 @@ route <- function(from, to, mode = c("driving","walking","bicycling", "transit")
 
 
 
-check_route_query_limit <- function(url_string, elems, override, messaging){
+check_route_query_limit <- function(url_string, elems, override){
   .GoogleRouteQueryCount <- NULL; rm(.GoogleRouteQueryCount); # R CMD check trick
 
   if(exists(".GoogleRouteQueryCount", .GlobalEnv)){

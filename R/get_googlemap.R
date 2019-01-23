@@ -11,8 +11,8 @@
 #'
 #' @param center the center of the map; either a longitude/latitude numeric
 #'   vector or a string containing a location, in which case
-#'   \code{\link{geocode}} is called with \code{source = "google"}.
-#'   (default: c(lon = -95.3632715, lat = 29.7632836), houston, texas)
+#'   \code{\link{geocode}} is called with \code{source = "google"}. (default:
+#'   c(lon = -95.3632715, lat = 29.7632836), houston, texas)
 #' @param zoom map zoom; an integer from 3 (continent) to 21 (building), default
 #'   value 10 (city)
 #' @param size rectangular dimensions of map in pixels - horizontal x vertical -
@@ -45,6 +45,7 @@
 #' @param region borders to display as a region code specified as a
 #'   two-character ccTLD ("top-level domain") value, see
 #'   \url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}
+#'
 #' @param markers data.frame with first column longitude, second column
 #'   latitude, for which google markers should be embedded in the map image, or
 #'   character string to be passed directly to api
@@ -71,7 +72,7 @@
 #' @export
 #' @examples
 #'
-#' \dontrun{ # to diminish run check time
+#' \dontrun{ # requires Google API key, see ?register_google
 #'
 #' get_googlemap(urlonly = TRUE)
 #' ggmap(get_googlemap())
@@ -238,6 +239,7 @@ get_googlemap <- function(
   # if(   "sensor" %in% argsgiven) stopifnot(is.logical(   sensor))
   if("messaging" %in% argsgiven) stopifnot(is.logical(messaging))
   if(  "urlonly" %in% argsgiven) stopifnot(is.logical(  urlonly))
+  if (!has_google_key() && !urlonly) stop("Google now requires an API key.", "\n       See ?register_google for details.", call. = FALSE)
 
   if(is.null(filename)){
     destfile <- tempfile(fileext = paste(".", format0, sep = ""))
@@ -333,7 +335,7 @@ get_googlemap <- function(
   if (inject != "") url <- str_c(url, inject, sep = "&")
 
   url <- URLencode( enc2utf8(url) )
-  if(urlonly) return(url)
+  if(urlonly) if(showing_key()) return(url) else return(scrub_key(url))
   if(nchar(url) > 8192) stop("max url length is 8192 characters.", call. = FALSE)
 
 

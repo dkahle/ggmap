@@ -50,20 +50,14 @@ cover the entire world, e.g.
 }
 \examples{
 
-\dontrun{ # to diminish run check time
+\dontrun{ # some requires Google API key, see ?register_google; heavy network load
 
 
-##### basic usage
+## basic usage
 ########################################
 
-place <- "baylor science building"
-google <- get_googlemap(place, zoom = 15)
-ggmap(google)
+bbox <- c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.559652)
 
-# grab the bounding box
-bbox <- bb2bbox(attr(google, "bb"))
-
-# and pull stamen map tiles
 ggmap(get_stamenmap(bbox, zoom = 13))
 ggmap(get_stamenmap(bbox, zoom = 14))
 ggmap(get_stamenmap(bbox, zoom = 15))
@@ -71,9 +65,6 @@ ggmap(get_stamenmap(bbox, zoom = 15))
 # ggmap(get_stamenmap(bbox, zoom = 17))
 
 
-
-# since mid-2016, stamen's terrain tileset is available for
-# the entire globe
 place <- "mount everest"
 (google <- get_googlemap(place, zoom = 9))
 ggmap(google)
@@ -81,17 +72,15 @@ bbox_everest <- c(left = 86.05, bottom = 27.21, right = 87.81, top = 28.76)
 ggmap(get_stamenmap(bbox_everest, zoom = 9))
 
 
-# note that the osm code may not run due to overloaded
-# servers.
 
-##### maptypes
+## map types
 ########################################
 
 place <- "rio de janeiro"
 google <- get_googlemap(place, zoom = 10)
 ggmap(google)
-bbox <- bb2bbox(attr(google, "bb"))
 
+bbox <- bb2bbox(attr(google, "bb"))
 
 ggmap(get_stamenmap(bbox, maptype = "terrain"))
 ggmap(get_stamenmap(bbox, maptype = "terrain-background"))
@@ -109,27 +98,27 @@ ggmap(get_stamenmap(bbox, maptype = "watercolor"))
 
 ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 11), extent = "device")
 ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 12), extent = "device")
-ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 13), extent = "device")
-ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 14), extent = "device")
-ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 15), extent = "device")
+# ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 13), extent = "device")
+# ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 14), extent = "device")
+# ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 15), extent = "device")
 # ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 16), extent = "device")
 # ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 17), extent = "device")
 # ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 18), extent = "device")
 
-stamen <- get_stamenmap(bbox, zoom = 15)
+gc <- geocode("rio de janeiro")
+
+stamen <- get_stamenmap(bbox, zoom = 11)
 ggmap(stamen) +
   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 
-stamen <- get_stamenmap(bbox, zoom = 15, crop = FALSE)
+stamen <- get_stamenmap(bbox, zoom = 11, crop = FALSE)
 ggmap(stamen) +
   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 
-
-
-ggmap(get_stamenmap(bbox, zoom = 15, maptype = "watercolor"))+
+ggmap(get_stamenmap(bbox, zoom = 12, maptype = "watercolor"))+
   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 
-ggmap(get_stamenmap(bbox, zoom = 15, maptype = "toner"))+
+ggmap(get_stamenmap(bbox, zoom = 12, maptype = "toner"))+
   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 
 
@@ -215,18 +204,19 @@ ggmap(stamMapZ5) +
   )
 
 
-stamMapZ5unCropped <- get_stamenmap(bb2bbox(bbZ5),
-  zoom = calc_zoom(bb2bbox(bbZ5)),
-  crop = FALSE)
+get_stamenmap(
+  bb2bbox(bbZ5), zoom = calc_zoom(bb2bbox(bbZ5)), crop = FALSE
+) \%>\%
+  ggmap() +
+    geom_point(
+      aes(x = lon, y = lat),
+      data = gc, colour = "red", size = 3
+    )
 
-ggmap(stamMapZ5unCropped) +
-  geom_point(
-    aes(x = lon, y = lat),
-    data = gc, colour = "red", size = 3
-  )
-
-qmap(location = c(lon = -74.0445, lat = 40.68925),
-    zoom = 16, source = "stamen")  +
+qmap(
+  location = c(lon = -74.0445, lat = 40.68925),
+  zoom = 16, source = "stamen"
+)  +
   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)
 
 } # end dontrun

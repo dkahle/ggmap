@@ -13,10 +13,8 @@
 #' @param mode driving, bicycling, walking, or transit
 #' @param alternatives should more than one route be provided?
 #' @param units "metric"
-#' @param messaging turn messaging on/off
 #' @param urlonly return only the url?
 #' @param override_limit override the current query count
-#'   (.GoogleRouteQueryCount)
 #' @param ext domain extension (e.g. "com", "co.nz")
 #' @param inject character string to add to the url
 #' @param ... ...
@@ -32,7 +30,10 @@
 #' @export
 #' @examples
 #'
-#' \dontrun{ # to cut down on check time
+#' \dontrun{ # requires Google API key, see ?register_google
+#'
+#' ## basic usage
+#' ########################################
 #'
 #' from <- "houston, texas"
 #' to <- "waco, texas"
@@ -89,11 +90,19 @@
 #'
 #' }
 #'
-trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
-  output = c("simple","all"), alternatives = FALSE, units = "metric",
-  messaging = FALSE, urlonly = FALSE, override_limit = FALSE,
-  ext = "com", inject = "", ...)
-{
+trek <- function (
+  from,
+  to,
+  mode = c("driving","walking","bicycling", "transit"),
+  output = c("simple","all"),
+  alternatives = FALSE,
+  units = "metric",
+  urlonly = FALSE,
+  override_limit = FALSE,
+  ext = "com",
+  inject = "",
+  ...
+) {
 
   # check parameters
   if(is.numeric(from) && length(from) == 2) from <- revgeocode(from)
@@ -103,7 +112,6 @@ trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
   mode <- match.arg(mode)
   output <- match.arg(output)
   stopifnot(is.logical(alternatives))
-  stopifnot(is.logical(messaging))
   if (!has_google_key()) stop("Google now requires a (free) API key, see ?register_google")
 
 
@@ -139,8 +147,7 @@ trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
 
 
   # check/update google query limit
-  check_route_query_limit(url_string, elems = 1,
-    override = override_limit, messaging = messaging)
+  check_route_query_limit(url_string, elems = 1, override = override_limit)
 
 
   # distance lookup
@@ -212,6 +219,7 @@ trek <- function(from, to, mode = c("driving","walking","bicycling", "transit"),
 
 # the following is from @akmed (stackoverflow)
 # see http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads
+# https://developers.google.com/maps/documentation/utilities/polylinealgorithm
 decode_google_route <- function(encoded){
 
   vlen <- nchar(encoded)

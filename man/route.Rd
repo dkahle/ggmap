@@ -2,13 +2,12 @@
 % Please edit documentation in R/route.R
 \name{route}
 \alias{route}
-\title{Grab a route from Google}
+\title{Grab a route or trek from Google}
 \usage{
 route(from, to, mode = c("driving", "walking", "bicycling", "transit"),
   structure = c("legs", "route"), output = c("simple", "all"),
-  alternatives = FALSE, units = "metric", messaging = FALSE,
-  urlonly = FALSE, override_limit = FALSE, ext = "com",
-  inject = "", ...)
+  alternatives = FALSE, units = "metric", urlonly = FALSE,
+  override_limit = FALSE, ext = "com", inject = "", ...)
 }
 \arguments{
 \item{from}{name of origin addresses in a data frame (vector
@@ -27,12 +26,9 @@ accepted)}
 
 \item{units}{"metric"}
 
-\item{messaging}{turn messaging on/off}
-
 \item{urlonly}{return only the url?}
 
-\item{override_limit}{override the current query count
-(.GoogleRouteQueryCount)}
+\item{override_limit}{override the current query count}
 
 \item{ext}{domain extension (e.g. "com", "co.nz")}
 
@@ -51,7 +47,10 @@ at https://developers.google.com/maps/terms.
 }
 \examples{
 
-\dontrun{ # to cut down on check time
+\dontrun{ # requires Google API key, see ?register_google
+
+## basic usage
+########################################
 
 from <- "houston, texas"
 to <- "waco, texas"
