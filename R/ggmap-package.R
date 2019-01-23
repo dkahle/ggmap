@@ -19,7 +19,7 @@
 #' @importFrom httr GET http_status warn_for_status stop_for_status
 #' @importFrom tibble tibble as_tibble
 #' @importFrom stringr str_to_title str_c str_detect str_c str_replace_all
-#'   str_sub str_trim str_pad
+#'   str_sub str_trim str_pad str_split
 #' @importFrom purrr map map_chr map_int walk flatten pluck imap
 #' @importFrom magrittr %>%
 #' @importFrom tidyr nest unnest
