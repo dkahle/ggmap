@@ -6,35 +6,41 @@ Google has [recently changed its API
 requirements](https://developers.google.com/maps/documentation/geocoding/usage-and-billing),
 and **ggmap** users are now required to register with Google. From a
 user’s perspective, there are essentially three ramifications of this:
-1. Users must register with Google. You can do this at
-\[<a href="https://cloud.google.com/maps-platform/" class="uri">https://cloud.google.com/maps-platform/</a>\].
-While it will require a valid credit card (sorry!), there seems to be a
-fair bit of free use before you incur charges, and even then the charges
-are modest for light use. 2. Users must enable the APIs they intend to
-use. What may appear to **ggmap** users as one overarching “Google Maps”
-product, Google in fact has several services that it provides as
-geo-related solutions. For example, the [Maps Static
-API](https://developers.google.com/maps/documentation/maps-static/intro)
-provides map images, while the [Geocoding
-API](https://developers.google.com/maps/documentation/geocoding/intro)
-provides geocoding and reverse geocoding services. Apart from the
-relevant Terms of Service, generally **ggmap** users don’t need to think
-about the different services. For example, you just need to remember
-that `get_googlemap()` gets maps, `geocode()` geocodes (with Google, DSK
-is done), etc., and **ggmap** handles the queries for you. *However*,
-you do need to enable the APIs before you use them. You’ll only need to
-do that once, and then they’ll be ready for you to use. 3. Inside R,
-after loading **ggmap**, you’ll need provide **ggmap** with your API
-key, a hash value that authenticates you to Google’s servers. You’ll
-need to load that once per session. Your API key is *private* and unique
-to you, so be careful not to share it online, for example in a GitHub
-issue or saving it in a shared R script file. This is made a bit easier
-by **ggmap** scrubbing the key out of queries by default. (Read the
-details section of the `register_google()` documentation for a bit more
-info on this point.) Once you’ve done 1. and 2. above, all you’ll need
-to do is load **ggmap** with `library("ggmap")` and then register your
-key (if you’re using a Google service, which you probably are) with
-`register_google(key = "your-key")`.
+
+1.  Users must register with Google. You can do this at
+    \[<a href="https://cloud.google.com/maps-platform/" class="uri">https://cloud.google.com/maps-platform/</a>\].
+    While it will require a valid credit card (sorry!), there seems to
+    be a fair bit of free use before you incur charges, and even then
+    the charges are modest for light use.
+
+2.  Users must enable the APIs they intend to use. What may appear to
+    **ggmap** users as one overarching “Google Maps” product, Google in
+    fact has several services that it provides as geo-related solutions.
+    For example, the [Maps Static
+    API](https://developers.google.com/maps/documentation/maps-static/intro)
+    provides map images, while the [Geocoding
+    API](https://developers.google.com/maps/documentation/geocoding/intro)
+    provides geocoding and reverse geocoding services. Apart from the
+    relevant Terms of Service, generally **ggmap** users don’t need to
+    think about the different services. For example, you just need to
+    remember that `get_googlemap()` gets maps, `geocode()` geocodes
+    (with Google, DSK is done), etc., and **ggmap** handles the queries
+    for you. *However*, you do need to enable the APIs before you use
+    them. You’ll only need to do that once, and then they’ll be ready
+    for you to use.
+
+3.  Inside R, after loading **ggmap**, you’ll need provide **ggmap**
+    with your API key, a hash value that authenticates you to Google’s
+    servers. You’ll need to load that once per session. Your API key is
+    *private* and unique to you, so be careful not to share it online,
+    for example in a GitHub issue or saving it in a shared R script
+    file. This is made a bit easier by **ggmap** scrubbing the key out
+    of queries by default. (Read the details section of the
+    `register_google()` documentation for a bit more info on this
+    point.) Once you’ve done 1. and 2. above, all you’ll need to do is
+    load **ggmap** with `library("ggmap")` and then register your key
+    (if you’re using a Google service, which you probably are) with
+    `register_google(key = "your-key")`.
 
 We hope the new version of **ggmap** will be on CRAN soon, but until
 then you can install the version here with:
