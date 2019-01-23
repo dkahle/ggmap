@@ -342,19 +342,19 @@ throttle_google_geocode_query_rate <- function (url_hash, queries_sought, overri
 
     .google_geocode_query_times <- get(".google_geocode_query_times", envir = ggmap_environment)
 
-    queries_used_in_last_second <- with(.google_geocode_query_times, sum(elements[time >= Sys.time() - 1L]))
+    queries_used_in_last_second <- with(.google_geocode_query_times, sum(queries[time >= Sys.time() - 1L]))
 
     if (!override && (queries_used_in_last_second + queries_sought > google_second_limit())) Sys.sleep(.2) # can do better
 
     assign(
       ".google_geocode_query_times",
-      bind_rows(.google_geocode_query_times, tibble("time" = Sys.time(), "url" = url_hash, "elements" = queries_sought)),
+      bind_rows(.google_geocode_query_times, tibble("time" = Sys.time(), "url" = url_hash, "queries" = queries_sought)),
       envir = ggmap_environment
     )
 
   } else {
 
-    assign(".google_geocode_query_times", tibble("time" = Sys.time(), "url" = url_hash, "elements" = queries_sought), envir = ggmap_environment)
+    assign(".google_geocode_query_times", tibble("time" = Sys.time(), "url" = url_hash, "queries" = queries_sought), envir = ggmap_environment)
 
   }
 
@@ -376,7 +376,7 @@ throttle_google_geocode_query_rate <- function (url_hash, queries_sought, overri
 geocodeQueryCheck <- function () {
 
   .Deprecated(msg = "As of mid-2018, Google no longer has daily query limits.")
-  elements <- NA; rm(elements)
+  queries <- NA; rm(queries)
 
   if (exists(".google_geocode_query_times", ggmap_environment)) {
 
@@ -385,7 +385,7 @@ geocodeQueryCheck <- function () {
     google_geocode_queries_in_last_24hrs <-
       .google_geocode_query_times %>%
         dplyr::filter(time >= Sys.time() - 24L*60L*60L) %>%
-        dplyr::select(elements) %>%
+        dplyr::select(queries) %>%
         sum()
 
   	remaining <- google_day_limit() - google_geocode_queries_in_last_24hrs

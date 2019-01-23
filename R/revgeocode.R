@@ -117,7 +117,7 @@ revgeocode <- function (
           "http_503" = function(c) "HTTP 503 Service Unavailable - Server bogged down, try later"
         )
       )
-      return(return_failed_geocode(output))
+      return(NA_character_)
     }
 
     # grab content
@@ -136,7 +136,7 @@ revgeocode <- function (
       "\n", gc$error_message, "\n",
       call. = FALSE, immediate. = TRUE, noBreaks. = FALSE
     )
-    return(tibble("address" = NA_character_))
+    return(NA_character_)
   }
 
 

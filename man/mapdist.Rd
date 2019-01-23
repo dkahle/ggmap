@@ -2,32 +2,28 @@
 % Please edit documentation in R/mapdist.R
 \name{mapdist}
 \alias{mapdist}
+\alias{distQueryCheck}
 \title{Compute map distances using Google}
 \usage{
 mapdist(from, to, mode = c("driving", "walking", "bicycling", "transit"),
-  output = c("simple", "all"), messaging = FALSE, language = "en-EN",
-  urlonly = FALSE, override_limit = FALSE, ext = "com",
-  inject = "", ...)
+  output = c("simple", "all"), urlonly = FALSE,
+  override_limit = FALSE, ext = "com", inject = "", ...)
+
+distQueryCheck()
 }
 \arguments{
-\item{from}{name of origin addresses in a data frame (vector
-accepted)}
+\item{from}{name of origin addresses in a data frame (vector accepted)}
 
-\item{to}{name of destination addresses in a data frame (vector
-accepted)}
+\item{to}{name of destination addresses in a data frame (vector accepted)}
 
 \item{mode}{driving, bicycling, or walking}
 
 \item{output}{amount of output}
 
-\item{messaging}{turn messaging on/off}
-
-\item{language}{language}
-
 \item{urlonly}{return only the url?}
 
 \item{override_limit}{override the current query count
-(.GoogleDistQueryCount)}
+(.google_distance_query_times)}
 
 \item{ext}{domain extension (e.g. "com", "co.nz")}
 
@@ -36,22 +32,25 @@ accepted)}
 \item{...}{...}
 }
 \value{
-a data frame (output="simple") or all of the geocoded
-  information (output="all")
+a data frame (output="simple") or all of the geocoded information
+  (output="all")
 }
 \description{
-Compute map distances using Google Maps. Note that in most cases
-by using this function you are agreeing to the Google Maps API
-Terms of Service at https://developers.google.com/maps/terms.
+Compute map distances using Google's Distance Matrix API. Note: To use
+Google's Distance Matrix API, you must first enable the API in the Google
+Cloud Platform Console. See \code{?register_google}.
 }
 \details{
-if parameters from and to are specified as geographic
-  coordinates, they are reverse geocoded with revgeocode.  note
-  that the google maps api limits to 2500 element queries a day.
+if parameters from and to are specified as geographic coordinates,
+  they are reverse geocoded with revgeocode.  note that the google maps api
+  limits to 2500 element queries a day.
 }
 \examples{
 
-\dontrun{# online queries draw R CMD check times
+\dontrun{ # requires Google API key, see ?register_google
+
+## basic usage
+########################################
 
 mapdist("waco, texas", "houston, texas")
 
@@ -61,10 +60,15 @@ mapdist(from, to)
 mapdist(from, to, mode = "bicycling")
 mapdist(from, to, mode = "walking")
 
-# google requires a key for mode="transit"
-register_google(key = "[your key here]")
-from <- "city hall houston texas"
-to <- "nrg stadium houston texas"
+from <- c(
+  "1600 Amphitheatre Parkway, Mountain View, CA",
+  "3111 World Drive Walt Disney World, Orlando, FL"
+)
+to <- "1600 Pennsylvania Avenue, Washington DC"
+mapdist(from, to)
+
+from <- "st lukes hospital houston texas"
+to <- "houston zoo, houston texas"
 mapdist(from, to, mode = "transit")
 
 from <- c("houston", "houston", "dallas")
@@ -72,17 +76,18 @@ to <- c("waco, texas", "san antonio", "houston")
 mapdist(from, to)
 
 
-# geographic coordinates are accepted as well
+## geographic coordinates are accepted as well
+########################################
 (wh <- as.numeric(geocode("the white house, dc")))
 (lm <- as.numeric(geocode("lincoln memorial washington dc")))
 mapdist(wh, lm, mode = "walking")
-distQueryCheck()
 
 }
 
 }
 \seealso{
-\url{http://code.google.com/apis/maps/documentation/distancematrix/}
+\url{http://code.google.com/apis/maps/documentation/distancematrix/},
+  \url{https://developers.google.com/maps/documentation/distance-matrix/intro}
 }
 \author{
 David Kahle \email{david.kahle@gmail.com}
