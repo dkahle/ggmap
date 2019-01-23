@@ -13,5 +13,6 @@ those functions from the package entirely.
 The following are defunct ggmap functions:
 \itemize{
 \item get_cloudemademap
+\item get_navermap
 }
 }

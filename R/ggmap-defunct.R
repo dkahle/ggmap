@@ -8,6 +8,7 @@
 #' The following are defunct ggmap functions:
 #' \itemize{
 #' \item get_cloudemademap
+#' \item get_navermap
 #' }
 #'
 #' @name ggmap-defunct
