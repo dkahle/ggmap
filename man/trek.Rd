@@ -43,7 +43,7 @@ Platform Console. See \code{?register_google}.
 }
 \examples{
 
-\dontrun{ # requires Google API key, see ?register_google
+\dontrun{ requires Google API key, see ?register_google
 
 ## basic usage
 ########################################

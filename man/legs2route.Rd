@@ -14,7 +14,7 @@ Convert a leg-structured route to a route-structured route
 }
 \examples{
 
-\dontrun{ # requires Google API key, see ?register_google
+\dontrun{ requires Google API key, see ?register_google
 
 (legs_df <- route("houston","galveston"))
 legs2route(legs_df)

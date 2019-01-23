@@ -47,7 +47,7 @@ if parameters from and to are specified as geographic coordinates,
 }
 \examples{
 
-\dontrun{ # requires Google API key, see ?register_google
+\dontrun{ requires Google API key, see ?register_google
 
 ## basic usage
 ########################################

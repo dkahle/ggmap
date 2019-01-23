@@ -36,7 +36,7 @@ first enable the API in the Google Cloud Platform Console. See
 }
 \examples{
 
-\dontrun{ # requires Google API key, see ?register_google
+\dontrun{ requires Google API key, see ?register_google
 
 ## basic usage
 ########################################

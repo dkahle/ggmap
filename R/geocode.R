@@ -28,7 +28,7 @@
 #' @name geocode
 #' @examples
 #'
-#' \dontrun{ # requires Google API key, see ?register_google
+#' \dontrun{ requires Google API key, see ?register_google
 #'
 #' ## basic usage
 #' ########################################

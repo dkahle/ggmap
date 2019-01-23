@@ -27,7 +27,7 @@
 #' @export
 #' @examples
 #'
-#' \dontrun{ # requires Google API key, see ?register_google
+#' \dontrun{ requires Google API key, see ?register_google
 #'
 #' ## basic usage
 #' ########################################
@@ -413,7 +413,7 @@ routeQueryCheck <- function(){
 #' @export
 #' @examples
 #'
-#' \dontrun{ # requires Google API key, see ?register_google
+#' \dontrun{ requires Google API key, see ?register_google
 #'
 #' map <- get_map(
 #'   location = c(-77.0425, 38.8925), # painfully picked by hand
@@ -526,7 +526,7 @@ geom_leg <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @export
 #' @examples
 #'
-#' \dontrun{ # requires Google API key, see ?register_google
+#' \dontrun{ requires Google API key, see ?register_google
 #'
 #' (legs_df <- route("houston","galveston"))
 #' legs2route(legs_df)

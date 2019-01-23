@@ -34,8 +34,8 @@ print.ggmap <- function(x, ...){
     source <- "Naver Map"
   }
 
-  cat(paste0(r, "x", c, " ", attr(x, "maptype"), " map image from ", source, ".",
-             "  see ?ggmap to plot it.\n"), ...)
+  cat(glue("{r}x{c} {attr(x, 'maptype')} map image from {source}."), "\n")
+  cat("See ?ggmap to plot it.\n")
 
   invisible(x)
 }

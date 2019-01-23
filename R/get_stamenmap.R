@@ -26,7 +26,7 @@
 #' @export
 #' @examples
 #'
-#' \dontrun{ # some requires Google API key, see ?register_google; heavy network load
+#' \dontrun{ some requires Google API key, see ?register_google; heavy network load
 #'
 #'
 #' ## basic usage

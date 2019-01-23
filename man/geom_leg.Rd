@@ -123,7 +123,7 @@ ggplot(data = legs_df) +
 }
 
 
-\dontrun{ # requires Google API key, see ?register_google
+\dontrun{ requires Google API key, see ?register_google
 
 map <- get_map(
   location = c(-77.0425, 38.8925), # painfully picked by hand

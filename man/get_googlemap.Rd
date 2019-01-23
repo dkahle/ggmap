@@ -102,11 +102,29 @@ documentation for more details.
 }
 \examples{
 
-\dontrun{ # requires Google API key, see ?register_google
+\dontrun{ requires Google API key, see ?register_google
 
+## basic usage
+########################################
+
+(map <- get_googlemap(c(-97.14667, 31.5493)))
+ggmap(map)
+
+# plotting based on a colloquial name
+# this requires a geocode() call, and needs that API
+get_googlemap("waco, texas") \%>\% ggmap()
+
+# different maptypes are available
+get_googlemap("waco, texas", maptype = "satellite") \%>\% ggmap()
+get_googlemap("waco, texas", maptype = "hybrid") \%>\% ggmap()
+
+# you can get the url as follows
+# see ?register_google if you want the key printed
 get_googlemap(urlonly = TRUE)
-ggmap(get_googlemap())
 
+
+## other usage
+########################################
 
 # markers and paths are easy to access
 d <- function(x=-95.36, y=29.76, n,r,a){
@@ -133,6 +151,7 @@ ggmap(get_googlemap(center, scale = 2), extent = "panel") # fine
 
 # archiving; note that you must meet google's terms for this condition
 map <- get_googlemap(archiving = TRUE)
+map <- get_googlemap()
 map <- get_googlemap()
 ggmap(map)
 
