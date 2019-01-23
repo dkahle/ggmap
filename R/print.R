@@ -10,9 +10,7 @@
 #' @examples
 #'
 #'
-#' get_stamenmap()
-#' get_stamenmap(zoom = 12) %>% ggmap()
-#'
+#' get_stamenmap(zoom = 9)
 #'
 #'
 print.ggmap <- function(x, ...){

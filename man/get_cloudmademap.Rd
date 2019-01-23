@@ -4,21 +4,20 @@
 \alias{get_cloudmademap}
 \title{Get a CloudMade map.}
 \usage{
-get_cloudmademap(...)
+get_cloudmademap(bbox = c(left = -95.80204, bottom = 29.38048, right =
+  -94.92313, top = 30.14344), zoom = 10, api_key, maptype = 1,
+  highres = TRUE, crop = TRUE, messaging = FALSE, urlonly = FALSE,
+  filename = NULL, color = c("color", "bw"), ...)
 }
 \arguments{
-\item{...}{...}
-
-\item{bbox}{a bounding box in the format c(lowerleftlon,
-lowerleftlat, upperrightlon, upperrightlat).}
+\item{bbox}{a bounding box in the format c(lowerleftlon, lowerleftlat,
+upperrightlon, upperrightlat).}
 
 \item{zoom}{a zoom level}
 
-\item{api_key}{character string containing cloud made api key,
-see details}
+\item{api_key}{character string containing cloud made api key, see details}
 
-\item{maptype}{an integer of what cloud made calls style, see
-details}
+\item{maptype}{an integer of what cloud made calls style, see details}
 
 \item{highres}{double resolution}
 
@@ -28,26 +27,25 @@ details}
 
 \item{urlonly}{return url only}
 
-\item{filename}{destination file for download (file extension
-added according to format). Default \code{NULL} means a random
-\code{\link{tempfile}}.}
+\item{filename}{destination file for download (file extension added according
+to format). Default \code{NULL} means a random \code{\link{tempfile}}.}
 
 \item{color}{color or black-and-white}
+
+\item{...}{...}
 }
 \value{
-a ggmap object (a classed raster object with a bounding
-  box attribute)
+a ggmap object (a classed raster object with a bounding box
+  attribute)
 }
 \description{
-\code{get_cloudmademap} accesses a tile server for Stamen Maps
-and downloads/stitches map tiles/formats a map image. This
-function requires an api key which can be obtained for free from
-http://cloudmade.com/user/show (defunct?). Thousands of maptypes
-("styles"), including create-your-own options, are available from
-http://maps.cloudmade.com/editor (defunct).
+\code{get_cloudmademap} accesses a tile server for Stamen Maps and
+downloads/stitches map tiles/formats a map image. This function requires an
+api key which can be obtained for free from http://cloudmade.com/user/show
+(defunct?). Thousands of maptypes ("styles"), including create-your-own
+options, are available from http://maps.cloudmade.com/editor (defunct).
 }
 \examples{
-
 
 
 #api_key <- '<your api key here>'
@@ -59,10 +57,10 @@ http://maps.cloudmade.com/editor (defunct).
 #map <- get_cloudmademap(maptype = 997, api_key = api_key)
 #ggmap(map)
 
+
 }
 \seealso{
-http://maps.cloudmade.com/ (defunct),
-  \code{\link{ggmap}}
+http://maps.cloudmade.com/ (defunct), \code{\link{ggmap}}
 }
 \author{
 David Kahle \email{david.kahle@gmail.com}

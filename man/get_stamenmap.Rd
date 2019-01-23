@@ -28,7 +28,8 @@ upperrightlon, upperrightlat).}
 toner, toner-2010, toner-2011, toner-background, toner-hybrid,
 toner-labels, toner-lines, toner-lite, or watercolor.}
 
-\item{crop}{crop raw map tiles to specified bounding box}
+\item{crop}{crop raw map tiles to specified bounding box. if FALSE, the
+resulting map will more than cover the bounding box specified.}
 
 \item{messaging}{turn messaging on/off}
 
