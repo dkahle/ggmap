@@ -376,7 +376,7 @@ get_googlemap <- function(
         "http_403" = function(c) "HTTP 403 Forbidden - Server refuses, is the API enabled?",
         "http_404" = function(c) "HTTP 404 Not Found - Server reports page not found",
         "http_414" = function(c) "HTTP 414 URI Too Long - URL query too long",
-        "http_500" = function(c) "HTTP 500 Internal Server Error - If dsk, try Google",
+        "http_500" = function(c) "HTTP 500 Internal Server Error",
         "http_503" = function(c) "HTTP 503 Service Unavailable - Server bogged down, try later"
       )
     )

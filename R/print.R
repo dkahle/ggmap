@@ -9,12 +9,11 @@
 #' @export
 #' @examples
 #'
-#' \dontrun{ to diminish run check time
 #'
-#' get_map()
-#' ggmap(get_map())
+#' get_stamenmap()
+#' get_stamenmap(zoom = 12) %>% ggmap()
 #'
-#' }
+#'
 #'
 print.ggmap <- function(x, ...){
 
