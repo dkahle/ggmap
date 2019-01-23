@@ -8,7 +8,7 @@ and **ggmap** users are now required to register with Google. From a
 user’s perspective, there are essentially three ramifications of this:
 
 1.  Users must register with Google. You can do this at
-    \[<a href="https://cloud.google.com/maps-platform/" class="uri">https://cloud.google.com/maps-platform/</a>\].
+    <a href="https://cloud.google.com/maps-platform/" class="uri">https://cloud.google.com/maps-platform/</a>.
     While it will require a valid credit card (sorry!), there seems to
     be a fair bit of free use before you incur charges, and even then
     the charges are modest for light use.
@@ -27,20 +27,29 @@ user’s perspective, there are essentially three ramifications of this:
     (with Google, DSK is done), etc., and **ggmap** handles the queries
     for you. *However*, you do need to enable the APIs before you use
     them. You’ll only need to do that once, and then they’ll be ready
-    for you to use.
+    for you to use. Enabling the APIs just means clicking a few radio
+    buttons on the Google Maps Platform web interface listed above, so
+    it’s easy.
 
-3.  Inside R, after loading **ggmap**, you’ll need provide **ggmap**
-    with your API key, a hash value that authenticates you to Google’s
-    servers. You’ll need to load that once per session. Your API key is
-    *private* and unique to you, so be careful not to share it online,
-    for example in a GitHub issue or saving it in a shared R script
-    file. This is made a bit easier by **ggmap** scrubbing the key out
-    of queries by default. (Read the details section of the
+3.  Inside R, after loading the new version of **ggmap**, you’ll need
+    provide **ggmap** with your API key, a [hash
+    value](https://en.wikipedia.org/wiki/Hash_function) (think string of
+    jibberish) that authenticates you to Google’s servers. You’ll need
+    to load that once per session. Your API key is *private* and unique
+    to you, so be careful not to share it online, for example in a
+    GitHub issue or saving it in a shared R script file. If you share it
+    inadvertantly, just get on Google’s website and regenerate your
+    key - this will retire the old one. Keeping your key private is made
+    a bit easier by **ggmap** scrubbing the key out of queries by
+    default, so when URLs are shown in your console, they’ll look
+    something like `key=xxx`. (Read the details section of the
     `register_google()` documentation for a bit more info on this
-    point.) Once you’ve done 1. and 2. above, all you’ll need to do is
-    load **ggmap** with `library("ggmap")` and then register your key
-    (if you’re using a Google service, which you probably are) with
-    `register_google(key = "your-key")`.
+    point.)
+
+Once you’ve done 1. and 2. above, all you’ll need to do is load
+**ggmap** with `library("ggmap")` and then register your key (if you’re
+using a Google service, which you probably are) with
+`register_google(key = "your-key")`.
 
 We hope the new version of **ggmap** will be on CRAN soon, but until
 then you can install the version here with:
