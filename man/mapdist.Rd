@@ -16,7 +16,7 @@ distQueryCheck()
 
 \item{to}{name of destination addresses in a data frame (vector accepted)}
 
-\item{mode}{driving, bicycling, or walking}
+\item{mode}{driving, bicycling, walking, or transit}
 
 \item{output}{amount of output}
 

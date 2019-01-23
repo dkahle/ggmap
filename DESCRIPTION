@@ -30,7 +30,8 @@ Imports:
     stringr,
     purrr,
     magrittr,
-    tibble
+    tibble,
+    tidyr
 Suggests:
     MASS,
     hexbin,

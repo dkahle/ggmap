@@ -46,6 +46,7 @@
 #'   two-character ccTLD ("top-level domain") value, see
 #'   \url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}
 #'
+#'
 #' @param markers data.frame with first column longitude, second column
 #'   latitude, for which google markers should be embedded in the map image, or
 #'   character string to be passed directly to api

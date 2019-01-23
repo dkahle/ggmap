@@ -10,15 +10,13 @@ trek(from, to, mode = c("driving", "walking", "bicycling", "transit"),
   ext = "com", inject = "", ...)
 }
 \arguments{
-\item{from}{name of origin addresses in a data frame (vector
-accepted)}
+\item{from}{name of origin addresses in a data frame}
 
-\item{to}{name of destination addresses in a data frame (vector
-accepted)}
+\item{to}{name of destination addresses in a data frame}
 
 \item{mode}{driving, bicycling, walking, or transit}
 
-\item{output}{amount of output}
+\item{output}{amount of output ("simple" or "all")}
 
 \item{alternatives}{should more than one route be provided?}
 
@@ -35,14 +33,13 @@ accepted)}
 \item{...}{...}
 }
 \value{
-a data frame (output="simple") or all of the geocoded
-  information (output="all")
+a tibble
 }
 \description{
-Grab a trek from Google that will plot over the roadways. Note
-that in most cases by using this function you are agreeing to the
-Google Maps API Terms of Service at
-https://developers.google.com/maps/terms.
+Sequence treks (latitude-longitude sequences following ordinary paths, e.g.
+roads) between two locations using the Google Directions API. Note: To use
+Google's Directions API, you must first enable the API in the Google Cloud
+Platform Console. See \code{?register_google}.
 }
 \examples{
 
@@ -53,8 +50,10 @@ https://developers.google.com/maps/terms.
 
 from <- "houston, texas"
 to <- "waco, texas"
-route_df <- route(from, to, structure = "route")
-trek_df <- trek(from, to, structure = "route")
+
+(route_df <- route(from, to, structure = "route"))
+(trek_df  <-  trek(from, to, structure = "route"))
+
 qmap("college station, texas", zoom = 8) +
   geom_path(
     aes(x = lon, y = lat),  colour = "red",
@@ -109,11 +108,11 @@ qmplot(lon, lat, data = trek_df, geom = "path",
 }
 \seealso{
 \url{https://developers.google.com/maps/documentation/directions/},
-\url{http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads},
-\code{\link{route}}, \code{\link{routeQueryCheck}}
-\code{\link{register_google}}
+  \url{http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads},
+   \code{\link{route}}, \code{\link{routeQueryCheck}}
+  \code{\link{register_google}}
 }
 \author{
-David Kahle \email{david.kahle@gmail.com} with the key
-  decoding algorithm due to stackoverflow user akhmed
+David Kahle \email{david.kahle@gmail.com} with the key decoding
+  algorithm due to Stack Overflow user akhmed
 }

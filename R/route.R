@@ -1,15 +1,14 @@
-#' Grab a route or trek from Google
+#' Grab a route from Google
 #'
-#' Grab a route from Google. Note that in most cases by using this
-#' function you are agreeing to the Google Maps API Terms of Service
-#' at https://developers.google.com/maps/terms.
+#' Route two locations: determine a sequence of steps (legs) between two
+#' locations using the Google Directions API. Note: To use Google's Directions
+#' API, you must first enable the API in the Google Cloud Platform Console. See
+#' \code{?register_google}.
 #'
-#' @param from name of origin addresses in a data frame (vector
-#'   accepted)
-#' @param to name of destination addresses in a data frame (vector
-#'   accepted)
-#' @param output amount of output
-#' @param structure structure of output, see examples
+#' @param from name of origin addresses in a data frame
+#' @param to name of destination addresses in a data frame
+#' @param output amount of output ("simple" or "all")
+#' @param structure structure of output, "legs" or "route", see examples
 #' @param mode driving, bicycling, walking, or transit
 #' @param alternatives should more than one route be provided?
 #' @param units "metric"
@@ -18,14 +17,13 @@
 #' @param ext domain extension (e.g. "com", "co.nz")
 #' @param inject character string to add to the url
 #' @param ... ...
-#' @return a data frame (output="simple") or all of the geocoded
-#'   information (output="all")
+#' @return a data frame (output="simple") or all of the geocoded information
+#'   (output="all")
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso
-#' \url{https://developers.google.com/maps/documentation/directions/},
-#' \code{\link{trek}}, \code{\link{legs2route}},
-#' \code{\link{routeQueryCheck}}, \code{\link{geom_leg}},
-#' \code{\link{register_google}}
+#' @seealso \url{https://developers.google.com/maps/documentation/directions/},
+#' \code{\link{trek}}, \code{\link{legs2route}}, \code{\link{routeQueryCheck}},
+#' \code{\link{geom_leg}}, \code{\link{register_google}}
+#' @name route
 #' @export
 #' @examples
 #'
@@ -36,8 +34,18 @@
 #'
 #' from <- "houston, texas"
 #' to <- "waco, texas"
-#' route_df <- route(from, to, structure = "route")
-#' trek_df  <-  trek(from, to, structure = "route")
+#'
+#' route(from, to, structure = "legs")
+#' route(from, to, structure = "route")
+#'
+#' route(from, to, alternatives = TRUE)
+#'
+#'
+#' ## comparison to trek
+#' ########################################
+#' (route_df <- route(from, to, structure = "route"))
+#' (trek_df  <-  trek(from, to, structure = "route"))
+#'
 #' qmap("college station, texas", zoom = 8) +
 #'   geom_path(
 #'     aes(x = lon, y = lat),  colour = "red",
@@ -56,17 +64,28 @@
 #'     data = route_df, lineend = "round"
 #'   )
 #'
-#' routeQueryCheck()
+#'
 #'
 #'
 #'
 #' }
 #'
+
+
+
+
+
+
+
+
+#' @rdname route
+#' @export
 route <- function (
   from,
   to,
   mode = c("driving","walking","bicycling", "transit"),
-  structure = c("legs","route"), output = c("simple","all"),
+  structure = c("legs","route"),
+  output = c("simple","all"),
   alternatives = FALSE,
   units = "metric",
   urlonly = FALSE,
@@ -81,100 +100,128 @@ route <- function (
   stopifnot(is.character(from))
   if(is.numeric(to) && length(to) == 2) to <- revgeocode(to)
   stopifnot(is.character(to))
+
   mode <- match.arg(mode)
-  structure <- match.arg(structure)
   output <- match.arg(output)
   stopifnot(is.logical(alternatives))
-  if (!has_google_key()) stop("Google now requires a (free) API key, see ?register_google")
+  structure <- match.arg(structure)
+  if (!has_google_key() && !urlonly) stop("Google now requires an API key.", "\n       See ?register_google for details.", call. = FALSE)
 
-  # format url
-  origin <- URLencode(from, reserved = TRUE)
-  destination <- URLencode(to, reserved = TRUE)
-  posturl <- paste(fmteq(origin), fmteq(destination), fmteq(mode), fmteq(units),
-    fmteq(alternatives, tolower), sep = "&"
-  )
 
-  # add google account stuff
-  if (has_google_client() && has_google_signature()) {
-    client <- goog_client()
-    signature <- goog_signature()
-    posturl <- paste(posturl, fmteq(client), fmteq(signature), sep = "&")
-  } else if (has_google_key()) {
-    key <- google_key()
-    posturl <- paste(posturl, fmteq(key), sep = "&")
-  }
+  # set url base
+  url_base <- glue("https://maps.googleapis.{ext}/maps/api/directions/json?")
 
-  # construct url
-  url_string <- paste0(
-    sprintf("https://maps.googleapis.%s/maps/api/directions/json?", ext),
-    posturl
-  )
+
+  # initialize the url query
+  url_query_from <- from %>% str_trim() %>% str_replace_all(" +", "+") %>% c("origin" = .)
+  url_query_to <- to %>% str_trim() %>% str_replace_all(" +", "+") %>% c("destination" = .)
+  url_query <- c(url_query_from, url_query_to)
+
+
+  # add google account stuff to query, if applicable
+  url_query <- c(url_query, "client" = google_client(), "signature" = google_signature(), "key" = google_key())
+  url_query <- url_query[!is.na(url_query)]
+
+
+  # add mode and other stuff
+  url_query <- c(url_query, "mode" = mode, "alternatives" = tolower(alternatives), "units" = units)
+
+
+  # form url
+  url_query_inline <- str_c(names(url_query), url_query, sep = "=", collapse = "&")
+  url <- str_c(url_base, url_query_inline)
+
 
   # inject any remaining stuff
-  if(inject != "") url_string <- paste(url_string, inject, sep = "&")
+  if (inject != "") {
+    if (is.null(names(inject))) {
+      url <- str_c(url, inject, sep = "&")
+    } else {
+      url <- str_c(url, str_c(names(inject), inject, sep = "=", collapse = "&"), sep = "&")
+    }
+  }
+
 
   # encode
-  url_string <- URLencode( enc2utf8(url_string) )
-  if(urlonly) return(url_string)
+  url <- URLencode( enc2utf8(url) )
+
+
+  # return early if user only wants url
+  if(urlonly) if(showing_key()) return(url) else return(scrub_key(url))
+
+
+  # hash for caching
+  url_hash <- digest::digest(url)
+
 
   # check/update google query limit
-  check_route_query_limit(url_string, elems = 1, override = override_limit)
+  # check_route_query_limit(url_string, elems = 1, override = override_limit)
 
 
-  # distance lookup
-  if (showing_key()) {
-    message("Source : ", url_string)
-  } else {
-    message("Source : ", scrub_key(url_string))
+  # message url
+  if (showing_key()) message("Source : ", url) else message("Source : ", scrub_key(url))
+
+
+  # query server
+  response <- httr::GET(url)
+
+
+  # deal with bad responses
+  if (response$status_code != 200L) {
+    warning(
+      tryCatch(stop_for_status(response),
+        "http_400" = function(c) "HTTP 400 Bad Request",
+        "http_402" = function(c) "HTTP 402 Payment Required - May indicate over Google query limit",
+        "http_403" = function(c) "HTTP 403 Forbidden - Server refuses, is the API enabled?",
+        "http_404" = function(c) "HTTP 404 Not Found - Server reports page not found",
+        "http_414" = function(c) "HTTP 414 URI Too Long - URL query too long",
+        "http_500" = function(c) "HTTP 500 Internal Server Error - If dsk, try Google",
+        "http_503" = function(c) "HTTP 503 Service Unavailable - Server bogged down, try later"
+      )
+    )
+    return(return_failed_route(output))
   }
-  connect <- url(url_string); on.exit(close(connect), add = TRUE)
-  tree <- fromJSON(paste(readLines(connect), collapse = ""))
+
+
+  # grab content
+  tree <- httr::content(response)
+
+
+  # return NA if zero results are found
+  if (tree$status == "ZERO_RESULTS") {
+    warning("No route was returned from Google.")
+    return(return_failed_route(output))
+  }
 
 
   # return output = "all"
   if(output == "all") return(tree)
 
 
-  # return NA if zero results are found
-  if (tree$status == "ZERO_RESULTS") {
-    warning("No route was returned from Google.")
-    return(NA)
-  }
-
-
   # extract output from tree and format
-  out <- ldply(tree$routes, function(route){
+  out <- map(tree$routes, function (route) {
 
-    route_df <- ldply(route$legs[[1]]$steps, function(oneLegList){
-      data.frame(
-        m        = oneLegList$distance$value,
-        km       = oneLegList$distance$value/1000,
-        miles    = 0.0006214 * oneLegList$distance$value,
-        seconds  = oneLegList$duration$value,
-        minutes  = oneLegList$duration$value / 60,
-  	    hours    = oneLegList$duration$value / 3600,
-  	    startLon = oneLegList$start_location$lng,
-  	    startLat = oneLegList$start_location$lat,
-  	    endLon   = oneLegList$end_location$lng,
-  	    endLat   = oneLegList$end_location$lat
-      )
-    })
-    route_df$leg <- 1:nrow(route_df)
-    route_df
-  })
+    route %>%
+      pluck("legs", 1L, "steps") %>%
+      map(~ tibble(
+        "m"        = .x$distance$value,
+        "km"       = .x$distance$value/1000,
+        "miles"    = 0.0006214 * .x$distance$value,
+        "seconds"  = .x$duration$value,
+        "minutes"  = .x$duration$value / 60,
+        "hours"    = .x$duration$value / 3600,
+        "start_lon" = .x$start_location$lng,
+        "start_lat" = .x$start_location$lat,
+        "end_lon"   = .x$end_location$lng,
+        "end_lat"   = .x$end_location$lat
+      )) %>%
+      bind_rows()
 
-  # label routes
-  stepsPerRoute <- vapply(tree$routes,
-    function(route) length(route$legs[[1]]$steps),
-    numeric(1)
-  )
-
-  nRoutes <- length(stepsPerRoute)
-  routeLabel <- NULL
-  for(k in 1:nRoutes){
-    routeLabel <- c(routeLabel, rep(LETTERS[k], stepsPerRoute[k]))
-  }
-  if(nRoutes > 1) out$route <- routeLabel
+  }) %>% imap(~ {
+    df <- .x
+    df$route <- LETTERS[.y]
+    df
+  }) %>% bind_rows()
 
   # return output = "simple"
   if(structure == "legs"){
@@ -192,49 +239,22 @@ route <- function (
 
 
 
-
-
-check_route_query_limit <- function(url_string, elems, override){
-  .GoogleRouteQueryCount <- NULL; rm(.GoogleRouteQueryCount); # R CMD check trick
-
-  if(exists(".GoogleRouteQueryCount", .GlobalEnv)){
-
-    .GoogleRouteQueryCount <<- dplyr::filter(.GoogleRouteQueryCount, time >= Sys.time() - 24*60*60)
-
-    # limit per 24 hours
-    dayQueriesUsed <- sum(.GoogleRouteQueryCount$elements)
-    if(dayQueriesUsed + elems > google_day_limit()){
-      message("query max exceeded, see ?route  current total = ", dayQueriesUsed)
-      if(!override) return("stop")
-    }
-
-    # limit per second
-    secondQueriesUsed <- with(.GoogleRouteQueryCount, sum(elements[time >= Sys.time() - 1]))
-    if(secondQueriesUsed + elems > google_second_limit()){
-      message(".", appendLF = FALSE)
-      Sys.sleep(.2) # can do better
-    }
-
-
-    # append to .GoogleRouteQueryCount
-    if(length(grep("transit", url_string)) == 1){ # a transit request
-      tmp <- data.frame(time = Sys.time(),  url = url_string, elements = elems, stringsAsFactors = FALSE)
-      tmp <- bind_rows(tmp, tmp, tmp, tmp)
-      .GoogleRouteQueryCount <<- rbind(.GoogleRouteQueryCount, tmp)
-    } else {
-      .GoogleRouteQueryCount <<- rbind(.GoogleRouteQueryCount,
-        data.frame(time = Sys.time(),  url = url_string, elements = elems, stringsAsFactors = FALSE)
-      )
-    }
-
-
-
-  } else {
-
-    .GoogleRouteQueryCount <<- data.frame(
-      time = Sys.time(),  url = url_string, elements = elems, stringsAsFactors = FALSE
-    )
-
+return_failed_route <- function (output) {
+  if (output == "simple") {
+   return(tibble(
+     "m"        = NA_real_,
+     "km"       = NA_real_,
+     "miles"    = NA_real_,
+     "seconds"  = NA_real_,
+     "minutes"  = NA_real_,
+     "hours"    = NA_real_,
+     "start_lon" = NA_real_,
+     "start_lat" = NA_real_,
+     "end_lon"   = NA_real_,
+     "end_lat"   = NA_real_
+   ))
+  } else if (output == "all") {
+    return(list())
   }
 }
 
@@ -252,35 +272,120 @@ check_route_query_limit <- function(url_string, elems, override){
 
 
 
-#' Check Google Maps Directions API query limit
-#'
-#' Check Google Maps Directions API query limit
-#'
-#' @return a data frame
-#' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \url{https://developers.google.com/maps/documentation/directions/}
-#' @export
-#' @examples
-#' \dontrun{
-#' routeQueryCheck()
-#' }
-routeQueryCheck <- function(){
 
-  .GoogleRouteQueryCount <- NULL; rm(.GoogleRouteQueryCount);
 
-  if(exists(".GoogleRouteQueryCount", .GlobalEnv)){
+check_route_query_limit <- function(url, queries_sought, override){
 
-  	remaining <- google_day_limit() - sum(
-  	  dplyr::filter(.GoogleRouteQueryCount, time >= Sys.time() - 24*60*60)$elements
-  	)
-    message(remaining, " routing queries remaining.")
+
+  if(exists(".google_route_query_times", ggmap_environment)){
+
+    .google_route_query_times <- get(".google_route_query_times", envir = ggmap_environment)
+
+    queries_used_in_last_second <- with(.google_route_query_times, sum(queries[time >= Sys.time() - 1L]))
+
+    if (!override && (queries_used_in_last_second + queries_sought > google_second_limit())) Sys.sleep(.2) # can do better
+
+    assign(
+      ".google_route_query_times",
+      bind_rows(.google_route_query_times, tibble("time" = Sys.time(), "url" = url, "queries" = queries_sought)),
+      envir = ggmap_environment
+    )
+
 
   } else {
 
-  	remaining <- google_day_limit()
-    message(remaining, " routing queries remaining.")
+    assign(
+      ".google_route_query_times",
+      tibble("time" = Sys.time(), "url" = url, "queries" = queries_sought),
+      envir = ggmap_environment
+    )
 
   }
+  #
+  #
+  # if(exists(".GoogleRouteQueryCount", .GlobalEnv)){
+  #
+  #   .GoogleRouteQueryCount <<- dplyr::filter(.GoogleRouteQueryCount, time >= Sys.time() - 24*60*60)
+  #
+  #   # limit per 24 hours
+  #   dayQueriesUsed <- sum(.GoogleRouteQueryCount$elements)
+  #   if(dayQueriesUsed + queries_sought > google_day_limit()){
+  #     message("query max exceeded, see ?route  current total = ", dayQueriesUsed)
+  #     if(!override) return("stop")
+  #   }
+  #
+  #   # limit per second
+  #   secondQueriesUsed <- with(.GoogleRouteQueryCount, sum(elements[time >= Sys.time() - 1]))
+  #   if(secondQueriesUsed + queries_sought > google_second_limit()){
+  #     message(".", appendLF = FALSE)
+  #     Sys.sleep(.2) # can do better
+  #   }
+  #
+  #
+  #   # append to .GoogleRouteQueryCount
+  #   if(length(grep("transit", url)) == 1){ # a transit request
+  #     tmp <- data.frame(time = Sys.time(),  url = url, elements = queries_sought, stringsAsFactors = FALSE)
+  #     tmp <- bind_rows(tmp, tmp, tmp, tmp)
+  #     .GoogleRouteQueryCount <<- rbind(.GoogleRouteQueryCount, tmp)
+  #   } else {
+  #     .GoogleRouteQueryCount <<- rbind(.GoogleRouteQueryCount,
+  #       data.frame(time = Sys.time(),  url = url, elements = queries_sought, stringsAsFactors = FALSE)
+  #     )
+  #   }
+  #
+  #
+  #
+  # } else {
+  #
+  #   .GoogleRouteQueryCount <<- data.frame(
+  #     time = Sys.time(),  url = url, elements = queries_sought, stringsAsFactors = FALSE
+  #   )
+  #
+  # }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' @rdname route
+#' @export
+routeQueryCheck <- function(){
+
+  .Deprecated(msg = "As of mid-2018, Google no longer has daily query limits.")
+  queries <- NA; rm(queries)
+
+
+  if(exists(".google_route_query_times", ggmap_environment)){
+
+    .google_route_query_times <- get(".google_route_query_times", envir = ggmap_environment)
+
+    google_route_queries_in_last_24hrs <-
+      .google_route_query_times %>%
+      dplyr::filter(time >= Sys.time() - 24L*60L*60L) %>%
+      dplyr::select(queries) %>%
+      sum()
+
+    remaining <- google_day_limit() - google_route_queries_in_last_24hrs
+    message(remaining, " Google Directions API queries remaining.")
+
+  } else {
+
+    remaining <- google_day_limit()
+    message(remaining, " Google Directions API queries remaining.")
+
+  }
+
 
   invisible(remaining)
 
@@ -308,7 +413,7 @@ routeQueryCheck <- function(){
 #' @export
 #' @examples
 #'
-#' \dontrun{ # removed for R CMD check speed
+#' \dontrun{ # requires Google API key, see ?register_google
 #'
 #' map <- get_map(
 #'   location = c(-77.0425, 38.8925), # painfully picked by hand
@@ -325,15 +430,15 @@ routeQueryCheck <- function(){
 #'
 #' ggplot(data = legs_df) +
 #'   geom_leg(aes(
-#'     x = startLon, xend = endLon,
-#'     y = startLat, yend = endLat
+#'     x = start_lon, xend = end_lon,
+#'     y = start_lat, yend = end_lat
 #'   )) +
 #'   coord_map()
 #'
 #' ggplot(data = legs_df) +
 #'   geom_leg(aes(
-#'     x = startLon, xend = endLon,
-#'     y = startLat, yend = endLat,
+#'     x = start_lon, xend = end_lon,
+#'     y = start_lat, yend = end_lat,
 #'     color = route
 #'   )) +
 #'   coord_map()
@@ -342,8 +447,8 @@ routeQueryCheck <- function(){
 #' ggmap(map) +
 #'   geom_leg(
 #'     aes(
-#'       x = startLon, xend = endLon,
-#'       y = startLat, yend = endLat
+#'       x = start_lon, xend = end_lon,
+#'       y = start_lat, yend = end_lat
 #'     ),
 #'     data = legs_df, color = "red"
 #'   )
@@ -352,8 +457,8 @@ routeQueryCheck <- function(){
 #' # ggmap(map) +
 #' #   geom_leg(
 #' #     aes(
-#' #       x = startLon, xend = endLon,
-#' #       y = startLat, yend = endLat,
+#' #       x = start_lon, xend = end_lon,
+#' #       y = start_lat, yend = end_lat,
 #' #       color = route
 #' #   )
 #' # )
@@ -364,8 +469,8 @@ routeQueryCheck <- function(){
 #'   inset_ggmap(map) +
 #'   geom_leg(
 #'     aes(
-#'       x = startLon, xend = endLon,
-#'       y = startLat, yend = endLat,
+#'       x = start_lon, xend = end_lon,
+#'       y = start_lat, yend = end_lat,
 #'       color = route
 #'     ),
 #'     data = legs_df
@@ -421,11 +526,11 @@ geom_leg <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @export
 #' @examples
 #'
-#' \dontrun{
+#' \dontrun{ # requires Google API key, see ?register_google
 #'
 #' (legs_df <- route("houston","galveston"))
 #' legs2route(legs_df)
-#
+#'
 #' (legs_df <- route(
 #'   "marrs mclean science, baylor university",
 #'   "220 south 3rd street, waco, tx 76701", # ninfa"s
@@ -443,14 +548,14 @@ geom_leg <- function(mapping = NULL, data = NULL, stat = "identity",
 #'
 #' qmap("college station, texas", zoom = 8) +
 #'   geom_segment(
-#'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat),
+#'     aes(x = start_lon, y = start_lat, xend = end_lon, yend = end_lat),
 #'     colour = "red", size = 1.5, data = legs_df
 #'   )
 #' # notice boxy ends
 #'
 #' qmap("college station, texas", zoom = 8) +
 #'   geom_leg(
-#'     aes(x = startLon, y = startLat, xend = endLon, yend = endLat),
+#'     aes(x = start_lon, y = start_lat, xend = end_lon, yend = end_lat),
 #'     colour = "red", size = 1.5, data = legs_df
 #'   )
 #' # notice overshooting ends
@@ -469,20 +574,22 @@ geom_leg <- function(mapping = NULL, data = NULL, stat = "identity",
 legs2route <- function(legsdf){
 
   if(!("route" %in% names(legsdf))) legsdf$route <- "A"
+  data <- NA; rm(data)
 
-  out <- ddply(legsdf, .(route), function(df){
-  	out <- df[,-which(names(df) %in% c("startLon","startLat","endLon","endLat"))]
-    out$lon <- df$startLon
-    out$lat <- df$startLat
-    out <- rbind(out, NA)
-    out$lon[nrow(out)] <- tail(df$endLon,1)
-    out$lat[nrow(out)] <- tail(df$endLat,1)
-    out$route[nrow(out)] <- tail(df$route,1)
-    out
-  })
+  legsdf %>%
+    group_by(route) %>%
+    nest() %>%
+    mutate(data = map(data, function (leg) {
+      out <- leg[,-which(names(leg) %in% c("start_lon","start_lat","end_lon","end_lat"))]
+      out$lon <- leg$start_lon
+      out$lat <- leg$start_lat
+      out <- rbind(out, NA)
+      out$lon[nrow(out)] <- tail(leg$end_lon,1)
+      out$lat[nrow(out)] <- tail(leg$end_lat,1)
+      out
+    })) %>%
+    unnest()
 
-  if(length(unique(legsdf$route)) == 1) out <- out[,-which(names(out) == "route")]
-  out
 }
 
 

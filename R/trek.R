@@ -1,15 +1,13 @@
 #' Grab a trek from Google
 #'
-#' Grab a trek from Google that will plot over the roadways. Note
-#' that in most cases by using this function you are agreeing to the
-#' Google Maps API Terms of Service at
-#' https://developers.google.com/maps/terms.
+#' Sequence treks (latitude-longitude sequences following ordinary paths, e.g.
+#' roads) between two locations using the Google Directions API. Note: To use
+#' Google's Directions API, you must first enable the API in the Google Cloud
+#' Platform Console. See \code{?register_google}.
 #'
-#' @param from name of origin addresses in a data frame (vector
-#'   accepted)
-#' @param to name of destination addresses in a data frame (vector
-#'   accepted)
-#' @param output amount of output
+#' @param from name of origin addresses in a data frame
+#' @param to name of destination addresses in a data frame
+#' @param output amount of output ("simple" or "all")
 #' @param mode driving, bicycling, walking, or transit
 #' @param alternatives should more than one route be provided?
 #' @param units "metric"
@@ -18,15 +16,13 @@
 #' @param ext domain extension (e.g. "com", "co.nz")
 #' @param inject character string to add to the url
 #' @param ... ...
-#' @return a data frame (output="simple") or all of the geocoded
-#'   information (output="all")
-#' @author David Kahle \email{david.kahle@@gmail.com} with the key
-#'   decoding algorithm due to stackoverflow user akhmed
-#' @seealso
-#' \url{https://developers.google.com/maps/documentation/directions/},
-#' \url{http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads},
-#' \code{\link{route}}, \code{\link{routeQueryCheck}}
-#' \code{\link{register_google}}
+#' @return a tibble
+#' @author David Kahle \email{david.kahle@@gmail.com} with the key decoding
+#'   algorithm due to Stack Overflow user akhmed
+#' @seealso \url{https://developers.google.com/maps/documentation/directions/},
+#'   \url{http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads},
+#'    \code{\link{route}}, \code{\link{routeQueryCheck}}
+#'   \code{\link{register_google}}
 #' @export
 #' @examples
 #'
@@ -37,8 +33,10 @@
 #'
 #' from <- "houston, texas"
 #' to <- "waco, texas"
-#' route_df <- route(from, to, structure = "route")
-#' trek_df <- trek(from, to, structure = "route")
+#'
+#' (route_df <- route(from, to, structure = "route"))
+#' (trek_df  <-  trek(from, to, structure = "route"))
+#'
 #' qmap("college station, texas", zoom = 8) +
 #'   geom_path(
 #'     aes(x = lon, y = lat),  colour = "red",
@@ -109,75 +107,111 @@ trek <- function (
   stopifnot(is.character(from))
   if(is.numeric(to) && length(to) == 2) to <- revgeocode(to)
   stopifnot(is.character(to))
+
   mode <- match.arg(mode)
   output <- match.arg(output)
   stopifnot(is.logical(alternatives))
-  if (!has_google_key()) stop("Google now requires a (free) API key, see ?register_google")
+  if (!has_google_key() && !urlonly) stop("Google now requires an API key.", "\n       See ?register_google for details.", call. = FALSE)
 
 
-  # format url
-  origin <- URLencode(from, reserved = TRUE)
-  destination <- URLencode(to, reserved = TRUE)
-  posturl <- paste(fmteq(origin), fmteq(destination), fmteq(mode), fmteq(units),
-    fmteq(alternatives, tolower), sep = "&"
-  )
+  # set url base
+  url_base <- glue("https://maps.googleapis.{ext}/maps/api/directions/json?")
 
-  # add google account stuff
-  if (has_google_client() && has_google_signature()) {
-    client <- goog_client()
-    signature <- goog_signature()
-    posturl <- paste(posturl, fmteq(client), fmteq(signature), sep = "&")
-  } else if (has_google_key()) {
-    key <- google_key()
-    posturl <- paste(posturl, fmteq(key), sep = "&")
-  }
 
-  # construct url
-  url_string <- paste0(
-    sprintf("https://maps.googleapis.%s/maps/api/directions/json?", ext),
-    posturl
-  )
+  # initialize the url query
+  url_query_from <- from %>% str_trim() %>% str_replace_all(" +", "+") %>% c("origin" = .)
+  url_query_to <- to %>% str_trim() %>% str_replace_all(" +", "+") %>% c("destination" = .)
+  url_query <- c(url_query_from, url_query_to)
+
+
+  # add google account stuff to query, if applicable
+  url_query <- c(url_query, "client" = google_client(), "signature" = google_signature(), "key" = google_key())
+  url_query <- url_query[!is.na(url_query)]
+
+
+  # add mode and other stuff
+  url_query <- c(url_query, "mode" = mode, "alternatives" = tolower(alternatives), "units" = units)
+
+
+  # form url
+  url_query_inline <- str_c(names(url_query), url_query, sep = "=", collapse = "&")
+  url <- str_c(url_base, url_query_inline)
+
 
   # inject any remaining stuff
-  if(inject != "") url_string <- paste(url_string, inject, sep = "&")
+  if (inject != "") {
+    if (is.null(names(inject))) {
+      url <- str_c(url, inject, sep = "&")
+    } else {
+      url <- str_c(url, str_c(names(inject), inject, sep = "=", collapse = "&"), sep = "&")
+    }
+  }
+
 
   # encode
-  url_string <- URLencode( enc2utf8(url_string) )
-  if(urlonly) return(url_string)
+  url <- URLencode( enc2utf8(url) )
+
+
+  # return early if user only wants url
+  if(urlonly) if(showing_key()) return(url) else return(scrub_key(url))
+
+
+  # hash for caching
+  url_hash <- digest::digest(url)
 
 
   # check/update google query limit
-  check_route_query_limit(url_string, elems = 1, override = override_limit)
+  # check_route_query_limit(url_string, elems = 1, override = override_limit)
 
 
-  # distance lookup
-  if (showing_key()) {
-    message("Source : ", url_string)
-  } else {
-    message("Source : ", scrub_key(url_string))
+  # message url
+  if (showing_key()) message("Source : ", url) else message("Source : ", scrub_key(url))
+
+
+  # query server
+  response <- httr::GET(url)
+
+
+  # deal with bad responses
+  if (response$status_code != 200L) {
+    warning(
+      tryCatch(stop_for_status(response),
+        "http_400" = function(c) "HTTP 400 Bad Request",
+        "http_402" = function(c) "HTTP 402 Payment Required - May indicate over Google query limit",
+        "http_403" = function(c) "HTTP 403 Forbidden - Server refuses, is the API enabled?",
+        "http_404" = function(c) "HTTP 404 Not Found - Server reports page not found",
+        "http_414" = function(c) "HTTP 414 URI Too Long - URL query too long",
+        "http_500" = function(c) "HTTP 500 Internal Server Error - If dsk, try Google",
+        "http_503" = function(c) "HTTP 503 Service Unavailable - Server bogged down, try later"
+      )
+    )
+    return(return_failed_trek(output))
   }
-  connect <- url(url_string)
-  tree <- fromJSON(paste(readLines(connect), collapse = ""))
-  close(connect)
 
-  # return output = "all"
-  if(output == "all") return(tree)
+
+  # grab content
+  tree <- httr::content(response)
+
 
   # return NA if zero results are found
   if (tree$status == "ZERO_RESULTS") {
     warning("No route was returned from Google.")
-    return(NA)
+    return(return_failed_trek(output))
   }
+
+
+  # return output = "all"
+  if(output == "all") return(tree)
+
 
   # extract output from tree and format
-  treks <- llply(tree$routes, function(route){
-    decode_google_route( route$overview_polyline$points )
-  })
+  treks <- tree$routes %>%
+    map(~ decode_google_route(.x$overview_polyline$points))
+
 
   # label routes
-  for (k in seq_along(treks)) {
-    treks[[k]]$route <- LETTERS[k]
-  }
+  for (k in seq_along(treks)) treks[[k]]$route <- LETTERS[k]
+
 
   # bind and return
   dplyr::bind_rows(treks)
@@ -195,6 +229,17 @@ trek <- function (
 
 
 
+return_failed_trek <- function (output) {
+  if (output == "simple") {
+    return(tibble(
+      "lat" = NA_real_,
+      "lon" = NA_real_,
+      "route" = NA_character_
+    ))
+  } else if (output == "all") {
+    return(list())
+  }
+}
 
 
 
@@ -264,7 +309,7 @@ decode_google_route <- function(encoded){
 
     varray <- rbind(varray, c(vlat * 1e-5, vlng * 1e-5))
   }
-  coords <- data.frame(varray)
+  coords <- as_tibble(data.frame(varray))
   names(coords) <- c("lat", "lon")
   coords
 }

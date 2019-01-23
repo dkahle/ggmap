@@ -7,7 +7,7 @@
 #' @param from name of origin addresses in a data frame (vector accepted)
 #' @param to name of destination addresses in a data frame (vector accepted)
 #' @param output amount of output
-#' @param mode driving, bicycling, or walking
+#' @param mode driving, bicycling, walking, or transit
 #' @param urlonly return only the url?
 #' @param override_limit override the current query count
 #'   (.google_distance_query_times)
@@ -242,7 +242,7 @@ check_dist_query_limit <- function(url, queries_sought, override){
 
   if(exists(".google_distance_query_times", ggmap_environment)){
 
-    .google_distance_query_times <- exists(".google_distance_query_times", ggmap_environment)
+    .google_distance_query_times <- get(".google_distance_query_times", envir = ggmap_environment)
 
     queries_used_in_last_second <- with(.google_distance_query_times, sum(queries[time >= Sys.time() - 1L]))
 
@@ -257,9 +257,10 @@ check_dist_query_limit <- function(url, queries_sought, override){
 
   } else {
 
-    .google_distance_query_times <<- data.frame(
-      time = Sys.time(),  url = url,
-      queries = queries_sought, stringsAsFactors = FALSE
+    assign(
+      ".google_distance_query_times",
+      tibble("time" = Sys.time(), "url" = url, "queries" = queries_sought),
+      envir = ggmap_environment
     )
 
   }
@@ -280,7 +281,7 @@ distQueryCheck <- function(){
 
   if(exists(".google_distance_query_times", ggmap_environment)){
 
-    .google_distance_query_times <- exists(".google_distance_query_times", ggmap_environment)
+    .google_distance_query_times <- get(".google_distance_query_times", envir = ggmap_environment)
 
     google_distance_queries_in_last_24hrs <-
       .google_distance_query_times %>%
