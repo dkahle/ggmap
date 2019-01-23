@@ -2,7 +2,7 @@
   # if (!interactive()) return()
 
   packageStartupMessage("Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.")
-  packageStartupMessage("Please cite ggmap if you use it; see citation(\"ggmap\") for details.")
+  packageStartupMessage("Please cite ggmap if you use it! See citation(\"ggmap\") for details.")
 
   set_ggmap_option(
     "google" = structure(
