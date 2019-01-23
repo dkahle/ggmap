@@ -140,16 +140,16 @@ register_google <- function (key, account_type, client, signature, second_limit,
   }
 
   # construct new ones
-  if(!missing(key)) options$google$key <- key
+  if(!missing(key)) Sys.setenv("ggmap_google_api_key" = key)  # options$google$key <- key
   if(!missing(account_type)) options$google$account_type <- account_type
   if(!missing(day_limit)) options$google$day_limit <- day_limit
   if(!missing(second_limit)) options$google$second_limit <- second_limit
-  if(!missing(client)) options$google$client <- client
-  if(!missing(signature)) options$google$signature <- signature
+  if(!missing(client)) Sys.setenv("ggmap_google_client" = client) # options$google$client <- client
+  if(!missing(signature)) Sys.setenv("ggmap_google_signature" = signature) # options$google$signature <- signature
 
   # set premium defaults
   if (!missing(account_type) && account_type == "premium") {
-    if(missing(day_limit)) options$google$day_limit <- 100000
+    if(missing(day_limit)) options$google$day_limit <- 100000L
   }
 
   # class
@@ -167,31 +167,20 @@ register_google <- function (key, account_type, client, signature, second_limit,
 
 
 
+
 #' @rdname register_google
 #' @export
 print.google_credentials <- function (x, ...) {
 
-  cat("Key -", ifelse(is.na(x[["key"]]), '', x[["key"]]), "\n")
-  cat("Account Type -", ifelse(is.na(x[["account_type"]]), '', x[["account_type"]]), "\n")
-  cat("Day Limit -", ifelse(is.na(x[["day_limit"]]), '', x[["day_limit"]]), "\n")
-  cat("Second Limit -", ifelse(is.na(x[["second_limit"]]), '', x[["second_limit"]]), "\n")
-  cat("Client -", ifelse(is.na(x[["client"]]), '', x[["client"]]), "\n")
-  cat("Signature -", ifelse(is.na(x[["signature"]]), '', x[["signature"]]), "\n")
+  cat("Key -",          if (!has_google_key()) "" else { if(showing_key()) google_key() else "xxx" }, "\n")
+  cat("Account Type -", if(is.na(x[["account_type"]])) "" else x[["account_type"]], "\n")
+  cat("Day Limit -",    if(is.na(x[["day_limit"]]))    "" else x[["day_limit"]],    "\n")
+  cat("Second Limit -", if(is.na(x[["second_limit"]])) "" else x[["second_limit"]], "\n")
+  cat("Client -",       if (!has_google_client())      "" else { if(showing_key()) google_client() else "xxx" }, "\n")
+  cat("Signature -",    if (!has_google_signature())   "" else { if(showing_key()) google_signature() else "xxx" }, "\n")
 
 }
 
-
-
-#' @rdname register_google
-#' @export
-google_key <- function () getOption("ggmap")$google$key
-
-#' @rdname register_google
-#' @export
-goog_key <- function () {
-  .Deprecated("google_key()")
-  google_key()
-}
 
 
 
@@ -199,20 +188,22 @@ goog_key <- function () {
 
 #' @rdname register_google
 #' @export
-has_google_key <- function () {
+google_key <- function () {
 
-  if(is.null(getOption("ggmap"))) return(FALSE)
+  key <- Sys.getenv("ggmap_google_api_key")
 
-  !is.na(google_key())
+  if (key == "") {
+    return(NA_character_)
+  } else {
+    return(key)
+  }
 
 }
+
 
 #' @rdname register_google
 #' @export
-has_goog_key <- function() {
-  .Deprecated("has_google_key()")
-  has_google_key()
-}
+has_google_key <- function () !is.na(google_key())
 
 
 
@@ -228,99 +219,59 @@ has_google_account <- function () {
 
 }
 
-#' @rdname register_google
-#' @export
-has_goog_account <- function() {
-  .Deprecated("has_google_account()")
-  has_google_key()
-}
-
-
-
-
 
 #' @rdname register_google
 #' @export
 google_account <- function () getOption("ggmap")$google$account_type
 
+
+
+
+
+
+
 #' @rdname register_google
 #' @export
-goog_account <- function () {
-  .Deprecated("google_account()")
-  google_account()
+google_client <- function () {
+
+  client <- Sys.getenv("ggmap_google_client")
+
+  if (client == "") {
+    return(NA_character_)
+  } else {
+    return(client)
+  }
+
 }
 
 
+#' @rdname register_google
+#' @export
+has_google_client <- function () !is.na(google_client())
+
+
 
 
 
 #' @rdname register_google
 #' @export
-google_client <- function () getOption("ggmap")$google$client
+google_signature <- function () {
 
-#' @rdname register_google
-#' @export
-goog_client <- function () {
-  .Deprecated("google_client()")
-  google_client()
+  signature <- Sys.getenv("ggmap_google_signature")
+
+  if (signature == "") {
+    return(NA_character_)
+  } else {
+    return(signature)
+  }
+
 }
 
 
-
-
-
 #' @rdname register_google
 #' @export
-has_google_client <- function () {
+has_google_signature <- function () !is.na(google_signature())
 
-  if(is.null(getOption("ggmap"))) return(FALSE)
-
-  !is.na(google_client())
-
-}
-
-#' @rdname register_google
-#' @export
-has_goog_client <- function () {
-  .Deprecated("has_google_client")
-  has_google_client()
-}
-
-
-
-
-
-#' @rdname register_google
-#' @export
-google_signature <- function () getOption("ggmap")$google$signature
-
-#' @rdname register_google
-#' @export
-goog_signature <- function () {
-  .Deprecated("google_signature()")
-  google_signature()
-}
-
-
-
-
-
-#' @rdname register_google
-#' @export
-has_google_signature <- function () {
-
-  if(is.null(getOption("ggmap"))) return(FALSE)
-
-  !is.na(google_signature())
-
-}
-
-#' @rdname register_google
-#' @export
-has_goog_signature <- function () {
-  .Deprecated("has_google_signature()")
-  has_google_signature()
-}
 
 
 
@@ -337,12 +288,6 @@ google_second_limit <- function () {
 
 }
 
-#' @rdname register_google
-#' @export
-goog_second_limit <- function () {
-  .Deprecated("google_second_limit()")
-  google_second_limit()
-}
 
 
 
@@ -358,35 +303,6 @@ google_day_limit <- function () {
   getOption("ggmap")$google$day_limit
 
 }
-
-#' @rdname register_google
-#' @export
-goog_day_limit <- function () {
-  .Deprecated("google_day_limit()")
-  google_day_limit()
-}
-
-
-
-
-
-#' @rdname register_google
-#' @param tree a json tree from \code{\link{fromJSON}}
-#' @export
-check_google_for_error <- function (tree) {
-
-  if (tree$status == "REQUEST_DENIED") {
-    warning(
-      "Request denied by Google with the following message -\n", tree$error_message,
-      call. = FALSE, immediate. = TRUE
-    )
-  }
-
-
-}
-
-
-
 
 
 

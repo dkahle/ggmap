@@ -333,8 +333,8 @@ get_googlemap <- function(
 
   # add google account stuff
   if (has_google_client() && has_google_signature()) {
-    client <- goog_client()
-    signature <- goog_signature()
+    client <- google_client()
+    signature <- google_signature()
     post_url <- paste(post_url, fmteq(client), fmteq(signature), sep = "&")
   } else if (has_google_key()) {
     key <- google_key()

@@ -9,34 +9,32 @@ get_map(location = c(lon = -95.3632715, lat = 29.7632836),
   "terrain-background", "satellite", "roadmap", "hybrid", "toner",
   "watercolor", "terrain-labels", "terrain-lines", "toner-2010",
   "toner-2011", "toner-background", "toner-hybrid", "toner-labels",
-  "toner-lines", "toner-lite"), source = c("google", "osm", "stamen",
-  "cloudmade"), force = ifelse(source == "google", TRUE, TRUE),
-  messaging = FALSE, urlonly = FALSE, filename = NULL, crop = TRUE,
-  color = c("color", "bw"), language = "en-EN", api_key)
+  "toner-lines", "toner-lite"), source = c("google", "osm", "stamen"),
+  force = ifelse(source == "google", TRUE, FALSE), messaging = FALSE,
+  urlonly = FALSE, filename = NULL, crop = TRUE, color = c("color",
+  "bw"), language = "en-EN", ...)
 }
 \arguments{
-\item{location}{an address, longitude/latitude pair (in that
-order), or left/bottom/right/top bounding box}
+\item{location}{an address, longitude/latitude pair (in that order), or
+left/bottom/right/top bounding box}
 
-\item{zoom}{map zoom, an integer from 3 (continent) to 21
-(building), default value 10 (city).  openstreetmaps limits a
-zoom of 18, and the limit on stamen maps depends on the
-maptype.  "auto" automatically determines the zoom for bounding
-box specifications, and is defaulted to 10 with center/zoom
-specifications.  maps of the whole world currently not
+\item{zoom}{map zoom, an integer from 3 (continent) to 21 (building), default
+value 10 (city).  openstreetmaps limits a zoom of 18, and the limit on
+stamen maps depends on the maptype.  "auto" automatically determines the
+zoom for bounding box specifications, and is defaulted to 10 with
+center/zoom specifications.  maps of the whole world currently not
 supported.}
 
 \item{scale}{scale argument of \code{\link{get_googlemap}} or
 \code{\link{get_openstreetmap}}}
 
-\item{maptype}{character string providing map theme. options
-available are "terrain", "terrain-background", "satellite",
-"roadmap", and "hybrid" (google maps), "terrain", "watercolor",
-and "toner" (stamen maps), or a positive integer for cloudmade
-maps (see ?get_cloudmademap)}
+\item{maptype}{character string providing map theme. options available are
+"terrain", "terrain-background", "satellite", "roadmap", and "hybrid"
+(google maps), "terrain", "watercolor", and "toner" (stamen maps), or a
+positive integer for cloudmade maps (see ?get_cloudmademap)}
 
-\item{source}{Google Maps ("google"), OpenStreetMap ("osm"),
-Stamen Maps ("stamen"), or CloudMade maps ("cloudmade")}
+\item{source}{Google Maps ("google"), OpenStreetMap ("osm"), Stamen Maps
+("stamen")}
 
 \item{force}{force new map (don't use archived version)}
 
@@ -44,22 +42,20 @@ Stamen Maps ("stamen"), or CloudMade maps ("cloudmade")}
 
 \item{urlonly}{return url only}
 
-\item{filename}{destination file for download (file extension
-added according to format). Default \code{NULL} means a random
-\code{\link{tempfile}}.}
+\item{filename}{destination file for download (file extension added according
+to format). Default \code{NULL} means a random \code{\link{tempfile}}.}
 
-\item{crop}{(stamen and cloudmade maps) crop tiles to bounding
-box}
+\item{crop}{(stamen and cloudmade maps) crop tiles to bounding box}
 
 \item{color}{color ("color") or black-and-white ("bw")}
 
 \item{language}{language for google maps}
 
-\item{api_key}{an api key for cloudmade maps}
+\item{...}{...}
 }
 \value{
-a ggmap object (a classed raster object with a bounding
-  box attribute)
+a ggmap object (a classed raster object with a bounding box
+  attribute)
 }
 \description{
 \code{get_map} is a smart wrapper that queries the Google Maps,
@@ -67,14 +63,27 @@ OpenStreetMap, Stamen Maps or Naver Map servers for a map.
 }
 \examples{
 
-\dontrun{
-# not run by check to reduce time; also,
-# osm may error due to server overload
+\dontrun{ some requires Google API key, see ?register_google
 
-map <- get_map()
-map
+## basic usage
+########################################
+
+# lon-lat vectors automatically use google:
+(map <- get_map(c(-97.14667, 31.5493)))
 str(map)
 ggmap(map)
+
+# bounding boxes default to stamen
+(map <- get_map(c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.559652)))
+ggmap(map)
+
+# characters default to google
+(map <- get_map("orlando, florida"))
+ggmap(map)
+
+
+## basic usage
+########################################
 
 (map <- get_map(maptype = "roadmap"))
 (map <- get_map(source = "osm"))
@@ -86,8 +95,7 @@ ggmap(map, fullpage = TRUE)
 }
 }
 \seealso{
-\code{\link{ggmap}}, \code{\link{GetMap}} in package
-  RgoogleMaps
+\code{\link{ggmap}}, \code{\link{GetMap}} in package RgoogleMaps
 }
 \author{
 David Kahle \email{david.kahle@gmail.com}

@@ -14,5 +14,6 @@ The following are defunct ggmap functions:
 \itemize{
 \item get_cloudemademap
 \item get_navermap
+\item get_openstreetmap
 }
 }

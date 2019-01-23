@@ -97,7 +97,6 @@ df <- data.frame(
 
 mutate_geocode(df, address)
 df \%>\% mutate_geocode(address)
-df \%>\% as_tibble() \%>\% mutate_geocode(address)
 
 
 ## known issues

@@ -2,7 +2,7 @@
 % Please edit documentation in R/gglocator.R
 \name{gglocator}
 \alias{gglocator}
-\title{Locator for ggplots.}
+\title{Locator for ggplot objects}
 \usage{
 gglocator(n = 1, message = FALSE, mercator = TRUE, ...)
 }
@@ -21,8 +21,8 @@ plot use a linear scale.}
 a data frame with columns according to the x and y aesthetics
 }
 \description{
-Locator for ggplots. (Note : only accurate when extent = "normal" when using
-ggmap.)
+Locator for ggplot objects (Note : only accurate when extent = "normal" when
+using ggmap.)
 }
 \examples{
 

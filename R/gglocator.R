@@ -1,7 +1,7 @@
-#' Locator for ggplots.
+#' Locator for ggplot objects
 #'
-#' Locator for ggplots. (Note : only accurate when extent = "normal" when using
-#' ggmap.)
+#' Locator for ggplot objects (Note : only accurate when extent = "normal" when
+#' using ggmap.)
 #'
 #' @param n number of points to locate.
 #' @param message unused

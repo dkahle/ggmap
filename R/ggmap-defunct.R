@@ -9,6 +9,7 @@
 #' \itemize{
 #' \item get_cloudemademap
 #' \item get_navermap
+#' \item get_openstreetmap
 #' }
 #'
 #' @name ggmap-defunct

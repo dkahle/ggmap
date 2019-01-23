@@ -69,19 +69,22 @@
 #' )
 #'
 #'
+#'
+#' ## neat faceting example
+#' ########################################
+#'
 #' from <- "houston, texas"; to <- "waco, texas"
 #' trek_df <- trek(from, to, alternatives = TRUE)
-#' qmplot(lon, lat, data = trek_df, geom = "path",
-#'   color = route, size = I(2), alpha = I(.5)
-#' )
 #'
-#'
-#' from <- "los angeles, california"; to <- "new york, new york"
-#' trek_df <- trek(from, to, alternatives = TRUE)
 #' qmplot(lon, lat, data = trek_df, geom = "path",
 #'   color = route, size = I(2), maptype = "terrain",
-#'   zoom = 5
-#' ) + facet_wrap(~ route, ncol = 1)
+#'   alpha = I(.5)
+#' )
+#'
+#' qmplot(lon, lat, data = trek_df, geom = "path",
+#'   color = route, size = I(2), maptype = "terrain",
+#'   zoom = 8
+#' ) + facet_grid(. ~ route)
 #'
 #'
 #'
