@@ -1,5 +1,7 @@
 `%notin%` <- function (elem, set) !(elem %in% set)
 
+
+
 # key <- "aBc"
 # fmteq(key)
 # fmteq(key, tolower)
@@ -9,7 +11,11 @@ fmteq <- function (x, f = function(.) ., ...) {
 }
 
 
-`%>%` <- dplyr::`%>%`
+
+#' @importFrom magrittr %>%
+#' @export
+magrittr::`%>%`
+
 
 
 

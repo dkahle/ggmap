@@ -4,21 +4,22 @@
 \alias{revgeocode}
 \title{Reverse geocode}
 \usage{
-revgeocode(location, output = c("address", "more", "all"),
+revgeocode(location, output = c("address", "all"), force = FALSE,
   messaging = FALSE, urlonly = FALSE, override_limit = FALSE,
   ext = "com", inject = "", ...)
 }
 \arguments{
 \item{location}{a location in longitude/latitude format}
 
-\item{output}{amount of output}
+\item{output}{"address" or "all"}
+
+\item{force}{force online query, even if cached (previously downloaded)}
 
 \item{messaging}{turn messaging on/off}
 
 \item{urlonly}{return only the url?}
 
-\item{override_limit}{override the current query count
-(.GoogleGeocodeQueryCount)}
+\item{override_limit}{override the current query rate}
 
 \item{ext}{domain extension (e.g. "com", "co.nz")}
 
@@ -27,23 +28,24 @@ revgeocode(location, output = c("address", "more", "all"),
 \item{...}{...}
 }
 \value{
-depends (at least an address)
+a character(1) address or a list (the parsed json output from Google)
 }
 \description{
-reverse geocodes a longitude/latitude location using Google Maps.
-Note that in most cases by using this function you are agreeing
-to the Google Maps API Terms of Service at
-https://developers.google.com/maps/terms.
+Reverse geocodes (looks up the address of) a longitude/latitude location
+using the Google Geocoding API. Note: To use Google's Geocoding API, you must
+first enable the API in the Google Cloud Platform Console. See
+\code{?register_google}.
 }
 \examples{
 
-\dontrun{ # Server response can be slow; this cuts down check time.
+\dontrun{ # requires Google API key, see ?register_google
+
+## basic usage
+########################################
 
 ( gc <- as.numeric(geocode("the white house")) )
 revgeocode(gc)
-revgeocode(gc, output = "more")
-revgeocode(gc, output = "all")
-geocodeQueryCheck()
+str(revgeocode(gc, output = "all"), 3)
 
 }
 

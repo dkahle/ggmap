@@ -62,11 +62,7 @@
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso \url{https://cloud.google.com/maps-platform/},
 #'   \url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
-#'
-#'
 #'   \url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
-#'
-#'
 #' @examples
 #'
 #'

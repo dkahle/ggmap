@@ -17,7 +17,9 @@
 #' @importFrom dplyr bind_cols filter bind_rows
 #' @importFrom glue glue
 #' @importFrom httr GET http_status warn_for_status stop_for_status
-#' @importFrom stringr str_to_title str_c str_detect str_c str_replace_all str_sub
-#' @importFrom dplyr %>%
+#' @importFrom tibble tibble as_tibble
+#' @importFrom stringr str_to_title str_c str_detect str_c str_replace_all
+#'   str_sub str_trim str_pad
+#' @importFrom purrr map map_chr walk
 #' @aliases ggmap package-ggmap
 NULL

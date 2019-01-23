@@ -27,7 +27,8 @@ Imports:
     grid,
     glue,
     httr,
-    stringr
+    stringr,
+    purrr
 Suggests:
     MASS,
     hexbin,

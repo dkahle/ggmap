@@ -26,17 +26,20 @@
   set_ggmap_option(
     "google" = structure(
       list(
-        key = NA,
-        account_type = "standard",
-        day_limit = Inf, #2500,
-        second_limit = Inf, #50,
-        client = NA,
-        signature = NA
+        "key" = NA,
+        "account_type" = "standard",
+        "day_limit" = Inf, #2500,
+        "second_limit" = 50L,
+        "client" = NA,
+        "signature" = NA
       ),
       class = "google_credentials"
     ),
     "display_api_key" = FALSE
   )
+
+
+  new.env(parent = emptyenv())
 
 }
 
