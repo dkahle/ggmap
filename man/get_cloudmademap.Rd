@@ -4,12 +4,11 @@
 \alias{get_cloudmademap}
 \title{Get a CloudMade map.}
 \usage{
-get_cloudmademap(bbox = c(left = -95.80204, bottom = 29.38048, right =
-  -94.92313, top = 30.14344), zoom = 10, api_key, maptype = 1,
-  highres = TRUE, crop = TRUE, messaging = FALSE, urlonly = FALSE,
-  filename = NULL, color = c("color", "bw"), ...)
+get_cloudmademap(...)
 }
 \arguments{
+\item{...}{...}
+
 \item{bbox}{a bounding box in the format c(lowerleftlon,
 lowerleftlat, upperrightlon, upperrightlat).}
 
@@ -34,8 +33,6 @@ added according to format). Default \code{NULL} means a random
 \code{\link{tempfile}}.}
 
 \item{color}{color or black-and-white}
-
-\item{...}{...}
 }
 \value{
 a ggmap object (a classed raster object with a bounding
@@ -50,17 +47,18 @@ http://cloudmade.com/user/show (defunct?). Thousands of maptypes
 http://maps.cloudmade.com/editor (defunct).
 }
 \examples{
-\dontrun{ # in what follows, enter your own api key
 
-api_key <- '<your api key here>'
-api_key <- 'b23b0358e87c4ff99f81029eda25c903'
 
-map <- get_cloudmademap(api_key = api_key)
-ggmap(map)
 
-map <- get_cloudmademap(maptype = 997, api_key = api_key)
-ggmap(map)
-}
+#api_key <- '<your api key here>'
+#api_key <- 'b23b0358e87c4ff99f81029eda25c903'
+
+#map <- get_cloudmademap(api_key = api_key)
+#ggmap(map)
+
+#map <- get_cloudmademap(maptype = 997, api_key = api_key)
+#ggmap(map)
+
 }
 \seealso{
 http://maps.cloudmade.com/ (defunct),
