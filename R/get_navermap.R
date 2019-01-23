@@ -4,8 +4,7 @@
 #'
 #' \code{get_navermap} accesses the Naver Static Maps API version 1.1 to
 #' download a static map. Note that in most cases by using this function you are
-#' agreeing to the Naver Maps API Terms of Service at
-#' \url{http://dev.naver.com/openapi/apis/map/staticmap}.
+#' agreeing to the Naver Maps API Terms of Service.
 #'
 #' @param center the center of the map.  this can be longitude/latitude numeric
 #'   vector.
@@ -35,8 +34,7 @@
 #'   abide by any of the rules governing caching naver maps
 #' @param ... ...
 #' @author Heewon Jeon \email{madjakarta@@gmail.com}
-#' @seealso \url{http://dev.naver.com/openapi/apis/map/staticmap/},
-#'   \code{\link{ggmap}}
+#' @seealso \code{\link{ggmap}}
 #' @export
 get_navermap <- function(
   center = c(lon = 126.9849208, lat = 37.5664519), zoom = 4,
@@ -48,7 +46,7 @@ get_navermap <- function(
   force = FALSE, where = tempdir(), archiving = TRUE, ...
 ){
 
-  stop("Naver is temporarily not supported, as it's API has changed.", call. = FALSE)
+  .Defunct("Naver is at least temporarily not supported, as its API has changed.")
 
 }
 

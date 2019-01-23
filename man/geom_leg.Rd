@@ -2,16 +2,15 @@
 % Please edit documentation in R/geom_leg.R, R/route.R
 \name{geom_leg}
 \alias{geom_leg}
-\alias{geom_leg}
 \title{Single line segments with rounded ends}
 \usage{
 geom_leg(mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", arrow = NULL, lineend = "round", na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE, ...)
+  position = "identity", arrow = NULL, lineend = "round",
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
 
 geom_leg(mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", arrow = NULL, lineend = "round", na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE, ...)
+  position = "identity", arrow = NULL, lineend = "round",
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
 }
 \arguments{
 \item{mapping}{mapping}
@@ -124,7 +123,7 @@ ggplot(data = legs_df) +
 }
 
 
-\dontrun{ # removed for R CMD check speed
+\dontrun{ requires Google API key, see ?register_google
 
 map <- get_map(
   location = c(-77.0425, 38.8925), # painfully picked by hand
@@ -141,15 +140,15 @@ ggmap(map)
 
 ggplot(data = legs_df) +
   geom_leg(aes(
-    x = startLon, xend = endLon,
-    y = startLat, yend = endLat
+    x = start_lon, xend = end_lon,
+    y = start_lat, yend = end_lat
   )) +
   coord_map()
 
 ggplot(data = legs_df) +
   geom_leg(aes(
-    x = startLon, xend = endLon,
-    y = startLat, yend = endLat,
+    x = start_lon, xend = end_lon,
+    y = start_lat, yend = end_lat,
     color = route
   )) +
   coord_map()
@@ -158,8 +157,8 @@ ggplot(data = legs_df) +
 ggmap(map) +
   geom_leg(
     aes(
-      x = startLon, xend = endLon,
-      y = startLat, yend = endLat
+      x = start_lon, xend = end_lon,
+      y = start_lat, yend = end_lat
     ),
     data = legs_df, color = "red"
   )
@@ -168,8 +167,8 @@ ggmap(map) +
 # ggmap(map) +
 #   geom_leg(
 #     aes(
-#       x = startLon, xend = endLon,
-#       y = startLat, yend = endLat,
+#       x = start_lon, xend = end_lon,
+#       y = start_lat, yend = end_lat,
 #       color = route
 #   )
 # )
@@ -180,8 +179,8 @@ ggplot(data = legs_df) +
   inset_ggmap(map) +
   geom_leg(
     aes(
-      x = startLon, xend = endLon,
-      y = startLat, yend = endLat,
+      x = start_lon, xend = end_lon,
+      y = start_lat, yend = end_lat,
       color = route
     ),
     data = legs_df

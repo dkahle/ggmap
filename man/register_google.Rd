@@ -2,44 +2,63 @@
 % Please edit documentation in R/register_google.R
 \name{register_google}
 \alias{register_google}
-\alias{goog_key}
-\alias{has_goog_key}
-\alias{has_goog_account}
-\alias{goog_account}
-\alias{goog_client}
-\alias{has_goog_client}
-\alias{goog_signature}
-\alias{has_goog_signature}
-\alias{goog_second_limit}
-\alias{goog_day_limit}
-\alias{check_google_for_error}
+\alias{showing_key}
+\alias{ggmap_show_api_key}
+\alias{ggmap_hide_api_key}
+\alias{scrub_key}
+\alias{print.google_credentials}
+\alias{google_key}
+\alias{has_google_key}
+\alias{has_google_account}
+\alias{google_account}
+\alias{google_client}
+\alias{has_google_client}
+\alias{google_signature}
+\alias{has_google_signature}
+\alias{google_second_limit}
+\alias{google_day_limit}
 \title{Register a Google API}
 \usage{
-register_google(key, account_type, client, signature, second_limit, day_limit)
+showing_key()
 
-goog_key()
+ggmap_show_api_key()
 
-has_goog_key()
+ggmap_hide_api_key()
 
-has_goog_account()
+scrub_key(string, with = "xxx")
 
-goog_account()
+register_google(key, account_type, client, signature, second_limit,
+  day_limit)
 
-goog_client()
+\method{print}{google_credentials}(x, ...)
 
-has_goog_client()
+google_key()
 
-goog_signature()
+has_google_key()
 
-has_goog_signature()
+has_google_account()
 
-goog_second_limit()
+google_account()
 
-goog_day_limit()
+google_client()
 
-check_google_for_error(tree)
+has_google_client()
+
+google_signature()
+
+has_google_signature()
+
+google_second_limit()
+
+google_day_limit()
 }
 \arguments{
+\item{string}{a url string to be scrubbed. currently key, signature, and
+client keywords are scrubbed from the url and replace with the with
+argument}
+
+\item{with}{a string to replace}
+
 \item{key}{an api key}
 
 \item{account_type}{\code{"standard"} or \code{"premium"}}
@@ -50,31 +69,85 @@ check_google_for_error(tree)
 
 \item{second_limit}{query limit per second (default 50)}
 
-\item{day_limit}{query limit per day (default 2500 for standard
-accounts, 100000 for premium accounts)}
+\item{day_limit}{query limit per day (default 2500 for standard accounts,
+100000 for premium accounts)}
 
-\item{tree}{a json tree from \code{\link{fromJSON}}}
+\item{x}{a google credentials class object}
+
+\item{...}{a dumped formal argument to the generic print method}
 }
 \description{
-Many features of the Google web mapping services can be improved
-by using standard or premium credentials, such as usage limits
-and query rates. This function allows users to input this
-information into R as a global option to be retained for the
-entire session.
+This page contains documentation for tools related to enabling Google
+services in R. See the Details section of this file for background
+information.
+}
+\details{
+As of mid-2018, the Google Maps Platform requires a registered API key. While
+this alleviates previous burdens (e.g. query limits), it creates some
+challenges as well. The most immediate challenge for most R users is that
+ggmap functions that use Google's services no longer function out of the box,
+since the user has to setup an account with Google, enable the relevant APIs,
+and then tell R about the user's setup.
+
+To obtain an API key and enable services, go to
+\url{https://cloud.google.com/maps-platform/}.
+
+This documentation shows you how to input the requisite information (e.g.
+your API key) into R, and it also shows you a few tools that can help you
+work with the credentialing. Note that you will need to register the key at
+the beginning of the R session in which you're using ggmap - restarting R
+will require re-registering the key.
+
+Users should be aware that the API key, a string of jarbled
+characters/numbers/symbols, is a PRIVATE key - it uniquely identifies and
+authenticates you to Google's services. If anyone gets your API key, they can
+use it to masquerade as you to Google and use services that you have enabled.
+Since Google requires a valid credit card to use its online cloud services,
+this also means that anyone who obtains your key can, in theory, make charges
+to your card in the form of Google services. So be sure to not share your API
+key. To mitigate against users inadvertantly sharing their keys, by default
+ggmap never displays a user's key in messages displayed to the console.
+
+Users should also be aware that ggmap has no mechanism with which to
+safeguard the private key once registered with R. That is to say, once you
+register your API key, any function R will have access to it. As a
+consequence, ggmap will not know if another function, potentially from a
+compromised package, accesses the key and uploads it to a third party. For
+this reason, when using ggmap we recommend a heightened sense of security and
+self-awareness: only use trusted packages, do not save API keys in script
+files, routinely cycle keys (regenerate new keys and retire old ones), etc.
+Google offers features to help in securing your API key, including things
+like limiting queries using that key to a particular IP address, as well as
+guidance on security best practices. See
+\url{https://cloud.google.com/docs/authentication/api-keys#securing_an_api_key}
+for details.
 }
 \examples{
 
 
-has_goog_key()
-goog_key()
-has_goog_client()
-has_goog_signature()
 register_google(key = "[your key here]")
+
+has_google_key()
+google_key()
+has_google_client()
+has_google_signature()
+
+geocode("waco, texas", urlonly = TRUE)
+ggmap_show_api_key()
+geocode("waco, texas", urlonly = TRUE)
+ggmap_hide_api_key()
+geocode("waco, texas", urlonly = TRUE)
+
+scrub_key("key=d_5iD")
+scrub_key("key=d_5iD", "[your \\\\1]")
+scrub_key("signature=d_5iD")
+scrub_key("client=a_5sS&signature=d_5iD")
 
 }
 \seealso{
-\url{http://code.google.com/apis/maps/documentation/geocoding/},
-\url{https://developers.google.com/maps/documentation/geocoding/usage-limits}
+\url{https://cloud.google.com/maps-platform/},
+  \url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
+  \url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
 }
 \author{
 David Kahle \email{david.kahle@gmail.com}

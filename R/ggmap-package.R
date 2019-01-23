@@ -14,6 +14,14 @@
 #' @importFrom grid rasterGrob seekViewport grid.locator upViewport downViewport
 #'   current.vpTree current.vpPath viewport
 #' @importFrom scales expand_range
-#' @importFrom dplyr bind_cols filter bind_rows
+#' @importFrom dplyr bind_cols filter bind_rows mutate group_by ungroup
+#' @importFrom glue glue
+#' @importFrom httr GET http_status warn_for_status stop_for_status
+#' @importFrom tibble tibble as_tibble
+#' @importFrom stringr str_to_title str_c str_detect str_c str_replace_all
+#'   str_sub str_trim str_pad str_split str_trunc
+#' @importFrom purrr map map_chr map_int walk flatten pluck imap
+#' @importFrom magrittr %>%
+#' @importFrom tidyr nest unnest
 #' @aliases ggmap package-ggmap
 NULL

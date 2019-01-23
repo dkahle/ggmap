@@ -19,11 +19,8 @@ Print a console description of a map
 }
 \examples{
 
-\dontrun{ to diminish run check time
 
-get_map()
-ggmap(get_map())
+get_stamenmap(zoom = 9)
 
-}
 
 }

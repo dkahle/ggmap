@@ -14,10 +14,11 @@ Convert a leg-structured route to a route-structured route
 }
 \examples{
 
-\dontrun{
+\dontrun{ requires Google API key, see ?register_google
 
 (legs_df <- route("houston","galveston"))
 legs2route(legs_df)
+
 (legs_df <- route(
   "marrs mclean science, baylor university",
   "220 south 3rd street, waco, tx 76701", # ninfa"s
@@ -35,14 +36,14 @@ legs_df <- route(from, to)
 
 qmap("college station, texas", zoom = 8) +
   geom_segment(
-    aes(x = startLon, y = startLat, xend = endLon, yend = endLat),
+    aes(x = start_lon, y = start_lat, xend = end_lon, yend = end_lat),
     colour = "red", size = 1.5, data = legs_df
   )
 # notice boxy ends
 
 qmap("college station, texas", zoom = 8) +
   geom_leg(
-    aes(x = startLon, y = startLat, xend = endLon, yend = endLat),
+    aes(x = start_lon, y = start_lat, xend = end_lon, yend = end_lat),
     colour = "red", size = 1.5, data = legs_df
   )
 # notice overshooting ends

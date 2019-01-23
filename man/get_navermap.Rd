@@ -9,9 +9,10 @@ get_navermap(center = c(lon = 126.9849208, lat = 37.5664519), zoom = 4,
   crs = c("EPSG:4326", "NHN:2048", "NHN:128", "EPSG:4258", "EPSG:4162",
   "EPSG:2096", "EPSG:2097", "EPSG:2098", "EPSG:900913"),
   baselayer = c("default", "satellite"), color = c("color", "bw"),
-  overlayers = c("anno_satellite", "bicycle", "roadview", "traffic"), markers,
-  key, uri, filename = NULL, messaging = FALSE, urlonly = FALSE,
-  force = FALSE, where = tempdir(), archiving = TRUE, ...)
+  overlayers = c("anno_satellite", "bicycle", "roadview", "traffic"),
+  markers, key, uri, filename = NULL, messaging = FALSE,
+  urlonly = FALSE, force = FALSE, where = tempdir(),
+  archiving = TRUE, ...)
 }
 \arguments{
 \item{center}{the center of the map.  this can be longitude/latitude numeric
@@ -65,12 +66,10 @@ This is (at least) temporarily unavailable as the Naver API changed.
 \details{
 \code{get_navermap} accesses the Naver Static Maps API version 1.1 to
 download a static map. Note that in most cases by using this function you are
-agreeing to the Naver Maps API Terms of Service at
-\url{http://dev.naver.com/openapi/apis/map/staticmap}.
+agreeing to the Naver Maps API Terms of Service.
 }
 \seealso{
-\url{http://dev.naver.com/openapi/apis/map/staticmap/},
-  \code{\link{ggmap}}
+\code{\link{ggmap}}
 }
 \author{
 Heewon Jeon \email{madjakarta@gmail.com}

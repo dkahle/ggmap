@@ -3,51 +3,59 @@
 #' \code{get_map} is a smart wrapper that queries the Google Maps,
 #' OpenStreetMap, Stamen Maps or Naver Map servers for a map.
 #'
-#' @param location an address, longitude/latitude pair (in that
-#'   order), or left/bottom/right/top bounding box
-#' @param zoom map zoom, an integer from 3 (continent) to 21
-#'   (building), default value 10 (city).  openstreetmaps limits a
-#'   zoom of 18, and the limit on stamen maps depends on the
-#'   maptype.  "auto" automatically determines the zoom for bounding
-#'   box specifications, and is defaulted to 10 with center/zoom
-#'   specifications.  maps of the whole world currently not
+#' @param location an address, longitude/latitude pair (in that order), or
+#'   left/bottom/right/top bounding box
+#' @param zoom map zoom, an integer from 3 (continent) to 21 (building), default
+#'   value 10 (city).  openstreetmaps limits a zoom of 18, and the limit on
+#'   stamen maps depends on the maptype.  "auto" automatically determines the
+#'   zoom for bounding box specifications, and is defaulted to 10 with
+#'   center/zoom specifications.  maps of the whole world currently not
 #'   supported.
 #' @param scale scale argument of \code{\link{get_googlemap}} or
 #'   \code{\link{get_openstreetmap}}
-#' @param maptype character string providing map theme. options
-#'   available are "terrain", "terrain-background", "satellite",
-#'   "roadmap", and "hybrid" (google maps), "terrain", "watercolor",
-#'   and "toner" (stamen maps), or a positive integer for cloudmade
-#'   maps (see ?get_cloudmademap)
-#' @param source Google Maps ("google"), OpenStreetMap ("osm"),
-#'   Stamen Maps ("stamen"), or CloudMade maps ("cloudmade")
+#' @param maptype character string providing map theme. options available are
+#'   "terrain", "terrain-background", "satellite", "roadmap", and "hybrid"
+#'   (google maps), "terrain", "watercolor", and "toner" (stamen maps), or a
+#'   positive integer for cloudmade maps (see ?get_cloudmademap)
+#' @param source Google Maps ("google"), OpenStreetMap ("osm"), Stamen Maps
+#'   ("stamen")
 #' @param force force new map (don't use archived version)
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
-#' @param filename destination file for download (file extension
-#'   added according to format). Default \code{NULL} means a random
-#'   \code{\link{tempfile}}.
-#' @param crop (stamen and cloudmade maps) crop tiles to bounding
-#'   box
+#' @param filename destination file for download (file extension added according
+#'   to format). Default \code{NULL} means a random \code{\link{tempfile}}.
+#' @param crop (stamen and cloudmade maps) crop tiles to bounding box
 #' @param color color ("color") or black-and-white ("bw")
 #' @param language language for google maps
-#' @param api_key an api key for cloudmade maps
-#' @return a ggmap object (a classed raster object with a bounding
-#'   box attribute)
+#' @param ... ...
+#' @return a ggmap object (a classed raster object with a bounding box
+#'   attribute)
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \code{\link{ggmap}}, \code{\link{GetMap}} in package
-#'   RgoogleMaps
+#' @seealso \code{\link{ggmap}}, \code{\link{GetMap}} in package RgoogleMaps
 #' @export
 #' @examples
 #'
-#' \dontrun{
-#' # not run by check to reduce time; also,
-#' # osm may error due to server overload
+#' \dontrun{ some requires Google API key, see ?register_google
 #'
-#' map <- get_map()
-#' map
+#' ## basic usage
+#' ########################################
+#'
+#' # lon-lat vectors automatically use google:
+#' (map <- get_map(c(-97.14667, 31.5493)))
 #' str(map)
 #' ggmap(map)
+#'
+#' # bounding boxes default to stamen
+#' (map <- get_map(c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.559652)))
+#' ggmap(map)
+#'
+#' # characters default to google
+#' (map <- get_map("orlando, florida"))
+#' ggmap(map)
+#'
+#'
+#' ## basic usage
+#' ########################################
 #'
 #' (map <- get_map(maptype = "roadmap"))
 #' (map <- get_map(source = "osm"))
@@ -58,16 +66,22 @@
 #'
 #' }
 get_map <- function(
-  location = c(lon = -95.3632715, lat = 29.7632836), zoom = "auto", scale = "auto",
+  location = c(lon = -95.3632715, lat = 29.7632836),
+  zoom = "auto",
+  scale = "auto",
   maptype = c("terrain", "terrain-background", "satellite", "roadmap",
     "hybrid", "toner", "watercolor", "terrain-labels",
     "terrain-lines", "toner-2010", "toner-2011", "toner-background",
     "toner-hybrid", "toner-labels", "toner-lines", "toner-lite"),
-  source = c("google","osm","stamen","cloudmade"),
-  force = ifelse(source == "google", TRUE, TRUE), messaging = FALSE, urlonly = FALSE,
+  source = c("google","osm","stamen"),
+  force = ifelse(source == "google", TRUE, FALSE),
+  messaging = FALSE,
+  urlonly = FALSE,
   filename = NULL,
-  crop = TRUE, color = c("color","bw"), language = "en-EN",
-  api_key
+  crop = TRUE,
+  color = c("color","bw"),
+  language = "en-EN",
+  ...
 ){
 
   # deprecated syntaxes
@@ -148,6 +162,8 @@ get_map <- function(
   if(is.numeric(location) && length(location) == 4){ # bbox
     location_type <- "bbox"
     location_stop <- FALSE
+    source <- "stamen"
+    maptype <- "terrain"
 
     # check bounding box
     if(length(names(location)) > 0){
@@ -247,8 +263,7 @@ get_map <- function(
 
   	if(location_type != "bbox"){
   	  # get bounding box
-      gm <- get_googlemap(center = location, zoom = zoom,
-        filename = filename)
+      gm <- get_googlemap(center = location, zoom = zoom, filename = filename)
       location <- as.numeric(attr(gm, "bb"))[c(2,1,4,3)]
     }
 
@@ -266,8 +281,7 @@ get_map <- function(
   if(source == "stamen"){
   	if(location_type != "bbox"){
   	  # get bounding box
-      gm <- get_googlemap(center = location, zoom = zoom,
-        filename = filename)
+      gm <- get_googlemap(center = location, zoom = zoom, filename = filename)
       location <- as.numeric(attr(gm, "bb"))[c(2,1,4,3)]
     }
 
@@ -280,25 +294,5 @@ get_map <- function(
   }
 
 
-
-  # cloudmade map
-  if(source == "cloudmade"){
-  	if(missing(api_key)) stop("an api key must be provided for cloudmade maps, see ?get_cloudmademap.",
-  	  call. = FALSE)
-
-  	if(location_type != "bbox"){
-  	  # get bounding box
-      gm <- get_googlemap(center = location, zoom = zoom,
-        filename = filename)
-      location <- as.numeric(attr(gm, "bb"))[c(2,1,4,3)]
-    }
-
-  	# get map/return
-    return(
-      get_cloudmademap(bbox = location, zoom = zoom, maptype = maptype, crop = crop,
-        messaging = messaging, urlonly = urlonly, filename = filename, highres = TRUE,
-        color = color, api_key = api_key)
-    )
-  }
 
 }

@@ -14,17 +14,16 @@ get_openstreetmap(bbox = c(left = -95.80204, bottom = 29.38048, right =
 upperrightlon, upperrightlat)}
 
 \item{scale}{scale parameter, see
-  \url{http://wiki.openstreetmap.org/wiki/MinScaleDenominator}.  smaller
-  scales provide a finer degree of detail, where larger scales produce more
-  coarse detail.
-
-  The scale argument is a tricky number to correctly specify. In most cases,
-  if you get an error when downloading an openstreetmap the error is
-  attributable to an improper scale specification.
-  \code{\link{OSM_scale_lookup}} can help; but the best way to get in the
-  correct range is to go to \url{http://www.openstreetmap.org/}, navigate to
-  the map of interest, click export at the top of the page, click 'map image'
-  and then copy down the scale listed.}
+\url{http://wiki.openstreetmap.org/wiki/MinScaleDenominator}.  smaller
+scales provide a finer degree of detail, where larger scales produce more
+coarse detail.
+The scale argument is a tricky number to correctly specify. In most cases,
+if you get an error when downloading an openstreetmap the error is
+attributable to an improper scale specification.
+\code{\link{OSM_scale_lookup}} can help; but the best way to get in the
+correct range is to go to \url{http://www.openstreetmap.org/}, navigate to
+the map of interest, click export at the top of the page, click 'map image'
+and then copy down the scale listed.}
 
 \item{format}{character string providing image format - png, jpeg, svg, pdf,
 and ps formats}
@@ -62,15 +61,14 @@ information.
 }
 \examples{
 
-get_openstreetmap(urlonly = TRUE)
-\dontrun{
+# get_openstreetmap(urlonly = TRUE)
+
 # osm servers get overloaded, which can result in
 # erroneous failed checks
 
-osm <- get_openstreetmap()
-ggmap(osm)
+# osm <- get_openstreetmap()
+# ggmap(osm)
 
-}
 
 }
 \seealso{

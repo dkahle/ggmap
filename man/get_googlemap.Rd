@@ -4,64 +4,60 @@
 \alias{get_googlemap}
 \title{Get a Google Map.}
 \usage{
-get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836), zoom = 10,
-  size = c(640, 640), scale = 2, format = c("png8", "gif", "jpg",
-  "jpg-baseline", "png32"), maptype = c("terrain", "satellite", "roadmap",
-  "hybrid"), language = "en-EN", messaging = FALSE, urlonly = FALSE,
-  filename = NULL, color = c("color", "bw"), force = FALSE,
-  where = tempdir(), archiving = FALSE, ext = "com", inject = "",
-  region, markers, path, visible, style, ...)
+get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836),
+  zoom = 10, size = c(640, 640), scale = 2, format = c("png8",
+  "gif", "jpg", "jpg-baseline", "png32"), maptype = c("terrain",
+  "satellite", "roadmap", "hybrid"), language = "en-EN",
+  messaging = FALSE, urlonly = FALSE, filename = NULL,
+  color = c("color", "bw"), force = FALSE, where = tempdir(),
+  archiving = FALSE, ext = "com", inject = "", region, markers, path,
+  visible, style, ...)
 }
 \arguments{
-\item{center}{the center of the map.  Either a longitude/latitude
-numeric vector, a string address (note that the latter uses
-\code{geocode} with \code{source = "google"}).}
+\item{center}{the center of the map; either a longitude/latitude numeric
+vector or a string containing a location, in which case
+\code{\link{geocode}} is called with \code{source = "google"}. (default:
+c(lon = -95.3632715, lat = 29.7632836), houston, texas)}
 
-\item{zoom}{map zoom, an integer from 3 (continent) to 21
-(building), default value 10 (city)}
+\item{zoom}{map zoom; an integer from 3 (continent) to 21 (building), default
+value 10 (city)}
 
-\item{size}{rectangular dimensions of map in pixels - horizontal
-x vertical - with a max of c(640, 640). this parameter is
-affected in a multiplicative way by scale.}
+\item{size}{rectangular dimensions of map in pixels - horizontal x vertical -
+with a max of c(640, 640). this parameter is affected in a multiplicative
+way by scale.}
 
-\item{scale}{multiplicative factor for the number of pixels
-returned possible values are 1, 2, or 4 (e.g. size = c(640,640)
-and scale = 2 returns an image with 1280x1280 pixels).  4 is
-reserved for google business users only.  scale also affects
-the size of labels as well.}
+\item{scale}{multiplicative factor for the number of pixels returned possible
+values are 1, 2, or 4 (e.g. size = c(640,640) and scale = 2 returns an
+image with 1280x1280 pixels).  4 is reserved for google business users
+only.  scale also affects the size of labels as well.}
 
-\item{format}{character string providing image format - png,
-jpeg, and gif formats available in various flavors}
+\item{format}{character string providing image format - png, jpeg, and gif
+formats available in various flavors}
 
-\item{maptype}{character string providing google map theme.
-options available are "terrain", "satellite", "roadmap", and
-"hybrid"}
+\item{maptype}{character string providing google map theme. options available
+are "terrain", "satellite", "roadmap", and "hybrid"}
 
-\item{language}{character string providing language of map labels
-(for themes with them) in the format "en-EN".  not all
-languages are supported; for those which aren't the default
-language is used}
+\item{language}{character string providing language of map labels (for themes
+with them) in the format "en-EN".  not all languages are supported; for
+those which aren't the default language is used}
 
 \item{messaging}{turn messaging on/off}
 
 \item{urlonly}{return url only}
 
-\item{filename}{destination file for download (file extension added
-according to format). Default \code{NULL} means a random
-\code{\link{tempfile}}.}
+\item{filename}{destination file for download (file extension added according
+to format). Default \code{NULL} means a random \code{\link{tempfile}}.}
 
 \item{color}{color or black-and-white}
 
-\item{force}{if the map is on file, should a new map be looked
-up?}
+\item{force}{if the map is on file, should a new map be looked up?}
 
-\item{where}{where should the file drawer be located (without
-terminating "/")}
+\item{where}{where should the file drawer be located (without terminating
+"/")}
 
-\item{archiving}{use archived maps.  note: by changing to TRUE
-you agree to the one of the approved uses listed in the Google
-Maps API Terms of Service :
-http://developers.google.com/maps/terms.}
+\item{archiving}{use archived maps.  note: by changing to TRUE you agree to
+the one of the approved uses listed in the Google Maps API Terms of Service
+: http://developers.google.com/maps/terms.}
 
 \item{ext}{domain extension (e.g. "com", "co.nz")}
 
@@ -71,45 +67,64 @@ http://developers.google.com/maps/terms.}
 two-character ccTLD ("top-level domain") value, see
 \url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}}
 
-\item{markers}{data.frame with first column longitude, second
-column latitude, for which google markers should be embedded in
-the map image, or character string to be passed directly to api}
+\item{markers}{data.frame with first column longitude, second column
+latitude, for which google markers should be embedded in the map image, or
+character string to be passed directly to api}
 
-\item{path}{data.frame (or list of data.frames) with first column
-longitude, second column latitude, for which a single path
-should be embedded in the map image, or character string to be
-passed directly to api}
+\item{path}{data.frame (or list of data.frames) with first column longitude,
+second column latitude, for which a single path should be embedded in the
+map image, or character string to be passed directly to api}
 
-\item{visible}{a location as a longitude/latitude numeric vector
-(or data frame with first column longitude, second latitude) or
-vector of character string addresses which should be visible in
-map extent}
+\item{visible}{a location as a longitude/latitude numeric vector (or data
+frame with first column longitude, second latitude) or vector of character
+string addresses which should be visible in map extent}
 
-\item{style}{character string to be supplied directly to the api
-for the style argument or a named vector (see examples). this
-is a powerful complex specification, see
+\item{style}{character string to be supplied directly to the api for the
+style argument or a named vector (see examples). this is a powerful complex
+specification, see
 \url{https://developers.google.com/maps/documentation/staticmaps/}}
 
 \item{...}{...}
 }
 \value{
-a ggmap object (a classed raster object with a bounding
-  box attribute)
+a ggmap object (a classed raster object with a bounding box
+  attribute)
 }
 \description{
-\code{get_googlemap} accesses the Google Static Maps API version
-2 to download a static map.  Note that in most cases by using
-this function you are agreeing to the Google Maps API Terms of
-Service at \url{https://developers.google.com/maps/terms}.
+\code{get_googlemap} queries the Google Maps Static API version 2 to download
+a static map.  Note that in most cases by using this function you are
+agreeing to the Google Maps API Terms of Service at
+\url{https://cloud.google.com/maps-platform/terms/}. Note that as of
+mid-2018, registering with Google Cloud to obtain an API key is required to
+use any of Google's services, including \code{get_googlemap}. Usage and
+billing may apply, see the links under See Also further down in this
+documentation for more details.
 }
 \examples{
 
-\dontrun{ # to diminish run check time
+\dontrun{ requires Google API key, see ?register_google
 
+## basic usage
+########################################
 
+(map <- get_googlemap(c(-97.14667, 31.5493)))
+ggmap(map)
+
+# plotting based on a colloquial name
+# this requires a geocode() call, and needs that API
+get_googlemap("waco, texas") \%>\% ggmap()
+
+# different maptypes are available
+get_googlemap("waco, texas", maptype = "satellite") \%>\% ggmap()
+get_googlemap("waco, texas", maptype = "hybrid") \%>\% ggmap()
+
+# you can get the url as follows
+# see ?register_google if you want the key printed
 get_googlemap(urlonly = TRUE)
-ggmap(get_googlemap())
 
+
+## other usage
+########################################
 
 # markers and paths are easy to access
 d <- function(x=-95.36, y=29.76, n,r,a){
@@ -137,6 +152,7 @@ ggmap(get_googlemap(center, scale = 2), extent = "panel") # fine
 # archiving; note that you must meet google's terms for this condition
 map <- get_googlemap(archiving = TRUE)
 map <- get_googlemap()
+map <- get_googlemap()
 ggmap(map)
 
 
@@ -155,7 +171,10 @@ ggmap(map)
 
 }
 \seealso{
-\url{https://developers.google.com/maps/documentation/staticmaps/},
+\url{https://developers.google.com/maps/documentation/maps-static/intro},
+\url{https://developers.google.com/maps/documentation/maps-static/dev-guide},
+\url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
+\url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
 \code{\link{ggmap}}, \code{\link{register_google}}
 }
 \author{

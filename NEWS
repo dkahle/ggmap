@@ -1,3 +1,29 @@
+ggmap 3.0.0
+-------------------------------------------------------------------------
+
+CHANGES
+
+* In mid-2018, Google merged its maps-related online services into its
+  cloud platform. This change broke many ggmap functions, and others had
+  atrophied by simple changing in underlying web APIs.  As a consequence,
+  CloudMade, OSM, and Naver are no longer available. Google services now
+  require registering with Google, see ?register_google for details on
+  how to get up and running with that. The service provides a good
+  alotment of free use, but it is fundamentally a paid service.
+* ggmap now makes widespread, though not yet exhaustive, use of tidyverse
+  principles and functions. For example, most functions that return
+  information (e.g. geocode) now return tibbles. Web queries are made
+  with httr, which helps alleviate strange download problems that
+  frustrated users in the past. Over time this dependence will likely
+  become stronger.
+* Mikko Korpela (@mvkorpel) has been added as a contributor.  Thanks for
+  your additions, Mikko!
+* Scott M M Jackson (@scottmmjackson) has been added as an author. Scott
+  has been a huge help with maintenance and has some great ideas for the
+  future. Thanks, Scott!
+
+
+
 ggmap 2.7
 -------------------------------------------------------------------------
 
@@ -22,6 +48,7 @@ NEW FEATURES
 
 CHANGES
 
+* has_goog*() functions are now has_google*(); the former are .Deprecated().
 * dplyr is now listed as a dependency (for bind_cols in mutate_geocode).
 * get_stamenmap() now issues a warning if a location parameter is passed
   (#55, thanks @cguwilliams).

@@ -5,31 +5,26 @@
 \title{Grab a trek from Google}
 \usage{
 trek(from, to, mode = c("driving", "walking", "bicycling", "transit"),
-  output = c("simple", "all"), alternatives = FALSE, units = "metric",
-  messaging = FALSE, urlonly = FALSE, override_limit = FALSE,
+  output = c("simple", "all"), alternatives = FALSE,
+  units = "metric", urlonly = FALSE, override_limit = FALSE,
   ext = "com", inject = "", ...)
 }
 \arguments{
-\item{from}{name of origin addresses in a data frame (vector
-accepted)}
+\item{from}{name of origin addresses in a data frame}
 
-\item{to}{name of destination addresses in a data frame (vector
-accepted)}
+\item{to}{name of destination addresses in a data frame}
 
 \item{mode}{driving, bicycling, walking, or transit}
 
-\item{output}{amount of output}
+\item{output}{amount of output ("simple" or "all")}
 
 \item{alternatives}{should more than one route be provided?}
 
 \item{units}{"metric"}
 
-\item{messaging}{turn messaging on/off}
-
 \item{urlonly}{return only the url?}
 
-\item{override_limit}{override the current query count
-(.GoogleRouteQueryCount)}
+\item{override_limit}{override the current query count}
 
 \item{ext}{domain extension (e.g. "com", "co.nz")}
 
@@ -38,23 +33,27 @@ accepted)}
 \item{...}{...}
 }
 \value{
-a data frame (output="simple") or all of the geocoded
-  information (output="all")
+a tibble
 }
 \description{
-Grab a trek from Google that will plot over the roadways. Note
-that in most cases by using this function you are agreeing to the
-Google Maps API Terms of Service at
-https://developers.google.com/maps/terms.
+Sequence treks (latitude-longitude sequences following ordinary paths, e.g.
+roads) between two locations using the Google Directions API. Note: To use
+Google's Directions API, you must first enable the API in the Google Cloud
+Platform Console. See \code{?register_google}.
 }
 \examples{
 
-\dontrun{ # to cut down on check time
+\dontrun{ requires Google API key, see ?register_google
+
+## basic usage
+########################################
 
 from <- "houston, texas"
 to <- "waco, texas"
-route_df <- route(from, to, structure = "route")
-trek_df <- trek(from, to, structure = "route")
+
+(route_df <- route(from, to, structure = "route"))
+(trek_df  <-  trek(from, to, structure = "route"))
+
 qmap("college station, texas", zoom = 8) +
   geom_path(
     aes(x = lon, y = lat),  colour = "red",
@@ -87,19 +86,22 @@ qmplot(lon, lat, data = trek_df, geom = "path", maptype = "terrain",
 )
 
 
+
+## neat faceting example
+########################################
+
 from <- "houston, texas"; to <- "waco, texas"
 trek_df <- trek(from, to, alternatives = TRUE)
-qmplot(lon, lat, data = trek_df, geom = "path",
-  color = route, size = I(2), alpha = I(.5)
-)
 
-
-from <- "los angeles, california"; to <- "new york, new york"
-trek_df <- trek(from, to, alternatives = TRUE)
 qmplot(lon, lat, data = trek_df, geom = "path",
   color = route, size = I(2), maptype = "terrain",
-  zoom = 5
-) + facet_wrap(~ route, ncol = 1)
+  alpha = I(.5)
+)
+
+qmplot(lon, lat, data = trek_df, geom = "path",
+  color = route, size = I(2), maptype = "terrain",
+  zoom = 8
+) + facet_grid(. ~ route)
 
 
 
@@ -109,11 +111,11 @@ qmplot(lon, lat, data = trek_df, geom = "path",
 }
 \seealso{
 \url{https://developers.google.com/maps/documentation/directions/},
-\url{http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads},
-\code{\link{route}}, \code{\link{routeQueryCheck}}
-\code{\link{register_google}}
+  \url{http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads},
+   \code{\link{route}}, \code{\link{routeQueryCheck}}
+  \code{\link{register_google}}
 }
 \author{
-David Kahle \email{david.kahle@gmail.com} with the key
-  decoding algorithm due to stackoverflow user akhmed
+David Kahle \email{david.kahle@gmail.com} with the key decoding
+  algorithm due to Stack Overflow user akhmed
 }

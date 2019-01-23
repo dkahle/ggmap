@@ -2,80 +2,74 @@
 % Please edit documentation in R/get_stamenmap.R
 \name{get_stamenmap}
 \alias{get_stamenmap}
+\alias{get_stamen_tile_download_fail_log}
+\alias{retry_stamen_map_download}
 \title{Get a Stamen Map}
 \usage{
-get_stamenmap(bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313,
-  top = 30.14344), zoom = 10, maptype = c("terrain", "terrain-background",
-  "terrain-labels", "terrain-lines", "toner", "toner-2010", "toner-2011",
-  "toner-background", "toner-hybrid", "toner-labels", "toner-lines",
-  "toner-lite", "watercolor"), crop = TRUE, messaging = FALSE,
-  urlonly = FALSE, color = c("color", "bw"), force = FALSE,
-  where = tempdir(), ...)
+get_stamenmap(bbox = c(left = -95.80204, bottom = 29.38048, right =
+  -94.92313, top = 30.14344), zoom = 10, maptype = c("terrain",
+  "terrain-background", "terrain-labels", "terrain-lines", "toner",
+  "toner-2010", "toner-2011", "toner-background", "toner-hybrid",
+  "toner-labels", "toner-lines", "toner-lite", "watercolor"),
+  crop = TRUE, messaging = FALSE, urlonly = FALSE,
+  color = c("color", "bw"), force = FALSE, where = tempdir(), ...)
+
+get_stamen_tile_download_fail_log()
+
+retry_stamen_map_download()
 }
 \arguments{
-\item{bbox}{a bounding box in the format c(lowerleftlon,
-lowerleftlat, upperrightlon, upperrightlat).}
+\item{bbox}{a bounding box in the format c(lowerleftlon, lowerleftlat,
+upperrightlon, upperrightlat).}
 
 \item{zoom}{a zoom level}
 
-\item{maptype}{terrain, terrain-background, terrain-labels,
-terrain-lines, toner, toner-2010, toner-2011, toner-background,
-toner-hybrid, toner-labels, toner-lines, toner-lite, or
-watercolor.}
+\item{maptype}{terrain, terrain-background, terrain-labels, terrain-lines,
+toner, toner-2010, toner-2011, toner-background, toner-hybrid,
+toner-labels, toner-lines, toner-lite, or watercolor.}
 
-\item{crop}{crop raw map tiles to specified bounding box}
+\item{crop}{crop raw map tiles to specified bounding box. if FALSE, the
+resulting map will more than cover the bounding box specified.}
 
 \item{messaging}{turn messaging on/off}
 
 \item{urlonly}{return url only}
 
-\item{color}{color or black-and-white (use force = TRUE if you've
-already downloaded the images)}
+\item{color}{color or black-and-white (use force = TRUE if you've already
+downloaded the images)}
 
-\item{force}{if the map is on file, should a new map be looked
-up?}
+\item{force}{if the map is on file, should a new map be looked up?}
 
-\item{where}{where should the file drawer be located (without
-terminating "/")}
+\item{where}{where should the file drawer be located (without terminating
+"/")}
 
 \item{...}{...}
 }
 \value{
-a ggmap object (a classed raster object with a bounding
-  box attribute)
+a ggmap object (a classed raster object with a bounding box
+  attribute)
 }
 \description{
 \code{get_stamenmap} accesses a tile server for Stamen Maps and
-downloads/stitches map tiles/formats a map image. Note that
-Stamen maps don't cover the entire world, e.g.
-\url{http://tile.stamen.com/terrain/#4/30.28/-87.21}
+downloads/stitches map tiles/formats a map image. Note that Stamen maps don't
+cover the entire world.
 }
 \examples{
 
-\dontrun{ # to diminish run check time
+\dontrun{ some requires Google API key, see ?register_google; heavy network/time load
 
 
-##### basic usage
+## basic usage
 ########################################
 
-place <- "baylor science building"
-google <- get_googlemap(place, zoom = 15)
-ggmap(google)
+bbox <- c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.559652)
 
-# grab the bounding box
-bbox <- bb2bbox(attr(google, "bb"))
-
-# and pull stamen map tiles
 ggmap(get_stamenmap(bbox, zoom = 13))
 ggmap(get_stamenmap(bbox, zoom = 14))
 ggmap(get_stamenmap(bbox, zoom = 15))
-# ggmap(get_stamenmap(bbox, zoom = 16))
-# ggmap(get_stamenmap(bbox, zoom = 17))
+ggmap(get_stamenmap(bbox, zoom = 16))
 
 
-
-# since mid-2016, stamen's terrain tileset is available for
-# the entire globe
 place <- "mount everest"
 (google <- get_googlemap(place, zoom = 9))
 ggmap(google)
@@ -83,62 +77,67 @@ bbox_everest <- c(left = 86.05, bottom = 27.21, right = 87.81, top = 28.76)
 ggmap(get_stamenmap(bbox_everest, zoom = 9))
 
 
-# note that the osm code may not run due to overloaded
-# servers.
 
-##### maptypes
+## map types
 ########################################
 
 place <- "rio de janeiro"
 google <- get_googlemap(place, zoom = 10)
 ggmap(google)
+
 bbox <- bb2bbox(attr(google, "bb"))
 
+get_stamenmap(bbox, maptype = "terrain")            \%>\% ggmap()
+get_stamenmap(bbox, maptype = "terrain-background") \%>\% ggmap()
+get_stamenmap(bbox, maptype = "terrain-labels")     \%>\% ggmap()
+get_stamenmap(bbox, maptype = "terrain-lines")      \%>\% ggmap()
+get_stamenmap(bbox, maptype = "toner")              \%>\% ggmap()
+get_stamenmap(bbox, maptype = "toner-2010")         \%>\% ggmap()
+get_stamenmap(bbox, maptype = "toner-2011")         \%>\% ggmap()
+get_stamenmap(bbox, maptype = "toner-background")   \%>\% ggmap()
+get_stamenmap(bbox, maptype = "toner-hybrid")       \%>\% ggmap()
+get_stamenmap(bbox, maptype = "toner-labels")       \%>\% ggmap()
+get_stamenmap(bbox, maptype = "toner-lines")        \%>\% ggmap()
+get_stamenmap(bbox, maptype = "toner-lite")         \%>\% ggmap()
+get_stamenmap(bbox, maptype = "watercolor")         \%>\% ggmap()
 
-ggmap(get_stamenmap(bbox, maptype = "terrain"))
-ggmap(get_stamenmap(bbox, maptype = "terrain-background"))
-ggmap(get_stamenmap(bbox, maptype = "terrain-labels"))
-ggmap(get_stamenmap(bbox, maptype = "terrain-lines"))
-ggmap(get_stamenmap(bbox, maptype = "toner"))
-ggmap(get_stamenmap(bbox, maptype = "toner-2010"))
-ggmap(get_stamenmap(bbox, maptype = "toner-2011"))
-ggmap(get_stamenmap(bbox, maptype = "toner-background"))
-ggmap(get_stamenmap(bbox, maptype = "toner-hybrid"))
-ggmap(get_stamenmap(bbox, maptype = "toner-labels"))
-ggmap(get_stamenmap(bbox, maptype = "toner-lines"))
-ggmap(get_stamenmap(bbox, maptype = "toner-lite"))
-ggmap(get_stamenmap(bbox, maptype = "watercolor"))
 
-ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 11), extent = "device")
-ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 12), extent = "device")
-ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 13), extent = "device")
-ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 14), extent = "device")
-ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 15), extent = "device")
-# ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 16), extent = "device")
-# ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 17), extent = "device")
-# ggmap(get_stamenmap(bbox, maptype = "watercolor", zoom = 18), extent = "device")
+## zoom levels
+########################################
 
-stamen <- get_stamenmap(bbox, zoom = 15)
-ggmap(stamen) +
+get_stamenmap(bbox, maptype = "watercolor", zoom = 11) \%>\% ggmap(extent = "device")
+get_stamenmap(bbox, maptype = "watercolor", zoom = 12) \%>\% ggmap(extent = "device")
+get_stamenmap(bbox, maptype = "watercolor", zoom = 13) \%>\% ggmap(extent = "device")
+# get_stamenmap(bbox, maptype = "watercolor", zoom = 14) \%>\% ggmap(extent = "device")
+# get_stamenmap(bbox, maptype = "watercolor", zoom = 15) \%>\% ggmap(extent = "device")
+# get_stamenmap(bbox, maptype = "watercolor", zoom = 16) \%>\% ggmap(extent = "device")
+# get_stamenmap(bbox, maptype = "watercolor", zoom = 17) \%>\% ggmap(extent = "device")
+# get_stamenmap(bbox, maptype = "watercolor", zoom = 18) \%>\% ggmap(extent = "device")
+
+
+## more examples
+########################################
+
+gc <- geocode("rio de janeiro")
+
+get_stamenmap(bbox, zoom = 10) \%>\% ggmap() +
+ geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
+
+get_stamenmap(bbox, zoom = 10, crop = FALSE) \%>\% ggmap() +
   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 
-stamen <- get_stamenmap(bbox, zoom = 15, crop = FALSE)
-ggmap(stamen) +
+get_stamenmap(bbox, zoom = 10, maptype = "watercolor") \%>\% ggmap() +
+  geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
+
+get_stamenmap(bbox, zoom = 10, maptype = "toner") \%>\% ggmap() +
   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 
 
+# continental united states labels
+c("left" = -125, "bottom" = 25.75, "right" = -67, "top" = 49) \%>\%
+  get_stamenmap(zoom = 5, maptype = "toner-labels") \%>\%
+  ggmap()
 
-ggmap(get_stamenmap(bbox, zoom = 15, maptype = "watercolor"))+
-  geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
-
-ggmap(get_stamenmap(bbox, zoom = 15, maptype = "toner"))+
-  geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
-
-
-# here's an interesting example:
-us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
-map <- get_stamenmap(us, zoom = 5, maptype = "toner-labels")
-ggmap(map)
 
 
 
@@ -153,88 +152,28 @@ qmap("the white house", zoom = 16, source = "stamen", maptype = "terrain")  +
 
 
 
+## known issues
+########################################
+
+# in some cases stamen's servers will not return a tile for a given map
+# this tends to happen in high-zoom situations, but it is not always
+# clear why it happens. these tiles will appear as blank parts of the map.
+
+# ggmap provides some tools to try to recover the missing tiles, but the
+# servers seem pretty persistent at not providing the maps.
+
+bbox <- c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.559652)
+ggmap(get_stamenmap(bbox, zoom = 17))
+get_stamen_tile_download_fail_log()
+retry_stamen_map_download()
 
 
-# accuracy check - statue of liberty
-# see https://github.com/dkahle/ggmap/issues/32
-
-gc <- geocode("statue of liberty")
-
-googMapZ10 <- get_googlemap(center = as.numeric(gc))
-bbZ10 <- attr(googMapZ10, "bb")
-stamMapZ10 <- get_stamenmap(bb2bbox(bbZ10))
-
-ggmap(googMapZ10) +
-  geom_point(
-    aes(x = lon, y = lat),
-    data = gc, colour = "red", size = 3
-  )
-
-ggmap(stamMapZ10) +
-  geom_point(
-    aes(x = lon, y = lat),
-    data = gc, colour = "red", size = 3
-)
 
 
-# using a higher zoom
-googMapZ15 <- get_googlemap(center = as.numeric(gc), zoom = 15)
-bbZ15 <- attr(googMapZ15, "bb")
-stamMapZ15 <- get_stamenmap(bb2bbox(bbZ15),
-  zoom = calc_zoom(bb2bbox(bbZ15))
-)
+}
 
-ggmap(googMapZ15) +
-  geom_point(
-    aes(x = lon, y = lat),
-    data = gc, colour = "red", size = 3
-)
-
-ggmap(stamMapZ15) +
-  geom_point(
-    aes(x = lon, y = lat),
-    data = gc, colour = "red", size = 3
-  )
-
-
-# using a lower zoom
-googMapZ5 <- get_googlemap(center = as.numeric(gc), zoom = 4)
-bbZ5 <- attr(googMapZ5, "bb")
-stamMapZ5 <- get_stamenmap(bb2bbox(bbZ5),
-  zoom = calc_zoom(bb2bbox(bbZ5))
-)
-
-ggmap(googMapZ5) +
-  geom_point(
-    aes(x = lon, y = lat),
-    data = gc, colour = "red", size = 3
-  )
-
-ggmap(stamMapZ5) +
-  geom_point(
-    aes(x = lon, y = lat),
-    data = gc, colour = "red", size = 3
-  )
-
-
-stamMapZ5unCropped <- get_stamenmap(bb2bbox(bbZ5),
-  zoom = calc_zoom(bb2bbox(bbZ5)),
-  crop = FALSE)
-
-ggmap(stamMapZ5unCropped) +
-  geom_point(
-    aes(x = lon, y = lat),
-    data = gc, colour = "red", size = 3
-  )
-
-qmap(location = c(lon = -74.0445, lat = 40.68925),
-    zoom = 16, source = "stamen")  +
-  geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)
-
-} # end dontrun
 
 }
 \seealso{
-\url{http://maps.stamen.com/#watercolor},
-  \code{\link{ggmap}}
+\url{http://maps.stamen.com/#watercolor}, \code{\link{ggmap}}
 }

@@ -4,12 +4,13 @@
 \alias{qmplot}
 \title{Quick map plot}
 \usage{
-qmplot(x, y, ..., data, zoom, source = "stamen", maptype = "toner-lite",
-  extent = "device", legend = "right", padding = 0.02, force = FALSE,
-  darken = c(0, "black"), mapcolor = "color", facets = NULL,
-  margins = FALSE, geom = "auto", stat = list(NULL),
-  position = list(NULL), xlim = c(NA, NA), ylim = c(NA, NA),
-  main = NULL, f = 0.05, xlab = "Longitude", ylab = "Latitude")
+qmplot(x, y, ..., data, zoom, source = "stamen",
+  maptype = "toner-lite", extent = "device", legend = "right",
+  padding = 0.02, force = FALSE, darken = c(0, "black"),
+  mapcolor = "color", facets = NULL, margins = FALSE,
+  geom = "auto", stat = list(NULL), position = list(NULL),
+  xlim = c(NA, NA), ylim = c(NA, NA), main = NULL, f = 0.05,
+  xlab = "Longitude", ylab = "Latitude")
 }
 \arguments{
 \item{x}{longitude values}

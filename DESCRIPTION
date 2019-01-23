@@ -1,5 +1,5 @@
 Package: ggmap
-Version: 2.7.900
+Version: 3.0.0
 Title: Spatial Visualization with ggplot2
 Description: A collection of functions to visualize spatial data and models
     on top of static maps from various online sources (e.g Google Maps and Stamen
@@ -8,7 +8,9 @@ Description: A collection of functions to visualize spatial data and models
 URL: https://github.com/dkahle/ggmap
 BugReports: https://github.com/dkahle/ggmap/issues
 Authors@R: c(person("David", "Kahle", email = "david.kahle@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-9999-1558")),
-  person("Hadley", "Wickham", email = "h.wickham@gmail.com", role = "aut", comment = c(ORCID = "0000-0003-4757-117X")))
+  person("Hadley", "Wickham", email = "h.wickham@gmail.com", role = "aut", comment = c(ORCID = "0000-0003-4757-117X")),
+  person("Scott", "Jackson", email = "scottmmjackson@gmail.com", role = "aut"),
+  person("Mikko", "Korpela", email = "mvkorpel@iki.fi", role = "ctb"))
 Depends:
     R (>= 3.1.0),
     ggplot2 (>= 2.2.0)
@@ -22,13 +24,19 @@ Imports:
     scales,
     dplyr,
     bitops,
-    grid
+    grid,
+    glue,
+    httr,
+    stringr,
+    purrr,
+    magrittr,
+    tibble,
+    tidyr
 Suggests:
     MASS,
-    stringr,
     hexbin,
-    tibble,
     testthat
 License: GPL-2
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
+Encoding: UTF-8

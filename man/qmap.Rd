@@ -21,8 +21,7 @@ qmap is a wrapper for \code{\link{ggmap}} and
 }
 \examples{
 
-\dontrun{
-# these examples have been excluded for checking efficiency
+\dontrun{ some requires Google API key; heavy network/time load
 
 location <- "marrs mclean science, waco, texas"
 qmap(location)

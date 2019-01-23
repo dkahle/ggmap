@@ -1,53 +1,49 @@
 #' Get a CloudMade map.
 #'
-#' \code{get_cloudmademap} accesses a tile server for Stamen Maps
-#' and downloads/stitches map tiles/formats a map image. This
-#' function requires an api key which can be obtained for free from
-#' http://cloudmade.com/user/show (defunct?). Thousands of maptypes
-#' ("styles"), including create-your-own options, are available from
-#' http://maps.cloudmade.com/editor (defunct).
+#' \code{get_cloudmademap} accesses a tile server for Stamen Maps and
+#' downloads/stitches map tiles/formats a map image. This function requires an
+#' api key which can be obtained for free from http://cloudmade.com/user/show
+#' (defunct?). Thousands of maptypes ("styles"), including create-your-own
+#' options, are available from http://maps.cloudmade.com/editor (defunct).
 #'
-#' @param bbox a bounding box in the format c(lowerleftlon,
-#'   lowerleftlat, upperrightlon, upperrightlat).
+#' @param bbox a bounding box in the format c(lowerleftlon, lowerleftlat,
+#'   upperrightlon, upperrightlat).
 #' @param zoom a zoom level
-#' @param api_key character string containing cloud made api key,
-#'   see details
-#' @param maptype an integer of what cloud made calls style, see
-#'   details
+#' @param api_key character string containing cloud made api key, see details
+#' @param maptype an integer of what cloud made calls style, see details
 #' @param highres double resolution
 #' @param crop crop raw map tiles to specified bounding box
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
-#' @param filename destination file for download (file extension
-#'   added according to format). Default \code{NULL} means a random
-#'   \code{\link{tempfile}}.
+#' @param filename destination file for download (file extension added according
+#'   to format). Default \code{NULL} means a random \code{\link{tempfile}}.
 #' @param color color or black-and-white
 #' @param ... ...
-#' @return a ggmap object (a classed raster object with a bounding
-#'   box attribute)
+#' @return a ggmap object (a classed raster object with a bounding box
+#'   attribute)
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso http://maps.cloudmade.com/ (defunct),
-#'   \code{\link{ggmap}}
+#' @seealso http://maps.cloudmade.com/ (defunct), \code{\link{ggmap}}
 #' @export
 #' @examples
-#' \dontrun{ # in what follows, enter your own api key
 #'
-#' api_key <- '<your api key here>'
-#' api_key <- 'b23b0358e87c4ff99f81029eda25c903'
 #'
-#' map <- get_cloudmademap(api_key = api_key)
-#' ggmap(map)
+#' #api_key <- '<your api key here>'
+#' #api_key <- 'b23b0358e87c4ff99f81029eda25c903'
 #'
-#' map <- get_cloudmademap(maptype = 997, api_key = api_key)
-#' ggmap(map)
-#' }
+#' #map <- get_cloudmademap(api_key = api_key)
+#' #ggmap(map)
+#'
+#' #map <- get_cloudmademap(maptype = 997, api_key = api_key)
+#' #ggmap(map)
+#'
+#'
 get_cloudmademap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
   zoom = 10, api_key, maptype = 1, highres = TRUE, crop = TRUE, messaging = FALSE,
   urlonly = FALSE, filename = NULL, color = c('color','bw'), ...
 ){
 
-  .Deprecated(msg = "cloudmademap is deprecated.")
+  .Defunct("CloudMade discontinued its static maps service.")
 
   # enumerate argument checking (added in lieu of checkargs function)
   args <- as.list(match.call(expand.dots = TRUE)[-1])
@@ -253,71 +249,71 @@ get_cloudmademap <- function(
 
 
 
-get_cloudmademap_checkargs <- function(args){
-  eargs <- lapply(args, eval)
-  argsgiven <- names(args)
-
-  with(eargs,{
-
-    # bbox arg
-    if('bbox' %in% argsgiven){
-      if(!(is.numeric(bbox) && length(bbox) == 4)){
-        stop('bounding box improperly specified.  see ?get_openstreetmap', call. = F)
-      }
-    }
-
-    # zoom arg
-    if('zoom' %in% argsgiven){
-      if(!(is.numeric(zoom) && length(zoom) == 1 &&
-      zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
-        stop('scale must be a positive integer 0-18, see ?get_stamenmap.', call. = F)
-      }
-    }
-
-    # maptype arg
-    if('maptype' %in% argsgiven){
-      if(!(is.numeric(maptype) && length(maptype) == 1 &&
-          maptype == round(maptype) && maptype > 0)){
-        stop('maptype must be a positive integer, see ?get_cloudmademap.', call.=F)
-      }
-    }
-
-    # api_key arg
-    if('api_key' %in% argsgiven){
-      if(!(is.character(api_key) && length(api_key) == 1)){
-        stop('api_key improperly specified, see ?get_cloudmademap.', call.=F)
-      }
-    } else {
-      stop('api_key must be specified, see ?get_cloudmademap.')
-    }
-
-    # highres arg
-    if('highres' %in% argsgiven){
-      stopifnot(is.logical(highres))
-    }
-
-    # messaging arg
-    if('messaging' %in% argsgiven){
-      stopifnot(is.logical(messaging))
-    }
-
-    # urlonly arg
-    if('urlonly' %in% argsgiven){
-      stopifnot(is.logical(urlonly))
-    }
-
-    # filename arg
-    if('filename' %in% argsgiven){
-      filename_stop <- TRUE
-      if(is.character(filename) && length(filename) == 1) style_stop <- FALSE
-      if(filename_stop) stop('improper filename specification, see ?get_googlemap.', call. = F)
-    }
-
-    # color arg checked by match.arg
-
-
-  }) # end with
-}
-
-
-
+# get_cloudmademap_checkargs <- function(args){
+#   eargs <- lapply(args, eval)
+#   argsgiven <- names(args)
+#
+#   with(eargs,{
+#
+#     # bbox arg
+#     if('bbox' %in% argsgiven){
+#       if(!(is.numeric(bbox) && length(bbox) == 4)){
+#         stop('bounding box improperly specified.  see ?get_openstreetmap', call. = F)
+#       }
+#     }
+#
+#     # zoom arg
+#     if('zoom' %in% argsgiven){
+#       if(!(is.numeric(zoom) && length(zoom) == 1 &&
+#       zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
+#         stop('scale must be a positive integer 0-18, see ?get_stamenmap.', call. = F)
+#       }
+#     }
+#
+#     # maptype arg
+#     if('maptype' %in% argsgiven){
+#       if(!(is.numeric(maptype) && length(maptype) == 1 &&
+#           maptype == round(maptype) && maptype > 0)){
+#         stop('maptype must be a positive integer, see ?get_cloudmademap.', call.=F)
+#       }
+#     }
+#
+#     # api_key arg
+#     if('api_key' %in% argsgiven){
+#       if(!(is.character(api_key) && length(api_key) == 1)){
+#         stop('api_key improperly specified, see ?get_cloudmademap.', call.=F)
+#       }
+#     } else {
+#       stop('api_key must be specified, see ?get_cloudmademap.')
+#     }
+#
+#     # highres arg
+#     if('highres' %in% argsgiven){
+#       stopifnot(is.logical(highres))
+#     }
+#
+#     # messaging arg
+#     if('messaging' %in% argsgiven){
+#       stopifnot(is.logical(messaging))
+#     }
+#
+#     # urlonly arg
+#     if('urlonly' %in% argsgiven){
+#       stopifnot(is.logical(urlonly))
+#     }
+#
+#     # filename arg
+#     if('filename' %in% argsgiven){
+#       filename_stop <- TRUE
+#       if(is.character(filename) && length(filename) == 1) style_stop <- FALSE
+#       if(filename_stop) stop('improper filename specification, see ?get_googlemap.', call. = F)
+#     }
+#
+#     # color arg checked by match.arg
+#
+#
+#   }) # end with
+# }
+#
+#
+#
