@@ -39,11 +39,13 @@
   )
 
 
-  new.env(parent = emptyenv())
-
 }
 
 
+
+
+
+ggmap_environment <- new.env(parent = emptyenv())
 
 
 

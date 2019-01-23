@@ -5,8 +5,8 @@
 \title{Reverse geocode}
 \usage{
 revgeocode(location, output = c("address", "all"), force = FALSE,
-  messaging = FALSE, urlonly = FALSE, override_limit = FALSE,
-  ext = "com", inject = "", ...)
+  urlonly = FALSE, override_limit = FALSE, ext = "com",
+  inject = "", ...)
 }
 \arguments{
 \item{location}{a location in longitude/latitude format}
@@ -14,8 +14,6 @@ revgeocode(location, output = c("address", "all"), force = FALSE,
 \item{output}{"address" or "all"}
 
 \item{force}{force online query, even if cached (previously downloaded)}
-
-\item{messaging}{turn messaging on/off}
 
 \item{urlonly}{return only the url?}
 

@@ -40,7 +40,7 @@ and appended to the query)}
 
 \item{...}{...}
 
-\item{messaging}{turn messaging on/off (no longer used, deprecated)}
+\item{data}{a data frame or equivalent}
 }
 \value{
 If \code{output} is "latlon", "latlona", or "more", a tibble (classed

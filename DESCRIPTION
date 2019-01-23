@@ -28,11 +28,12 @@ Imports:
     glue,
     httr,
     stringr,
-    purrr
+    purrr,
+    magrittr,
+    tibble
 Suggests:
     MASS,
     hexbin,
-    tibble,
     testthat
 License: GPL-2
 LazyData: true

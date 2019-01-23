@@ -9,7 +9,6 @@
 #' @param output amount of output, "latlon", "latlona", "more", or "all"
 #' @param source "google" for Google (note: "dsk" is defunct)
 #' @param force force online query, even if cached (previously downloaded)
-#' @param messaging turn messaging on/off (no longer used, deprecated)
 #' @param urlonly return only the url?
 #' @param override_limit override the current query rate
 #' @param nameType in some cases, Google returns both a long name and a short
@@ -18,6 +17,7 @@
 #' @param inject character string to add to the url or named character vector of
 #'   key-value pairs to be injected (e.g. c("a" = "b") get converted to "a=b"
 #'   and appended to the query)
+#' @param data a data frame or equivalent
 #' @param ... ...
 #' @return If \code{output} is "latlon", "latlona", or "more", a tibble (classed
 #'   data frame). If "all", a list.
@@ -190,7 +190,7 @@ geocode <- function (
   # lookup info if on file
   if (location_is_cached(url_hash) && force == FALSE) {
 
-    gc <- get(".geocode_cache", envir = .GlobalEnv)[[url_hash]]
+    gc <- geocode_cache()[[url_hash]]
 
   } else {
 
@@ -338,9 +338,9 @@ mutate_geocode <- function (data, location, ...){
 
 throttle_google_geocode_query_rate <- function (url_hash, queries_sought, override) {
 
-  if (exists(".google_geocode_query_times", .GlobalEnv)) {
+  if (exists(".google_geocode_query_times", ggmap_environment)) {
 
-    .google_geocode_query_times <- get(".google_geocode_query_times", envir = .GlobalEnv)
+    .google_geocode_query_times <- get(".google_geocode_query_times", envir = ggmap_environment)
 
     queries_used_in_last_second <- with(.google_geocode_query_times, sum(elements[time >= Sys.time() - 1L]))
 
@@ -349,12 +349,12 @@ throttle_google_geocode_query_rate <- function (url_hash, queries_sought, overri
     assign(
       ".google_geocode_query_times",
       bind_rows(.google_geocode_query_times, tibble("time" = Sys.time(), "url" = url_hash, "elements" = queries_sought)),
-      envir = .GlobalEnv
+      envir = ggmap_environment
     )
 
   } else {
 
-    assign(".google_geocode_query_times", tibble("time" = Sys.time(), "url" = url_hash, "elements" = queries_sought), envir = .GlobalEnv)
+    assign(".google_geocode_query_times", tibble("time" = Sys.time(), "url" = url_hash, "elements" = queries_sought), envir = ggmap_environment)
 
   }
 
@@ -376,10 +376,11 @@ throttle_google_geocode_query_rate <- function (url_hash, queries_sought, overri
 geocodeQueryCheck <- function () {
 
   .Deprecated(msg = "As of mid-2018, Google no longer has daily query limits.")
+  elements <- NA; rm(elements)
 
-  if (exists(".google_geocode_query_times", .GlobalEnv)) {
+  if (exists(".google_geocode_query_times", ggmap_environment)) {
 
-    .google_geocode_query_times <- get(".google_geocode_query_times", .GlobalEnv)
+    .google_geocode_query_times <- get(".google_geocode_query_times", ggmap_environment)
 
     google_geocode_queries_in_last_24hrs <-
       .google_geocode_query_times %>%
@@ -405,18 +406,22 @@ geocodeQueryCheck <- function () {
 
 
 
+geocode_cache <- function () get(".geocode_cache", envir = ggmap_environment)
+
+
+
+
+
 
 
 cache_geocoded_info <- function (url_hash, data) {
 
-  if (!exists(".geocode_cache", envir = .GlobalEnv)) assign(".geocode_cache", list(), .GlobalEnv)
-
-  geocoded_db <- get(".geocode_cache", envir = .GlobalEnv)
+  if (!exists(".geocode_cache", envir = ggmap_environment)) assign(".geocode_cache", list(), ggmap_environment)
 
   assign(
     ".geocode_cache",
-    c(geocoded_db, structure(list(data), names = url_hash)),
-    envir = .GlobalEnv
+    c(geocode_cache(), structure(list(data), names = url_hash)),
+    envir = ggmap_environment
   )
 
   invisible()
@@ -431,8 +436,8 @@ cache_geocoded_info <- function (url_hash, data) {
 
 
 location_is_cached <- function (url_hash) {
-  if (!exists(".geocode_cache", envir = .GlobalEnv)) return(FALSE)
-  if (url_hash %notin% names(get(".geocode_cache", envir = .GlobalEnv))) return(FALSE)
+  if (!exists(".geocode_cache", envir = ggmap_environment)) return(FALSE)
+  if (url_hash %notin% names(geocode_cache())) return(FALSE)
   TRUE
 }
 

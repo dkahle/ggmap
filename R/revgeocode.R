@@ -8,7 +8,6 @@
 #' @param location a location in longitude/latitude format
 #' @param output "address" or "all"
 #' @param force force online query, even if cached (previously downloaded)
-#' @param messaging turn messaging on/off
 #' @param urlonly return only the url?
 #' @param override_limit override the current query rate
 #' @param ext domain extension (e.g. "com", "co.nz")
@@ -35,7 +34,6 @@ revgeocode <- function (
   location,
   output = c("address","all"),
   force = FALSE,
-  messaging = FALSE,
   urlonly = FALSE,
   override_limit = FALSE,
   ext = "com",
@@ -47,7 +45,6 @@ revgeocode <- function (
   # check parameters
   stopifnot(is.numeric(location) && length(location) == 2)
   output <- match.arg(output)
-  stopifnot(is.logical(messaging))
   stopifnot(is.logical(override_limit))
 
   if (!has_google_key() && !urlonly) stop("Google now requires an API key.", "\n       See ?register_google for details.", call. = FALSE)
@@ -95,7 +92,7 @@ revgeocode <- function (
   # lookup info if on file
   if (location_is_cached(url_hash) && force == FALSE) {
 
-    gc <- get(".geocode_cache", envir = .GlobalEnv)[[url_hash]]
+    gc <- geocode_cache()[[url_hash]]
 
   } else {
 

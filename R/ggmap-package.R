@@ -21,5 +21,6 @@
 #' @importFrom stringr str_to_title str_c str_detect str_c str_replace_all
 #'   str_sub str_trim str_pad
 #' @importFrom purrr map map_chr walk
+#' @importFrom magrittr %>%
 #' @aliases ggmap package-ggmap
 NULL
