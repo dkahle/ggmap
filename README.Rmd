@@ -10,7 +10,8 @@ output:
 knitr::opts_chunk$set(
   collapse = TRUE, cache = TRUE,
   comment = "# ",
-  fig.path = "tools/README-"
+  fig.path = "tools/README-",
+  dpi = 70
 )
 ```
 
@@ -112,8 +113,10 @@ get_googlemap("waco texas", zoom = 12) %>% ggmap()
 ```
 
 Moreover, you can get various different styles of Google Maps with __ggmap__ (just like Stamen Maps):
-```{r google_styles}
+```{r google_styles, eval = FALSE}
 get_googlemap("waco texas", zoom = 12, maptype = "satellite") %>% ggmap()
+get_googlemap("waco texas", zoom = 12, maptype = "hybrid") %>% ggmap()
+get_googlemap("waco texas", zoom = 12, maptype = "roadmap") %>% ggmap()
 ```
 
 Google's geocoding and reverse geocoding API's are available through `geocode()` and `revgeocode()`, respectively:
@@ -124,8 +127,8 @@ revgeocode(c(lon = -97.1161, lat = 31.55098))
 
 There is also a `mutate_geocode()` that works similarly to [__dplyr__](https://github.com/hadley/dplyr)'s `mutate()` function:
 ```{r mutate_geocode, messages = FALSE}
-df <- tibble(address = c("white house", "", "waco texas"))
-df %>% mutate_geocode(address)
+tibble(address = c("white house", "", "waco texas")) %>% 
+  mutate_geocode(address)
 ```
 
 

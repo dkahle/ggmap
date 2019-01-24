@@ -167,11 +167,9 @@ Moreover, you can get various different styles of Google Maps with
 
 ``` r
 get_googlemap("waco texas", zoom = 12, maptype = "satellite") %>% ggmap()
-#  Source : https://maps.googleapis.com/maps/api/staticmap?center=waco%20texas&zoom=12&size=640x640&scale=2&maptype=satellite&key=xxx
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx
+get_googlemap("waco texas", zoom = 12, maptype = "hybrid") %>% ggmap()
+get_googlemap("waco texas", zoom = 12, maptype = "roadmap") %>% ggmap()
 ```
-
-![](tools/README-google_styles-1.png)
 
 Google’s geocoding and reverse geocoding API’s are available through
 `geocode()` and `revgeocode()`, respectively:
@@ -201,8 +199,8 @@ There is also a `mutate_geocode()` that works similarly to
 [**dplyr**](https://github.com/hadley/dplyr)’s `mutate()` function:
 
 ``` r
-df <- tibble(address = c("white house", "", "waco texas"))
-df %>% mutate_geocode(address)
+tibble(address = c("white house", "", "waco texas")) %>% 
+  mutate_geocode(address)
 #  Source : https://maps.googleapis.com/maps/api/geocode/json?address=white+house&key=xxx
 #  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx
 #  # A tibble: 3 x 3
