@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
   collapse = TRUE, cache = TRUE,
   comment = "# ",
   fig.path = "tools/README-",
-  dpi = 70
+  dpi = 68
 )
 ```
 
@@ -45,9 +45,7 @@ __ggmap__ is an R package that makes it easy to retrieve raster map tiles from p
 library("ggmap")
 
 us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
-map <- get_stamenmap(us, zoom = 5, maptype = "toner-lite")
-ggmap(map)
-ggmap(map, extent = "device")
+get_stamenmap(us, zoom = 5, maptype = "toner-lite") %>% ggmap() 
 ```
 
 Use `qmplot()` in the same way you'd use `qplot()`, but with a map automatically added in the background:

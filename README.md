@@ -75,17 +75,10 @@ and [Stamen Maps](http://maps.stamen.com) and plot them using the
 library("ggmap")
 
 us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
-map <- get_stamenmap(us, zoom = 5, maptype = "toner-lite")
-ggmap(map)
+get_stamenmap(us, zoom = 5, maptype = "toner-lite") %>% ggmap() 
 ```
 
 ![](tools/README-maptypes-1.png)
-
-``` r
-ggmap(map, extent = "device")
-```
-
-![](tools/README-maptypes-2.png)
 
 Use `qmplot()` in the same way you’d use `qplot()`, but with a map
 automatically added in the background:
