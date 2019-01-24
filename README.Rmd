@@ -38,7 +38,7 @@ The details of the readme below will be changed shortly to reflect these changes
 
 # ggmap
 
-__ggmap__ is an R package that makes it easy to retrieve raster map tiles from popular online mapping services like [Google Maps](https://developers.google.com/maps/documentation/static-maps/?hl=en), [OpenStreetMap](https://www.openstreetmap.org) and [Stamen Maps](http://maps.stamen.com) and plot them using the [__ggplot2__](https://github.com/tidyverse/ggplot2) framework:
+__ggmap__ is an R package that makes it easy to retrieve raster map tiles from popular online mapping services like [Google Maps](https://developers.google.com/maps/documentation/static-maps/?hl=en) and [Stamen Maps](http://maps.stamen.com) and plot them using the [__ggplot2__](https://github.com/tidyverse/ggplot2) framework:
 
 ```{r maptypes, message = FALSE}
 library("ggmap")
@@ -67,9 +67,7 @@ violent_crimes <- crime %>%
   ) %>% 
   mutate(
     offense = fct_drop(offense),
-    offense = fct_relevel(offense, 
-      c("robbery", "aggravated assault", "rape", "murder")
-    )
+    offense = fct_relevel(offense, c("robbery", "aggravated assault", "rape", "murder"))
   )
 
 # use qmplot to make a scatterplot on a map
@@ -78,7 +76,7 @@ qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", color = I("red")
 
 All the __ggplot2__ geom's are available.  For example, you can make a contour plot with `geom = "density2d"`:
 
-```{r qmplot2}
+```{r qmplot2, eval=FALSE}
 qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", geom = "density2d", color = I("red"))
 ```
 

@@ -67,9 +67,8 @@ ggmap
 
 **ggmap** is an R package that makes it easy to retrieve raster map
 tiles from popular online mapping services like [Google
-Maps](https://developers.google.com/maps/documentation/static-maps/?hl=en),
-[OpenStreetMap](https://www.openstreetmap.org) and [Stamen
-Maps](http://maps.stamen.com) and plot them using the
+Maps](https://developers.google.com/maps/documentation/static-maps/?hl=en)
+and [Stamen Maps](http://maps.stamen.com) and plot them using the
 [**ggplot2**](https://github.com/tidyverse/ggplot2) framework:
 
 ``` r
@@ -107,9 +106,7 @@ violent_crimes <- crime %>%
   ) %>% 
   mutate(
     offense = fct_drop(offense),
-    offense = fct_relevel(offense, 
-      c("robbery", "aggravated assault", "rape", "murder")
-    )
+    offense = fct_relevel(offense, c("robbery", "aggravated assault", "rape", "murder"))
   )
 
 # use qmplot to make a scatterplot on a map
@@ -123,10 +120,7 @@ contour plot with `geom = "density2d"`:
 
 ``` r
 qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", geom = "density2d", color = I("red"))
-#  Using zoom = 14...
 ```
-
-![](tools/README-qmplot2-1.png)
 
 In fact, since **ggmap**’s built on top of **ggplot2**, all your usual
 **ggplot2** stuff (geoms, polishing, etc.) will work, and there are some

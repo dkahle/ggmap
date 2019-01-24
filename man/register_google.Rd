@@ -132,10 +132,10 @@ for details.
 \examples{
 
 # this sets your google map for this session
-register_google(key = "[your key]")
+# register_google(key = "[your key]")
 
 # this sets your google map permanently
-register_google(key = "[your key]", write = TRUE)
+# register_google(key = "[your key]", write = TRUE)
 
 has_google_key()
 google_key()
