@@ -12,23 +12,28 @@
 #' and then tell R about the user's setup.
 #'
 #' To obtain an API key and enable services, go to
-#' \url{https://cloud.google.com/maps-platform/}.
+#' \url{https://cloud.google.com/maps-platform/}. This documentation shows you
+#' how to input the requisite information (e.g. your API key) into R, and it
+#' also shows you a few tools that can help you work with the credentialing.
 #'
-#' This documentation shows you how to input the requisite information (e.g.
-#' your API key) into R, and it also shows you a few tools that can help you
-#' work with the credentialing. Note that you will need to register the key at
-#' the beginning of the R session in which you're using ggmap - restarting R
-#' will require re-registering the key.
+#' To tell ggmap about your API key, use the \code{register_google()} function,
+#' e.g. \code{register_google(key = "mQkzTpiaLYjPqXQBotesgif3EfGL2dbrNVOrogg")}
+#' (that's a fake key). This will set your API key for the current session, but
+#' if you restart R, you'll need to do it again. You can set it permanently by
+#' setting \code{write = TRUE}, see the examples. If you set it permanently it
+#' will be stored in your .Renviron file, and that will be accessed by ggmap
+#' persistently across sessions.
 #'
 #' Users should be aware that the API key, a string of jarbled
 #' characters/numbers/symbols, is a PRIVATE key - it uniquely identifies and
 #' authenticates you to Google's services. If anyone gets your API key, they can
-#' use it to masquerade as you to Google and use services that you have enabled.
-#' Since Google requires a valid credit card to use its online cloud services,
-#' this also means that anyone who obtains your key can, in theory, make charges
-#' to your card in the form of Google services. So be sure to not share your API
-#' key. To mitigate against users inadvertantly sharing their keys, by default
-#' ggmap never displays a user's key in messages displayed to the console.
+#' use it to masquerade as you to Google and potentially use services that you
+#' have enabled. Since Google requires a valid credit card to use its online
+#' cloud services, this also means that anyone who obtains your key can
+#' potentially make charges to your card in the form of Google services. So be
+#' sure to not share your API key. To mitigate against users inadvertantly
+#' sharing their keys, by default ggmap never displays a user's key in messages
+#' displayed to the console.
 #'
 #' Users should also be aware that ggmap has no mechanism with which to
 #' safeguard the private key once registered with R. That is to say, once you
@@ -56,17 +61,23 @@
 #'   argument
 #' @param with a string to replace
 #' @param x a google credentials class object
+#' @param write if TRUE, stores the secrets provided in the .Renviron file
 #' @param ... a dumped formal argument to the generic print method
 #' @return NULL
 #' @name register_google
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @seealso \url{https://cloud.google.com/maps-platform/},
 #'   \url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
+#'
 #'   \url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
+#'
 #' @examples
 #'
+#' # this sets your google map for this session
+#' register_google(key = "[your key]")
 #'
-#' register_google(key = "[your key here]")
+#' # this sets your google map permanently
+#' register_google(key = "[your key]", write = TRUE)
 #'
 #' has_google_key()
 #' google_key()
@@ -125,27 +136,157 @@ scrub_key <- function (string, with = "xxx") {
 
 #' @rdname register_google
 #' @export
-register_google <- function (key, account_type, client, signature, second_limit, day_limit) {
+register_google <- function (key, account_type, client, signature, second_limit, day_limit, write = FALSE) {
+
 
   # get current options
   options <- getOption("ggmap")
 
+
   # check for client/sig specs
-  if (!missing(client) &&  missing(signature) ) stop("if client is specified, signature must be also.")
-  if ( missing(client) && !missing(signature) ) stop("if signature is specified, client must be also.")
+  # if (!missing(client) &&  missing(signature) ) stop("if client is specified, signature must be also.")
+  # if ( missing(client) && !missing(signature) ) stop("if signature is specified, client must be also.")
   if (!missing(client) && !missing(signature) ) {
     if (google_account() == "standard" && missing(account_type)) {
       stop("if providing client and signature, the account type must be premium.")
     }
   }
 
+
+  # deal with api key
+  if (!missing(key) && write) {
+
+    # grab .Renviron file path
+    environ_file <- file.path(Sys.getenv("HOME"), ".Renviron")
+
+    # create .Renviron file if it does not exist
+    if(!file.exists(file.path(Sys.getenv("HOME"), ".Renviron"))) {
+      message(glue('Creating file {environ_file}'))
+      file.create(environ_file)
+    }
+
+    # read in lines
+    environ_lines <- readLines(environ_file)
+
+    # if no key present, add; otherwise replace old one
+    if (!any(str_detect(environ_lines, "GGMAP_GOOGLE_API_KEY="))) {
+
+      message(glue('Adding key to {environ_file}'))
+      environ_lines <- c(environ_lines, glue("GGMAP_GOOGLE_API_KEY={key}"))
+      writeLines(environ_lines, environ_file)
+
+    } else {
+
+      key_line_index <- which(str_detect(environ_lines, "GGMAP_GOOGLE_API_KEY="))
+      old_key <- str_extract(environ_lines[key_line_index], "(?<=GGMAP_GOOGLE_API_KEY=)\\w+")
+      message(glue('Replacing old key ({old_key}) with new key in {environ_file}'))
+      environ_lines[key_line_index] <- glue("GGMAP_GOOGLE_API_KEY={key}")
+      writeLines(environ_lines, environ_file)
+
+    }
+
+    # set key in current session
+    Sys.setenv("GGMAP_GOOGLE_API_KEY" = key)
+
+  } else if (!missing(key) && !write) {
+
+    # set key in current session
+    Sys.setenv("GGMAP_GOOGLE_API_KEY" = key)
+
+  }
+
+
+  # deal with client
+  if (!missing(client) && write) {
+
+    # grab .Renviron file path
+    environ_file <- file.path(Sys.getenv("HOME"), ".Renviron")
+
+    # create .Renviron file if it does not exist
+    if(!file.exists(file.path(Sys.getenv("HOME"), ".Renviron"))) {
+      message(glue('Creating file {environ_file}'))
+      file.create(environ_file)
+    }
+
+    # read in lines
+    environ_lines <- readLines(environ_file)
+
+    # if no client present, add; otherwise replace old one
+    if (!any(str_detect(environ_lines, "GGMAP_GOOGLE_CLIENT="))) {
+
+      message(glue('Adding client to {environ_file}'))
+      environ_lines <- c(environ_lines, glue("GGMAP_GOOGLE_CLIENT={client}"))
+      writeLines(environ_lines, environ_file)
+
+    } else {
+
+      client_line_index <- which(str_detect(environ_lines, "GGMAP_GOOGLE_CLIENT="))
+      old_client <- str_extract(environ_lines[client_line_index], "(?<=GGMAP_GOOGLE_CLIENT=)\\w+")
+      message(glue('Replacing old client ({old_client}) with new client in {environ_file}'))
+      environ_lines[client_line_index] <- glue("GGMAP_GOOGLE_CLIENT={client}")
+      writeLines(environ_lines, environ_file)
+
+    }
+
+    # set client in current session
+    Sys.setenv("GGMAP_GOOGLE_CLIENT" = client)
+
+  } else if (!missing(client) && !write) {
+
+    # set client in current session
+    Sys.setenv("GGMAP_GOOGLE_CLIENT" = client)
+
+  }
+
+
+  # deal with signature
+  if (!missing(signature) && write) {
+
+    # grab .Renviron file path
+    environ_file <- file.path(Sys.getenv("HOME"), ".Renviron")
+
+    # create .Renviron file if it does not exist
+    if(!file.exists(file.path(Sys.getenv("HOME"), ".Renviron"))) {
+      message(glue('Creating file {environ_file}'))
+      file.create(environ_file)
+    }
+
+    # read in lines
+    environ_lines <- readLines(environ_file)
+
+    # if no signature present, add; otherwise replace old one
+    if (!any(str_detect(environ_lines, "GGMAP_GOOGLE_SIGNATURE="))) {
+
+      message(glue('Adding signature to {environ_file}'))
+      environ_lines <- c(environ_lines, glue("GGMAP_GOOGLE_SIGNATURE={signature}"))
+      writeLines(environ_lines, environ_file)
+
+    } else {
+
+      signature_line_index <- which(str_detect(environ_lines, "GGMAP_GOOGLE_SIGNATURE="))
+      old_signature <- str_extract(environ_lines[signature_line_index], "(?<=GGMAP_GOOGLE_SIGNATURE=)\\w+")
+      message(glue('Replacing old signature ({old_signature}) with new signature in {environ_file}'))
+      environ_lines[signature_line_index] <- glue("GGMAP_GOOGLE_SIGNATURE={signature}")
+      writeLines(environ_lines, environ_file)
+
+    }
+
+    # set signature in current session
+    Sys.setenv("GGMAP_GOOGLE_SIGNATURE" = signature)
+
+  } else if (!missing(signature) && !write) {
+
+    # set signature in current session
+    Sys.setenv("GGMAP_GOOGLE_SIGNATURE" = signature)
+
+  }
+
+
+
   # construct new ones
-  if(!missing(key)) Sys.setenv("ggmap_google_api_key" = key)  # options$google$key <- key
   if(!missing(account_type)) options$google$account_type <- account_type
   if(!missing(day_limit)) options$google$day_limit <- day_limit
   if(!missing(second_limit)) options$google$second_limit <- second_limit
-  if(!missing(client)) Sys.setenv("ggmap_google_client" = client) # options$google$client <- client
-  if(!missing(signature)) Sys.setenv("ggmap_google_signature" = signature) # options$google$signature <- signature
 
   # set premium defaults
   if (!missing(account_type) && account_type == "premium") {
@@ -190,7 +331,7 @@ print.google_credentials <- function (x, ...) {
 #' @export
 google_key <- function () {
 
-  key <- Sys.getenv("ggmap_google_api_key")
+  key <- Sys.getenv("GGMAP_GOOGLE_API_KEY")
 
   if (key == "") {
     return(NA_character_)
@@ -234,7 +375,7 @@ google_account <- function () getOption("ggmap")$google$account_type
 #' @export
 google_client <- function () {
 
-  client <- Sys.getenv("ggmap_google_client")
+  client <- Sys.getenv("GGMAP_GOOGLE_CLIENT")
 
   if (client == "") {
     return(NA_character_)
@@ -257,7 +398,7 @@ has_google_client <- function () !is.na(google_client())
 #' @export
 google_signature <- function () {
 
-  signature <- Sys.getenv("ggmap_google_signature")
+  signature <- Sys.getenv("GGMAP_GOOGLE_SIGNATURE")
 
   if (signature == "") {
     return(NA_character_)

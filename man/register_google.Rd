@@ -28,7 +28,7 @@ ggmap_hide_api_key()
 scrub_key(string, with = "xxx")
 
 register_google(key, account_type, client, signature, second_limit,
-  day_limit)
+  day_limit, write = FALSE)
 
 \method{print}{google_credentials}(x, ...)
 
@@ -72,6 +72,8 @@ argument}
 \item{day_limit}{query limit per day (default 2500 for standard accounts,
 100000 for premium accounts)}
 
+\item{write}{if TRUE, stores the secrets provided in the .Renviron file}
+
 \item{x}{a google credentials class object}
 
 \item{...}{a dumped formal argument to the generic print method}
@@ -90,23 +92,29 @@ since the user has to setup an account with Google, enable the relevant APIs,
 and then tell R about the user's setup.
 
 To obtain an API key and enable services, go to
-\url{https://cloud.google.com/maps-platform/}.
+\url{https://cloud.google.com/maps-platform/}. This documentation shows you
+how to input the requisite information (e.g. your API key) into R, and it
+also shows you a few tools that can help you work with the credentialing.
 
-This documentation shows you how to input the requisite information (e.g.
-your API key) into R, and it also shows you a few tools that can help you
-work with the credentialing. Note that you will need to register the key at
-the beginning of the R session in which you're using ggmap - restarting R
-will require re-registering the key.
+To tell ggmap about your API key, use the \code{register_google()} function,
+e.g. \code{register_google("key" =
+"mQkzTpiaLYjPqXQBotesgif3EfGL2dbrNVOrogg")} (that's a fake key). This will
+set your API key for the current session, but if you restart R, you'll need
+to do it again. You can set it permanently by setting \code{write = TRUE},
+see the examples. If you set it permanently it will be stored in your
+.Renviron file, and that will be accessed by ggmap persistently across
+sessions.
 
 Users should be aware that the API key, a string of jarbled
 characters/numbers/symbols, is a PRIVATE key - it uniquely identifies and
 authenticates you to Google's services. If anyone gets your API key, they can
-use it to masquerade as you to Google and use services that you have enabled.
-Since Google requires a valid credit card to use its online cloud services,
-this also means that anyone who obtains your key can, in theory, make charges
-to your card in the form of Google services. So be sure to not share your API
-key. To mitigate against users inadvertantly sharing their keys, by default
-ggmap never displays a user's key in messages displayed to the console.
+use it to masquerade as you to Google and potentially use services that you
+have enabled. Since Google requires a valid credit card to use its online
+cloud services, this also means that anyone who obtains your key can
+potentially make charges to your card in the form of Google services. So be
+sure to not share your API key. To mitigate against users inadvertantly
+sharing their keys, by default ggmap never displays a user's key in messages
+displayed to the console.
 
 Users should also be aware that ggmap has no mechanism with which to
 safeguard the private key once registered with R. That is to say, once you
@@ -124,8 +132,11 @@ for details.
 }
 \examples{
 
-
+# this sets your google map for this session
 register_google(key = "[your key here]")
+
+# this sets your google map permanently
+register_google(key = "[your key here]", write = TRUE)
 
 has_google_key()
 google_key()
@@ -147,6 +158,10 @@ scrub_key("client=a_5sS&signature=d_5iD")
 \seealso{
 \url{https://cloud.google.com/maps-platform/},
   \url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
+
+
+
+
   \url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
 }
 \author{

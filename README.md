@@ -34,22 +34,20 @@ user’s perspective, there are essentially three ramifications of this:
 3.  Inside R, after loading the new version of **ggmap**, you’ll need
     provide **ggmap** with your API key, a [hash
     value](https://en.wikipedia.org/wiki/Hash_function) (think string of
-    jibberish) that authenticates you to Google’s servers. You’ll need
-    to load that once per session. Your API key is *private* and unique
-    to you, so be careful not to share it online, for example in a
-    GitHub issue or saving it in a shared R script file. If you share it
-    inadvertantly, just get on Google’s website and regenerate your
-    key - this will retire the old one. Keeping your key private is made
-    a bit easier by **ggmap** scrubbing the key out of queries by
-    default, so when URLs are shown in your console, they’ll look
-    something like `key=xxx`. (Read the details section of the
-    `register_google()` documentation for a bit more info on this
-    point.)
+    jibberish) that authenticates you to Google’s servers. This can be
+    done on a temporary basis with `register_google(key = "[your key]")`
+    or permanently using
+    `register_google(key = "[your key]", write = TRUE)`. If you use the
+    former, know that you’ll need to re-do it every time you reset R.
 
-Once you’ve done 1. and 2. above, all you’ll need to do is load
-**ggmap** with `library("ggmap")` and then register your key (if you’re
-using a Google service, which you probably are) with
-`register_google(key = "your-key")`.
+Your API key is *private* and unique to you, so be careful not to share
+it online, for example in a GitHub issue or saving it in a shared R
+script file. If you share it inadvertantly, just get on Google’s website
+and regenerate your key - this will retire the old one. Keeping your key
+private is made a bit easier by **ggmap** scrubbing the key out of
+queries by default, so when URLs are shown in your console, they’ll look
+something like `key=xxx`. (Read the details section of the
+`register_google()` documentation for a bit more info on this point.)
 
 We hope the new version of **ggmap** will be on CRAN soon, but until
 then you can install the version here with:
@@ -138,7 +136,7 @@ unique graphing perks **ggmap** brings to the table, too.
 robberies <- violent_crimes %>% filter(offense == "robbery")
 
 qmplot(lon, lat, data = violent_crimes, geom = "blank", 
-  zoom = 15, maptype = "toner-background", darken = .7, legend = "topleft"
+  zoom = 14, maptype = "toner-background", darken = .7, legend = "topleft"
 ) +
   stat_density_2d(aes(fill = ..level..), geom = "polygon", alpha = .3, color = NA) +
   scale_fill_gradient2("Robbery\nPropensity", low = "white", mid = "yellow", high = "red", midpoint = 650)
@@ -155,21 +153,6 @@ qmplot(lon, lat, data = violent_crimes, maptype = "toner-background", color = of
 
 ![](tools/README-faceting-1.png)
 
-For convenience, here are a few maps of Europe:
-
-``` r
-europe <- c(left = -12, bottom = 35, right = 30, top = 63)
-get_stamenmap(europe, zoom = 5) %>% ggmap()
-```
-
-![](tools/README-europe-1.png)
-
-``` r
-get_stamenmap(europe, zoom = 5, maptype = "toner-lite") %>% ggmap()
-```
-
-![](tools/README-europe-2.png)
-
 Google Maps and Credentials
 ---------------------------
 
@@ -179,8 +162,8 @@ their input is a bit different:
 
 ``` r
 get_googlemap("waco texas", zoom = 12) %>% ggmap()
-#  Source : https://maps.googleapis.com/maps/api/staticmap?center=waco+texas&zoom=12&size=640x640&scale=2&maptype=terrain
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco%20texas
+#  Source : https://maps.googleapis.com/maps/api/staticmap?center=waco%20texas&zoom=12&size=640x640&scale=2&maptype=terrain&key=xxx
+#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx
 ```
 
 ![](tools/README-google_maps-1.png)
@@ -190,38 +173,33 @@ Moreover, you can get various different styles of Google Maps with
 
 ``` r
 get_googlemap("waco texas", zoom = 12, maptype = "satellite") %>% ggmap()
-#  Source : https://maps.googleapis.com/maps/api/staticmap?center=waco+texas&zoom=12&size=640x640&scale=2&maptype=satellite
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco%20texas
+#  Source : https://maps.googleapis.com/maps/api/staticmap?center=waco%20texas&zoom=12&size=640x640&scale=2&maptype=satellite&key=xxx
+#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx
 ```
 
 ![](tools/README-google_styles-1.png)
-
-``` r
-get_googlemap("waco texas", zoom = 12, maptype = "roadmap") %>% ggmap()
-#  Source : https://maps.googleapis.com/maps/api/staticmap?center=waco+texas&zoom=12&size=640x640&scale=2&maptype=roadmap
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco%20texas
-```
-
-![](tools/README-google_styles-2.png)
-
-``` r
-get_googlemap("waco texas", zoom = 12, maptype = "hybrid") %>% ggmap()
-#  Source : https://maps.googleapis.com/maps/api/staticmap?center=waco+texas&zoom=12&size=640x640&scale=2&maptype=hybrid
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco%20texas
-```
-
-![](tools/README-google_styles-3.png)
 
 Google’s geocoding and reverse geocoding API’s are available through
 `geocode()` and `revgeocode()`, respectively:
 
 ``` r
 geocode("1301 S University Parks Dr, Waco, TX 76798")
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=1301%20S%20University%20Parks%20Dr%2C%20Waco%2C%20TX%2076798
-#         lon      lat
-#  1 -97.1161 31.55099
+#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=1301+S+University+Parks+Dr,+Waco,+TX+76798&key=xxx
+#  # A tibble: 1 x 2
+#      lon   lat
+#    <dbl> <dbl>
+#  1 -97.1  31.6
 revgeocode(c(lon = -97.1161, lat = 31.55098))
-#  Information from URL : https://maps.googleapis.com/maps/api/geocode/json?latlng=31.55098,-97.1161
+#  Source : https://maps.googleapis.com/maps/api/geocode/json?latlng=31.55098,-97.1161&key=xxx
+#  Multiple addresses found, the first will be returned:
+#    1301 S University Parks Dr, Waco, TX 76706, USA
+#    55 Baylor Ave, Waco, TX 76706, USA
+#    1437 FM434, Waco, TX 76706, USA
+#    Bear Trail, Waco, TX 76706, USA
+#    Robinson, TX 76706, USA
+#    Waco, TX, USA
+#    McLennan County, TX, USA
+#    United States
 #  [1] "1301 S University Parks Dr, Waco, TX 76706, USA"
 ```
 
@@ -229,17 +207,16 @@ There is also a `mutate_geocode()` that works similarly to
 [**dplyr**](https://github.com/hadley/dplyr)’s `mutate()` function:
 
 ``` r
-df <- data.frame(
-  address = c("1600 Pennsylvania Avenue, Washington DC", "", "waco texas"),
-  stringsAsFactors = FALSE
-)
+df <- tibble(address = c("white house", "", "waco texas"))
 df %>% mutate_geocode(address)
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=1600%20Pennsylvania%20Avenue%2C%20Washington%20DC
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco%20texas
-#                                    address       lon      lat
-#  1 1600 Pennsylvania Avenue, Washington DC -77.03657 38.89766
-#  2                                                NA       NA
-#  3                              waco texas -97.14667 31.54933
+#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=white+house&key=xxx
+#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx
+#  # A tibble: 3 x 3
+#    address       lon   lat
+#    <chr>       <dbl> <dbl>
+#  1 white house -77.0  38.9
+#  2 ""           NA    NA  
+#  3 waco texas  -97.1  31.5
 ```
 
 Treks use Google’s routing API to give you routes (`route()` and
@@ -247,15 +224,15 @@ Treks use Google’s routing API to give you routes (`route()` and
 
 ``` r
 trek_df <- trek("houson, texas", "waco, texas", structure = "route")
-#  Source : https://maps.googleapis.com/maps/api/directions/json?origin=houson%2C%20texas&destination=waco%2C%20texas&mode=driving&units=metric&alternatives=false
+#  Source : https://maps.googleapis.com/maps/api/directions/json?origin=houson,+texas&destination=waco,+texas&key=xxx&mode=driving&alternatives=false&units=metric
 qmap("college station, texas", zoom = 8) +
   geom_path(
     aes(x = lon, y = lat),  colour = "blue",
     size = 1.5, alpha = .5,
     data = trek_df, lineend = "round"
   )
-#  Source : https://maps.googleapis.com/maps/api/staticmap?center=college+station,+texas&zoom=8&size=640x640&scale=2&maptype=terrain&language=en-EN
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=college%20station%2C%20texas
+#  Source : https://maps.googleapis.com/maps/api/staticmap?center=college%20station,%20texas&zoom=8&size=640x640&scale=2&maptype=terrain&language=en-EN&key=xxx
+#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=college+station,+texas&key=xxx
 ```
 
 ![](tools/README-route_trek-1.png)
@@ -268,62 +245,13 @@ Map distances, in both length and anticipated time, can be computed with
 
 ``` r
 mapdist(c("houston, texas", "dallas"), "waco, texas")
-#  Source : https://maps.googleapis.com/maps/api/distancematrix/json?origins=dallas&destinations=waco%2C%20texas&mode=driving&language=en-EN
-#  Source : https://maps.googleapis.com/maps/api/distancematrix/json?origins=houston%2C%20texas&destinations=waco%2C%20texas&mode=driving&language=en-EN
-#              from          to      m      km     miles seconds   minutes
-#  1 houston, texas waco, texas 299319 299.319 185.99683   10539 175.65000
-#  2         dallas waco, texas 152481 152.481  94.75169    5360  89.33333
-#       hours
-#  1 2.927500
-#  2 1.488889
-```
-
-### Google credentialing
-
-If you have a Google API key, you can exceed the standard limits Google
-places on queries. By default, when **ggmap** is loaded it will set the
-following credentials and limits:
-
-``` r
-ggmap_credentials()
-#  Google - 
-#     key :  
-#     account_type : standard 
-#     day_limit : 2500 
-#     second_limit : 50 
-#     client :  
-#     signature :
-```
-
-Look at the documentation of `?register_google()` to learn more. If you
-do have an API key, you set it with:
-
-``` r
-register_google(key = "[your key here]", account_type = "premium", day_limit = 100000)
-ggmap_credentials()
-#  Google - 
-#     key : [your key here] 
-#     account_type : premium 
-#     day_limit : 1e+05 
-#     second_limit : 50 
-#     client :  
-#     signature :
-```
-
-These will then be used and checked when creating the query URL:
-
-``` r
-register_google(key = "AbCdEfGhIjKlMnOpQrStUvWxYz")
-get_googlemap("waco texas", urlonly = TRUE)
-#  [1] "https://maps.googleapis.com/maps/api/staticmap?center=waco+texas&zoom=10&size=640x640&scale=2&maptype=terrain&key=AbCdEfGhIjKlMnOpQrStUvWxYz"
-```
-
-For anything that hasn’t been implemente (URL-wise), you can inject code
-into the query usin g `inject`:
-
-``` r
-get_googlemap("waco texas", urlonly = TRUE, inject = "otherItem = Stuff")
-#  [1] "https://maps.googleapis.com/maps/api/staticmap?center=waco+texas&zoom=10&size=640x640&scale=2&maptype=terrain&key=AbCdEfGhIjKlMnOpQrStUvWxYz&otherItem%20=%20Stuff"
+#  Source : https://maps.googleapis.com/maps/api/distancematrix/json?origins=dallas&destinations=waco,+texas&key=xxx&mode=driving
+#  Source : https://maps.googleapis.com/maps/api/distancematrix/json?origins=houston,+texas&destinations=waco,+texas&key=xxx&mode=driving
+#  # A tibble: 2 x 9
+#    from          to               m    km miles seconds minutes hours mode  
+#    <chr>         <chr>        <int> <dbl> <dbl>   <int>   <dbl> <dbl> <chr> 
+#  1 houston, tex… waco, texas 298570  299. 186.    10297   172.   2.86 drivi…
+#  2 dallas        waco, texas 152822  153.  95.0    5394    89.9  1.50 drivi…
 ```
 
 Installation

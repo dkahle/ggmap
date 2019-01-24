@@ -7,12 +7,9 @@
   set_ggmap_option(
     "google" = structure(
       list(
-        # "key" = NA, # now stored as an environment variable
         "account_type" = "standard",
         "day_limit" = Inf, #2500,
-        "second_limit" = 50L,
-        "client" = NA,
-        "signature" = NA
+        "second_limit" = 50L
       ),
       class = "google_credentials"
     ),
