@@ -97,13 +97,12 @@ how to input the requisite information (e.g. your API key) into R, and it
 also shows you a few tools that can help you work with the credentialing.
 
 To tell ggmap about your API key, use the \code{register_google()} function,
-e.g. \code{register_google("key" =
-"mQkzTpiaLYjPqXQBotesgif3EfGL2dbrNVOrogg")} (that's a fake key). This will
-set your API key for the current session, but if you restart R, you'll need
-to do it again. You can set it permanently by setting \code{write = TRUE},
-see the examples. If you set it permanently it will be stored in your
-.Renviron file, and that will be accessed by ggmap persistently across
-sessions.
+e.g. \code{register_google(key = "mQkzTpiaLYjPqXQBotesgif3EfGL2dbrNVOrogg")}
+(that's a fake key). This will set your API key for the current session, but
+if you restart R, you'll need to do it again. You can set it permanently by
+setting \code{write = TRUE}, see the examples. If you set it permanently it
+will be stored in your .Renviron file, and that will be accessed by ggmap
+persistently across sessions.
 
 Users should be aware that the API key, a string of jarbled
 characters/numbers/symbols, is a PRIVATE key - it uniquely identifies and
@@ -133,10 +132,10 @@ for details.
 \examples{
 
 # this sets your google map for this session
-register_google(key = "[your key here]")
+register_google(key = "[your key]")
 
 # this sets your google map permanently
-register_google(key = "[your key here]", write = TRUE)
+register_google(key = "[your key]", write = TRUE)
 
 has_google_key()
 google_key()
@@ -158,9 +157,6 @@ scrub_key("client=a_5sS&signature=d_5iD")
 \seealso{
 \url{https://cloud.google.com/maps-platform/},
   \url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
-
-
-
 
   \url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
 }
