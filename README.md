@@ -37,8 +37,10 @@ user’s perspective, there are essentially three ramifications of this:
     jibberish) that authenticates you to Google’s servers. This can be
     done on a temporary basis with `register_google(key = "[your key]")`
     or permanently using
-    `register_google(key = "[your key]", write = TRUE)`. If you use the
-    former, know that you’ll need to re-do it every time you reset R.
+    `register_google(key = "[your key]", write = TRUE)` (note: this will
+    overwrite your `~/.Renviron` file by replacing/adding the relevant
+    line). If you use the former, know that you’ll need to re-do it
+    every time you reset R.
 
 Your API key is *private* and unique to you, so be careful not to share
 it online, for example in a GitHub issue or saving it in a shared R
