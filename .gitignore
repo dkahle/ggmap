@@ -2,3 +2,4 @@
 .Rhistory
 .RData
 README_cache/
+/revdep/.cache.rds
