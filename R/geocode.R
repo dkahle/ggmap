@@ -119,7 +119,7 @@ geocode <- function (
 
   # source checking
   if (source == "google" && !has_google_key() && !urlonly) stop("Google now requires an API key.", "\n       See ?register_google for details.", call. = FALSE)
-  if (source == "dsk") stop("datasciencetoolkit.org terminated its map service, sorry!")
+  # if (source == "dsk") stop("datasciencetoolkit.org terminated its map service, sorry!")
 
 
   # vectorize for many locations
