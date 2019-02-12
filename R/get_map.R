@@ -162,8 +162,8 @@ get_map <- function(
   if(is.numeric(location) && length(location) == 4){ # bbox
     location_type <- "bbox"
     location_stop <- FALSE
-    source <- "stamen"
-    maptype <- "terrain"
+    # source <- "stamen"
+    # maptype <- "terrain"
 
     # check bounding box
     if(length(names(location)) > 0){
@@ -214,9 +214,8 @@ get_map <- function(
 
   	# if bounding box given
     if(location_type == "bbox"){
-      warning("bounding box given to google - spatial extent only approximate.",
-        call. = FALSE, immediate. = TRUE)
-      message("converting bounding box to center/zoom specification. (experimental)")
+      message("Bounding box given to Google - spatial extent only approximate.")
+      # message("converting bounding box to center/zoom specification. (experimental)")
 
       # computer center
       user_bbox <- location
