@@ -3,7 +3,8 @@
 ## Minor improvements and fixes
 
 *   ___ggmap__ functions can now be called even if it has not been attached to 
-    the search path (loaded) (reported by @jennybc, #264)
+    the search path (loaded) (reported by @jennybc, @lorenzwalthert, #264, 
+    #244).
 
 *   `mapdist()` now properly orders results (reported by @BirgerNi, #266).
 
