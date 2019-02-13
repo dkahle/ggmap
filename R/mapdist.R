@@ -53,6 +53,7 @@
 #'
 #'
 #' # distance matrix
+#' library("tidyverse")
 #' c("Hamburg, Germany", "Stockholm, Sweden", "Copenhagen, Denmark") %>%
 #'   list(., .) %>%
 #'   set_names(c("from", "to")) %>%
