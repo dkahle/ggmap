@@ -2,11 +2,14 @@
 
 ## Minor improvements and fixes
 
-*   `mapdist()` now properly orders results (@BirgerNi, #266).
+*   ___ggmap__ functions can now be called even if it has not been attached to 
+    the search path (loaded) (reported by @jennybc, #264)
+
+*   `mapdist()` now properly orders results (reported by @BirgerNi, #266).
 
 *   `get_map()` now (again) respects the `source = "google"` specification when 
-    given a bounding box (@julovi, #267).
+    given a bounding box (reported by @julovi, #267).
 
 *   `geocode()` now (again) respects the `source = "dsk"` specification 
-    (@alistaire47, #180).
+    (reported by @alistaire47, #180).
 

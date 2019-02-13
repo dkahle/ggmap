@@ -101,8 +101,17 @@
 #' @rdname register_google
 #' @export
 showing_key <- function () {
-  getOption("ggmap")$display_api_key
+
+  if ( has_ggmap_option("display_api_key") ) {
+    getOption("ggmap")$display_api_key
+  } else {
+    FALSE
+  }
+
 }
+
+
+
 
 
 #' @rdname register_google
@@ -138,6 +147,8 @@ scrub_key <- function (string, with = "xxx") {
 #' @export
 register_google <- function (key, account_type, client, signature, second_limit, day_limit, write = FALSE) {
 
+  # allow register_google to work when ggmap not loaded
+  if (!has_ggmap_options()) bootstrap_ggmap()
 
   # get current options
   options <- getOption("ggmap")

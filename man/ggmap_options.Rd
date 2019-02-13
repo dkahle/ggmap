@@ -3,15 +3,23 @@
 \name{ggmap_options}
 \alias{ggmap_options}
 \alias{set_ggmap_option}
+\alias{has_ggmap_options}
+\alias{has_ggmap_option}
 \alias{ggmap_credentials}
 \title{ggmap Options}
 \usage{
 set_ggmap_option(...)
 
+has_ggmap_options()
+
+has_ggmap_option(option)
+
 ggmap_credentials()
 }
 \arguments{
 \item{...}{a named listing of options to set}
+
+\item{option}{a specific option to query, e.g. "display_api_key"}
 }
 \description{
 ggmap stores options as a named list in R's global options, i.e.
@@ -23,6 +31,10 @@ printed to the screen when web queries are placed. For both of those, see
 \examples{
 
 getOption("ggmap")
+has_ggmap_options()
+has_ggmap_option("display_api_key")
+
+
 
 }
 \seealso{

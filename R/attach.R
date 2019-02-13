@@ -4,6 +4,15 @@
   packageStartupMessage("Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.")
   packageStartupMessage("Please cite ggmap if you use it! See citation(\"ggmap\") for details.")
 
+  bootstrap_ggmap()
+
+}
+
+
+
+
+
+bootstrap_ggmap <- function () {
   set_ggmap_option(
     "google" = structure(
       list(
@@ -15,10 +24,7 @@
     ),
     "display_api_key" = FALSE
   )
-
 }
-
-
 
 
 
