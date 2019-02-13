@@ -4,7 +4,8 @@
 #' Google's Distance Matrix API, you must first enable the API in the Google
 #' Cloud Platform Console. See \code{?register_google}.
 #'
-#' @param from name of origin addresses in a data frame (vector accepted)
+#' @param from name of origin addresses in a data frame (vector accepted), or a
+#'   data frame with from and to columns
 #' @param to name of destination addresses in a data frame (vector accepted)
 #' @param output amount of output
 #' @param mode driving, bicycling, walking, or transit
@@ -21,8 +22,8 @@
 #'   they are reverse geocoded with revgeocode.  note that the google maps api
 #'   limits to 2500 element queries a day.
 #' @seealso
-#'   \url{http://code.google.com/apis/maps/documentation/distancematrix/},
-#'   \url{https://developers.google.com/maps/documentation/distance-matrix/intro}
+#' \url{http://code.google.com/apis/maps/documentation/distancematrix/},
+#' \url{https://developers.google.com/maps/documentation/distance-matrix/intro}
 #' @name mapdist
 #' @export
 #' @examples
@@ -34,12 +35,44 @@
 #'
 #' mapdist("waco, texas", "houston, texas")
 #'
+#'
+#' # many from, single to
 #' from <- c("houston, texas", "dallas")
 #' to <- "waco, texas"
 #' mapdist(from, to)
 #' mapdist(from, to, mode = "bicycling")
 #' mapdist(from, to, mode = "walking")
 #'
+#'
+#' # tibble of from's, vector of to's
+#' # (with a data frame, remember stringsAsFactors = FALSE)
+#' tibble(
+#'   "from" = c("houston", "houston", "dallas"),
+#'     "to" = c("waco", "san antonio", "houston")
+#' ) %>% mapdist()
+#'
+#'
+#' # distance matrix
+#' c("Hamburg, Germany", "Stockholm, Sweden", "Copenhagen, Denmark") %>%
+#'   list(., .) %>%
+#'   set_names(c("from", "to")) %>%
+#'   cross_df() %>%
+#'   mapdist() -> distances
+#'
+#' distances
+#'
+#' distances %>%
+#'   select(from, to, km) %>%
+#'   spread(from, km)
+#'
+#'
+#'
+#'
+#'
+#' ## other examples
+#' ########################################
+#'
+#' # many from, single to with addresses
 #' from <- c(
 #'   "1600 Amphitheatre Parkway, Mountain View, CA",
 #'   "3111 World Drive Walt Disney World, Orlando, FL"
@@ -47,13 +80,14 @@
 #' to <- "1600 Pennsylvania Avenue, Washington DC"
 #' mapdist(from, to)
 #'
+#'
+#' # mode = "transit
 #' from <- "st lukes hospital houston texas"
 #' to <- "houston zoo, houston texas"
 #' mapdist(from, to, mode = "transit")
 #'
-#' from <- c("houston", "houston", "dallas")
-#' to <- c("waco, texas", "san antonio", "houston")
-#' mapdist(from, to)
+#'
+#'
 #'
 #'
 #' ## geographic coordinates are accepted as well
@@ -89,12 +123,18 @@ mapdist <- function (
 ) {
 
   # check parameters
-  if (is.numeric(from) && length(from) == 2) from <- revgeocode(from)
-  stopifnot(is.character(from))
-  if (is.numeric(to) && length(to) == 2) to <- revgeocode(to)
-  stopifnot(is.character(to))
+  if (is.data.frame(from)) {
+    stopifnot(all(c("from","to") %in% names(from)))
 
-  from_to_df <- tibble("from" = from, "to" = to)
+    from_to_df <- from %>% select("from", "to") %>% as_tibble()
+  } else {
+    if (is.numeric(from) && length(from) == 2) from <- revgeocode(from)
+    stopifnot(is.character(from))
+    if (is.numeric(to) && length(to) == 2) to <- revgeocode(to)
+    stopifnot(is.character(to))
+
+    from_to_df <- tibble("from" = from, "to" = to)
+  }
   mode <- match.arg(mode)
   output <- match.arg(output)
 
@@ -194,14 +234,22 @@ mapdist <- function (
     tree$rows[[c(1,1)]]
   }
 
-  out <- split(from_to_df, from_to_df$from) %>% map(~ getdists(.x))
+  # query the server
+  out <- from_to_df %>%
+    split(from_to_df$from) %>%
+    map(~ getdists(.x))
 
   # return all
   if(output == "all") return(out)
 
+  # get the order google returned them
+  out_from_to_df <- tibble(
+    "from" = out %>% map_int(length) %>% rep(names(out), .),
+    "to" = out %>% map(names) %>% flatten_chr()
+  )
+
   # grab interesting parts, format, and return
   out %>%
-    rev() %>%
     map(function (origin) {
       origin %>%
         map(~
@@ -217,8 +265,9 @@ mapdist <- function (
     }) %>%
       flatten() %>%
       bind_rows() %>%
-      bind_cols(from_to_df, .) %>%
-      mutate("mode" = mode)
+      bind_cols(out_from_to_df, .) %>%
+      mutate("mode" = mode) %>%
+      right_join(from_to_df, by =  c("from", "to"))
 
 }
 

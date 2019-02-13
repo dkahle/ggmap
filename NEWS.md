@@ -2,6 +2,11 @@
 
 ## Minor improvements and fixes
 
-*   `get_map()` now (again) respects the `source = "google"` specification when given a bounding box (@julovi, #267).
+*   `mapdist()` now properly orders results (@BirgerNi, #266).
 
-*   `geocode()` now (again) respects the `source = "dsk"` specification (@alistaire47, #180).
+*   `get_map()` now (again) respects the `source = "google"` specification when 
+    given a bounding box (@julovi, #267).
+
+*   `geocode()` now (again) respects the `source = "dsk"` specification 
+    (@alistaire47, #180).
+
