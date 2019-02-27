@@ -5,8 +5,8 @@
 \alias{crime}
 \title{Crime data}
 \description{
-Lightly cleaned Houston crime from January 2010 to August 2010
-geocoded with Google Maps
+Lightly cleaned Houston crime from January 2010 to August 2010 geocoded with
+Google Maps
 }
 \references{
 \url{http://www.houstontx.gov/police/cs/stats2.htm}

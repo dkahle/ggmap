@@ -11,27 +11,25 @@
 #'   zoom for bounding box specifications, and is defaulted to 10 with
 #'   center/zoom specifications.  maps of the whole world currently not
 #'   supported.
-#' @param scale scale argument of \code{\link{get_googlemap}} or
-#'   \code{\link{get_openstreetmap}}
+#' @param scale scale argument of [get_googlemap()] or [get_openstreetmap()]
 #' @param maptype character string providing map theme. options available are
 #'   "terrain", "terrain-background", "satellite", "roadmap", and "hybrid"
-#'   (google maps), "terrain", "watercolor", and "toner" (stamen maps), or a
-#'   positive integer for cloudmade maps (see ?get_cloudmademap)
+#'   (google maps), "terrain", "watercolor", and "toner" (stamen maps)
 #' @param source Google Maps ("google"), OpenStreetMap ("osm"), Stamen Maps
 #'   ("stamen")
 #' @param force force new map (don't use archived version)
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
 #' @param filename destination file for download (file extension added according
-#'   to format). Default \code{NULL} means a random \code{\link{tempfile}}.
+#'   to format). Default \code{NULL} means a random [tempfile()].
 #' @param crop (stamen and cloudmade maps) crop tiles to bounding box
 #' @param color color ("color") or black-and-white ("bw")
 #' @param language language for google maps
 #' @param ... ...
 #' @return a ggmap object (a classed raster object with a bounding box
 #'   attribute)
-#' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \code{\link{ggmap}}, \code{\link{GetMap}} in package RgoogleMaps
+#' @author David Kahle \email{david@@kahle.io}
+#' @seealso [ggmap()]
 #' @export
 #' @examples
 #'

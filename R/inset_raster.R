@@ -13,7 +13,7 @@
 #' @param ymin,ymax y location (in data coordinates) giving vertical
 #'   location of raster
 #' @param interpolate interpolate the raster? (i.e. antialiasing)
-#' @param ggmap a ggmap object, see \code{\link{get_map}}
+#' @param ggmap a ggmap object, see [get_map()]
 #' @export
 #' @name inset_raster
 #' @examples

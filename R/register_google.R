@@ -12,12 +12,12 @@
 #' and then tell R about the user's setup.
 #'
 #' To obtain an API key and enable services, go to
-#' \url{https://cloud.google.com/maps-platform/}. This documentation shows you
-#' how to input the requisite information (e.g. your API key) into R, and it
-#' also shows you a few tools that can help you work with the credentialing.
+#' \url{https://cloud.google.com/maps-platform/}. This documentation shows you how
+#' to input the requisite information (e.g. your API key) into R, and it also
+#' shows you a few tools that can help you work with the credentialing.
 #'
-#' To tell ggmap about your API key, use the \code{register_google()} function,
-#' e.g. \code{register_google(key = "mQkzTpiaLYjPqXQBotesgif3EfGL2dbrNVOrogg")}
+#' To tell ggmap about your API key, use [register_google()], e.g.
+#' \code{register_google(key = "mQkzTpiaLYjPqXQBotesgif3EfGL2dbrNVOrogg")}
 #' (that's a fake key). This will set your API key for the current session, but
 #' if you restart R, you'll need to do it again. You can set it permanently by
 #' setting \code{write = TRUE}, see the examples. If you set it permanently it
@@ -65,12 +65,10 @@
 #' @param ... a dumped formal argument to the generic print method
 #' @return NULL
 #' @name register_google
-#' @author David Kahle \email{david.kahle@@gmail.com}
+#' @author David Kahle \email{david@@kahle.io}
 #' @seealso \url{https://cloud.google.com/maps-platform/},
 #'   \url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
-#'
 #'   \url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
-#'
 #' @examples
 #'
 #' # this sets your google map for this session

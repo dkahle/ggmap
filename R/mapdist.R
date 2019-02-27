@@ -2,7 +2,7 @@
 #'
 #' Compute map distances using Google's Distance Matrix API. Note: To use
 #' Google's Distance Matrix API, you must first enable the API in the Google
-#' Cloud Platform Console. See \code{?register_google}.
+#' Cloud Platform Console. See [register_google()].
 #'
 #' @param from name of origin addresses in a data frame (vector accepted), or a
 #'   data frame with from and to columns
@@ -12,17 +12,16 @@
 #' @param urlonly return only the url?
 #' @param override_limit override the current query count
 #'   (.google_distance_query_times)
-#' @param ext domain extension (e.g. "com", "co.nz")
+#' @param ext top level domain domain extension (e.g. "com", "co.nz")
 #' @param inject character string to add to the url
 #' @param ... ...
 #' @return a data frame (output="simple") or all of the geocoded information
 #'   (output="all")
-#' @author David Kahle \email{david.kahle@@gmail.com}
+#' @author David Kahle \email{david@@kahle.io}
 #' @details if parameters from and to are specified as geographic coordinates,
 #'   they are reverse geocoded with revgeocode.  note that the google maps api
 #'   limits to 2500 element queries a day.
-#' @seealso
-#' \url{http://code.google.com/apis/maps/documentation/distancematrix/},
+#' @seealso \url{http://code.google.com/apis/maps/documentation/distancematrix/},
 #' \url{https://developers.google.com/maps/documentation/distance-matrix/intro}
 #' @name mapdist
 #' @export

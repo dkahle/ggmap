@@ -1,7 +1,7 @@
 #' Convert a lon/lat coordinate to a tile coordinate
 #'
-#' Convert a lon/lat coordinate to a tile coordinate for a given
-#' zoom.  Decimal tile coordinates (x, y) are reported.
+#' Convert a lon/lat coordinate to a tile coordinate for a given zoom.  Decimal
+#' tile coordinates (x, y) are reported.
 #'
 #' @param lon_deg longitude in degrees
 #' @param lat_deg latitude in degrees
@@ -9,11 +9,10 @@
 #' @param xpix width of tile in pixels
 #' @param ypix length of tile in pixels
 #' @return a data frame with columns X, Y, x, y
-#' @author David Kahle \email{david.kahle@@gmail.com}, based on
-#'   function LatLon2XY by Markus Loecher, Sense Networks
-#'   \email{markus@@sensenetworks.com} in package RgoogleMaps
-#' @seealso
-#'   \url{http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
+#' @author David Kahle \email{david@@kahle.io}, based on
+#'   [RgoogleMaps::LatLon2XY()] by Markus Loecher of Sense Networks
+#'   \email{markus@@sensenetworks.com}
+#' @seealso \url{http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
 #' @export
 #' @examples
 #'

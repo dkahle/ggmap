@@ -25,13 +25,11 @@ zoom for bounding box specifications, and is defaulted to 10 with
 center/zoom specifications.  maps of the whole world currently not
 supported.}
 
-\item{scale}{scale argument of \code{\link{get_googlemap}} or
-\code{\link{get_openstreetmap}}}
+\item{scale}{scale argument of \code{\link[=get_googlemap]{get_googlemap()}} or \code{\link[=get_openstreetmap]{get_openstreetmap()}}}
 
 \item{maptype}{character string providing map theme. options available are
 "terrain", "terrain-background", "satellite", "roadmap", and "hybrid"
-(google maps), "terrain", "watercolor", and "toner" (stamen maps), or a
-positive integer for cloudmade maps (see ?get_cloudmademap)}
+(google maps), "terrain", "watercolor", and "toner" (stamen maps)}
 
 \item{source}{Google Maps ("google"), OpenStreetMap ("osm"), Stamen Maps
 ("stamen")}
@@ -43,7 +41,7 @@ positive integer for cloudmade maps (see ?get_cloudmademap)}
 \item{urlonly}{return url only}
 
 \item{filename}{destination file for download (file extension added according
-to format). Default \code{NULL} means a random \code{\link{tempfile}}.}
+to format). Default \code{NULL} means a random \code{\link[=tempfile]{tempfile()}}.}
 
 \item{crop}{(stamen and cloudmade maps) crop tiles to bounding box}
 
@@ -55,7 +53,7 @@ to format). Default \code{NULL} means a random \code{\link{tempfile}}.}
 }
 \value{
 a ggmap object (a classed raster object with a bounding box
-  attribute)
+attribute)
 }
 \description{
 \code{get_map} is a smart wrapper that queries the Google Maps,
@@ -95,8 +93,8 @@ ggmap(map, fullpage = TRUE)
 }
 }
 \seealso{
-\code{\link{ggmap}}, \code{\link{GetMap}} in package RgoogleMaps
+\code{\link[=ggmap]{ggmap()}}
 }
 \author{
-David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david@kahle.io}
 }

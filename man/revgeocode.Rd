@@ -19,7 +19,7 @@ revgeocode(location, output = c("address", "all"), force = FALSE,
 
 \item{override_limit}{override the current query rate}
 
-\item{ext}{domain extension (e.g. "com", "co.nz")}
+\item{ext}{top level domain extension (e.g. "com", "co.nz")}
 
 \item{inject}{character string to add to the url}
 
@@ -32,7 +32,7 @@ a character(1) address or a list (the parsed json output from Google)
 Reverse geocodes (looks up the address of) a longitude/latitude location
 using the Google Geocoding API. Note: To use Google's Geocoding API, you must
 first enable the API in the Google Cloud Platform Console. See
-\code{?register_google}.
+\code{\link[=register_google]{register_google()}}.
 }
 \examples{
 
@@ -52,5 +52,5 @@ str(revgeocode(gc, output = "all"), 3)
 \url{http://code.google.com/apis/maps/documentation/geocoding/}
 }
 \author{
-David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david@kahle.io}
 }

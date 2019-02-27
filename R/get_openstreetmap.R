@@ -1,6 +1,6 @@
 #' Get an OpenStreetMap
 #'
-#' \code{get_openstreetmap} accesses a tile server for OpenStreetMap and
+#' [get_openstreetmap()] accesses a tile server for OpenStreetMap and
 #' downloads/formats a map image. This is simply a wrapper for the web-based
 #' version at \url{http://www.openstreetmap.org/}.  If you don't know how to
 #' get the map you want, go there, navigate to the map extent that you want,
@@ -25,7 +25,7 @@
 #'   The scale argument is a tricky number to correctly specify. In most cases,
 #'   if you get an error when downloading an openstreetmap the error is
 #'   attributable to an improper scale specification.
-#'   \code{\link{OSM_scale_lookup}} can help; but the best way to get in the
+#'   [OSM_scale_lookup()] can help; but the best way to get in the
 #'   correct range is to go to \url{http://www.openstreetmap.org/}, navigate to
 #'   the map of interest, click export at the top of the page, click 'map image'
 #'   and then copy down the scale listed.
@@ -34,12 +34,12 @@
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
 #' @param filename destination file for download (file extension added according
-#'   to format). Default \code{NULL} means a random \code{\link{tempfile}}.
+#'   to format). Default \code{NULL} means a random [tempfile()].
 #' @param color color or black-and-white
 #' @param ... ...
 #' @return a ggmap object (a classed raster object with a bounding box attribute)
-#' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \url{http://www.openstreetmap.org/}, \code{\link{ggmap}}
+#' @author David Kahle \email{david@@kahle.io}
+#' @seealso \url{http://www.openstreetmap.org/}, [ggmap()]
 #' @export
 #' @examples
 #'

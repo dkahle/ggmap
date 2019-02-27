@@ -47,7 +47,7 @@ downloaded the images)}
 }
 \value{
 a ggmap object (a classed raster object with a bounding box
-  attribute)
+attribute)
 }
 \description{
 \code{get_stamenmap} accesses a tile server for Stamen Maps and
@@ -175,5 +175,5 @@ retry_stamen_map_download()
 
 }
 \seealso{
-\url{http://maps.stamen.com/#watercolor}, \code{\link{ggmap}}
+\url{http://maps.stamen.com/#watercolor}, \code{\link[=ggmap]{ggmap()}}
 }

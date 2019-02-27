@@ -28,7 +28,7 @@ upperrightlon, upperrightlat).}
 \item{urlonly}{return url only}
 
 \item{filename}{destination file for download (file extension added according
-to format). Default \code{NULL} means a random \code{\link{tempfile}}.}
+to format). Default \code{NULL} means a random \code{\link[=tempfile]{tempfile()}}.}
 
 \item{color}{color or black-and-white}
 
@@ -36,14 +36,14 @@ to format). Default \code{NULL} means a random \code{\link{tempfile}}.}
 }
 \value{
 a ggmap object (a classed raster object with a bounding box
-  attribute)
+attribute)
 }
 \description{
-\code{get_cloudmademap} accesses a tile server for Stamen Maps and
+\code{\link[=get_cloudmademap]{get_cloudmademap()}} accesses a tile server for Stamen Maps and
 downloads/stitches map tiles/formats a map image. This function requires an
-api key which can be obtained for free from http://cloudmade.com/user/show
+api key which can be obtained for free from \url{http://cloudmade.com/user/show}
 (defunct?). Thousands of maptypes ("styles"), including create-your-own
-options, are available from http://maps.cloudmade.com/editor (defunct).
+options, are available from \url{http://maps.cloudmade.com/editor}.
 }
 \examples{
 
@@ -60,8 +60,8 @@ options, are available from http://maps.cloudmade.com/editor (defunct).
 
 }
 \seealso{
-http://maps.cloudmade.com/ (defunct), \code{\link{ggmap}}
+\url{http://maps.cloudmade.com/}, \code{\link[=ggmap]{ggmap()}}
 }
 \author{
-David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david@kahle.io}
 }

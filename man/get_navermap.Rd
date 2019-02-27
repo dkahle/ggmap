@@ -44,7 +44,7 @@ character string to be passed directly to api}
 \item{uri}{registered host url}
 
 \item{filename}{destination file for download (file extension added according
-to format). Default \code{NULL} means a random \code{\link{tempfile}}.}
+to format). Default \code{NULL} means a random \code{\link[=tempfile]{tempfile()}}.}
 
 \item{messaging}{turn messaging on/off}
 
@@ -69,7 +69,7 @@ download a static map. Note that in most cases by using this function you are
 agreeing to the Naver Maps API Terms of Service.
 }
 \seealso{
-\code{\link{ggmap}}
+\code{\link[=ggmap]{ggmap()}}
 }
 \author{
 Heewon Jeon \email{madjakarta@gmail.com}

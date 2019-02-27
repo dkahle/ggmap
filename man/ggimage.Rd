@@ -15,7 +15,7 @@ that can be coerced by as.raster)}
 \item{coord_equal}{should the axes units be equal?}
 
 \item{scale_axes}{should the axes be
-[0,ncol(mat)-1]x[0,nrow(mat)-1] (F) or [0,1]x[0,1] (T)}
+(0,ncol(mat)-1)x(0,nrow(mat)-1) (F) or (0,1)x(0,1) (T)}
 }
 \value{
 a ggplot object
@@ -50,5 +50,5 @@ ggimage(hadley, fullpage = FALSE) +
 }
 }
 \author{
-David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david@kahle.io}
 }

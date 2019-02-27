@@ -8,7 +8,7 @@ ggmapplot(ggmap, fullpage = FALSE, base_layer, maprange = FALSE,
   expand = FALSE, ...)
 }
 \arguments{
-\item{ggmap}{an object of class ggmap (from function get_map)}
+\item{ggmap}{an object of class ggmap (from function \code{\link[=get_map]{get_map()}})}
 
 \item{fullpage}{logical; should the map take up the entire viewport?}
 
@@ -24,7 +24,7 @@ ggmapplot(ggmap, fullpage = FALSE, base_layer, maprange = FALSE,
 a ggplot object
 }
 \description{
-ggmap plots the raster object produced by \code{\link{get_map}}.
+ggmap plots the raster object produced by \code{\link[=get_map]{get_map()}}.
 }
 \examples{
 \dontrun{
@@ -32,8 +32,8 @@ this is a deprecated function, use ggmap.
 }
 }
 \seealso{
-\code{\link{get_map}}, \code{\link{qmap}}
+\code{\link[=get_map]{get_map()}}, \code{\link[=qmap]{qmap()}}
 }
 \author{
-David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david@kahle.io}
 }

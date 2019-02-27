@@ -24,7 +24,7 @@
 #' @param key key code from naver api center
 #' @param uri registered host url
 #' @param filename destination file for download (file extension added according
-#'   to format). Default \code{NULL} means a random \code{\link{tempfile}}.
+#'   to format). Default \code{NULL} means a random [tempfile()].
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
 #' @param force if the map is on file, should a new map be looked up?
@@ -34,7 +34,7 @@
 #'   abide by any of the rules governing caching naver maps
 #' @param ... ...
 #' @author Heewon Jeon \email{madjakarta@@gmail.com}
-#' @seealso \code{\link{ggmap}}
+#' @seealso [ggmap()]
 #' @export
 get_navermap <- function(
   center = c(lon = 126.9849208, lat = 37.5664519), zoom = 4,

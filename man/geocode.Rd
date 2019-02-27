@@ -44,12 +44,12 @@ and appended to the query)}
 }
 \value{
 If \code{output} is "latlon", "latlona", or "more", a tibble (classed
-  data frame). If "all", a list.
+data frame). If "all", a list.
 }
 \description{
 Geocodes (finds latitude and longitude of) a location using the Google
 Geocoding API. Note: To use Google's Geocoding API, you must first enable the
-API in the Google Cloud Platform Console. See \code{?register_google}.
+API in the Google Cloud Platform Console. See \code{\link[=register_google]{register_google()}}.
 }
 \examples{
 
@@ -112,9 +112,9 @@ geocode("waco city hall")
 }
 \seealso{
 \url{http://code.google.com/apis/maps/documentation/geocoding/},
-  \url{https://developers.google.com/maps/documentation/javascript/geocoding},
-  \url{https://developers.google.com/maps/documentation/geocoding/usage-limits}
+\url{https://developers.google.com/maps/documentation/javascript/geocoding},
+\url{https://developers.google.com/maps/documentation/geocoding/usage-limits}
 }
 \author{
-David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david@kahle.io}
 }

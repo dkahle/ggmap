@@ -21,8 +21,8 @@ LonLat2XY(lon_deg, lat_deg, zoom, xpix = 256, ypix = 256)
 a data frame with columns X, Y, x, y
 }
 \description{
-Convert a lon/lat coordinate to a tile coordinate for a given
-zoom.  Decimal tile coordinates (x, y) are reported.
+Convert a lon/lat coordinate to a tile coordinate for a given zoom.  Decimal
+tile coordinates (x, y) are reported.
 }
 \examples{
 
@@ -38,7 +38,7 @@ LonLat2XY(gc$lon, gc$lat, 10)
 \url{http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
 }
 \author{
-David Kahle \email{david.kahle@gmail.com}, based on
-  function LatLon2XY by Markus Loecher, Sense Networks
-  \email{markus@sensenetworks.com} in package RgoogleMaps
+David Kahle \email{david@kahle.io}, based on
+\code{\link[RgoogleMaps:LatLon2XY]{RgoogleMaps::LatLon2XY()}} by Markus Loecher of Sense Networks
+\email{markus@sensenetworks.com}
 }

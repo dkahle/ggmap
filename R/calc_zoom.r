@@ -15,7 +15,7 @@
 #' @param adjust number to add to the calculated zoom
 #' @param f argument to pass to make_bbox
 #' @export
-#' @seealso \code{\link{make_bbox}}, \code{\link{bb2bbox}}
+#' @seealso [make_bbox()], [bb2bbox()]
 #' @examples
 #' # From data
 #' calc_zoom(lon, lat, wind)

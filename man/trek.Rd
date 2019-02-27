@@ -111,11 +111,10 @@ qmplot(lon, lat, data = trek_df, geom = "path",
 }
 \seealso{
 \url{https://developers.google.com/maps/documentation/directions/},
-  \url{http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads},
-   \code{\link{route}}, \code{\link{routeQueryCheck}}
-  \code{\link{register_google}}
+\url{http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads},
+\code{\link[=route]{route()}}, \code{\link[=routeQueryCheck]{routeQueryCheck()}}, \code{\link[=register_google]{register_google()}}
 }
 \author{
-David Kahle \email{david.kahle@gmail.com} with the key decoding
-  algorithm due to Stack Overflow user akhmed
+David Kahle \email{david@kahle.io} with the key decoding
+algorithm due to Stack Overflow user akhmed
 }

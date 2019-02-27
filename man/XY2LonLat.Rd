@@ -25,8 +25,8 @@ XY2LonLat(X, Y, zoom, x = 0, y = 0, xpix = 255, ypix = 255)
 a data frame with columns lon and lat (in degrees)
 }
 \description{
-Convert a tile coordinate to a lon/lat coordinate for a given
-zoom.  Decimal tile coordinates are accepted.
+Convert a tile coordinate to a lon/lat coordinate for a given zoom.  Decimal
+tile coordinates are accepted.
 }
 \examples{
 
@@ -44,7 +44,7 @@ XY2LonLat(0, 0, 255, 255, zoom = 1)
 \url{http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
 }
 \author{
-David Kahle \email{david.kahle@gmail.com}, based on
-  function XY2LatLon by Markus Loecher, Sense Networks
-  \email{markus@sensenetworks.com} in package RgoogleMaps
+David Kahle \email{david@kahle.io}, based on
+\code{\link[RgoogleMaps:XY2LatLon]{RgoogleMaps::XY2LatLon()}} by Markus Loecher of Sense Networks
+\email{markus@sensenetworks.com}
 }

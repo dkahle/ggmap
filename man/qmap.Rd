@@ -9,15 +9,13 @@ qmap(location = "houston", ...)
 \arguments{
 \item{location}{character; location of interest}
 
-\item{...}{stuff to pass to \code{\link{ggmap}} and
-\code{\link{get_map}}.}
+\item{...}{stuff to pass to \code{\link[=ggmap]{ggmap()}} and \code{\link[=get_map]{get_map()}}}
 }
 \value{
 a ggplot object
 }
 \description{
-qmap is a wrapper for \code{\link{ggmap}} and
-\code{\link{get_map}}.
+qmap is a wrapper for \code{\link[=ggmap]{ggmap()}} and \code{\link[=get_map]{get_map()}}.
 }
 \examples{
 
@@ -47,8 +45,8 @@ qmap(where, maprange = TRUE, zoom = 15,
 
 }
 \seealso{
-\code{\link{ggmap}} and \code{\link{get_map}}.
+\code{\link[=ggmap]{ggmap()}} and \code{\link[=get_map]{get_map()}}
 }
 \author{
-David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david@kahle.io}
 }

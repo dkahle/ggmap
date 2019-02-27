@@ -2,7 +2,7 @@
 #'
 #' Geocodes (finds latitude and longitude of) a location using the Google
 #' Geocoding API. Note: To use Google's Geocoding API, you must first enable the
-#' API in the Google Cloud Platform Console. See \code{?register_google}.
+#' API in the Google Cloud Platform Console. See [register_google()].
 #'
 #' @param location a character vector of street addresses or place names (e.g.
 #'   "1600 pennsylvania avenue, washington dc" or "Baylor University")
@@ -21,7 +21,7 @@
 #' @param ... ...
 #' @return If \code{output} is "latlon", "latlona", or "more", a tibble (classed
 #'   data frame). If "all", a list.
-#' @author David Kahle \email{david.kahle@@gmail.com}
+#' @author David Kahle \email{david@@kahle.io}
 #' @seealso \url{http://code.google.com/apis/maps/documentation/geocoding/},
 #'   \url{https://developers.google.com/maps/documentation/javascript/geocoding},
 #'   \url{https://developers.google.com/maps/documentation/geocoding/usage-limits}

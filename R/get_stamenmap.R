@@ -22,7 +22,7 @@
 #' @param ... ...
 #' @return a ggmap object (a classed raster object with a bounding box
 #'   attribute)
-#' @seealso \url{http://maps.stamen.com/#watercolor}, \code{\link{ggmap}}
+#' @seealso \url{http://maps.stamen.com/#watercolor}, [ggmap()]
 #' @name get_stamenmap
 #' @examples
 #'

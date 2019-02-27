@@ -41,5 +41,5 @@ box <- make_bbox(lon, lat, data = crime)
 calc_zoom(box)
 }
 \seealso{
-\code{\link{make_bbox}}, \code{\link{bb2bbox}}
+\code{\link[=make_bbox]{make_bbox()}}, \code{\link[=bb2bbox]{bb2bbox()}}
 }

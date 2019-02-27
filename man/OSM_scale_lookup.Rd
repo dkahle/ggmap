@@ -16,9 +16,9 @@ scale
 Look up OpenStreetMap scale for a given zoom level.
 }
 \details{
-The calculation of an appropriate OSM scale value for a
-  given zoom level is a complicated task.  For details, see
-  \url{http://wiki.openstreetmap.org/wiki/FAQ}
+The calculation of an appropriate OSM scale value for a given zoom
+level is a complicated task.  For details, see
+\url{http://wiki.openstreetmap.org/wiki/FAQ}
 }
 \examples{
 
@@ -60,5 +60,5 @@ qmap(lonR = lonR, latR = latR, source = 'osm', scale = 325E5)
 
 }
 \author{
-David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david@kahle.io}
 }

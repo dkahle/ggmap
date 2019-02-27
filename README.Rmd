@@ -15,6 +15,11 @@ knitr::opts_chunk$set(
 )
 ```
 
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/ggmap)](https://cran.r-project.org/package=ggmap)
+<!-- badges: end -->
+
+
 ### _Attention!_ 
 
 Google has [recently changed its API requirements](https://developers.google.com/maps/documentation/geocoding/usage-and-billing), and __ggmap__ users are now required to register with Google. From a user's perspective, there are essentially three ramifications of this:

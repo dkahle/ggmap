@@ -1,4 +1,9 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ggmap)](https://cran.r-project.org/package=ggmap)
+<!-- badges: end -->
 
 ### *Attention!*
 

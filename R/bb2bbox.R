@@ -9,7 +9,7 @@
 #'
 #' @param bb a bounding box in bb format (see examples)
 #' @return a bounding box in bbox format (see examples)
-#' @author David Kahle \email{david.kahle@@gmail.com}
+#' @author David Kahle \email{david@@kahle.io}
 #' @export
 #' @examples
 #'

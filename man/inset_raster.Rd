@@ -20,7 +20,7 @@ location of raster}
 
 \item{interpolate}{interpolate the raster? (i.e. antialiasing)}
 
-\item{ggmap}{a ggmap object, see \code{\link{get_map}}}
+\item{ggmap}{a ggmap object, see \code{\link[=get_map]{get_map()}}}
 }
 \description{
 This is a special version of ggplot2::annotation_raster for use

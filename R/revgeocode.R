@@ -3,18 +3,18 @@
 #' Reverse geocodes (looks up the address of) a longitude/latitude location
 #' using the Google Geocoding API. Note: To use Google's Geocoding API, you must
 #' first enable the API in the Google Cloud Platform Console. See
-#' \code{?register_google}.
+#' [register_google()].
 #'
 #' @param location a location in longitude/latitude format
 #' @param output "address" or "all"
 #' @param force force online query, even if cached (previously downloaded)
 #' @param urlonly return only the url?
 #' @param override_limit override the current query rate
-#' @param ext domain extension (e.g. "com", "co.nz")
+#' @param ext top level domain extension (e.g. "com", "co.nz")
 #' @param inject character string to add to the url
 #' @param ... ...
 #' @return a character(1) address or a list (the parsed json output from Google)
-#' @author David Kahle \email{david.kahle@@gmail.com}
+#' @author David Kahle \email{david@@kahle.io}
 #' @seealso \url{http://code.google.com/apis/maps/documentation/geocoding/}
 #' @export
 #' @examples

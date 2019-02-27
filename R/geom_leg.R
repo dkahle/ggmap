@@ -4,9 +4,8 @@
 #' included in ggmap for historical reasons.
 #'
 #' @inheritParams ggplot2::geom_segment
-#' @seealso geom_segment in ggplot2, inspired by
-#'   \url{http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/},
-#'   \code{\link{route}}
+#' @seealso [geom_segment()], [route()], inspired by
+#'   \url{http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/}
 #' @details only intended for use in ggmap package.  only designed
 #'   for mercator projection.
 #' @export

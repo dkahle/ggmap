@@ -5,7 +5,7 @@
 #' @param base_size base size, not used.
 #' @param legend should the legend be included?
 #' @return a ggplot2 theme (i.e., a list of class options).
-#' @author David Kahle \email{david.kahle@@gmail.com}
+#' @author David Kahle \email{david@@kahle.io}
 #' @export
 #' @examples
 #'

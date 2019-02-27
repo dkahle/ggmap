@@ -92,12 +92,12 @@ since the user has to setup an account with Google, enable the relevant APIs,
 and then tell R about the user's setup.
 
 To obtain an API key and enable services, go to
-\url{https://cloud.google.com/maps-platform/}. This documentation shows you
-how to input the requisite information (e.g. your API key) into R, and it
-also shows you a few tools that can help you work with the credentialing.
+\url{https://cloud.google.com/maps-platform/}. This documentation shows you how
+to input the requisite information (e.g. your API key) into R, and it also
+shows you a few tools that can help you work with the credentialing.
 
-To tell ggmap about your API key, use the \code{register_google()} function,
-e.g. \code{register_google(key = "mQkzTpiaLYjPqXQBotesgif3EfGL2dbrNVOrogg")}
+To tell ggmap about your API key, use \code{\link[=register_google]{register_google()}}, e.g.
+\code{register_google(key = "mQkzTpiaLYjPqXQBotesgif3EfGL2dbrNVOrogg")}
 (that's a fake key). This will set your API key for the current session, but
 if you restart R, you'll need to do it again. You can set it permanently by
 setting \code{write = TRUE}, see the examples. If you set it permanently it
@@ -156,10 +156,9 @@ scrub_key("client=a_5sS&signature=d_5iD")
 }
 \seealso{
 \url{https://cloud.google.com/maps-platform/},
-  \url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
-
-  \url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
+\url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
+\url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
 }
 \author{
-David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david@kahle.io}
 }

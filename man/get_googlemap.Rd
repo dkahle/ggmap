@@ -15,9 +15,9 @@ get_googlemap(center = c(lon = -95.3632715, lat = 29.7632836),
 }
 \arguments{
 \item{center}{the center of the map; either a longitude/latitude numeric
-vector or a string containing a location, in which case
-\code{\link{geocode}} is called with \code{source = "google"}. (default:
-c(lon = -95.3632715, lat = 29.7632836), houston, texas)}
+vector or a string containing a location, in which case \code{\link[=geocode]{geocode()}} is
+called with \code{source = "google"}. (default: c(lon = -95.3632715, lat =
+29.7632836), houston, texas)}
 
 \item{zoom}{map zoom; an integer from 3 (continent) to 21 (building), default
 value 10 (city)}
@@ -46,7 +46,7 @@ those which aren't the default language is used}
 \item{urlonly}{return url only}
 
 \item{filename}{destination file for download (file extension added according
-to format). Default \code{NULL} means a random \code{\link{tempfile}}.}
+to format). Default \code{NULL} means a random \code{\link[=tempfile]{tempfile()}}.}
 
 \item{color}{color or black-and-white}
 
@@ -57,7 +57,7 @@ to format). Default \code{NULL} means a random \code{\link{tempfile}}.}
 
 \item{archiving}{use archived maps.  note: by changing to TRUE you agree to
 the one of the approved uses listed in the Google Maps API Terms of Service
-: http://developers.google.com/maps/terms.}
+: \url{http://developers.google.com/maps/terms}.}
 
 \item{ext}{domain extension (e.g. "com", "co.nz")}
 
@@ -88,17 +88,17 @@ specification, see
 }
 \value{
 a ggmap object (a classed raster object with a bounding box
-  attribute)
+attribute)
 }
 \description{
 \code{get_googlemap} queries the Google Maps Static API version 2 to download
 a static map.  Note that in most cases by using this function you are
 agreeing to the Google Maps API Terms of Service at
-\url{https://cloud.google.com/maps-platform/terms/}. Note that as of
-mid-2018, registering with Google Cloud to obtain an API key is required to
-use any of Google's services, including \code{get_googlemap}. Usage and
-billing may apply, see the links under See Also further down in this
-documentation for more details.
+\url{https://cloud.google.com/maps-platform/terms/}. Note that as of mid-2018,
+registering with Google Cloud to obtain an API key is required to use any of
+Google's services, including \code{\link[=get_googlemap]{get_googlemap()}}. Usage and billing may apply,
+see the links under See Also further down in this documentation for more
+details.
 }
 \examples{
 
@@ -174,9 +174,9 @@ ggmap(map)
 \url{https://developers.google.com/maps/documentation/maps-static/intro},
 \url{https://developers.google.com/maps/documentation/maps-static/dev-guide},
 \url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
-\url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
-\code{\link{ggmap}}, \code{\link{register_google}}
+\url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing},
+\code{\link[=ggmap]{ggmap()}}, \code{\link[=register_google]{register_google()}}
 }
 \author{
-David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david@kahle.io}
 }

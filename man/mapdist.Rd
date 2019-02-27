@@ -26,7 +26,7 @@ data frame with from and to columns}
 \item{override_limit}{override the current query count
 (.google_distance_query_times)}
 
-\item{ext}{domain extension (e.g. "com", "co.nz")}
+\item{ext}{top level domain domain extension (e.g. "com", "co.nz")}
 
 \item{inject}{character string to add to the url}
 
@@ -34,17 +34,17 @@ data frame with from and to columns}
 }
 \value{
 a data frame (output="simple") or all of the geocoded information
-  (output="all")
+(output="all")
 }
 \description{
 Compute map distances using Google's Distance Matrix API. Note: To use
 Google's Distance Matrix API, you must first enable the API in the Google
-Cloud Platform Console. See \code{?register_google}.
+Cloud Platform Console. See \code{\link[=register_google]{register_google()}}.
 }
 \details{
 if parameters from and to are specified as geographic coordinates,
-  they are reverse geocoded with revgeocode.  note that the google maps api
-  limits to 2500 element queries a day.
+they are reverse geocoded with revgeocode.  note that the google maps api
+limits to 2500 element queries a day.
 }
 \examples{
 
@@ -125,5 +125,5 @@ mapdist(wh, lm, mode = "walking")
 \url{https://developers.google.com/maps/documentation/distance-matrix/intro}
 }
 \author{
-David Kahle \email{david.kahle@gmail.com}
+David Kahle \email{david@kahle.io}
 }

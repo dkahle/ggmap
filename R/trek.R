@@ -17,12 +17,11 @@
 #' @param inject character string to add to the url
 #' @param ... ...
 #' @return a tibble
-#' @author David Kahle \email{david.kahle@@gmail.com} with the key decoding
+#' @author David Kahle \email{david@@kahle.io} with the key decoding
 #'   algorithm due to Stack Overflow user akhmed
 #' @seealso \url{https://developers.google.com/maps/documentation/directions/},
 #'   \url{http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads},
-#'    \code{\link{route}}, \code{\link{routeQueryCheck}}
-#'   \code{\link{register_google}}
+#'   [route()], [routeQueryCheck()], [register_google()]
 #' @export
 #' @examples
 #'
