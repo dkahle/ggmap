@@ -12,7 +12,8 @@ get_stamenmap(bbox = c(left = -95.80204, bottom = 29.38048, right =
   "toner-2010", "toner-2011", "toner-background", "toner-hybrid",
   "toner-labels", "toner-lines", "toner-lite", "watercolor"),
   crop = TRUE, messaging = FALSE, urlonly = FALSE,
-  color = c("color", "bw"), force = FALSE, where = tempdir(), ...)
+  color = c("color", "bw"), force = FALSE, where = tempdir(),
+  https = FALSE, ...)
 
 get_stamen_tile_download_fail_log()
 
@@ -42,6 +43,9 @@ downloaded the images)}
 
 \item{where}{where should the file drawer be located (without terminating
 "/")}
+
+\item{https}{if TRUE, queries an https endpoint so that web traffic between
+you and the tile server is ecrypted using SSL.}
 
 \item{...}{...}
 }
@@ -112,6 +116,15 @@ get_stamenmap(bbox, maptype = "watercolor", zoom = 13) \%>\% ggmap(extent = "dev
 # get_stamenmap(bbox, maptype = "watercolor", zoom = 16) \%>\% ggmap(extent = "device")
 # get_stamenmap(bbox, maptype = "watercolor", zoom = 17) \%>\% ggmap(extent = "device")
 # get_stamenmap(bbox, maptype = "watercolor", zoom = 18) \%>\% ggmap(extent = "device")
+
+
+## https
+########################################
+
+bbox <- c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.559652)
+get_stamenmap(bbox, zoom = 14, urlonly = TRUE)
+get_stamenmap(bbox, zoom = 14, urlonly = TRUE, https = TRUE)
+ggmap(get_stamenmap(bbox, zoom = 15, https = TRUE, messaging = TRUE))
 
 
 ## more examples

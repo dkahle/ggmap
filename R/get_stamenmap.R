@@ -19,6 +19,8 @@
 #' @param force if the map is on file, should a new map be looked up?
 #' @param where where should the file drawer be located (without terminating
 #'   "/")
+#' @param https if TRUE, queries an https endpoint so that web traffic between
+#'   you and the tile server is ecrypted using SSL.
 #' @param ... ...
 #' @return a ggmap object (a classed raster object with a bounding box
 #'   attribute)
@@ -82,6 +84,15 @@
 #' # get_stamenmap(bbox, maptype = "watercolor", zoom = 16) %>% ggmap(extent = "device")
 #' # get_stamenmap(bbox, maptype = "watercolor", zoom = 17) %>% ggmap(extent = "device")
 #' # get_stamenmap(bbox, maptype = "watercolor", zoom = 18) %>% ggmap(extent = "device")
+#'
+#'
+#' ## https
+#' ########################################
+#'
+#' bbox <- c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.559652)
+#' get_stamenmap(bbox, zoom = 14, urlonly = TRUE)
+#' get_stamenmap(bbox, zoom = 14, urlonly = TRUE, https = TRUE)
+#' ggmap(get_stamenmap(bbox, zoom = 15, https = TRUE, messaging = TRUE))
 #'
 #'
 #' ## more examples
@@ -156,7 +167,7 @@ get_stamenmap <- function(
     "terrain-lines", "toner", "toner-2010", "toner-2011", "toner-background",
     "toner-hybrid", "toner-labels", "toner-lines", "toner-lite", "watercolor"),
   crop = TRUE, messaging = FALSE, urlonly = FALSE, color = c("color","bw"), force = FALSE,
-  where = tempdir(), ...
+  where = tempdir(), https = FALSE, ...
 ){
 
   # enumerate argument checking (added in lieu of checkargs function)
@@ -223,7 +234,7 @@ get_stamenmap <- function(
 
 
   # make urls - e.g. http://tile.stamen.com/[maptype]/[zoom]/[x]/[y].jpg
-  base_url <- "http://tile.stamen.com/"
+  base_url <- if (https) "https://stamen-tiles.a.ssl.fastly.net/" else "http://tile.stamen.com/"
   # base_url <- "http://b.b.tile.stamen.com/"
   base_url <- paste(base_url, maptype, "/", zoom, sep = "")
   urls <- paste(base_url, apply(tilesNeeded, 1, paste, collapse = "/"), sep = "/")
@@ -237,7 +248,7 @@ get_stamenmap <- function(
     split(tilesNeeded, 1:nrow(tilesNeeded)),
     function(v) {
       v <- as.numeric(v)
-      get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, messaging = messaging)
+      get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, messaging = messaging, https = https)
     }
   )
 
@@ -327,7 +338,7 @@ get_stamenmap <- function(
 
 
 
-get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messaging = TRUE, where = tempdir(), url){
+get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messaging = TRUE, where = tempdir(), https = FALSE, url){
 
   if (missing(url)) {
 
@@ -339,7 +350,8 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messag
 
     # format url http://tile.stamen.com/[maptype]/[zoom]/[x]/[y].jpg
     if(maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
-    url <- glue("http://tile.stamen.com/{maptype}/{zoom}/{x}/{y}.{filetype}")
+    domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+    url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
 
 
     # lookup in archive

@@ -9,6 +9,9 @@
 *   `get_stamenmap()` now only returns URLs if `messaging = TRUE` (Reported by
     @ikosmidis, #274). It also includes a more formal attribution to Stamen 
     Design and OpenStreetMap.
+    
+*   `get_stamenmap()` now supports a SSL Stamen endpoint via the `https` 
+    argument (#276).
 
 *   `mapdist()` now properly orders results (reported by @BirgerNi, #266).
 
