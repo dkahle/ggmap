@@ -2,6 +2,8 @@ context("URLs are properly encoded")
 
 test_that("# encodes correctly", {
 
+  Sys.setenv("GGMAP_GOOGLE_API_KEY" = "mQkzTpiaLYjP_XQBotesgif3EfGL2dbrNVOrogg") # fake key
+
   expect_equal(
     get_googlemap("#10 downing street, london", urlonly = TRUE),
     "https://maps.googleapis.com/maps/api/staticmap?center=%2310%20downing%20street,%20london&zoom=10&size=640x640&scale=2&maptype=terrain&key=xxx"
