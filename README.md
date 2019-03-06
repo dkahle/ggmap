@@ -80,9 +80,13 @@ and [Stamen Maps](http://maps.stamen.com) and plot them using the
 
 ``` r
 library("ggmap")
+#  Loading required package: ggplot2
+#  Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.
+#  Please cite ggmap if you use it! See citation("ggmap") for details.
 
 us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
 get_stamenmap(us, zoom = 5, maptype = "toner-lite") %>% ggmap() 
+#  Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
 ```
 
 ![](tools/README-maptypes-1.png)
@@ -92,6 +96,14 @@ automatically added in the background:
 
 ``` r
 library("dplyr")
+#  
+#  Attaching package: 'dplyr'
+#  The following objects are masked from 'package:stats':
+#  
+#      filter, lag
+#  The following objects are masked from 'package:base':
+#  
+#      intersect, setdiff, setequal, union
 library("forcats")
 
 # define helper
@@ -111,6 +123,8 @@ violent_crimes <- crime %>%
 
 # use qmplot to make a scatterplot on a map
 qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", color = I("red"))
+#  Using zoom = 14...
+#  Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
 ```
 
 ![](tools/README-qmplot-1.png)
@@ -134,6 +148,7 @@ qmplot(lon, lat, data = violent_crimes, geom = "blank",
 ) +
   stat_density_2d(aes(fill = ..level..), geom = "polygon", alpha = .3, color = NA) +
   scale_fill_gradient2("Robbery\nPropensity", low = "white", mid = "yellow", high = "red", midpoint = 650)
+#  Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
 ```
 
 ![](tools/README-styling-1.png)
@@ -143,6 +158,8 @@ Faceting works, too:
 ``` r
 qmplot(lon, lat, data = violent_crimes, maptype = "toner-background", color = offense) + 
   facet_wrap(~ offense)
+#  Using zoom = 14...
+#  Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
 ```
 
 ![](tools/README-faceting-1.png)
@@ -191,6 +208,7 @@ revgeocode(c(lon = -97.1161, lat = 31.55098))
 #    Robinson, TX 76706, USA
 #    Waco, TX, USA
 #    McLennan County, TX, USA
+#    Texas, USA
 #    United States
 #  [1] "1301 S University Parks Dr, Waco, TX 76706, USA"
 ```
@@ -242,8 +260,8 @@ mapdist(c("houston, texas", "dallas"), "waco, texas")
 #  # A tibble: 2 x 9
 #    from          to               m    km miles seconds minutes hours mode  
 #    <chr>         <chr>        <int> <dbl> <dbl>   <int>   <dbl> <dbl> <chr> 
-#  1 houston, tex… waco, texas 298570  299. 186.    10297   172.   2.86 drivi…
-#  2 dallas        waco, texas 152822  153.  95.0    5394    89.9  1.50 drivi…
+#  1 houston, tex… waco, texas 298571  299. 186.    10291   172.   2.86 drivi…
+#  2 dallas        waco, texas 152821  153.  95.0    5398    90.0  1.50 drivi…
 ```
 
 Installation

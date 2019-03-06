@@ -8,7 +8,7 @@ output:
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE, cache = TRUE,
+  collapse = TRUE, cache = FALSE,
   comment = "# ",
   fig.path = "tools/README-",
   dpi = 67
@@ -46,7 +46,7 @@ The details of the readme below will be changed shortly to reflect these changes
 
 __ggmap__ is an R package that makes it easy to retrieve raster map tiles from popular online mapping services like [Google Maps](https://developers.google.com/maps/documentation/static-maps/?hl=en) and [Stamen Maps](http://maps.stamen.com) and plot them using the [__ggplot2__](https://github.com/tidyverse/ggplot2) framework:
 
-```{r maptypes, message = FALSE}
+```{r maptypes}
 library("ggmap")
 
 us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
@@ -55,7 +55,7 @@ get_stamenmap(us, zoom = 5, maptype = "toner-lite") %>% ggmap()
 
 Use `qmplot()` in the same way you'd use `qplot()`, but with a map automatically added in the background:
 
-```{r qmplot, message=FALSE}
+```{r qmplot}
 library("dplyr")
 library("forcats")
 
@@ -86,7 +86,7 @@ qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", geom = "density2
 
 In fact, since __ggmap__'s built on top of __ggplot2__, all your usual __ggplot2__ stuff (geoms, polishing, etc.) will work, and there are some unique graphing perks __ggmap__ brings to the table, too.
 
-```{r styling, message=FALSE}
+```{r styling}
 robberies <- violent_crimes %>% filter(offense == "robbery")
 
 qmplot(lon, lat, data = violent_crimes, geom = "blank", 
@@ -98,7 +98,7 @@ qmplot(lon, lat, data = violent_crimes, geom = "blank",
 
 Faceting works, too:
 
-```{r faceting, message=FALSE}
+```{r faceting}
 qmplot(lon, lat, data = violent_crimes, maptype = "toner-background", color = offense) + 
   facet_wrap(~ offense)
 ```
@@ -116,7 +116,7 @@ get_googlemap("waco texas", zoom = 12) %>% ggmap()
 ```
 
 Moreover, you can get various different styles of Google Maps with __ggmap__ (just like Stamen Maps):
-```{r google_styles, eval = FALSE}
+```{r google_styles, eval=FALSE}
 get_googlemap("waco texas", zoom = 12, maptype = "satellite") %>% ggmap()
 get_googlemap("waco texas", zoom = 12, maptype = "hybrid") %>% ggmap()
 get_googlemap("waco texas", zoom = 12, maptype = "roadmap") %>% ggmap()
@@ -129,7 +129,7 @@ revgeocode(c(lon = -97.1161, lat = 31.55098))
 ```
 
 There is also a `mutate_geocode()` that works similarly to [__dplyr__](https://github.com/hadley/dplyr)'s `mutate()` function:
-```{r mutate_geocode, messages = FALSE}
+```{r mutate_geocode}
 tibble(address = c("white house", "", "waco texas")) %>% 
   mutate_geocode(address)
 ```

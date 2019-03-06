@@ -37,8 +37,7 @@
 #' ggmap(get_stamenmap(bbox, zoom = 13))
 #' ggmap(get_stamenmap(bbox, zoom = 14))
 #' ggmap(get_stamenmap(bbox, zoom = 15))
-#' ggmap(get_stamenmap(bbox, zoom = 16))
-#'
+#' ggmap(get_stamenmap(bbox, zoom = 16, messaging = TRUE))
 #'
 #' place <- "mount everest"
 #' (google <- get_googlemap(place, zoom = 9))
@@ -199,8 +198,10 @@ get_stamenmap <- function(
   # set image type (stamen only)
   if(maptype %in% c("watercolor")){
     filetype <- "jpg"
+    message("Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.")
   } else {
     filetype <- "png"
+    message("Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.")
   }
 
   # determine tiles to get
@@ -216,8 +217,8 @@ get_stamenmap <- function(
   ysNeeded <- Reduce(":", sort(unique(as.numeric(sapply(fourCornersTiles, function(df) df$Y)))))
   tilesNeeded <- expand.grid(x = xsNeeded, y = ysNeeded)
   if(nrow(tilesNeeded) > 40){
-    message(paste0(nrow(tilesNeeded), " tiles needed, this may take a while ",
-      "(try a smaller zoom)."))
+    message(nrow(tilesNeeded), " tiles needed, this may take a while ",
+      "(try a smaller zoom).")
   }
 
 
@@ -232,10 +233,13 @@ get_stamenmap <- function(
 
 
   # make list of tiles
-  listOfTiles <- lapply(split(tilesNeeded, 1:nrow(tilesNeeded)), function(v){
-    v <- as.numeric(v)
-    get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, messaging = messaging)
-  })
+  listOfTiles <- lapply(
+    split(tilesNeeded, 1:nrow(tilesNeeded)),
+    function(v) {
+      v <- as.numeric(v)
+      get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, messaging = messaging)
+    }
+  )
 
 
   # stitch tiles together
@@ -344,7 +348,7 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messag
 
 
     # message url
-    message("Source : ", url)
+    if (messaging) message("Source : ", url)
 
   } else {
 
@@ -366,7 +370,7 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messag
   if (response$status_code != 200L) {
 
     httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
-    message("\n", appendLF = FALSE)
+    if (messaging) message("\n", appendLF = FALSE)
     log_stamen_tile_download_fail(url)
     tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
 

@@ -5,6 +5,10 @@
 *   ___ggmap__ functions can now be called even if it has not been attached to 
     the search path (loaded) (reported by @jennybc, @lorenzwalthert, #264, 
     #244).
+    
+*   `get_stamenmap()` now only returns URLs if `messaging = TRUE` (Reported by
+    @ikosmidis, #274). It also includes a more formal attribution to Stamen 
+    Design and OpenStreetMap.
 
 *   `mapdist()` now properly orders results (reported by @BirgerNi, #266).
 
