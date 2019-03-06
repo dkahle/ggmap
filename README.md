@@ -5,6 +5,8 @@
 status](https://www.r-pkg.org/badges/version/ggmap)](https://cran.r-project.org/package=ggmap)
 [![Travis build
 status](https://travis-ci.org/dkahle/ggmap.svg?branch=master)](https://travis-ci.org/dkahle/ggmap)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/dkahle/ggmap?branch=master&svg=true)](https://ci.appveyor.com/project/dkahle/ggmap)
 <!-- badges: end -->
 
 ### *Attention!*
