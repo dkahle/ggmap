@@ -365,7 +365,7 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messag
   # deal with bad responses
   if (response$status_code != 200L) {
 
-    httr::message_for_status(response, glue("aquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+    httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
     message("\n", appendLF = FALSE)
     log_stamen_tile_download_fail(url)
     tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
