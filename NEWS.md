@@ -6,6 +6,8 @@
     the search path (loaded) (reported by @jennybc, @lorenzwalthert, #264, 
     #244).
     
+*   Google functions now properly encode #'s (reported by @aaronrudkin, #272).
+    
 *   `get_stamenmap()` now only returns URLs if `messaging = TRUE` (Reported by
     @ikosmidis, #274). It also includes a more formal attribution to Stamen 
     Design and OpenStreetMap.
@@ -14,6 +16,8 @@
     argument (#276).
 
 *   `mapdist()` now properly orders results (reported by @BirgerNi, #266).
+
+*   `mapdist()` now properly returns URLs if `urlonly = TRUE`.
 
 *   `get_map()` now (again) respects the `source = "google"` specification when 
     given a bounding box (reported by @julovi, #267).

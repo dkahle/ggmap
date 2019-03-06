@@ -79,6 +79,7 @@ revgeocode <- function (
 
   # encode
   url <- URLencode( enc2utf8(url) )
+  url <- str_replace_all(url, "#", "%23") # selectively url-encode
 
 
   # return early if user only wants url

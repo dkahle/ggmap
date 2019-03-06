@@ -350,6 +350,7 @@ get_googlemap <- function(
   if (inject != "") url <- str_c(url, inject, sep = "&")
 
   url <- URLencode( enc2utf8(url) )
+  url <- str_replace_all(url, "#", "%23") # selectively url-encode
   if(urlonly) if(showing_key()) return(url) else return(scrub_key(url))
   if(nchar(url) > 8192) stop("max url length is 8192 characters.", call. = FALSE)
 

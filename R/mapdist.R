@@ -174,6 +174,7 @@ mapdist <- function (
 
     # encode
     url <- URLencode( enc2utf8(url) )
+    url <- str_replace_all(url, "#", "%23") # selectively url-encode
 
     # check if query is too long
     if(nchar(url) >= 2048){
@@ -239,8 +240,11 @@ mapdist <- function (
     split(from_to_df$from) %>%
     map(~ getdists(.x))
 
+  #  urlonly
+  if (urlonly) return(unname(unlist(out)))
+
   # return all
-  if(output == "all") return(out)
+  if (output == "all") return(out)
 
   # get the order google returned them
   out_from_to_df <- tibble(
