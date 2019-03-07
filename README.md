@@ -60,16 +60,14 @@ queries by default, so when URLs are shown in your console, they’ll look
 something like `key=xxx`. (Read the details section of the
 `register_google()` documentation for a bit more info on this point.)
 
-We hope the new version of **ggmap** will be on CRAN soon, but until
-then you can install the version here with:
+The new version of **ggmap** is now on CRAN soon, but you can install
+the latest version, including an important bug fix in `mapdist()`, here
+with:
 
 ``` r
 if(!requireNamespace("devtools")) install.packages("devtools")
 devtools::install_github("dkahle/ggmap")
 ```
-
-The details of the readme below will be changed shortly to reflect these
-changes. Thanks for your patience!
 
 <hr>
 
@@ -264,7 +262,7 @@ mapdist(c("houston, texas", "dallas"), "waco, texas")
 #  # A tibble: 2 x 9
 #    from          to               m    km miles seconds minutes hours mode  
 #    <chr>         <chr>        <int> <dbl> <dbl>   <int>   <dbl> <dbl> <chr> 
-#  1 houston, tex… waco, texas 298571  299. 186.    10291   172.   2.86 drivi…
+#  1 houston, tex… waco, texas 298567  299. 186.    10290   172.   2.86 drivi…
 #  2 dallas        waco, texas 152821  153.  95.0    5398    90.0  1.50 drivi…
 ```
 
