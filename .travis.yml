@@ -3,3 +3,8 @@
 language: R
 sudo: false
 cache: packages
+
+jobs:
+  include:
+  - r: devel
+  - r: release
