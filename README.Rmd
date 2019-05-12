@@ -164,5 +164,10 @@ mapdist(c("houston, texas", "dallas"), "waco, texas")
 
 * From CRAN: `install.packages("ggmap")`
 
-* From Github: `devtools::install_github("dkahle/ggmap")`
+* From Github: 
+```{r, eval=FALSE}
+if (!requireNamespace("devtools")) install.packages("devtools")
+devtools::install_github("dkahle/ggmap")
+```
+
 

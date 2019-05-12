@@ -83,6 +83,11 @@ and [Stamen Maps](http://maps.stamen.com) and plot them using the
 ``` r
 library("ggmap")
 #  Loading required package: ggplot2
+#  Registered S3 methods overwritten by 'ggplot2':
+#    method         from 
+#    [.quosures     rlang
+#    c.quosures     rlang
+#    print.quosures rlang
 #  Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.
 #  Please cite ggmap if you use it! See citation("ggmap") for details.
 
@@ -222,6 +227,7 @@ There is also a `mutate_geocode()` that works similarly to
 tibble(address = c("white house", "", "waco texas")) %>% 
   mutate_geocode(address)
 #  Source : https://maps.googleapis.com/maps/api/geocode/json?address=white+house&key=xxx
+#  "white house" not uniquely geocoded, using "1600 pennsylvania ave nw, washington, dc 20500, usa"
 #  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx
 #  # A tibble: 3 x 3
 #    address       lon   lat
@@ -262,8 +268,8 @@ mapdist(c("houston, texas", "dallas"), "waco, texas")
 #  # A tibble: 2 x 9
 #    from          to               m    km miles seconds minutes hours mode  
 #    <chr>         <chr>        <int> <dbl> <dbl>   <int>   <dbl> <dbl> <chr> 
-#  1 houston, tex… waco, texas 298567  299. 186.    10290   172.   2.86 drivi…
-#  2 dallas        waco, texas 152821  153.  95.0    5398    90.0  1.50 drivi…
+#  1 houston, tex… waco, texas 298227  298. 185.    10257   171.   2.85 drivi…
+#  2 dallas        waco, texas 152480  152.  94.8    5356    89.3  1.49 drivi…
 ```
 
 Installation
@@ -271,4 +277,9 @@ Installation
 
 -   From CRAN: `install.packages("ggmap")`
 
--   From Github: `devtools::install_github("dkahle/ggmap")`
+-   From Github:
+
+``` r
+if (!requireNamespace("devtools")) install.packages("devtools")
+devtools::install_github("dkahle/ggmap")
+```
