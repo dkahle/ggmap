@@ -479,15 +479,9 @@ legs2route <- function(legsdf){
       out$lat[nrow(out)] <- tail(leg$end_lat,1)
       out
     })) %>%
-    unnest()
+    unnest(cols = "data")
 
 }
-
-
-
-
-
-
 
 
 
