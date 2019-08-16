@@ -5,8 +5,8 @@
 #' API, you must first enable the API in the Google Cloud Platform Console. See
 #' [register_google()].
 #'
-#' @param from name of origin addresses in a data frame
-#' @param to name of destination addresses in a data frame
+#' @param from vector of origin addresses
+#' @param to vector of destination addresses
 #' @param output amount of output ("simple" or "all")
 #' @param structure structure of output, "legs" or "route", see examples
 #' @param mode driving, bicycling, walking, or transit

@@ -13,9 +13,9 @@ route(from, to, mode = c("driving", "walking", "bicycling", "transit"),
 routeQueryCheck()
 }
 \arguments{
-\item{from}{name of origin addresses in a data frame}
+\item{from}{vector of origin addresses}
 
-\item{to}{name of destination addresses in a data frame}
+\item{to}{vector of destination addresses}
 
 \item{mode}{driving, bicycling, walking, or transit}
 
