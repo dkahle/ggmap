@@ -7,7 +7,7 @@ Description: A collection of functions to visualize spatial data and models
     geolocation and routing.
 URL: https://github.com/dkahle/ggmap
 BugReports: https://github.com/dkahle/ggmap/issues
-Authors@R: c(person("David", "Kahle", email = "david.kahle@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-9999-1558")),
+Authors@R: c(person("David", "Kahle", email = "david@kahle.io", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-9999-1558")),
   person("Hadley", "Wickham", email = "h.wickham@gmail.com", role = "aut", comment = c(ORCID = "0000-0003-4757-117X")),
   person("Scott", "Jackson", email = "scottmmjackson@gmail.com", role = "aut"),
   person("Mikko", "Korpela", email = "mvkorpel@iki.fi", role = "ctb"))
