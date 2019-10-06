@@ -31,7 +31,8 @@ Imports:
     magrittr,
     tibble,
     tidyr,
-    rlang
+    rlang,
+    sf
 Suggests:
     MASS,
     hexbin,
