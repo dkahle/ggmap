@@ -371,7 +371,7 @@ get_carto_tile <- function(maptype, zoom, x, y, color, force = FALSE, messaging 
 
     # parse tile
     tile <- httr::content(response)
-    tile <- aperm(tile, c(2, 1, 3))
+    # tile <- aperm(tile, c(2, 1, 3))
 
     # convert to hex color
     # if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", "terrain-labels", "terrain-lines")) {
@@ -385,7 +385,8 @@ get_carto_tile <- function(maptype, zoom, x, y, color, force = FALSE, messaging 
     # } else {
 
     if(color == "color") {
-      tile <- apply(tile, 2, rgb)
+      # tile <- apply(tile, 2, rgb)
+      tile <- tile %>% as.raster()
     } else {  # color == "bw"
       tiled <- dim(tile)
       tile <- gray(.30 * tile[,,1] + .59 * tile[,,2] + .11 * tile[,,3])
