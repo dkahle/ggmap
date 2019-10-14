@@ -388,6 +388,7 @@ get_carto_tile <- function(maptype, zoom, x, y, color, force = FALSE, messaging 
       # tile <- apply(tile, 2, rgb)
       tile <- tile %>% as.raster()
     } else {  # color == "bw"
+      tile <- aperm(tile, c(2, 1, 3))
       tiled <- dim(tile)
       tile <- gray(.30 * tile[,,1] + .59 * tile[,,2] + .11 * tile[,,3])
       dim(tile) <- tiled[1:2]
