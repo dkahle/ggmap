@@ -23,6 +23,12 @@
 #'
 #'
 inset_raster <- annotation_raster <- function(raster, xmin, xmax, ymin, ymax, interpolate = TRUE) {
+
+  fourCorners <- expand.grid(
+    lon = as.numeric(attr(raster, "bb")[,c("ll.lon","ur.lon")]),
+    lat = as.numeric(attr(raster, "bb")[,c("ll.lat","ur.lat")])
+  )
+
   raster <- grDevices::as.raster(raster)
 
   # add possibility that xmin is c(xmin, xmax, ymin, ymax)
@@ -34,7 +40,7 @@ inset_raster <- annotation_raster <- function(raster, xmin, xmax, ymin, ymax, in
   }
 
   layer(
-    data = NULL,
+    data = fourCorners,
     mapping = NULL,
     stat = ggplot2::StatIdentity,
     position = ggplot2::PositionIdentity,
