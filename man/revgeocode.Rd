@@ -4,9 +4,16 @@
 \alias{revgeocode}
 \title{Reverse geocode}
 \usage{
-revgeocode(location, output = c("address", "all"), force = FALSE,
-  urlonly = FALSE, override_limit = FALSE, ext = "com",
-  inject = "", ...)
+revgeocode(
+  location,
+  output = c("address", "all"),
+  force = FALSE,
+  urlonly = FALSE,
+  override_limit = FALSE,
+  ext = "com",
+  inject = "",
+  ...
+)
 }
 \arguments{
 \item{location}{a location in longitude/latitude format}

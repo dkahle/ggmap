@@ -4,12 +4,21 @@
 \name{ggmap}
 \alias{ggmap}
 \alias{package-ggmap}
-\alias{ggmap-package}
 \title{Plot a ggmap object}
 \usage{
-ggmap(ggmap, extent = "panel", base_layer, maprange = FALSE,
-  legend = "right", padding = 0.02, darken = c(0, "black"), b,
-  fullpage, expand, ...)
+ggmap(
+  ggmap,
+  extent = "panel",
+  base_layer,
+  maprange = FALSE,
+  legend = "right",
+  padding = 0.02,
+  darken = c(0, "black"),
+  b,
+  fullpage,
+  expand,
+  ...
+)
 }
 \arguments{
 \item{ggmap}{an object of class ggmap (from function get_map)}
@@ -297,7 +306,7 @@ HoustonMap <- ggmap(houston, extent = "device", legend = "topleft")
 HoustonMap +
   stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
     size = 2, bins = 4, data = violent_crimes, geom = "polygon") +
-  scale_fill_gradient("Violent\\nCrime\\nDensity") +
+  scale_fill_gradient("Violent\nCrime\nDensity") +
   scale_alpha(range = c(.4, .75), guide = FALSE) +
   guides(fill = guide_colorbar(barwidth = 1.5, barheight = 10))
 
@@ -311,12 +320,12 @@ attr(houston,"bb") # to help finding (x/y)(min/max) vals below
 HoustonMap +
   stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
     bins = 4, geom = "polygon", data = violent_crimes) +
-  scale_fill_gradient("Violent\\nCrime\\nDensity") +
+  scale_fill_gradient("Violent\nCrime\nDensity") +
   scale_alpha(range = c(.4, .75), guide = FALSE) +
   guides(fill = guide_colorbar(barwidth = 1.5, barheight = 10)) +
   inset(
     grob = ggplotGrob(ggplot() + overlay +
-      scale_fill_gradient("Violent\\nCrime\\nDensity") +
+      scale_fill_gradient("Violent\nCrime\nDensity") +
       scale_alpha(range = c(.4, .75), guide = FALSE) +
       theme_inset()
     ),
@@ -427,7 +436,7 @@ HoustonMap <- ggmap(houston,
 HoustonMap +
   stat_density2d(aes(x = lon, y = lat, fill = ..level.., alpha = ..level..),
     bins = I(5), geom = "polygon", data = violent_crimes) +
-  scale_fill_gradient2("Violent\\nCrime\\nDensity",
+  scale_fill_gradient2("Violent\nCrime\nDensity",
     low = "white", mid = "orange", high = "red", midpoint = 500) +
   labs(x = "Longitude", y = "Latitude") + facet_wrap(~ month) +
   scale_alpha(range = c(.2, .55), guide = FALSE) +

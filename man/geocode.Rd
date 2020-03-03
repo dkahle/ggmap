@@ -6,10 +6,18 @@
 \alias{geocodeQueryCheck}
 \title{Geocode}
 \usage{
-geocode(location, output = c("latlon", "latlona", "more", "all"),
-  source = c("google", "dsk"), force = ifelse(source == "dsk", FALSE,
-  TRUE), urlonly = FALSE, override_limit = FALSE,
-  nameType = c("long", "short"), ext = "com", inject = "", ...)
+geocode(
+  location,
+  output = c("latlon", "latlona", "more", "all"),
+  source = c("google", "dsk"),
+  force = ifelse(source == "dsk", FALSE, TRUE),
+  urlonly = FALSE,
+  override_limit = FALSE,
+  nameType = c("long", "short"),
+  ext = "com",
+  inject = "",
+  ...
+)
 
 mutate_geocode(data, location, ...)
 

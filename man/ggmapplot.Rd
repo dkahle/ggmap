@@ -4,8 +4,14 @@
 \alias{ggmapplot}
 \title{Don't use this function, use ggmap.}
 \usage{
-ggmapplot(ggmap, fullpage = FALSE, base_layer, maprange = FALSE,
-  expand = FALSE, ...)
+ggmapplot(
+  ggmap,
+  fullpage = FALSE,
+  base_layer,
+  maprange = FALSE,
+  expand = FALSE,
+  ...
+)
 }
 \arguments{
 \item{ggmap}{an object of class ggmap (from function \code{\link[=get_map]{get_map()}})}

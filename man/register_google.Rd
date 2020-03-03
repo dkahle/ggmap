@@ -27,8 +27,15 @@ ggmap_hide_api_key()
 
 scrub_key(string, with = "xxx")
 
-register_google(key, account_type, client, signature, second_limit,
-  day_limit, write = FALSE)
+register_google(
+  key,
+  account_type,
+  client,
+  signature,
+  second_limit,
+  day_limit,
+  write = FALSE
+)
 
 \method{print}{google_credentials}(x, ...)
 

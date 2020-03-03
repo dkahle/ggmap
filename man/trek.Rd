@@ -4,10 +4,19 @@
 \alias{trek}
 \title{Grab a trek from Google}
 \usage{
-trek(from, to, mode = c("driving", "walking", "bicycling", "transit"),
-  output = c("simple", "all"), alternatives = FALSE,
-  units = "metric", urlonly = FALSE, override_limit = FALSE,
-  ext = "com", inject = "", ...)
+trek(
+  from,
+  to,
+  mode = c("driving", "walking", "bicycling", "transit"),
+  output = c("simple", "all"),
+  alternatives = FALSE,
+  units = "metric",
+  urlonly = FALSE,
+  override_limit = FALSE,
+  ext = "com",
+  inject = "",
+  ...
+)
 }
 \arguments{
 \item{from}{name of origin addresses in a data frame}

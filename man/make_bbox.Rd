@@ -11,19 +11,19 @@ make_bbox(lon, lat, data, f = 0.05)
 
 \item{lat}{latitude}
 
-\item{data}{(optional) a data frame containing lon and lat as
-variables}
+\item{data}{(optional) a data frame containing lon and lat as variables}
 
-\item{f}{number specifying the fraction by which the range should
-be extended}
+\item{f}{number specifying the fraction by which the range should be
+extended. if length 2 vector, applies to longitude and then latitude.}
 }
 \description{
-Compute a bounding box for a given longitude / latitude
-collection.
+Compute a bounding box for a given longitude / latitude collection.
 }
 \examples{
 
 make_bbox(lon, lat, data = crime)
+make_bbox(lon, lat, data = crime, f = .20)
+make_bbox(lon, lat, data = crime, f = c(.20, .05))
 
 (lon <- sample(crime$lon, 10))
 (lat <- sample(crime$lat, 10))

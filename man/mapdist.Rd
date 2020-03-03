@@ -5,9 +5,17 @@
 \alias{distQueryCheck}
 \title{Compute map distances using Google}
 \usage{
-mapdist(from, to, mode = c("driving", "walking", "bicycling", "transit"),
-  output = c("simple", "all"), urlonly = FALSE,
-  override_limit = FALSE, ext = "com", inject = "", ...)
+mapdist(
+  from,
+  to,
+  mode = c("driving", "walking", "bicycling", "transit"),
+  output = c("simple", "all"),
+  urlonly = FALSE,
+  override_limit = FALSE,
+  ext = "com",
+  inject = "",
+  ...
+)
 
 distQueryCheck()
 }

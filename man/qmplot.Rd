@@ -4,13 +4,32 @@
 \alias{qmplot}
 \title{Quick map plot}
 \usage{
-qmplot(x, y, ..., data, zoom, source = "stamen",
-  maptype = "toner-lite", extent = "device", legend = "right",
-  padding = 0.02, force = FALSE, darken = c(0, "black"),
-  mapcolor = "color", facets = NULL, margins = FALSE,
-  geom = "auto", stat = list(NULL), position = list(NULL),
-  xlim = c(NA, NA), ylim = c(NA, NA), main = NULL, f = 0.05,
-  xlab = "Longitude", ylab = "Latitude")
+qmplot(
+  x,
+  y,
+  ...,
+  data,
+  zoom,
+  source = "stamen",
+  maptype = "toner-lite",
+  extent = "device",
+  legend = "right",
+  padding = 0.02,
+  force = FALSE,
+  darken = c(0, "black"),
+  mapcolor = "color",
+  facets = NULL,
+  margins = FALSE,
+  geom = "auto",
+  stat = list(NULL),
+  position = list(NULL),
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
+  main = NULL,
+  f = 0.05,
+  xlab = "Longitude",
+  ylab = "Latitude"
+)
 }
 \arguments{
 \item{x}{longitude values}
@@ -141,9 +160,9 @@ theme_set(theme_bw(18))
 qmplot(lon, lat, data = thinwind, geom = "tile", fill = spd, alpha = spd,
     legend = "bottomleft") +
   geom_leg(aes(xend = lon + delta_lon, yend = lat + delta_lat)) +
-  scale_fill_gradient2("Wind Speed\\nand\\nDirection",
+  scale_fill_gradient2("Wind Speed\nand\nDirection",
     low = "green", mid = scales::muted("green"), high = "red") +
-  scale_alpha("Wind Speed\\nand\\nDirection", range = c(.1, .75)) +
+  scale_alpha("Wind Speed\nand\nDirection", range = c(.1, .75)) +
   guides(fill = guide_legend(), alpha = guide_legend())
 
 
@@ -211,7 +230,7 @@ qmplot(lon, lat, data = mg, shape = I(15), zoom = 14, legend = "topleft") +
 
 # interpolate at unobserved locations (i.e. at meuse.grid points)
 # pre-define scale for consistency
-scale <- scale_color_gradient("Predicted\\nZinc (ppm)",
+scale <- scale_color_gradient("Predicted\nZinc (ppm)",
   low = "green", high = "red", lim = c(100, 1850)
 )
 
@@ -280,7 +299,7 @@ qmplot(lon, lat, data = mg, shape = I(15), color = univKrige,
     data = m, shape = 1, color = "black"
   ) +
   scale +
-  scale_size("Observed\\nLog Zinc")
+  scale_size("Observed\nLog Zinc")
 
 
 

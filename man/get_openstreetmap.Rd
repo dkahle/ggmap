@@ -4,10 +4,16 @@
 \alias{get_openstreetmap}
 \title{Get an OpenStreetMap}
 \usage{
-get_openstreetmap(bbox = c(left = -95.80204, bottom = 29.38048, right =
-  -94.92313, top = 30.14344), scale = 606250, format = c("png", "jpeg",
-  "svg", "pdf", "ps"), messaging = FALSE, urlonly = FALSE,
-  filename = NULL, color = c("color", "bw"), ...)
+get_openstreetmap(
+  bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
+  scale = 606250,
+  format = c("png", "jpeg", "svg", "pdf", "ps"),
+  messaging = FALSE,
+  urlonly = FALSE,
+  filename = NULL,
+  color = c("color", "bw"),
+  ...
+)
 }
 \arguments{
 \item{bbox}{a bounding box in the format c(lowerleftlon, lowerleftlat,

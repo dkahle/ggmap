@@ -5,10 +5,20 @@
 \alias{routeQueryCheck}
 \title{Grab a route from Google}
 \usage{
-route(from, to, mode = c("driving", "walking", "bicycling", "transit"),
-  structure = c("legs", "route"), output = c("simple", "all"),
-  alternatives = FALSE, units = "metric", urlonly = FALSE,
-  override_limit = FALSE, ext = "com", inject = "", ...)
+route(
+  from,
+  to,
+  mode = c("driving", "walking", "bicycling", "transit"),
+  structure = c("legs", "route"),
+  output = c("simple", "all"),
+  alternatives = FALSE,
+  units = "metric",
+  urlonly = FALSE,
+  override_limit = FALSE,
+  ext = "com",
+  inject = "",
+  ...
+)
 
 routeQueryCheck()
 }
