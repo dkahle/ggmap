@@ -201,7 +201,7 @@ geocode <- function (
     if (showing_key()) message("Source : ", url) else message("Source : ", scrub_key(url))
 
     # query server
-    response <- httr::GET(url)
+    response <- httr::RETRY(verb = "GET", url = url)
 
     # deal with bad responses
     if (response$status_code != 200L) {
