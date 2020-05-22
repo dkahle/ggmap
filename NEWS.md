@@ -1,4 +1,4 @@
-# ggmap 3.0.0.900
+# ggmap 3.0.1
 
 ## Minor improvements and fixes
 
@@ -24,4 +24,6 @@
 
 *   `geocode()` now (again) respects the `source = "dsk"` specification 
     (reported by @alistaire47, #180).
+    
+*   A bug giving an error message `Error in aperm.default(map, c(2, 1, 3)) : invalid first argument, must be an array` has now been fixed. (solution by @kent37, #262).
 
