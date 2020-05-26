@@ -87,7 +87,7 @@ revgeocode <- function (
 
 
   # hash for caching
-  url_hash <- digest::digest(url)
+  url_hash <- digest::digest(scrub_key(url))
 
 
   # lookup info if on file

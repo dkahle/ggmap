@@ -33,5 +33,6 @@
     
 *   A bug giving an error message `Error in aperm.default(map, c(2, 1, 3)) : invalid first argument, must be an array` has now been fixed. (solution by @kent37, #262).
 
-*   `geocode()` now properly caches when geocoding several locations.
+*   `geocode()` now properly caches when geocoding several locations. The 
+    caching keys are now the hash values of the scrubbed url.
 

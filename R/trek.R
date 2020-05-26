@@ -160,7 +160,7 @@ trek <- function (
 
 
   # hash for caching
-  url_hash <- digest::digest(url)
+  url_hash <- digest::digest(scrub_key(url))
 
 
   # check/update google query limit

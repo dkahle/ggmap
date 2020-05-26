@@ -192,7 +192,7 @@ mapdist <- function (
     if(urlonly) if(showing_key()) return(url) else return(scrub_key(url))
 
     # hash for caching
-    url_hash <- digest::digest(url)
+    url_hash <- digest::digest(scrub_key(url))
 
     # check/update google query limit
     # check_dist_query_limit(url_string, elems = nrow(df), override = override_limit)
