@@ -4,6 +4,10 @@
 \alias{geocode}
 \alias{mutate_geocode}
 \alias{geocodeQueryCheck}
+\alias{geocode_cache}
+\alias{write_geocode_cache}
+\alias{read_geocode_cache}
+\alias{clear_geocode_cache}
 \title{Geocode}
 \usage{
 geocode(
@@ -22,6 +26,14 @@ geocode(
 mutate_geocode(data, location, ...)
 
 geocodeQueryCheck()
+
+geocode_cache()
+
+write_geocode_cache(path, ...)
+
+read_geocode_cache(path)
+
+clear_geocode_cache(path)
 }
 \arguments{
 \item{location}{a character vector of street addresses or place names (e.g.
@@ -31,7 +43,7 @@ geocodeQueryCheck()
 
 \item{source}{"google" for Google (note: "dsk" is defunct)}
 
-\item{force}{force online query, even if cached (previously downloaded)}
+\item{force}{force online query even if cached.}
 
 \item{urlonly}{return only the url?}
 
@@ -46,9 +58,12 @@ name. this parameter allows the user to specify which to grab.}
 key-value pairs to be injected (e.g. c("a" = "b") get converted to "a=b"
 and appended to the query)}
 
-\item{...}{...}
+\item{...}{In \code{\link[=mutate_geocode]{mutate_geocode()}}, arguments to pass to \code{\link[=geocode]{geocode()}}. In
+\code{\link[=write_geocode_cache]{write_geocode_cache()}}, arguments to pass to \code{\link[=saveRDS]{saveRDS()}}.}
 
 \item{data}{a data frame or equivalent}
+
+\item{path}{path to file}
 }
 \value{
 If \code{output} is "latlon", "latlona", or "more", a tibble (classed
@@ -121,6 +136,7 @@ geocode("waco city hall")
 \seealso{
 \url{http://code.google.com/apis/maps/documentation/geocoding/},
 \url{https://developers.google.com/maps/documentation/javascript/geocoding},
+
 \url{https://developers.google.com/maps/documentation/geocoding/usage-limits}
 }
 \author{

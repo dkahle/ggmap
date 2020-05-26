@@ -1,5 +1,11 @@
 # ggmap 3.0.1
 
+## New features
+
+*   `geocode_cache()` is now exported to the user, and functions 
+    `write_geocode_cache()` and `write_geocode_cache()` exist to facilitate 
+    using the same cache across sessions.
+
 ## Minor improvements and fixes
 
 *   ___ggmap__ functions can now be called even if it has not been attached to 
@@ -26,4 +32,6 @@
     (reported by @alistaire47, #180).
     
 *   A bug giving an error message `Error in aperm.default(map, c(2, 1, 3)) : invalid first argument, must be an array` has now been fixed. (solution by @kent37, #262).
+
+*   `geocode()` now properly caches when geocoding several locations.
 

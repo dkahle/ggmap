@@ -8,7 +8,7 @@
 #'   "1600 pennsylvania avenue, washington dc" or "Baylor University")
 #' @param output amount of output, "latlon", "latlona", "more", or "all"
 #' @param source "google" for Google (note: "dsk" is defunct)
-#' @param force force online query, even if cached (previously downloaded)
+#' @param force force online query even if cached.
 #' @param urlonly return only the url?
 #' @param override_limit override the current query rate
 #' @param nameType in some cases, Google returns both a long name and a short
@@ -18,13 +18,17 @@
 #'   key-value pairs to be injected (e.g. c("a" = "b") get converted to "a=b"
 #'   and appended to the query)
 #' @param data a data frame or equivalent
-#' @param ... ...
+#' @param path path to file
+#' @param ... In [mutate_geocode()], arguments to pass to [geocode()]. In
+#'   [write_geocode_cache()], arguments to pass to [saveRDS()].
 #' @return If \code{output} is "latlon", "latlona", or "more", a tibble (classed
 #'   data frame). If "all", a list.
 #' @author David Kahle \email{david@@kahle.io}
 #' @seealso \url{http://code.google.com/apis/maps/documentation/geocoding/},
 #'   \url{https://developers.google.com/maps/documentation/javascript/geocoding},
+#'
 #'   \url{https://developers.google.com/maps/documentation/geocoding/usage-limits}
+#'
 #' @name geocode
 #' @examples
 #'
@@ -125,7 +129,16 @@ geocode <- function (
   # vectorize for many locations
   if (length(location) > 1) {
 
-    out <- location %>% map(~ geocode(.x, "output" = output, "source" = source, "messaging" = messaging, "inject" = inject))
+    out <- location %>%
+      map(~ geocode(.x,
+        "output" = output,
+        "source" = source,
+        "messaging" = messaging,
+        "inject" = inject,
+        "force" = force,
+        "urlonly" = urlonly
+        )
+      )
 
     if (output == "all") return(out)
 
@@ -406,7 +419,17 @@ geocodeQueryCheck <- function () {
 
 
 
-geocode_cache <- function () get(".geocode_cache", envir = ggmap_environment)
+#' @export
+#' @rdname geocode
+geocode_cache <- function () {
+
+  if (!exists(".geocode_cache", envir = ggmap_environment)) {
+    assign(".geocode_cache", list(), ggmap_environment)
+  }
+
+  get(".geocode_cache", envir = ggmap_environment)
+
+}
 
 
 
@@ -473,10 +496,50 @@ return_failed_geocode <- function (output) {
 
 
 
+#' @export
+#' @rdname geocode
+write_geocode_cache <- function (path, ...) {
+
+  saveRDS(
+    object = geocode_cache(),
+    file = path,
+    ...
+  )
+
+}
 
 
 
 
+#' @export
+#' @rdname geocode
+read_geocode_cache <- function(path) {
+
+  if (!exists(".geocode_cache", envir = ggmap_environment)) {
+
+    assign(".geocode_cache", list(), ggmap_environment)
+
+  } else {
+
+    assign(
+      ".geocode_cache",
+      c(geocode_cache(), readRDS(path)),
+      ggmap_environment
+    )
+
+  }
+
+}
+
+
+
+#' @export
+#' @rdname geocode
+clear_geocode_cache <- function(path) {
+
+  assign(".geocode_cache", list(), ggmap_environment)
+
+}
 
 
 

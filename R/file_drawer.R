@@ -30,9 +30,13 @@ file_drawer <- function(...) {
   file.path(fd, ...)
 }
 
+
+
 file_drawer_exists <- function() {
   file.exists(file_drawer())
 }
+
+
 
 file_drawer_create <- function() {
   if (file_drawer_exists()) return()
@@ -43,10 +47,14 @@ file_drawer_create <- function() {
   invisible(TRUE)
 }
 
+
+
 file_drawer_index <- function() {
   file_drawer_create()
   readRDS(file_drawer("index.rds"))
 }
+
+
 
 file_drawer_set <- function(url, map, name = NULL) {
   if (is.null(name)) {
@@ -64,6 +72,8 @@ file_drawer_set <- function(url, map, name = NULL) {
 
   invisible(TRUE)
 }
+
+
 
 file_drawer_get <- function(url) {
   index <- file_drawer_index()
