@@ -19,6 +19,8 @@
 #'   and appended to the query)
 #' @param data a data frame or equivalent
 #' @param path path to file
+#' @param overwrite in [load_geocode_cache()], should the current cache be
+#'   wholly replaced with the one on file?
 #' @param ... In [mutate_geocode()], arguments to pass to [geocode()]. In
 #'   [write_geocode_cache()], arguments to pass to [saveRDS()].
 #' @return If \code{output} is "latlon", "latlona", or "more", a tibble (classed
@@ -27,7 +29,9 @@
 #' @seealso \url{http://code.google.com/apis/maps/documentation/geocoding/},
 #'   \url{https://developers.google.com/maps/documentation/javascript/geocoding},
 #'
+#'
 #'   \url{https://developers.google.com/maps/documentation/geocoding/usage-limits}
+#'
 #'
 #' @name geocode
 #' @examples
@@ -511,9 +515,10 @@ write_geocode_cache <- function (path, ...) {
 
 
 
+
 #' @export
 #' @rdname geocode
-read_geocode_cache <- function(path) {
+load_geocode_cache <- function(path, overwrite = FALSE) {
 
   if (!exists(".geocode_cache", envir = ggmap_environment)) {
 
@@ -521,15 +526,22 @@ read_geocode_cache <- function(path) {
 
   } else {
 
-    assign(
-      ".geocode_cache",
-      c(geocode_cache(), readRDS(path)),
-      ggmap_environment
-    )
+    if (overwrite) {
+      assign(".geocode_cache", readRDS(path), ggmap_environment)
+    } else {
+      assign(
+        ".geocode_cache",
+        c(geocode_cache(), readRDS(path)),
+        ggmap_environment
+      )
+    }
 
   }
 
 }
+
+
+
 
 
 

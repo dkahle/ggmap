@@ -6,7 +6,7 @@
 \alias{geocodeQueryCheck}
 \alias{geocode_cache}
 \alias{write_geocode_cache}
-\alias{read_geocode_cache}
+\alias{load_geocode_cache}
 \alias{clear_geocode_cache}
 \title{Geocode}
 \usage{
@@ -31,7 +31,7 @@ geocode_cache()
 
 write_geocode_cache(path, ...)
 
-read_geocode_cache(path)
+load_geocode_cache(path, overwrite = FALSE)
 
 clear_geocode_cache(path)
 }
@@ -64,6 +64,9 @@ and appended to the query)}
 \item{data}{a data frame or equivalent}
 
 \item{path}{path to file}
+
+\item{overwrite}{in \code{\link[=load_geocode_cache]{load_geocode_cache()}}, should the current cache be
+wholly replaced with the one on file?}
 }
 \value{
 If \code{output} is "latlon", "latlona", or "more", a tibble (classed
