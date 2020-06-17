@@ -521,21 +521,17 @@ write_geocode_cache <- function (path, ...) {
 load_geocode_cache <- function(path, overwrite = FALSE) {
 
   if (!exists(".geocode_cache", envir = ggmap_environment)) {
-
     assign(".geocode_cache", list(), ggmap_environment)
+  }
 
+  if (overwrite) {
+    assign(".geocode_cache", readRDS(path), ggmap_environment)
   } else {
-
-    if (overwrite) {
-      assign(".geocode_cache", readRDS(path), ggmap_environment)
-    } else {
-      assign(
-        ".geocode_cache",
-        c(geocode_cache(), readRDS(path)),
-        ggmap_environment
-      )
-    }
-
+    assign(
+      ".geocode_cache",
+      c(geocode_cache(), readRDS(path)),
+      ggmap_environment
+    )
   }
 
 }
