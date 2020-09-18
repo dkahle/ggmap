@@ -3,4 +3,3 @@
 .RData
 README_cache/
 /revdep/.cache.rds
-man/*

@@ -7,10 +7,13 @@
 \title{Get a Carto basemap}
 \usage{
 get_carto(bbox = c(left = -95.80204, bottom = 29.38048, right =
-  -94.92313, top = 30.14344), zoom = 10, maptype = c("light_all"),
-  crop = TRUE, messaging = FALSE, urlonly = FALSE,
-  color = c("color", "bw"), force = FALSE, where = tempdir(),
-  https = FALSE, ...)
+  -94.92313, top = 30.14344), zoom = 10, maptype = c("light_all",
+  "dark_all", "light_nolabels", "light_only_labels", "dark_nolabels",
+  "dark_only_labels", "rastertiles/voyager",
+  "rastertiles/voyager_nolabels", "rastertiles/voyager_only_labels",
+  "rastertiles/voyager_labels_under"), crop = TRUE, messaging = FALSE,
+  urlonly = FALSE, color = c("color", "bw"), force = FALSE,
+  where = tempdir(), https = FALSE, ...)
 
 get_carto_tile_download_fail_log()
 
@@ -22,9 +25,8 @@ upperrightlon, upperrightlat).}
 
 \item{zoom}{a zoom level}
 
-\item{maptype}{terrain, terrain-background, terrain-labels, terrain-lines,
-toner, toner-2010, toner-2011, toner-background, toner-hybrid,
-toner-labels, toner-lines, toner-lite, or watercolor.}
+\item{maptype}{light_all, dark_all, light_nolabels, light_only_labels, dark_nolabels, dark_only_labels,
+rastertiles/voyager, rastertiles/voyager_nolabels, rastertiles/voyager_only_labels, or rastertiles/voyager_labels_under.}
 
 \item{crop}{crop raw map tiles to specified bounding box. if FALSE, the
 resulting map will more than cover the bounding box specified.}
