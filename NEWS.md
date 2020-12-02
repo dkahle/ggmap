@@ -5,10 +5,14 @@
 *   `geocode_cache()` is now exported to the user, and functions 
     `write_geocode_cache()` and `write_geocode_cache()` exist to facilitate 
     using the same cache across sessions.
+    
+## Changes
+
+*   __ggmap__ no longer depends on __rjson__ (thanks @MichaelChirico, #317). 
 
 ## Minor improvements and fixes
 
-*   ___ggmap__ functions can now be called even if it has not been attached to 
+*   __ggmap__ functions can now be called even if it has not been attached to 
     the search path (loaded) (reported by @jennybc, @lorenzwalthert, #264, 
     #244).
     

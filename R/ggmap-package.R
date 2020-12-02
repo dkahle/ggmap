@@ -6,7 +6,6 @@
 #' @importFrom jpeg readJPEG
 #' @importFrom plyr arrange compact ddply desc dlply is.discrete is.formula join
 #'   ldply llply .
-#' @importFrom rjson fromJSON
 #' @importFrom bitops bitOr bitShiftL bitShiftR bitAnd
 #' @importFrom grDevices as.raster extendrange gray rgb
 #' @importFrom stats time asOneSidedFormula
