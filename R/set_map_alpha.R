@@ -33,6 +33,13 @@
 #'     set_map_alpha(overlay, 0.25)
 #'   )
 set_map_alpha <- function(map, alpha) {
+  if(class(map)[1] != "ggmap") {
+    stop("map must be a ggmap object", call. = FALSE)
+  }
+  if(class(alpha) != "numeric" || alpha < 0 || alpha > 1) {
+    stop("alpha must be a number between 0 and 1", call. = FALSE)
+  }
+
   # Record the attributes & dimensions of the map object.
   map_attributes <- attributes(map)
   map_dimensions <- dim(map)
