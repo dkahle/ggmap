@@ -38,7 +38,7 @@ set_map_alpha <- function(map, alpha) {
   map_dimensions <- dim(map)
 
   # Add an alpha channel.
-  map <- adjustcolor(map, alpha)
+  map <- grDevices::adjustcolor(map, alpha)
 
   # Add back the dimensions (convert vector to matrix).
   dim(map) <- map_dimensions
