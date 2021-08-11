@@ -1,5 +1,7 @@
 getFakeMap <- function() {
-  map <- character()
+  map <- rep("#FFFFFF", 4)
+  dim(map) <- c(2, 2)
+
   class(map) <- c('ggmap','raster')
   attr(map, "source")  <- "osm"
   attr(map, "maptype") <- "openstreetmap"
