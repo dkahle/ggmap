@@ -21,12 +21,7 @@ through.
 }
 \examples{
 zoom <- 12
-bbox <- c(
-  left = -0.3275,
-  bottom = 51.407222,
-  right = 0.0725,
-  top = 51.607222
-)
+bbox <- c(-0.3275, 51.407222, 0.0725, 51.607222)
 
 base <- get_map(bbox, zoom, maptype = "terrain-lines")
 overlay <- get_map(bbox, zoom, maptype = "watercolor")
