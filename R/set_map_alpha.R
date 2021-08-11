@@ -19,8 +19,8 @@
 #'   top = 51.607222
 #' )
 #'
-#' base <- get_map(location = bbox, zoom = zoom, maptype = "terrain-lines")
-#' overlay <- get_map(location = bbox, zoom = zoom, maptype = "watercolor")
+#' base <- get_map(bbox, zoom, maptype = "terrain-lines")
+#' overlay <- get_map(bbox, zoom, maptype = "watercolor")
 #'
 #' # Plot the base map.
 #' ggmap(base)
