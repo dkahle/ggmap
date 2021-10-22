@@ -6,11 +6,22 @@
 \alias{retry_carto_map_download}
 \title{Get a Carto basemap}
 \usage{
-get_carto(bbox = c(left = -95.80204, bottom = 29.38048, right =
-  -94.92313, top = 30.14344), zoom = 10, maptype = c("light_all"),
-  crop = TRUE, messaging = FALSE, urlonly = FALSE,
-  color = c("color", "bw"), force = FALSE, where = tempdir(),
-  https = FALSE, ...)
+get_carto(
+  bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
+  zoom = 10,
+  maptype = c("light_all", "dark_all", "light_nolabels", "light_only_labels",
+    "dark_nolabels", "dark_only_labels", "rastertiles/voyager",
+    "rastertiles/voyager_nolabels", "rastertiles/voyager_only_labels",
+    "rastertiles/voyager_labels_under"),
+  crop = TRUE,
+  messaging = FALSE,
+  urlonly = FALSE,
+  color = c("color", "bw"),
+  force = FALSE,
+  where = tempdir(),
+  https = FALSE,
+  ...
+)
 
 get_carto_tile_download_fail_log()
 
@@ -22,9 +33,8 @@ upperrightlon, upperrightlat).}
 
 \item{zoom}{a zoom level}
 
-\item{maptype}{terrain, terrain-background, terrain-labels, terrain-lines,
-toner, toner-2010, toner-2011, toner-background, toner-hybrid,
-toner-labels, toner-lines, toner-lite, or watercolor.}
+\item{maptype}{light_all, dark_all, light_nolabels, light_only_labels, dark_nolabels, dark_only_labels,
+rastertiles/voyager, rastertiles/voyager_nolabels, rastertiles/voyager_only_labels, or rastertiles/voyager_labels_under.}
 
 \item{crop}{crop raw map tiles to specified bounding box. if FALSE, the
 resulting map will more than cover the bounding box specified.}
@@ -86,32 +96,28 @@ ggmap(google)
 
 bbox <- bb2bbox(attr(google, "bb"))
 
-get_carto(bbox, maptype = "terrain")            \%>\% ggmap()
-get_carto(bbox, maptype = "terrain-background") \%>\% ggmap()
-get_carto(bbox, maptype = "terrain-labels")     \%>\% ggmap()
-get_carto(bbox, maptype = "terrain-lines")      \%>\% ggmap()
-get_carto(bbox, maptype = "toner")              \%>\% ggmap()
-get_carto(bbox, maptype = "toner-2010")         \%>\% ggmap()
-get_carto(bbox, maptype = "toner-2011")         \%>\% ggmap()
-get_carto(bbox, maptype = "toner-background")   \%>\% ggmap()
-get_carto(bbox, maptype = "toner-hybrid")       \%>\% ggmap()
-get_carto(bbox, maptype = "toner-labels")       \%>\% ggmap()
-get_carto(bbox, maptype = "toner-lines")        \%>\% ggmap()
-get_carto(bbox, maptype = "toner-lite")         \%>\% ggmap()
-get_carto(bbox, maptype = "watercolor")         \%>\% ggmap()
-
+get_carto(bbox, maptype = "light_all")                              \%>\% ggmap()
+get_carto(bbox, maptype = "dark_all")                               \%>\% ggmap()
+get_carto(bbox, maptype = "light_nolabels")                         \%>\% ggmap()
+get_carto(bbox, maptype = "light_only_labels")                      \%>\% ggmap()
+get_carto(bbox, maptype = "dark_nolabels")                          \%>\% ggmap()
+get_carto(bbox, maptype = "dark_only_labels")                       \%>\% ggmap()
+get_carto(bbox, maptype = "rastertiles/voyager")                    \%>\% ggmap()
+get_carto(bbox, maptype = "rastertiles/voyager_nolabels")           \%>\% ggmap()
+get_carto(bbox, maptype = "rastertiles/voyager_only_labels")        \%>\% ggmap()
+get_carto(bbox, maptype = "rastertiles/voyager_labels_under")       \%>\% ggmap()
 
 ## zoom levels
 ########################################
 
-get_carto(bbox, maptype = "watercolor", zoom = 11) \%>\% ggmap(extent = "device")
-get_carto(bbox, maptype = "watercolor", zoom = 12) \%>\% ggmap(extent = "device")
-get_carto(bbox, maptype = "watercolor", zoom = 13) \%>\% ggmap(extent = "device")
-# get_carto(bbox, maptype = "watercolor", zoom = 14) \%>\% ggmap(extent = "device")
-# get_carto(bbox, maptype = "watercolor", zoom = 15) \%>\% ggmap(extent = "device")
-# get_carto(bbox, maptype = "watercolor", zoom = 16) \%>\% ggmap(extent = "device")
-# get_carto(bbox, maptype = "watercolor", zoom = 17) \%>\% ggmap(extent = "device")
-# get_carto(bbox, maptype = "watercolor", zoom = 18) \%>\% ggmap(extent = "device")
+get_carto(bbox, maptype = "light_all", zoom = 11)   \%>\% ggmap(extent = "device")
+get_carto(bbox, maptype = "light_all", zoom = 12)   \%>\% ggmap(extent = "device")
+get_carto(bbox, maptype = "light_all", zoom = 13)   \%>\% ggmap(extent = "device")
+# get_carto(bbox, maptype = "light_all", zoom = 14) \%>\% ggmap(extent = "device")
+# get_carto(bbox, maptype = "light_all", zoom = 15) \%>\% ggmap(extent = "device")
+# get_carto(bbox, maptype = "light_all", zoom = 16) \%>\% ggmap(extent = "device")
+# get_carto(bbox, maptype = "light_all", zoom = 17) \%>\% ggmap(extent = "device")
+# get_carto(bbox, maptype = "light_all", zoom = 18) \%>\% ggmap(extent = "device")
 
 
 ## https

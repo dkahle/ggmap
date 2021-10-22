@@ -56,32 +56,28 @@
 #'
 #' bbox <- bb2bbox(attr(google, "bb"))
 #'
-#' get_carto(bbox, maptype = "terrain")            %>% ggmap()
-#' get_carto(bbox, maptype = "terrain-background") %>% ggmap()
-#' get_carto(bbox, maptype = "terrain-labels")     %>% ggmap()
-#' get_carto(bbox, maptype = "terrain-lines")      %>% ggmap()
-#' get_carto(bbox, maptype = "toner")              %>% ggmap()
-#' get_carto(bbox, maptype = "toner-2010")         %>% ggmap()
-#' get_carto(bbox, maptype = "toner-2011")         %>% ggmap()
-#' get_carto(bbox, maptype = "toner-background")   %>% ggmap()
-#' get_carto(bbox, maptype = "toner-hybrid")       %>% ggmap()
-#' get_carto(bbox, maptype = "toner-labels")       %>% ggmap()
-#' get_carto(bbox, maptype = "toner-lines")        %>% ggmap()
-#' get_carto(bbox, maptype = "toner-lite")         %>% ggmap()
-#' get_carto(bbox, maptype = "watercolor")         %>% ggmap()
-#'
+#' get_carto(bbox, maptype = "light_all")                              %>% ggmap()
+#' get_carto(bbox, maptype = "dark_all")                               %>% ggmap()
+#' get_carto(bbox, maptype = "light_nolabels")                         %>% ggmap()
+#' get_carto(bbox, maptype = "light_only_labels")                      %>% ggmap()
+#' get_carto(bbox, maptype = "dark_nolabels")                          %>% ggmap()
+#' get_carto(bbox, maptype = "dark_only_labels")                       %>% ggmap()
+#' get_carto(bbox, maptype = "rastertiles/voyager")                    %>% ggmap()
+#' get_carto(bbox, maptype = "rastertiles/voyager_nolabels")           %>% ggmap()
+#' get_carto(bbox, maptype = "rastertiles/voyager_only_labels")        %>% ggmap()
+#' get_carto(bbox, maptype = "rastertiles/voyager_labels_under")       %>% ggmap()
 #'
 #' ## zoom levels
 #' ########################################
 #'
-#' get_carto(bbox, maptype = "watercolor", zoom = 11) %>% ggmap(extent = "device")
-#' get_carto(bbox, maptype = "watercolor", zoom = 12) %>% ggmap(extent = "device")
-#' get_carto(bbox, maptype = "watercolor", zoom = 13) %>% ggmap(extent = "device")
-#' # get_carto(bbox, maptype = "watercolor", zoom = 14) %>% ggmap(extent = "device")
-#' # get_carto(bbox, maptype = "watercolor", zoom = 15) %>% ggmap(extent = "device")
-#' # get_carto(bbox, maptype = "watercolor", zoom = 16) %>% ggmap(extent = "device")
-#' # get_carto(bbox, maptype = "watercolor", zoom = 17) %>% ggmap(extent = "device")
-#' # get_carto(bbox, maptype = "watercolor", zoom = 18) %>% ggmap(extent = "device")
+#' get_carto(bbox, maptype = "light_all", zoom = 11)   %>% ggmap(extent = "device")
+#' get_carto(bbox, maptype = "light_all", zoom = 12)   %>% ggmap(extent = "device")
+#' get_carto(bbox, maptype = "light_all", zoom = 13)   %>% ggmap(extent = "device")
+#' # get_carto(bbox, maptype = "light_all", zoom = 14) %>% ggmap(extent = "device")
+#' # get_carto(bbox, maptype = "light_all", zoom = 15) %>% ggmap(extent = "device")
+#' # get_carto(bbox, maptype = "light_all", zoom = 16) %>% ggmap(extent = "device")
+#' # get_carto(bbox, maptype = "light_all", zoom = 17) %>% ggmap(extent = "device")
+#' # get_carto(bbox, maptype = "light_all", zoom = 18) %>% ggmap(extent = "device")
 #'
 #'
 #' ## https
