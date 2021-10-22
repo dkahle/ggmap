@@ -31,12 +31,12 @@ Imports:
     magrittr,
     tibble,
     tidyr,
-    rlang,
-    sf
+    rlang
 Suggests:
     MASS,
     hexbin,
-    testthat
+    testthat,
+    sf
 License: GPL-2
 LazyData: true
 RoxygenNote: 7.1.2
