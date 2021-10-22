@@ -4,7 +4,6 @@
 
 #' @export
 #' @rdname ggmap_to_webmercator
-#' @import sf
 #' @importFrom stats setNames
 #'
 ggmap_to_webmercator <- function(map) {
@@ -16,6 +15,9 @@ ggmap_to_webmercator <- function(map) {
 
   # Coonvert the bbox to an sf polygon, transform it to 3857,
   # and convert back to a bbox (convoluted, but it works)
+  if( !requireNamespace("sf") )
+    stop("package sf is required to use this function")
+
   bbox_3857 <- sf::st_bbox(sf::st_transform(sf::st_as_sfc(sf::st_bbox(map_bbox, crs = 4326)), 3857))
 
   # Overwrite the bbox of the ggmap object with the transformed coordinates
