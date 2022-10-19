@@ -12,5 +12,4 @@ rename_aes  <- get("rename_aes",  envir = asNamespace("ggplot2"))
   "x", "xend", "xmax", "xmin", "xintercept", "y", "yend", "ymax",
   "ymin", "yintercept", "z")
 
-list_to_dataframe <- get("list_to_dataframe", envir = asNamespace("plyr"))
 
