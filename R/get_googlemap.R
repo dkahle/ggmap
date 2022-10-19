@@ -266,7 +266,8 @@ get_googlemap <- function(
   }
 
   color <- match.arg(color)
-  if(!missing(markers) && class(markers) == "list") markers <- list_to_dataframe(markers)
+  # if(!missing(markers) && class(markers) == "list") markers <- list_to_dataframe(markers)
+  if(!missing(markers) && class(markers) == "list") markers <- do.call("rbind", markers)
   if(!missing(path) && is.data.frame(path)) path <- list(path)
 
 
