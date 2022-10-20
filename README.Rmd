@@ -49,8 +49,8 @@ library("forcats")
 violent_crimes <- crime %>% 
   filter(
     offense %notin% c("auto theft", "theft", "burglary"),
-    -95.39681 <= lon & lon <= -95.34188,
-     29.73631 <= lat & lat <=  29.78400
+    between(lon, -95.39681, -95.34188),
+    between(lat, 29.73631, 29.78400)
   ) %>% 
   mutate(
     offense = fct_drop(offense),
@@ -100,7 +100,8 @@ qmplot(lon, lat, data = violent_crimes, maptype = "toner-background", color = of
 
 [Google Maps](http://developers.google.com/maps/terms) can be used just as easily.  However, since Google Maps use a center/zoom specification, their input is a bit different:
 ```{r google_maps}
-get_googlemap("waco texas", zoom = 12) %>% ggmap()
+(map <- get_googlemap("waco texas", zoom = 12))
+ggmap(map)
 ```
 
 Moreover, you can get various different styles of Google Maps with __ggmap__ (just like Stamen Maps):

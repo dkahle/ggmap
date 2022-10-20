@@ -54,8 +54,8 @@ library("forcats")
 violent_crimes <- crime %>% 
   filter(
     offense %notin% c("auto theft", "theft", "burglary"),
-    -95.39681 <= lon & lon <= -95.34188,
-     29.73631 <= lat & lat <=  29.78400
+    between(lon, -95.39681, -95.34188),
+    between(lat, 29.73631, 29.78400)
   ) %>% 
   mutate(
     offense = fct_drop(offense),
@@ -119,9 +119,11 @@ as easily. However, since Google Maps use a center/zoom specification,
 their input is a bit different:
 
 ``` r
-get_googlemap("waco texas", zoom = 12) %>% ggmap()
+(map <- get_googlemap("waco texas", zoom = 12))
 #  ℹ <]8;;https://maps.googleapis.com/maps/api/staticmap?center=waco%20texas&zoom=12&size=640x640&scale=2&maptype=terrain&key=xxxhttps://maps.googleapis.com/maps/api/staticmap?center=waco%20texas&zoom=12&size=640x640&scale=2&maptype=terrain&key=xxx]8;;>
 #  ℹ <]8;;https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxxhttps://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx]8;;>
+#  1280x1280 terrain map image from Google Maps; use `]8;;ide:help:ggmap::ggmapggmap::ggmap]8;;()` to plot it.
+ggmap(map)
 ```
 
 ![](tools/README-google_maps-1.png)
