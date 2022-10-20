@@ -9,18 +9,220 @@ status](https://travis-ci.org/dkahle/ggmap.svg?branch=master)](https://travis-ci
 status](https://ci.appveyor.com/api/projects/status/github/dkahle/ggmap?branch=master&svg=true)](https://ci.appveyor.com/project/dkahle/ggmap)
 <!-- badges: end -->
 
-### *Attention!*
+<hr>
 
-Google has [recently changed its API
+# ggmap
+
+**ggmap** is an R package that makes it easy to retrieve raster map
+tiles from popular online mapping services like [Google
+Maps](https://developers.google.com/maps/documentation/static-maps/?hl=en)
+and [Stamen Maps](http://maps.stamen.com) and plot them using the
+[**ggplot2**](https://github.com/tidyverse/ggplot2) framework:
+
+``` r
+library("ggmap")
+#  Loading required package: ggplot2
+#  ℹ Google's Terms of Service: <]8;;https://cloud.google.com/maps-platform/terms/https://cloud.google.com/maps-platform/terms/]8;;>
+#  ℹ Please cite ggmap if you use it! Use `citation("ggmap")` for details.
+
+us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
+get_stamenmap(us, zoom = 5, maptype = "toner-lite") %>% ggmap() 
+#  ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
+```
+
+![](tools/README-maptypes-1.png)
+
+Use `qmplot()` in the same way you’d use `qplot()`, but with a map
+automatically added in the background:
+
+``` r
+library("dplyr")
+#  
+#  Attaching package: 'dplyr'
+#  The following objects are masked from 'package:stats':
+#  
+#      filter, lag
+#  The following objects are masked from 'package:base':
+#  
+#      intersect, setdiff, setequal, union
+library("forcats")
+
+# define helper
+`%notin%` <- function(lhs, rhs) !(lhs %in% rhs)
+
+# reduce crime to violent crimes in downtown houston
+violent_crimes <- crime %>% 
+  filter(
+    offense %notin% c("auto theft", "theft", "burglary"),
+    -95.39681 <= lon & lon <= -95.34188,
+     29.73631 <= lat & lat <=  29.78400
+  ) %>% 
+  mutate(
+    offense = fct_drop(offense),
+    offense = fct_relevel(offense, c("robbery", "aggravated assault", "rape", "murder"))
+  )
+
+# use qmplot to make a scatterplot on a map
+qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", color = I("red"))
+#  ℹ Using `zoom = 14`
+#  ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
+```
+
+![](tools/README-qmplot-1.png)
+
+All the **ggplot2** geom’s are available. For example, you can make a
+contour plot with `geom = "density2d"`:
+
+``` r
+qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", geom = "density2d", color = I("red"))
+```
+
+In fact, since **ggmap**’s built on top of **ggplot2**, all your usual
+**ggplot2** stuff (geoms, polishing, etc.) will work, and there are some
+unique graphing perks **ggmap** brings to the table, too.
+
+``` r
+robberies <- violent_crimes %>% filter(offense == "robbery")
+
+library("ggdensity")
+library("geomtextpath")
+
+qmplot(lon, lat, data = violent_crimes, geom = "blank", 
+  zoom = 14, maptype = "toner-background"
+) +
+  geom_hdr(aes(fill = stat(probs)), alpha = .3) +
+  geom_labeldensity2d(aes(lon, lat, level = stat(probs)), stat = "hdr_lines") +
+  scale_fill_viridis_d(option = "A") +
+  theme(legend.position = "none")
+#  ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
+#  Warning: Ignoring unknown parameters: contour, contour_var
+#  Warning: Ignoring unknown aesthetics: level
+```
+
+![](tools/README-styling-1.png)
+
+Faceting works, too:
+
+``` r
+qmplot(lon, lat, data = violent_crimes, maptype = "toner-background", color = offense) + 
+  facet_wrap(~ offense)
+#  ℹ Using `zoom = 14`
+#  ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
+```
+
+![](tools/README-faceting-1.png)
+
+## Google Maps
+
+[Google Maps](http://developers.google.com/maps/terms) can be used just
+as easily. However, since Google Maps use a center/zoom specification,
+their input is a bit different:
+
+``` r
+get_googlemap("waco texas", zoom = 12) %>% ggmap()
+#  ℹ <]8;;https://maps.googleapis.com/maps/api/staticmap?center=waco%20texas&zoom=12&size=640x640&scale=2&maptype=terrain&key=xxxhttps://maps.googleapis.com/maps/api/staticmap?center=waco%20texas&zoom=12&size=640x640&scale=2&maptype=terrain&key=xxx]8;;>
+#  ℹ <]8;;https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxxhttps://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx]8;;>
+```
+
+![](tools/README-google_maps-1.png)
+
+Moreover, you can get various different styles of Google Maps with
+**ggmap** (just like Stamen Maps):
+
+``` r
+get_googlemap("waco texas", zoom = 12, maptype = "satellite") %>% ggmap()
+get_googlemap("waco texas", zoom = 12, maptype = "hybrid") %>% ggmap()
+get_googlemap("waco texas", zoom = 12, maptype = "roadmap") %>% ggmap()
+```
+
+Google’s geocoding and reverse geocoding API’s are available through
+`geocode()` and `revgeocode()`, respectively:
+
+``` r
+geocode("1301 S University Parks Dr, Waco, TX 76798")
+#  ℹ <]8;;https://maps.googleapis.com/maps/api/geocode/json?address=1301+S+University+Parks+Dr,+Waco,+TX+76798&key=xxxhttps://maps.googleapis.com/maps/api/geocode/json?address=1301+S+University+Parks+Dr,+Waco,+TX+76798&key=xxx]8;;>
+#  # A tibble: 1 × 2
+#      lon   lat
+#    <dbl> <dbl>
+#  1 -97.1  31.6
+revgeocode(c(lon = -97.1161, lat = 31.55098))
+#  ℹ <]8;;https://maps.googleapis.com/maps/api/geocode/json?latlng=31.55098,-97.1161&key=xxxhttps://maps.googleapis.com/maps/api/geocode/json?latlng=31.55098,-97.1161&key=xxx]8;;>
+#  Warning: Multiple addresses found, the first will be returned:
+#  !   55 Baylor Ave, Waco, TX 76706, USA
+#  !   1301 S University Parks Dr, Waco, TX 76706, USA
+#  !   HV2M+9H Waco, TX, USA
+#  !   Bear Trail, Waco, TX 76706, USA
+#  !   Robinson, TX 76706, USA
+#  !   Waco, TX, USA
+#  !   McLennan County, TX, USA
+#  !   Texas, USA
+#  !   United States
+#  [1] "55 Baylor Ave, Waco, TX 76706, USA"
+```
+
+There is also a `mutate_geocode()` that works similarly to
+[**dplyr**](https://github.com/hadley/dplyr)’s `mutate()` function:
+
+``` r
+tibble(address = c("white house", "", "waco texas")) %>% 
+  mutate_geocode(address)
+#  ℹ <]8;;https://maps.googleapis.com/maps/api/geocode/json?address=white+house&key=xxxhttps://maps.googleapis.com/maps/api/geocode/json?address=white+house&key=xxx]8;;>
+#  ℹ <]8;;https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxxhttps://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx]8;;>
+#  # A tibble: 3 × 3
+#    address         lon   lat
+#    <chr>         <dbl> <dbl>
+#  1 "white house" -77.0  38.9
+#  2 ""             NA    NA  
+#  3 "waco texas"  -97.1  31.5
+```
+
+Treks use Google’s routing API to give you routes (`route()` and
+`trek()` give slightly different results; the latter hugs roads):
+
+``` r
+trek_df <- trek("houson, texas", "waco, texas", structure = "route")
+#  ℹ <]8;;https://maps.googleapis.com/maps/api/directions/json?origin=houson,+texas&destination=waco,+texas&key=xxx&mode=driving&alternatives=false&units=metrichttps://maps.googleapis.com/maps/api/directions/json?origin=houson,+texas&destination=waco,+texas&key=xxx&mode=driving&alternatives=false&units=metric]8;;>
+qmap("college station, texas", zoom = 8) +
+  geom_path(
+    aes(x = lon, y = lat),  colour = "blue",
+    size = 1.5, alpha = .5,
+    data = trek_df, lineend = "round"
+  )
+#  ℹ <]8;;https://maps.googleapis.com/maps/api/staticmap?center=college%20station,%20texas&zoom=8&size=640x640&scale=2&maptype=terrain&language=en-EN&key=xxxhttps://maps.googleapis.com/maps/api/staticmap?center=college%20station,%20texas&zoom=8&size=640x640&scale=2&maptype=terrain&language=en-EN&key=xxx]8;;>
+#  ℹ <]8;;https://maps.googleapis.com/maps/api/geocode/json?address=college+station,+texas&key=xxxhttps://maps.googleapis.com/maps/api/geocode/json?address=college+station,+texas&key=xxx]8;;>
+```
+
+![](tools/README-route_trek-1.png)
+
+(They also provide information on how long it takes to get from point A
+to point B.)
+
+Map distances, in both length and anticipated time, can be computed with
+`mapdist()`). Moreover the function is vectorized:
+
+``` r
+mapdist(c("houston, texas", "dallas"), "waco, texas")
+#  ℹ <]8;;https://maps.googleapis.com/maps/api/distancematrix/json?origins=dallas&destinations=waco,+texas&key=xxx&mode=drivinghttps://maps.googleapis.com/maps/api/distancematrix/json?origins=dallas&destinations=waco,+texas&key=xxx&mode=driving]8;;>
+#  ℹ <]8;;https://maps.googleapis.com/maps/api/distancematrix/json?origins=houston,+texas&destinations=waco,+texas&key=xxx&mode=drivinghttps://maps.googleapis.com/maps/api/distancematrix/json?origins=houston,+texas&destinations=waco,+texas&key=xxx&mode=driving]8;;>
+#  # A tibble: 2 × 9
+#    from           to               m    km miles seconds minutes hours mode   
+#    <chr>          <chr>        <int> <dbl> <dbl>   <int>   <dbl> <dbl> <chr>  
+#  1 dallas         waco, texas 155827  156.  96.8    5475    91.2  1.52 driving
+#  2 houston, texas waco, texas 298232  298. 185.    10297   172.   2.86 driving
+```
+
+## Google Maps API key
+
+A few years ago Google has [changed its API
 requirements](https://developers.google.com/maps/documentation/geocoding/usage-and-billing),
 and **ggmap** users are now required to register with Google. From a
 user’s perspective, there are essentially three ramifications of this:
 
 1.  Users must register with Google. You can do this at
-    <a href="https://cloud.google.com/maps-platform/" class="uri">https://cloud.google.com/maps-platform/</a>.
-    While it will require a valid credit card (sorry!), there seems to
-    be a fair bit of free use before you incur charges, and even then
-    the charges are modest for light use.
+    <https://mapsplatform.google.com>. While it will require a valid
+    credit card (sorry!), there seems to be a fair bit of free use
+    before you incur charges, and even then the charges are modest for
+    light use.
 
 2.  Users must enable the APIs they intend to use. What may appear to
     **ggmap** users as one overarching “Google Maps” product, Google in
@@ -69,217 +271,13 @@ if(!requireNamespace("devtools")) install.packages("devtools")
 devtools::install_github("dkahle/ggmap")
 ```
 
-<hr>
-
-ggmap
-=====
-
-**ggmap** is an R package that makes it easy to retrieve raster map
-tiles from popular online mapping services like [Google
-Maps](https://developers.google.com/maps/documentation/static-maps/?hl=en)
-and [Stamen Maps](http://maps.stamen.com) and plot them using the
-[**ggplot2**](https://github.com/tidyverse/ggplot2) framework:
-
-``` r
-library("ggmap")
-#  Loading required package: ggplot2
-#  Registered S3 methods overwritten by 'ggplot2':
-#    method         from 
-#    [.quosures     rlang
-#    c.quosures     rlang
-#    print.quosures rlang
-#  Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.
-#  Please cite ggmap if you use it! See citation("ggmap") for details.
-
-us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
-get_stamenmap(us, zoom = 5, maptype = "toner-lite") %>% ggmap() 
-#  Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
-```
-
-![](tools/README-maptypes-1.png)
-
-Use `qmplot()` in the same way you’d use `qplot()`, but with a map
-automatically added in the background:
-
-``` r
-library("dplyr")
-#  
-#  Attaching package: 'dplyr'
-#  The following objects are masked from 'package:stats':
-#  
-#      filter, lag
-#  The following objects are masked from 'package:base':
-#  
-#      intersect, setdiff, setequal, union
-library("forcats")
-
-# define helper
-`%notin%` <- function(lhs, rhs) !(lhs %in% rhs)
-
-# reduce crime to violent crimes in downtown houston
-violent_crimes <- crime %>% 
-  filter(
-    offense %notin% c("auto theft", "theft", "burglary"),
-    -95.39681 <= lon & lon <= -95.34188,
-     29.73631 <= lat & lat <=  29.78400
-  ) %>% 
-  mutate(
-    offense = fct_drop(offense),
-    offense = fct_relevel(offense, c("robbery", "aggravated assault", "rape", "murder"))
-  )
-
-# use qmplot to make a scatterplot on a map
-qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", color = I("red"))
-#  Using zoom = 14...
-#  Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
-```
-
-![](tools/README-qmplot-1.png)
-
-All the **ggplot2** geom’s are available. For example, you can make a
-contour plot with `geom = "density2d"`:
-
-``` r
-qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", geom = "density2d", color = I("red"))
-```
-
-In fact, since **ggmap**’s built on top of **ggplot2**, all your usual
-**ggplot2** stuff (geoms, polishing, etc.) will work, and there are some
-unique graphing perks **ggmap** brings to the table, too.
-
-``` r
-robberies <- violent_crimes %>% filter(offense == "robbery")
-
-qmplot(lon, lat, data = violent_crimes, geom = "blank", 
-  zoom = 14, maptype = "toner-background", darken = .7, legend = "topleft"
-) +
-  stat_density_2d(aes(fill = ..level..), geom = "polygon", alpha = .3, color = NA) +
-  scale_fill_gradient2("Robbery\nPropensity", low = "white", mid = "yellow", high = "red", midpoint = 650)
-#  Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
-```
-
-![](tools/README-styling-1.png)
-
-Faceting works, too:
-
-``` r
-qmplot(lon, lat, data = violent_crimes, maptype = "toner-background", color = offense) + 
-  facet_wrap(~ offense)
-#  Using zoom = 14...
-#  Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
-```
-
-![](tools/README-faceting-1.png)
-
-Google Maps and Credentials
----------------------------
-
-[Google Maps](http://developers.google.com/maps/terms) can be used just
-as easily. However, since Google Maps use a center/zoom specification,
-their input is a bit different:
-
-``` r
-get_googlemap("waco texas", zoom = 12) %>% ggmap()
-#  Source : https://maps.googleapis.com/maps/api/staticmap?center=waco%20texas&zoom=12&size=640x640&scale=2&maptype=terrain&key=xxx
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx
-```
-
-![](tools/README-google_maps-1.png)
-
-Moreover, you can get various different styles of Google Maps with
-**ggmap** (just like Stamen Maps):
-
-``` r
-get_googlemap("waco texas", zoom = 12, maptype = "satellite") %>% ggmap()
-get_googlemap("waco texas", zoom = 12, maptype = "hybrid") %>% ggmap()
-get_googlemap("waco texas", zoom = 12, maptype = "roadmap") %>% ggmap()
-```
-
-Google’s geocoding and reverse geocoding API’s are available through
-`geocode()` and `revgeocode()`, respectively:
-
-``` r
-geocode("1301 S University Parks Dr, Waco, TX 76798")
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=1301+S+University+Parks+Dr,+Waco,+TX+76798&key=xxx
-#  # A tibble: 1 x 2
-#      lon   lat
-#    <dbl> <dbl>
-#  1 -97.1  31.6
-revgeocode(c(lon = -97.1161, lat = 31.55098))
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?latlng=31.55098,-97.1161&key=xxx
-#  Multiple addresses found, the first will be returned:
-#    1301 S University Parks Dr, Waco, TX 76706, USA
-#    55 Baylor Ave, Waco, TX 76706, USA
-#    1437 FM434, Waco, TX 76706, USA
-#    Bear Trail, Waco, TX 76706, USA
-#    Robinson, TX 76706, USA
-#    Waco, TX, USA
-#    McLennan County, TX, USA
-#    Texas, USA
-#    United States
-#  [1] "1301 S University Parks Dr, Waco, TX 76706, USA"
-```
-
-There is also a `mutate_geocode()` that works similarly to
-[**dplyr**](https://github.com/hadley/dplyr)’s `mutate()` function:
-
-``` r
-tibble(address = c("white house", "", "waco texas")) %>% 
-  mutate_geocode(address)
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=white+house&key=xxx
-#  "white house" not uniquely geocoded, using "1600 pennsylvania ave nw, washington, dc 20500, usa"
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx
-#  # A tibble: 3 x 3
-#    address       lon   lat
-#    <chr>       <dbl> <dbl>
-#  1 white house -77.0  38.9
-#  2 ""           NA    NA  
-#  3 waco texas  -97.1  31.5
-```
-
-Treks use Google’s routing API to give you routes (`route()` and
-`trek()` give slightly different results; the latter hugs roads):
-
-``` r
-trek_df <- trek("houson, texas", "waco, texas", structure = "route")
-#  Source : https://maps.googleapis.com/maps/api/directions/json?origin=houson,+texas&destination=waco,+texas&key=xxx&mode=driving&alternatives=false&units=metric
-qmap("college station, texas", zoom = 8) +
-  geom_path(
-    aes(x = lon, y = lat),  colour = "blue",
-    size = 1.5, alpha = .5,
-    data = trek_df, lineend = "round"
-  )
-#  Source : https://maps.googleapis.com/maps/api/staticmap?center=college%20station,%20texas&zoom=8&size=640x640&scale=2&maptype=terrain&language=en-EN&key=xxx
-#  Source : https://maps.googleapis.com/maps/api/geocode/json?address=college+station,+texas&key=xxx
-```
-
-![](tools/README-route_trek-1.png)
-
-(They also provide information on how long it takes to get from point A
-to point B.)
-
-Map distances, in both length and anticipated time, can be computed with
-`mapdist()`). Moreover the function is vectorized:
-
-``` r
-mapdist(c("houston, texas", "dallas"), "waco, texas")
-#  Source : https://maps.googleapis.com/maps/api/distancematrix/json?origins=dallas&destinations=waco,+texas&key=xxx&mode=driving
-#  Source : https://maps.googleapis.com/maps/api/distancematrix/json?origins=houston,+texas&destinations=waco,+texas&key=xxx&mode=driving
-#  # A tibble: 2 x 9
-#    from          to               m    km miles seconds minutes hours mode  
-#    <chr>         <chr>        <int> <dbl> <dbl>   <int>   <dbl> <dbl> <chr> 
-#  1 houston, tex… waco, texas 298227  298. 185.    10257   171.   2.85 drivi…
-#  2 dallas        waco, texas 152480  152.  94.8    5356    89.3  1.49 drivi…
-```
-
-Installation
-------------
+## Installation
 
 -   From CRAN: `install.packages("ggmap")`
 
 -   From Github:
 
 ``` r
-if (!requireNamespace("devtools")) install.packages("devtools")
-devtools::install_github("dkahle/ggmap")
+if (!requireNamespace("remotes")) install.packages("remotes")
+remotes::install_github("dkahle/ggmap")
 ```
