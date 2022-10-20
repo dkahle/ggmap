@@ -149,7 +149,7 @@ d <- function(x=-95.36, y=29.76, n,r,a){
     lat = jitter(rep(y,n), amount = a)
   ), digits = r)
 }
-df <- d(n=50,r=3,a=.3)
+(df <- d(n = 50, r = 3, a = .3))
 map <- get_googlemap(markers = df, path = df, scale = 2)
 ggmap(map)
 ggmap(map, extent = "device") +

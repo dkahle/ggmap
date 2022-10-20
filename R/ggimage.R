@@ -30,18 +30,22 @@
 #' df <- data.frame(x = x, y = -(120*(scale((x - 219)^3 - 25000*x) + rnorm(n)/2 - 3)))
 #' qplot(x, y, data = df, geom = c('smooth','point'))
 #' ggimage(hadley, fullpage = FALSE) +
-#'   geom_smooth(aes(x = x, y = y), fill = I('gray60'), data = df,
-#'     colour = I('green'), size = I(1)) +
-#'   geom_point(aes(x = x, y = y), data = df,
-#'     colour = I('green'), size = I(3), fill = NA)
+#'   geom_smooth(
+#'     aes(x = x, y = y),
+#'     data = df, color = 'green', size = 1
+#'   ) +
+#'   geom_point(
+#'     aes(x = x, y = y),
+#'     data = df, color = 'green', size = 3
+#'   )
 #'
 #' }
 ggimage <- function(mat, fullpage = TRUE, coord_equal = TRUE, scale_axes = FALSE){
 
   x <- NULL; rm(x); y <- NULL; rm(y);
 
-  if(!any(class(mat) %in% c('matrix','imagematrix','array','raster'))){
-  	stop('mat should be a matrix or an array.')
+  if(!inherits(mat, c('matrix','imagematrix','array','raster'))){
+    cli::cli_abort("{.arg mat} should be a matrix or array.")
   }
 
   n <- nrow(mat)
@@ -52,7 +56,7 @@ ggimage <- function(mat, fullpage = TRUE, coord_equal = TRUE, scale_axes = FALSE
   fourCorners <- expand.grid(x = 0:(p-1), y = 0:(n-1))
 
   if(max(mat) > 1 || min(mat) < 0){
-    message('rescaling mat to [0,1]...')
+    cli::cli_alert_info("Rescaling {.arg mat} to [0,1]")
     mat <- (mat - min(mat)) / (max(mat) - min(mat))
   }
 

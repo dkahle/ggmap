@@ -39,15 +39,15 @@ calc_zoom <- function(lon, lat, data, adjust = 0, f = .05){
   	  bbox <- lon
   	  errorString <-
   	    "if specifying a bounding box, the format should match that of make_bbox."
-  	  if(length(bbox) != 4) stop(errorString, call. = FALSE)
-  	  if(!all(names(bbox) == c("left", "bottom", "right", "top")))
-  	    stop(errorString, call. = FALSE)
+  	  if(length(bbox) != 4) cli::cli_abort(errorString)
+  	  if(!all(names(bbox) == c("left", "bottom", "right", "top"))) cli::cli_abort(errorString)
       lon_range <- bbox[c("left", "right")]
       lat_range <- bbox[c("bottom", "top")]
 
   	} else { # ranges
-  	  if(length(lon) != 2 || length(lat) != 2 || !is.numeric(lon) || !is.numeric(lat))
-  	    stop("if specifying ranges, they both must be of length 2 and numeric.")
+  	  if(length(lon) != 2 || length(lat) != 2 || !is.numeric(lon) || !is.numeric(lat)) {
+  	    cli::cli_abort("If specifying ranges, they both must be of length 2 and numeric.")
+  	  }
 
       lon_range <- sort(lon)
       lat_range <- sort(lat)

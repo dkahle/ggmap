@@ -47,7 +47,9 @@ revgeocode <- function (
   output <- match.arg(output)
   stopifnot(is.logical(override_limit))
 
-  if (!has_google_key() && !urlonly) stop("Google now requires an API key.", "\n       See ?register_google for details.", call. = FALSE)
+  if (!has_google_key() && !urlonly) {
+    cli::cli_abort("Google now requires an API key; see {.fn ggmap::register_google}.")
+  }
 
 
   # form url base
@@ -100,7 +102,7 @@ revgeocode <- function (
     throttle_google_geocode_query_rate(url_hash, queries_sought = 1L, override = override_limit)
 
     # message url
-    if (showing_key()) message("Source : ", url) else message("Source : ", scrub_key(url))
+    if (showing_key()) source_url_msg(url) else source_url_msg(scrub_key(url))
 
     # query server
     response <- httr::GET(url)
@@ -147,12 +149,12 @@ revgeocode <- function (
 
   # more than one location found?
   if (length(gc$results) > 1L) {
-    message("Multiple addresses found, the first will be returned:")
+    cli::cli_warn("Multiple addresses found, the first will be returned:")
     gc$results %>%
       map_chr(~ .x$formatted_address) %>%
       unique() %>%
       str_c("  ", .) %>%
-      walk(message)
+      walk(cli::cli_alert_warning)
   }
 
 

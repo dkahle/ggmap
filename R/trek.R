@@ -113,7 +113,9 @@ trek <- function (
   mode <- match.arg(mode)
   output <- match.arg(output)
   stopifnot(is.logical(alternatives))
-  if (!has_google_key() && !urlonly) stop("Google now requires an API key.", "\n       See ?register_google for details.", call. = FALSE)
+  if (!has_google_key() && !urlonly) {
+    cli::cli_abort("Google now requires an API key; see {.fn ggmap::register_google}.")
+  }
 
 
   # set url base
@@ -168,7 +170,7 @@ trek <- function (
 
 
   # message url
-  if (showing_key()) message("Source : ", url) else message("Source : ", scrub_key(url))
+  if (showing_key()) source_url_msg(url) else source_url_msg(scrub_key(url))
 
 
   # query server
@@ -198,7 +200,7 @@ trek <- function (
 
   # return NA if zero results are found
   if (tree$status == "ZERO_RESULTS") {
-    warning("No route was returned from Google.")
+    cli::cli_warn("No route was returned from Google.")
     return(return_failed_trek(output))
   }
 

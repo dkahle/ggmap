@@ -51,7 +51,7 @@ qmap <- function(location = "houston", ...){
     location_stop <- FALSE
   }
   if(location_stop){
-    stop("improper location specification, see ?get_map.", call. = F)
+    cli::cli_abort("{.arg location} improperly specified, see {.fn ggmap::get_map}")
   }
 
   args <- as.list(match.call(expand.dots = TRUE)[-1])

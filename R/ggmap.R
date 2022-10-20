@@ -455,7 +455,7 @@ ggmap <- function(ggmap, extent = "panel", base_layer, maprange = FALSE,
 
   # check arguments
   if(class(ggmap)[1] != "ggmap"){
-    stop("ggmap plots objects of class ggmap, see ?get_map", call. = FALSE)
+    cli::cli_abort("{.fn ggmap::ggmap} only plots objects of class {.code ggmap}")
   }
 
   match.arg(legend, c("right", "left", "bottom", "top",

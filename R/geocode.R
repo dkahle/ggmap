@@ -4,6 +4,11 @@
 #' Geocoding API. Note: To use Google's Geocoding API, you must first enable the
 #' API in the Google Cloud Platform Console. See [register_google()].
 #'
+#' Note: [geocode()] uses Google's Geocoding API to geocode addresses. Please
+#' take care not to disclose sensitive information.
+#' \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108/} suggest various
+#' alternative options for such data.
+#'
 #' @param location a character vector of street addresses or place names (e.g.
 #'   "1600 pennsylvania avenue, washington dc" or "Baylor University")
 #' @param output amount of output, "latlon", "latlona", "more", or "all"
@@ -30,7 +35,8 @@
 #'   \url{https://developers.google.com/maps/documentation/javascript/geocoding},
 #'
 #'
-#'   \url{https://developers.google.com/maps/documentation/geocoding/usage-limits}
+#'   \url{https://developers.google.com/maps/documentation/geocoding/usage-limits},
+#'    \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108/}
 #'
 #'
 #' @name geocode
@@ -86,7 +92,6 @@
 #' ########################################
 #'
 #' # in some cases geocode finds several locations
-#' geocode("waco city hall")
 #'
 #'
 #' }
@@ -126,7 +131,9 @@ geocode <- function (
 
 
   # source checking
-  if (source == "google" && !has_google_key() && !urlonly) stop("Google now requires an API key.", "\n       See ?register_google for details.", call. = FALSE)
+  if (source == "google" && !has_google_key() && !urlonly) {
+    cli::cli_abort("Google now requires an API key; see {.fn ggmap::register_google}.")
+  }
   # if (source == "dsk") stop("datasciencetoolkit.org terminated its map service, sorry!")
 
 
@@ -215,7 +222,7 @@ geocode <- function (
     if (source == "google") throttle_google_geocode_query_rate(url_hash, queries_sought = 1L, override = override_limit)
 
     # message url
-    if (showing_key()) message("Source : ", url) else message("Source : ", scrub_key(url))
+    if (showing_key()) source_url_msg(url) else source_url_msg(scrub_key(url))
 
     # query server
     response <- httr::GET(url)
@@ -263,7 +270,7 @@ geocode <- function (
 
   # more than one location found?
   if (length(gc$results) > 1L) {
-    message( glue("\"{stringr::str_trunc(location, 20)}\" not uniquely geocoded, using \"{tolower(gc$results[[1]]$formatted_address)}\"") )
+    cli::cli_warn("\"{stringr::str_trunc(location, 20)}\" not uniquely geocoded, using \"{tolower(gc$results[[1]]$formatted_address)}\"")
   }
 
 
@@ -406,12 +413,12 @@ geocodeQueryCheck <- function () {
         sum()
 
   	remaining <- google_day_limit() - google_geocode_queries_in_last_24hrs
-    message(remaining, " Google geocoding queries remaining.")
+    cli::cli_alert_info("{remaining} Google geocoding queries remaining.")
 
   } else {
 
   	remaining <- google_day_limit()
-    message(remaining, " Google geocoding queries remaining.")
+  	cli::cli_alert_info("{remaining} Google geocoding queries remaining.")
 
   }
 

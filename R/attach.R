@@ -1,8 +1,7 @@
 .onAttach <- function(...) {
-  # if (!interactive()) return()
 
-  packageStartupMessage("Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.")
-  packageStartupMessage("Please cite ggmap if you use it! See citation(\"ggmap\") for details.")
+  cli::cli_alert_info("Google's Terms of Service: {.url https://cloud.google.com/maps-platform/terms/}")
+  cli::cli_alert_info("Please cite {.pkg ggmap} if you use it! Use {.code citation(\"ggmap\")} for details.")
 
   bootstrap_ggmap()
 
