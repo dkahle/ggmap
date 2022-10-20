@@ -42,18 +42,14 @@ gglocator <- function(n = 1, message = FALSE, mercator = TRUE, ...){
   if (
     .Platform$GUI == "RStudio" && str_detect(.Device, "(RStudio)|(null device)")
   ) {
-    stop(
-      "gglocator() is unreliable in the RStudio plot viewer.\n",
-      "  create a different device with x11() or quartz()."
+    cli::cli_abort(
+      "{.fn ggmap::gglocator} is unreliable in the RStudio plot viewer. Create a different device with {.fn grDevices::x11} or {.fn grDevices::quartz}."
     )
   }
 
   args <- as.list(match.call(expand.dots = FALSE))
-  if (
-    "..." %in% names(args) &&
-      any(c("xexpand", "yexpand") %in% names(args$`...`))
-  ) {
-    message("the xexpand and yexpand are no longer used in gglocator.")
+  if ( "..." %in% names(args) && any(c("xexpand", "yexpand") %in% names(args$`...`)) ) {
+    cli::cli_alert_warning("{.arg xexpand} and {.arg yexpand} are no longer used in {.fn ggmap::gglocator}.")
   }
 
   if (n > 1) {
@@ -65,17 +61,17 @@ gglocator <- function(n = 1, message = FALSE, mercator = TRUE, ...){
   }
 
   object <- last_plot()
-  if(is.null(object)) stop("no plots available")
+  if(is.null(object)) cli::cli_abort("No plots available.")
 
   # find the correct viewport for the npc coordinates
   x <- unlist(current.vpTree())
   x <- unname(x[grep("\\.name$", names(x))])
   x <- grep("panel", x, fixed = TRUE, value = TRUE)
   n_panels <- length(x)
-  if (n_panels == 0) stop("ggplot graphic not detected in current device")
+  if (n_panels == 0) cli::cli_abort("{.pkg ggplot2} graphic not detected in current device.")
   if (n_panels > 1) {
     x <- x[1]
-    warning(sprintf("multiple plots detected, using the first one (\"%s\")", x), domain = NA)
+    cli::cli_alert_warning("Multiple plots detected, using the first one (\"{x}\")")
   }
   previous_viewport <- current.vpPath()
   seekViewport(x, recording = FALSE)
@@ -97,7 +93,7 @@ gglocator <- function(n = 1, message = FALSE, mercator = TRUE, ...){
     xrng <- plot_info$layout$panel_params[[1]]$x.range
     yrng <- plot_info$layout$panel_params[[1]]$y.range
   } else {
-    stop("no plot layout")
+    cli::cli_abort("No plot layout.")
   }
 
   # format and return

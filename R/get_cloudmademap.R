@@ -51,30 +51,30 @@ get_cloudmademap <- function(
 
   if('bbox' %in% argsgiven){
     if(!(is.numeric(bbox) && length(bbox) == 4)){
-      stop('bounding box improperly specified.  see ?get_openstreetmap', call. = F)
+      cli::cli_abort("{.arg bbox} improperly specified. See {.fn ggmap::get_openstreetmap}.")
     }
   }
 
   if('zoom' %in% argsgiven){
     if(!(is.numeric(zoom) && length(zoom) == 1 &&
     zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
-      stop('scale must be a positive integer 0-18, see ?get_stamenmap.', call. = F)
+      cli::cli_abort("{.arg scale} must be a positive integer 0-18. See {.fn ggmap::get_stamenmap}.")
     }
   }
 
   if('maptype' %in% argsgiven){
     if(!(is.numeric(maptype) && length(maptype) == 1 &&
         maptype == round(maptype) && maptype > 0)){
-      stop('maptype must be a positive integer, see ?get_cloudmademap.', call.=F)
+      cli::cli_abort("{.arg maptype} must be a positive integer. See {.fn ggmap::get_cloudmademap}.")
     }
   }
 
   if('api_key' %in% argsgiven){
     if(!(is.character(api_key) && length(api_key) == 1)){
-      stop('api_key improperly specified, see ?get_cloudmademap.', call.=F)
+      cli::cli_abort("{.arg api_key} improperly specified. See {.fn ggmap::get_cloudmademap}.")
     }
   } else {
-    stop('api_key must be specified, see ?get_cloudmademap.')
+    cli::cli_abort("{.arg api_key} must be specified. See {.fn ggmap::get_cloudmademap}.")
   }
 
   if('highres' %in% argsgiven) stopifnot(is.logical(highres))
@@ -88,7 +88,7 @@ get_cloudmademap <- function(
   } else{
     filename_stop <- TRUE
     if(is.character(filename) && length(filename) == 1) filename_stop <- FALSE
-    if(filename_stop) stop('improper filename specification, see ?get_googlemap.', call. = F)
+    if(filename_stop) cli::cli_abort("{.arg filename} improperly specified. See {.fn ggmap::get_googlemap}.")
     destfile <- paste(filename, 'png', sep = '.')
   }
 
@@ -112,8 +112,7 @@ get_cloudmademap <- function(
     lat = c(bbox['bottom'], bbox['top'])
   )
   fourCorners$zoom <- zoom
-  row.names(fourCorners) <-
-    c('lowerleft','lowerright','upperleft','upperright')
+  row.names(fourCorners) <- c('lowerleft','lowerright','upperleft','upperright')
   fourCornersTiles <- apply(fourCorners, 1, function(v) LonLat2XY(v[1],v[2],v[3]))
 
   xsNeeded <- Reduce(':', sort(unique(as.numeric(sapply(fourCornersTiles, function(df) df$X)))))
@@ -122,8 +121,7 @@ get_cloudmademap <- function(
   numYTiles <- length(ysNeeded)
   tilesNeeded <- expand.grid(x = xsNeeded, y = ysNeeded)
   if(nrow(tilesNeeded) > 40){
-    message(paste0(nrow(tilesNeeded), ' tiles needed, this may take a while ',
-      '(try a smaller zoom).'))
+    cli::cli_alert_info("{nrow(tilesNeeded)} tiles needed, this may take a while (try a smaller zoom?)")
   }
   xTileProgression <- rep(1:numXTiles, numYTiles)
   yTileProgression <- rep(1:numYTiles, each = numXTiles)
@@ -132,10 +130,9 @@ get_cloudmademap <- function(
   # make urls
   base_url <- 'http://b.tile.cloudmade.com/'
   base_url <- paste(base_url, api_key, '/', maptype, '/', 256, '/', zoom, sep = '')
-  urls <- paste(base_url,
-    apply(tilesNeeded, 1, paste, collapse = '/'), sep = '/')
+  urls <- paste(base_url, apply(tilesNeeded, 1, paste, collapse = '/'), sep = '/')
   urls <- paste(urls, '.png', sep = '')
-  if(messaging) message(length(urls), ' tiles required.')
+  if(messaging) cli::cli_alert_info("{length(urls)} tiles required.")
   if(urlonly) return(urls)
 
   # download and stitch
@@ -244,76 +241,3 @@ get_cloudmademap <- function(
 
 
 
-
-
-
-
-
-# get_cloudmademap_checkargs <- function(args){
-#   eargs <- lapply(args, eval)
-#   argsgiven <- names(args)
-#
-#   with(eargs,{
-#
-#     # bbox arg
-#     if('bbox' %in% argsgiven){
-#       if(!(is.numeric(bbox) && length(bbox) == 4)){
-#         stop('bounding box improperly specified.  see ?get_openstreetmap', call. = F)
-#       }
-#     }
-#
-#     # zoom arg
-#     if('zoom' %in% argsgiven){
-#       if(!(is.numeric(zoom) && length(zoom) == 1 &&
-#       zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
-#         stop('scale must be a positive integer 0-18, see ?get_stamenmap.', call. = F)
-#       }
-#     }
-#
-#     # maptype arg
-#     if('maptype' %in% argsgiven){
-#       if(!(is.numeric(maptype) && length(maptype) == 1 &&
-#           maptype == round(maptype) && maptype > 0)){
-#         stop('maptype must be a positive integer, see ?get_cloudmademap.', call.=F)
-#       }
-#     }
-#
-#     # api_key arg
-#     if('api_key' %in% argsgiven){
-#       if(!(is.character(api_key) && length(api_key) == 1)){
-#         stop('api_key improperly specified, see ?get_cloudmademap.', call.=F)
-#       }
-#     } else {
-#       stop('api_key must be specified, see ?get_cloudmademap.')
-#     }
-#
-#     # highres arg
-#     if('highres' %in% argsgiven){
-#       stopifnot(is.logical(highres))
-#     }
-#
-#     # messaging arg
-#     if('messaging' %in% argsgiven){
-#       stopifnot(is.logical(messaging))
-#     }
-#
-#     # urlonly arg
-#     if('urlonly' %in% argsgiven){
-#       stopifnot(is.logical(urlonly))
-#     }
-#
-#     # filename arg
-#     if('filename' %in% argsgiven){
-#       filename_stop <- TRUE
-#       if(is.character(filename) && length(filename) == 1) style_stop <- FALSE
-#       if(filename_stop) stop('improper filename specification, see ?get_googlemap.', call. = F)
-#     }
-#
-#     # color arg checked by match.arg
-#
-#
-#   }) # end with
-# }
-#
-#
-#

@@ -77,6 +77,12 @@ Geocodes (finds latitude and longitude of) a location using the Google
 Geocoding API. Note: To use Google's Geocoding API, you must first enable the
 API in the Google Cloud Platform Console. See \code{\link[=register_google]{register_google()}}.
 }
+\details{
+Note: \code{\link[=geocode]{geocode()}} uses Google's Geocoding API to geocode addresses. Please
+take care not to disclose sensitive information.
+\url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108/} suggest various
+alternative options for such data.
+}
 \examples{
 
 \dontrun{ requires Google API key, see ?register_google
@@ -129,7 +135,6 @@ df \%>\% mutate_geocode(address)
 ########################################
 
 # in some cases geocode finds several locations
-geocode("waco city hall")
 
 
 }
@@ -140,7 +145,8 @@ geocode("waco city hall")
 \url{http://code.google.com/apis/maps/documentation/geocoding/},
 \url{https://developers.google.com/maps/documentation/javascript/geocoding},
 
-\url{https://developers.google.com/maps/documentation/geocoding/usage-limits}
+\url{https://developers.google.com/maps/documentation/geocoding/usage-limits},
+\url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108/}
 }
 \author{
 David Kahle \email{david@kahle.io}

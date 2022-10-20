@@ -78,7 +78,7 @@ bbox <- c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.5596
 ggmap(get_stamenmap(bbox, zoom = 13))
 ggmap(get_stamenmap(bbox, zoom = 14))
 ggmap(get_stamenmap(bbox, zoom = 15))
-ggmap(get_stamenmap(bbox, zoom = 16, messaging = TRUE))
+ggmap(get_stamenmap(bbox, zoom = 17, messaging = TRUE))
 
 place <- "mount everest"
 (google <- get_googlemap(place, zoom = 9))

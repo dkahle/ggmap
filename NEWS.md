@@ -9,6 +9,8 @@
 ## Changes
 
 *   __ggmap__ no longer depends on __rjson__ (thanks @MichaelChirico, #317). 
+*   Most functions now use **cli**-based messaging functions, following 
+    **ggplot2**'s lead.
 
 ## Minor improvements and fixes
 

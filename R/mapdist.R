@@ -138,7 +138,9 @@ mapdist <- function (
   mode <- match.arg(mode)
   output <- match.arg(output)
 
-  if (!has_google_key() && !urlonly) stop("Google now requires an API key.", "\n       See ?register_google for details.", call. = FALSE)
+  if (!has_google_key() && !urlonly) {
+    cli::cli_abort("Google now requires an API key; see {.fn ggmap::register_google}.")
+  }
 
 
 
@@ -198,7 +200,7 @@ mapdist <- function (
     # check_dist_query_limit(url_string, elems = nrow(df), override = override_limit)
 
     # message url
-    if (showing_key()) message("Source : ", url) else message("Source : ", scrub_key(url))
+    if (showing_key()) source_url_msg(url) else source_url_msg(scrub_key(url))
 
     # query server
     response <- httr::GET(url)
@@ -224,7 +226,7 @@ mapdist <- function (
 
     # label destinations - first check if all were found
     if (length(df$to) != length(tree$destination_addresses)){
-      message("Matching was not perfect, returning all.")
+      cli::cli_alert_warning("Matching was not perfect, returning all.")
       names( tree$rows[[c(1,1)]] ) <- tree$destination_addresses
       output <<- "all"
     } else {
@@ -343,12 +345,12 @@ distQueryCheck <- function(){
         sum()
 
     remaining <- google_day_limit() - google_distance_queries_in_last_24hrs
-    message(remaining, " Google Distance Matrix API queries remaining.")
+    cli::cli_alert_info("{remaining} Google Distance Matrix API queries remaining.")
 
   } else {
 
   	remaining <- google_day_limit()
-    message(remaining, " Google Distance Matrix API queries remaining.")
+  	cli::cli_alert_info("{remaining} Google Distance Matrix API queries remaining.")
 
   }
 

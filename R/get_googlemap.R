@@ -102,7 +102,7 @@
 #'     lat = jitter(rep(y,n), amount = a)
 #'   ), digits = r)
 #' }
-#' df <- d(n=50,r=3,a=.3)
+#' (df <- d(n = 50, r = 3, a = .3))
 #' map <- get_googlemap(markers = df, path = df, scale = 2)
 #' ggmap(map)
 #' ggmap(map, extent = "device") +
@@ -171,18 +171,18 @@ get_googlemap <- function(
 
   if ("center" %in% argsgiven) {
     if (!( (is.numeric(center) && length(center) == 2) || (is.character(center) && length(center) == 1) )) {
-      stop("center of map misspecified, see ?get_googlemap.", call. = FALSE)
+      cli::cli_abort("{.arg center} improperly specified. See {.fn ggmap::get_googlemap}.")
     }
     if (all(is.numeric(center))) {
       lon <- center[1]; lat <- center[2]
-      if (lon < -180 || lon > 180) stop("longitude of center must be between -180 and 180 degrees. note ggmap uses lon/lat, not lat/lon.", call. = FALSE)
-      if (lat < -90 || lat > 90) stop("latitude of center must be between -90 and 90 degrees. note ggmap uses lon/lat, not lat/lon.", call. = FALSE)
+      if (lon < -180 || lon > 180) cli::cli_abort("Longitude of center must be between -180 and 180 degrees. Note {.pkg ggmap} uses lon/lat, not lat/lon.")
+      if (lat < -90 || lat > 90) cli::cli_abort("Latitude of center must be between -90 and 90 degrees. Note {.pkg ggmap} uses lon/lat, not lat/lon.")
     }
   }
 
   if("zoom" %in% argsgiven){
     if(!(is.numeric(zoom) && zoom == round(zoom) && zoom > 0)){
-      stop("zoom must be a whole number between 1 and 21", call. = FALSE)
+      cli::cli_abort("{.arg zoom} must be a whole number between 1 and 21.")
     }
   }
 
@@ -194,7 +194,7 @@ get_googlemap <- function(
 
   # format arg checked by match.arg
   format <- match.arg(format)
-  if(format != "png8") stop("currently only the png format is supported.", call. = FALSE)
+  if(format != "png8") cli::cli_abort("Only {.arg format = \"png\"} is supported.")
   format0 <- sub("[[:digit:]]+|-.*", "", format)
 
   # maptype arg checked by match.arg
@@ -204,36 +204,36 @@ get_googlemap <- function(
     markers_stop <- TRUE
     if(is.data.frame(markers) && all(apply(markers[,1:2],2,is.numeric))) markers_stop <- FALSE
     if(
-      class(markers) == "list" &&
+      is.list(markers) && !is.data.frame(markers) &&
       all(sapply(markers, function(elem){
         is.data.frame(elem) && all(apply(elem[,1:2],2,is.numeric))
       }))
     ) markers_stop <- FALSE
     if(is.character(markers) && length(markers) == 1) markers_stop <- FALSE
 
-    if(markers_stop) stop("improper marker specification, see ?get_googlemap.", call. = FALSE)
+    if(markers_stop) cli::cli_abort("{.arg marker} improperly specified. See {.fn ggmap::get_googlemap}.")
   }
 
   if("path" %in% argsgiven){
     path_stop <- TRUE
     if(is.data.frame(path) && all(apply(path[,1:2],2,is.numeric))) path_stop <- FALSE
     if(
-      class(path) == "list" &&
+      is.list(path) && !is.data.frame(markers) &&
       all(sapply(path, function(elem){
         is.data.frame(elem) && all(apply(elem[,1:2],2,is.numeric))
       }))
     ) path_stop <- FALSE
     if(is.character(path) && length(path) == 1) path_stop <- FALSE
 
-    if(path_stop) stop("improper path specification, see ?get_googlemap.", call. = FALSE)
+    if(path_stop) cli::cli_abort("{.arg path} improperly specified, see {.fn ggmap::get_googlemap}.")
   }
 
   if("visible" %in% argsgiven){
-    message("visible argument untested.")
+    cli::cli_alert_warning("{.arg visible} argument untested.")
     visible_stop <- TRUE
     if(is.data.frame(visible) && all(apply(visible[,1:2],2,is.numeric))) visible_stop <- FALSE
     if(is.character(visible)) visible_stop <- FALSE
-    if(visible_stop) stop("improper visible specification, see ?get_googlemap.", call. = FALSE)
+    if(visible_stop) cli::cli_abort("{.arg visible} improperly specified, see {.fn ggmap::get_googlemap}.")
   }
 
   if("style" %in% argsgiven){
@@ -248,26 +248,28 @@ get_googlemap <- function(
       }
       style_stop <- FALSE
     }
-    if(style_stop) stop("improper style specification, see ?get_googlemap.", call. = FALSE)
+    if(style_stop) cli::cli_abort("{.arg style} improperly specified, see {.fn ggmap::get_googlemap}.")
   }
 
   # if(   "sensor" %in% argsgiven) stopifnot(is.logical(   sensor))
   if("messaging" %in% argsgiven) stopifnot(is.logical(messaging))
   if(  "urlonly" %in% argsgiven) stopifnot(is.logical(  urlonly))
-  if (!has_google_key() && !urlonly) stop("Google now requires an API key.", "\n       See ?register_google for details.", call. = FALSE)
+  if (!has_google_key() && !urlonly) {
+    cli::cli_abort("Google now requires an API key; see {.fn ggmap::register_google}.")
+  }
 
   if(is.null(filename)){
     destfile <- tempfile(fileext = paste(".", format0, sep = ""))
   } else{
     filename_stop <- TRUE
     if(is.character(filename) && length(filename) == 1) filename_stop <- FALSE
-    if(filename_stop) stop("improper filename specification, see ?get_googlemap.", call. = FALSE)
+    if(filename_stop) cli::cli_abort("{.arg filename} improperly specified, see {.fn ggmap::get_googlemap}.")
     destfile <- paste(filename, format0, sep = '.')
   }
 
   color <- match.arg(color)
   # if(!missing(markers) && class(markers) == "list") markers <- list_to_dataframe(markers)
-  if(!missing(markers) && class(markers) == "list") markers <- do.call("rbind", markers)
+  if(!missing(markers) && is.list(markers) && !is.data.frame(markers)) markers <- do.call("rbind", markers)
   if(!missing(path) && is.data.frame(path)) path <- list(path)
 
 
@@ -353,7 +355,7 @@ get_googlemap <- function(
   url <- URLencode( enc2utf8(url) )
   url <- str_replace_all(url, "#", "%23") # selectively url-encode
   if(urlonly) if(showing_key()) return(url) else return(scrub_key(url))
-  if(nchar(url) > 8192) stop("max url length is 8192 characters.", call. = FALSE)
+  if(nchar(url) > 8192) cli::cli_abort("Max url length is 8192 characters.")
 
 
   ## get map
@@ -364,7 +366,7 @@ get_googlemap <- function(
   if (!is.null(map) && !force) return(map)
 
   # message url
-  if (showing_key()) message("Source : ", url) else message("Source : ", scrub_key(url))
+  if (showing_key()) source_url_msg(url) else source_url_msg(scrub_key(url))
 
   # query server
   response <- httr::GET(url)
@@ -381,7 +383,9 @@ get_googlemap <- function(
         "http_500" = function(c) "HTTP 500 Internal Server Error",
         "http_503" = function(c) "HTTP 503 Service Unavailable - Server bogged down, try later"
       ),
-      '\n', httr::content(response))
+      '\n',
+      httr::content(response)
+    )
   }
 
 

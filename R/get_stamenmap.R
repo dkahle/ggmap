@@ -39,7 +39,7 @@
 #' ggmap(get_stamenmap(bbox, zoom = 13))
 #' ggmap(get_stamenmap(bbox, zoom = 14))
 #' ggmap(get_stamenmap(bbox, zoom = 15))
-#' ggmap(get_stamenmap(bbox, zoom = 16, messaging = TRUE))
+#' ggmap(get_stamenmap(bbox, zoom = 17, messaging = TRUE))
 #'
 #' place <- "mount everest"
 #' (google <- get_googlemap(place, zoom = 9))
@@ -175,19 +175,19 @@ get_stamenmap <- function(
   argsgiven <- names(args)
 
   if ("location" %in% argsgiven) {
-    warning("location is not a valid argument to get_stamenmap(); it is ignored.")
+    cli::cli_warn("{.arg location} is not a valid argument to {.fn ggmap::get_stamenmap}; it is ignored.")
   }
 
   if("bbox" %in% argsgiven){
     if(!(is.numeric(bbox) && length(bbox) == 4)){
-      stop("bounding box improperly specified.  see ?get_openstreetmap", call. = F)
+      cli::cli_abort("{.arg bbox} is improperly specified, see {.fn ggmap::get_openstreetmap}.")
     }
   }
 
   if("zoom" %in% argsgiven){
     if(!(is.numeric(zoom) && length(zoom) == 1 &&
     zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
-      stop("scale must be a positive integer 0-18, see ?get_stamenmap.", call. = F)
+      cli::cli_abort("{.arg scale} must be a positive integer 0-18, see {.fn ggmap::get_stamenmap.}.")
     }
   }
 
@@ -209,10 +209,10 @@ get_stamenmap <- function(
   # set image type (stamen only)
   if(maptype %in% c("watercolor")){
     filetype <- "jpg"
-    message("Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.")
+    cli::cli_alert_info("Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.")
   } else {
     filetype <- "png"
-    message("Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.")
+    cli::cli_alert_info("Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.")
   }
 
   # determine tiles to get
@@ -228,8 +228,7 @@ get_stamenmap <- function(
   ysNeeded <- Reduce(":", sort(unique(as.numeric(sapply(fourCornersTiles, function(df) df$Y)))))
   tilesNeeded <- expand.grid(x = xsNeeded, y = ysNeeded)
   if(nrow(tilesNeeded) > 40){
-    message(nrow(tilesNeeded), " tiles needed, this may take a while ",
-      "(try a smaller zoom).")
+    cli::cli_alert_info("{nrow(tilesNeeded)} tiles needed, this may take a while (try a smaller zoom?)")
   }
 
 
@@ -239,7 +238,7 @@ get_stamenmap <- function(
   base_url <- paste(base_url, maptype, "/", zoom, sep = "")
   urls <- paste(base_url, apply(tilesNeeded, 1, paste, collapse = "/"), sep = "/")
   urls <- paste(urls, filetype, sep = ".")
-  if(messaging) message(length(urls), " tiles required.")
+  if(messaging) cli::cli_alert_info("{length(urls)} tiles required.")
   if(urlonly) return(urls)
 
 
@@ -360,7 +359,7 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messag
 
 
     # message url
-    if (messaging) message("Source : ", url)
+    if (messaging) source_url_msg(url)
 
   } else {
 

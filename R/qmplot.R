@@ -262,12 +262,9 @@ qmplot <- function(x, y, ..., data, zoom, source = "stamen", maptype = "toner-li
 {
 
 
-  if (!missing(stat))
-    warning("`stat` is deprecated", call. = FALSE)
-  if (!missing(position))
-    warning("`position` is deprecated", call. = FALSE)
-  if (!is.character(geom))
-    stop("`geom` must be a character vector", call. = FALSE)
+  if (!missing(stat)) cli::cli_warn("{.arg stat} is deprecated.")
+  if (!missing(position)) cli::cli_warn("{.arg position} is deprecated.")
+  if (!is.character(geom)) cli::cli_abort("{.arg geom} must be a character vector.")
 
   argnames <- names(as.list(match.call(expand.dots=FALSE)[-1]))
   arguments <- as.list(match.call()[-1])
@@ -331,7 +328,7 @@ qmplot <- function(x, y, ..., data, zoom, source = "stamen", maptype = "toner-li
   # compute zoom
   if(missing(zoom)){
     zoom <- calc_zoom(lon_range, lat_range)
-    message(paste0("Using zoom = ", zoom, "..."))
+    cli::cli_alert_info("Using {.arg zoom = {zoom}}")
   }
 
 

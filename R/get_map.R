@@ -108,10 +108,8 @@ get_map <- function(
   if(source == "stamen"){
     if(!(maptype %in% c("terrain","terrain-background","terrain-labels",
       "terrain-lines", "toner", "toner-2010", "toner-2011", "toner-background",
-      "toner-hybrid", "toner-labels", "toner-lines", "toner-lite", "watercolor")))
-    {
-      stop("invalid stamen maptype, see ?get_stamenmap",
-        call. = FALSE)
+      "toner-hybrid", "toner-labels", "toner-lines", "toner-lite", "watercolor"))) {
+      cli::cli_abort("Invalid stamen {.arg maptype}, see {.fn get_stamenmap}.")
     }
   }
   if(source == "google" & (
@@ -119,8 +117,7 @@ get_map <- function(
       "terrain-lines", "toner", "toner-2010", "toner-2011", "toner-background",
       "toner-hybrid", "toner-labels", "toner-lines", "toner-lite", "watercolor")
   )){
-    message(paste0("maptype = \"", maptype, "\" is only available with source = \"stamen\"."))
-    message(paste0("resetting to source = \"stamen\"..."))
+    cli::cli_alert_warning("{.arg maptype = \"{maptype}\"} is only available with {.arg source = \"stamen\"}; resetting source.")
     source <- "stamen"
   }
 
@@ -145,10 +142,10 @@ get_map <- function(
       if(all(loc_names == c("long","lat"))){
         names(location) <- c("lon", "lat")
       } else if(all(loc_names == c("lat","lon"))){
-      	message("note : locations should be specified in the lon/lat format, not lat/lon.")
+        cli::cli_alert_info("Note : locations should be specified in the lon/lat format, not lat/lon.")
       	location <- location[c("lon","lat")]
       } else if(all(loc_names == c("lat","long"))){
-      	message("note : locations should be specified in the lon/lat format, not lat/lon.")
+        cli::cli_alert_info("Note : locations should be specified in the lon/lat format, not lat/lon.")
       	location <- location[c("long","lat")]
         names(location) <- c("lon", "lat")
       }
@@ -166,7 +163,7 @@ get_map <- function(
     # check bounding box
     if(length(names(location)) > 0){
       if(!all(names(location) %in% c("left","bottom","right","top"))){
-        stop("bounding boxes should have name left, bottom, right, top)", call. = FALSE)
+        cli::cli_abort('Bounding boxes should have names {.code "left"}, {.code "bottom"}, {.code "right"}, {.code "top"}).')
       }
       location <- location[c("left","bottom","right","top")]
     } else {
@@ -175,7 +172,7 @@ get_map <- function(
   }
 
   if(location_stop){ # if not one of the above, error
-    stop("improper location specification, see ?get_map.", call. = F)
+    cli::cli_abort("{.arg location} improperly specified, see {.fn ggmap::get_map}.")
   }
 
 
@@ -212,8 +209,7 @@ get_map <- function(
 
   	# if bounding box given
     if(location_type == "bbox"){
-      message("Bounding box given to Google - spatial extent only approximate.")
-      # message("converting bounding box to center/zoom specification. (experimental)")
+      cli::cli_alert_warning("Bounding box given to Google - spatial extent only approximate.")
 
       # computer center
       user_bbox <- location
