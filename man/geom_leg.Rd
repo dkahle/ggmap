@@ -94,15 +94,15 @@ ggmap(map)
 
 ggplot(data = legs_df) +
   geom_leg(aes(
-    x = startLon, xend = endLon,
-    y = startLat, yend = endLat
+    x = start_lon, xend = end_lon,
+    y = start_lat, yend = end_lat
   )) +
   coord_map()
 
 ggplot(data = legs_df) +
   geom_leg(aes(
-    x = startLon, xend = endLon,
-    y = startLat, yend = endLat,
+    x = start_lon, xend = end_lon,
+    y = start_lat, yend = end_lat,
     color = route
   )) +
   coord_map()
@@ -111,8 +111,8 @@ ggplot(data = legs_df) +
 ggmap(map) +
   geom_leg(
     aes(
-      x = startLon, xend = endLon,
-      y = startLat, yend = endLat
+      x = start_lon, xend = end_lon,
+      y = start_lat, yend = end_lat
     ),
     data = legs_df, color = "red"
   )
@@ -121,8 +121,8 @@ ggmap(map) +
 # ggmap(map) +
 #   geom_leg(
 #     aes(
-#       x = startLon, xend = endLon,
-#       y = startLat, yend = endLat,
+#       x = start_lon, xend = end_lon,
+#       y = start_lat, yend = end_lat,
 #       color = route
 #   )
 # )
@@ -133,8 +133,8 @@ ggplot(data = legs_df) +
   inset_ggmap(map) +
   geom_leg(
     aes(
-      x = startLon, xend = endLon,
-      y = startLat, yend = endLat,
+      x = start_lon, xend = end_lon,
+      y = start_lat, yend = end_lat,
       color = route
     ),
     data = legs_df
