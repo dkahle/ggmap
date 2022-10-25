@@ -117,12 +117,13 @@ geocode("1301 S University Parks Dr, Waco, TX 76798")
 revgeocode(c(lon = -97.1161, lat = 31.55098))
 ```
 
+_Note: `geocode()` uses Google's Geocoding API to geocode addresses. Please take care not to disclose sensitive information. [Rundle, Bader, and Moody](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108/) have considered this issue and suggest various alternative options for such data._
+
 There is also a `mutate_geocode()` that works similarly to [__dplyr__](https://github.com/hadley/dplyr)'s `mutate()` function:
 ```{r mutate_geocode}
 tibble(address = c("white house", "", "waco texas")) %>% 
   mutate_geocode(address)
 ```
-
 
 Treks use Google's routing API to give you routes (`route()` and `trek()` give slightly different results; the latter hugs roads):
 ```{r route_trek}

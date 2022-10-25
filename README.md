@@ -162,6 +162,12 @@ revgeocode(c(lon = -97.1161, lat = 31.55098))
 #  [1] "55 Baylor Ave, Waco, TX 76706, USA"
 ```
 
+*Note: `geocode()` uses Google’s Geocoding API to geocode addresses.
+Please take care not to disclose sensitive information. [Rundle, Bader,
+and Moody](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108/) have
+considered this issue and suggest various alternative options for such
+data.*
+
 There is also a `mutate_geocode()` that works similarly to
 [**dplyr**](https://github.com/hadley/dplyr)’s `mutate()` function:
 
@@ -209,7 +215,7 @@ mapdist(c("houston, texas", "dallas"), "waco, texas")
 #  # A tibble: 2 × 9
 #    from           to               m    km miles seconds minutes hours mode   
 #    <chr>          <chr>        <int> <dbl> <dbl>   <int>   <dbl> <dbl> <chr>  
-#  1 dallas         waco, texas 155827  156.  96.8    5475    91.2  1.52 driving
+#  1 dallas         waco, texas 155834  156.  96.8    5432    90.5  1.51 driving
 #  2 houston, texas waco, texas 298232  298. 185.    10297   172.   2.86 driving
 ```
 
