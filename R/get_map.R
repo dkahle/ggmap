@@ -1,6 +1,6 @@
 #' Grab a map.
 #'
-#' \code{get_map} is a smart wrapper that queries the Google Maps,
+#' [get_map()] is a smart wrapper that queries the Google Maps,
 #' OpenStreetMap, Stamen Maps or Naver Map servers for a map.
 #'
 #' @param location an address, longitude/latitude pair (in that order), or
@@ -21,7 +21,7 @@
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
 #' @param filename destination file for download (file extension added according
-#'   to format). Default \code{NULL} means a random [tempfile()].
+#'   to format). Default `NULL` means a random [tempfile()].
 #' @param crop (stamen and cloudmade maps) crop tiles to bounding box
 #' @param color color ("color") or black-and-white ("bw")
 #' @param language language for google maps

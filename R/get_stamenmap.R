@@ -1,6 +1,6 @@
 #' Get a Stamen Map
 #'
-#' \code{get_stamenmap} accesses a tile server for Stamen Maps and
+#' [get_stamenmap()] accesses a tile server for Stamen Maps and
 #' downloads/stitches map tiles/formats a map image. Note that Stamen maps don't
 #' cover the entire world.
 #'

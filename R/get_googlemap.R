@@ -1,6 +1,6 @@
 #' Get a Google Map.
 #'
-#' \code{get_googlemap} queries the Google Maps Static API version 2 to download
+#' [get_googlemap()] queries the Google Maps Static API version 2 to download
 #' a static map.  Note that in most cases by using this function you are
 #' agreeing to the Google Maps API Terms of Service at
 #' \url{https://cloud.google.com/maps-platform/terms/}. Note that as of mid-2018,
@@ -11,8 +11,8 @@
 #'
 #' @param center the center of the map; either a longitude/latitude numeric
 #'   vector or a string containing a location, in which case [geocode()] is
-#'   called with \code{source = "google"}. (default: c(lon = -95.3632715, lat =
-#'   29.7632836), houston, texas)
+#'   called with `source = "google"`. (default: `c(lon = -95.3632715, lat =
+#'   29.7632836)`, a reference to Houston, Texas)
 #' @param zoom map zoom; an integer from 3 (continent) to 21 (building), default
 #'   value 10 (city)
 #' @param size rectangular dimensions of map in pixels - horizontal x vertical -
@@ -25,14 +25,14 @@
 #' @param format character string providing image format - png, jpeg, and gif
 #'   formats available in various flavors
 #' @param maptype character string providing google map theme. options available
-#'   are "terrain", "satellite", "roadmap", and "hybrid"
+#'   are `"terrain"`, `"satellite"`, `"roadmap"`, and `"hybrid"`
 #' @param language character string providing language of map labels (for themes
-#'   with them) in the format "en-EN".  not all languages are supported; for
+#'   with them) in the format `"en-EN"`.  not all languages are supported; for
 #'   those which aren't the default language is used
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
 #' @param filename destination file for download (file extension added according
-#'   to format). Default \code{NULL} means a random [tempfile()].
+#'   to format). Default `NULL` means a random [tempfile()].
 #' @param color color or black-and-white
 #' @param force if the map is on file, should a new map be looked up?
 #' @param where where should the file drawer be located (without terminating
@@ -40,7 +40,7 @@
 #' @param archiving use archived maps.  note: by changing to TRUE you agree to
 #'   the one of the approved uses listed in the Google Maps API Terms of Service
 #'   : \url{http://developers.google.com/maps/terms}.
-#' @param ext domain extension (e.g. "com", "co.nz")
+#' @param ext domain extension (e.g. `"com"`, `"co.nz"`)
 #' @param inject character string to add to the url
 #' @param region borders to display as a region code specified as a
 #'   two-character ccTLD ("top-level domain") value, see

@@ -32,8 +32,7 @@ get_googlemap(
 \arguments{
 \item{center}{the center of the map; either a longitude/latitude numeric
 vector or a string containing a location, in which case \code{\link[=geocode]{geocode()}} is
-called with \code{source = "google"}. (default: c(lon = -95.3632715, lat =
-29.7632836), houston, texas)}
+called with \code{source = "google"}. (default: \code{c(lon = -95.3632715, lat = 29.7632836)}, a reference to Houston, Texas)}
 
 \item{zoom}{map zoom; an integer from 3 (continent) to 21 (building), default
 value 10 (city)}
@@ -51,10 +50,10 @@ only.  scale also affects the size of labels as well.}
 formats available in various flavors}
 
 \item{maptype}{character string providing google map theme. options available
-are "terrain", "satellite", "roadmap", and "hybrid"}
+are \code{"terrain"}, \code{"satellite"}, \code{"roadmap"}, and \code{"hybrid"}}
 
 \item{language}{character string providing language of map labels (for themes
-with them) in the format "en-EN".  not all languages are supported; for
+with them) in the format \code{"en-EN"}.  not all languages are supported; for
 those which aren't the default language is used}
 
 \item{messaging}{turn messaging on/off}
@@ -75,7 +74,7 @@ to format). Default \code{NULL} means a random \code{\link[=tempfile]{tempfile()
 the one of the approved uses listed in the Google Maps API Terms of Service
 : \url{http://developers.google.com/maps/terms}.}
 
-\item{ext}{domain extension (e.g. "com", "co.nz")}
+\item{ext}{domain extension (e.g. \code{"com"}, \code{"co.nz"})}
 
 \item{inject}{character string to add to the url}
 
@@ -107,7 +106,7 @@ a ggmap object (a classed raster object with a bounding box
 attribute)
 }
 \description{
-\code{get_googlemap} queries the Google Maps Static API version 2 to download
+\code{\link[=get_googlemap]{get_googlemap()}} queries the Google Maps Static API version 2 to download
 a static map.  Note that in most cases by using this function you are
 agreeing to the Google Maps API Terms of Service at
 \url{https://cloud.google.com/maps-platform/terms/}. Note that as of mid-2018,

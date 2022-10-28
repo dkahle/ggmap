@@ -2,7 +2,7 @@
 #'
 #' This is (at least) temporarily unavailable as the Naver API changed.
 #'
-#' \code{get_navermap} accesses the Naver Static Maps API version 1.1 to
+#' [get_navermap()] accesses the Naver Static Maps API version 1.1 to
 #' download a static map. Note that in most cases by using this function you are
 #' agreeing to the Naver Maps API Terms of Service.
 #'
@@ -24,7 +24,7 @@
 #' @param key key code from naver api center
 #' @param uri registered host url
 #' @param filename destination file for download (file extension added according
-#'   to format). Default \code{NULL} means a random [tempfile()].
+#'   to format). Default `NULL` means a random [tempfile()].
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
 #' @param force if the map is on file, should a new map be looked up?

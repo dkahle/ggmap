@@ -23,9 +23,9 @@ ggmap_credentials()
 }
 \description{
 ggmap stores options as a named list in R's global options, i.e.
-\code{getOption("ggmap")}. It currently stores two such options, one for
-Google credentialing and one to suppress private API information in the URLs
-printed to the screen when web queries are placed. For both of those, see
+\code{getOption("ggmap")}. It currently stores two such options, one for Google
+credentialing and one to suppress private API information in the URLs printed
+to the screen when web queries are placed. For both of those, see
 \code{\link[=register_google]{register_google()}}.
 }
 \examples{

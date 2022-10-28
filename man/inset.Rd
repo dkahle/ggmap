@@ -22,7 +22,7 @@ This is identical to ggplot2::annotation_custom for use with ggmap
 Most useful for adding tables, inset plots, and other grid-based decorations
 }
 \note{
-\code{annotation_custom} expects the grob to fill the entire viewport
+\code{\link[=annotation_custom]{annotation_custom()}} expects the grob to fill the entire viewport
 defined by xmin, xmax, ymin, ymax. Grobs with a different (absolute) size
 will be center-justified in that region. Inf values can be used to fill the
 full plot panel

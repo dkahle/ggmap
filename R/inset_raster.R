@@ -1,25 +1,38 @@
 #' Create a (ggplot2) raster layer
 #'
-#' This is a special version of ggplot2::annotation_raster for use
-#' with ggmap.  (It simply removes the requirement for cartesian
-#' coordinates.)  The only difference between \code{inset_raster}
-#' and \code{inset_ggmap} is their arguments.  \code{inset_ggmap} is
-#' simply a wrapper of \code{inset_raster} with \code{xmin}, ...,
-#' \code{ymax} arguments equal to the map's bounding box.
+#' This is a special version of ggplot2::annotation_raster for use with ggmap.
+#' (It simply removes the requirement for cartesian coordinates.)  The only
+#' difference between [inset_raster()] and [inset_ggmap()] is their arguments.
+#' [inset_ggmap()] is simply a wrapper of [inset_raster()] with `xmin`, `...`,
+#' `ymax` arguments equal to the map's bounding box.
 #'
 #' @param raster raster object to display
-#' @param xmin,xmax x location (in data coordinates) giving
-#'   horizontal location of raster
-#' @param ymin,ymax y location (in data coordinates) giving vertical
-#'   location of raster
+#' @param xmin,xmax x location (in data coordinates) giving horizontal location
+#'   of raster
+#' @param ymin,ymax y location (in data coordinates) giving vertical location of
+#'   raster
 #' @param interpolate interpolate the raster? (i.e. antialiasing)
 #' @param ggmap a ggmap object, see [get_map()]
 #' @export
+#' @seealso [bb2bbox()]
 #' @name inset_raster
 #' @examples
 #'
-#' # see ?bb2bbox
+#' \dontrun{ # save cran check time
 #'
+#' bbox <- c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.559652)
+#'
+#' terrain_map <- get_stamenmap(bbox, zoom = 14, maptype = "terrain-background", color = "bw")
+#' ggmap(terrain_map)
+#'
+#' lines_map <- get_stamenmap(bbox, zoom = 14, maptype = "toner-lines")
+#' ggmap(lines_map)
+#'
+#' ggmap(terrain_map) +
+#'   inset_ggmap(lines_map)
+#'
+#'
+#' }
 #'
 #'
 inset_raster <- annotation_raster <- function(raster, xmin, xmax, ymin, ymax, interpolate = TRUE) {
@@ -88,3 +101,4 @@ GeomRasterAnn <- ggproto("GeomRasterAnn", Geom,
       just = c("left","bottom"), interpolate = interpolate)
   }
 )
+

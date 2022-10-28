@@ -48,7 +48,7 @@ a tibble
 Sequence treks (latitude-longitude sequences following ordinary paths, e.g.
 roads) between two locations using the Google Directions API. Note: To use
 Google's Directions API, you must first enable the API in the Google Cloud
-Platform Console. See \code{?register_google}.
+Platform Console. See \code{\link[=register_google]{register_google()}}.
 }
 \examples{
 
@@ -124,6 +124,6 @@ qmplot(lon, lat, data = trek_df, geom = "path",
 \code{\link[=route]{route()}}, \code{\link[=routeQueryCheck]{routeQueryCheck()}}, \code{\link[=register_google]{register_google()}}
 }
 \author{
-David Kahle \email{david@kahle.io} with the key decoding
-algorithm due to Stack Overflow user akhmed
+David Kahle \email{david@kahle.io} with the key decoding algorithm
+due to Stack Overflow user akhmed
 }

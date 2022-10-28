@@ -12,28 +12,43 @@ inset_ggmap(ggmap)
 \arguments{
 \item{raster}{raster object to display}
 
-\item{xmin, xmax}{x location (in data coordinates) giving
-horizontal location of raster}
+\item{xmin, xmax}{x location (in data coordinates) giving horizontal location
+of raster}
 
-\item{ymin, ymax}{y location (in data coordinates) giving vertical
-location of raster}
+\item{ymin, ymax}{y location (in data coordinates) giving vertical location of
+raster}
 
 \item{interpolate}{interpolate the raster? (i.e. antialiasing)}
 
 \item{ggmap}{a ggmap object, see \code{\link[=get_map]{get_map()}}}
 }
 \description{
-This is a special version of ggplot2::annotation_raster for use
-with ggmap.  (It simply removes the requirement for cartesian
-coordinates.)  The only difference between \code{inset_raster}
-and \code{inset_ggmap} is their arguments.  \code{inset_ggmap} is
-simply a wrapper of \code{inset_raster} with \code{xmin}, ...,
+This is a special version of ggplot2::annotation_raster for use with ggmap.
+(It simply removes the requirement for cartesian coordinates.)  The only
+difference between \code{\link[=inset_raster]{inset_raster()}} and \code{\link[=inset_ggmap]{inset_ggmap()}} is their arguments.
+\code{\link[=inset_ggmap]{inset_ggmap()}} is simply a wrapper of \code{\link[=inset_raster]{inset_raster()}} with \code{xmin}, \code{...},
 \code{ymax} arguments equal to the map's bounding box.
 }
 \examples{
 
-# see ?bb2bbox
+\dontrun{ # save cran check time
+
+bbox <- c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.559652)
+
+terrain_map <- get_stamenmap(bbox, zoom = 14, maptype = "terrain-background", color = "bw")
+ggmap(terrain_map)
+
+lines_map <- get_stamenmap(bbox, zoom = 14, maptype = "toner-lines")
+ggmap(lines_map)
+
+ggmap(terrain_map) +
+  inset_ggmap(lines_map)
 
 
+}
 
+
+}
+\seealso{
+\code{\link[=bb2bbox]{bb2bbox()}}
 }

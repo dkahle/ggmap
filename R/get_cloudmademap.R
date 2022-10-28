@@ -16,7 +16,7 @@
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
 #' @param filename destination file for download (file extension added according
-#'   to format). Default \code{NULL} means a random [tempfile()].
+#'   to format). Default `NULL` means a random [tempfile()].
 #' @param color color or black-and-white
 #' @param ... ...
 #' @return a ggmap object (a classed raster object with a bounding box

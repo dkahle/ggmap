@@ -88,8 +88,8 @@ indicates no darkening, 1 indicates a black-out.}
 \item{ylab}{character vector or expression for y axis label}
 }
 \description{
-\code{qmplot} is the ggmap equivalent to the ggplot2 function qplot and
-allows for the quick plotting of maps with data/models/etc.
+\code{\link[=qmplot]{qmplot()}} is the ggmap equivalent to the ggplot2 function qplot and allows
+for the quick plotting of maps with data/models/etc.
 }
 \examples{
 

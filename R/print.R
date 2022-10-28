@@ -5,7 +5,7 @@
 #' @param x an object of class elicit
 #' @param ... additional parameters
 #' @usage \method{print}{ggmap}(x, ...)
-#' @return Invisibly returns \code{x}.
+#' @return Invisibly returns `x`.
 #' @export
 #' @examples
 #'

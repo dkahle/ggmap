@@ -3,7 +3,7 @@
 #' Sequence treks (latitude-longitude sequences following ordinary paths, e.g.
 #' roads) between two locations using the Google Directions API. Note: To use
 #' Google's Directions API, you must first enable the API in the Google Cloud
-#' Platform Console. See \code{?register_google}.
+#' Platform Console. See [register_google()].
 #'
 #' @param from name of origin addresses in a data frame
 #' @param to name of destination addresses in a data frame
@@ -17,11 +17,11 @@
 #' @param inject character string to add to the url
 #' @param ... ...
 #' @return a tibble
-#' @author David Kahle \email{david@@kahle.io} with the key decoding
-#'   algorithm due to Stack Overflow user akhmed
+#' @author David Kahle \email{david@@kahle.io} with the key decoding algorithm
+#'   due to Stack Overflow user akhmed
 #' @seealso \url{https://developers.google.com/maps/documentation/directions/},
 #'   \url{http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads},
-#'   [route()], [routeQueryCheck()], [register_google()]
+#'    [route()], [routeQueryCheck()], [register_google()]
 #' @export
 #' @examples
 #'

@@ -76,7 +76,7 @@ abide by any of the rules governing caching naver maps}
 This is (at least) temporarily unavailable as the Naver API changed.
 }
 \details{
-\code{get_navermap} accesses the Naver Static Maps API version 1.1 to
+\code{\link[=get_navermap]{get_navermap()}} accesses the Naver Static Maps API version 1.1 to
 download a static map. Note that in most cases by using this function you are
 agreeing to the Naver Maps API Terms of Service.
 }

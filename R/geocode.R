@@ -10,8 +10,8 @@
 #' alternative options for such data.
 #'
 #' @param location a character vector of street addresses or place names (e.g.
-#'   "1600 pennsylvania avenue, washington dc" or "Baylor University")
-#' @param output amount of output, "latlon", "latlona", "more", or "all"
+#'   `"1600 pennsylvania avenue, washington dc" or "Baylor University"`)
+#' @param output amount of output, `"latlon"`, `"latlona"`, `"more"`, or `"all"`
 #' @param source "google" for Google (note: "dsk" is defunct)
 #' @param force force online query even if cached.
 #' @param urlonly return only the url?
@@ -28,11 +28,12 @@
 #'   wholly replaced with the one on file?
 #' @param ... In [mutate_geocode()], arguments to pass to [geocode()]. In
 #'   [write_geocode_cache()], arguments to pass to [saveRDS()].
-#' @return If \code{output} is "latlon", "latlona", or "more", a tibble (classed
-#'   data frame). If "all", a list.
+#' @return If `output` is `"latlon"`, `"latlona"`, or `"more"`, a tibble
+#'   (classed data frame). If `"all"`, a list.
 #' @author David Kahle \email{david@@kahle.io}
 #' @seealso \url{http://code.google.com/apis/maps/documentation/geocoding/},
 #'   \url{https://developers.google.com/maps/documentation/javascript/geocoding},
+#'
 #'
 #'
 #'   \url{https://developers.google.com/maps/documentation/geocoding/usage-limits},

@@ -64,7 +64,7 @@ a ggmap object (a classed raster object with a bounding box
 attribute)
 }
 \description{
-\code{get_map} is a smart wrapper that queries the Google Maps,
+\code{\link[=get_map]{get_map()}} is a smart wrapper that queries the Google Maps,
 OpenStreetMap, Stamen Maps or Naver Map servers for a map.
 }
 \examples{

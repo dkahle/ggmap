@@ -37,9 +37,9 @@ clear_geocode_cache(path)
 }
 \arguments{
 \item{location}{a character vector of street addresses or place names (e.g.
-"1600 pennsylvania avenue, washington dc" or "Baylor University")}
+\verb{"1600 pennsylvania avenue, washington dc" or "Baylor University"})}
 
-\item{output}{amount of output, "latlon", "latlona", "more", or "all"}
+\item{output}{amount of output, \code{"latlon"}, \code{"latlona"}, \code{"more"}, or \code{"all"}}
 
 \item{source}{"google" for Google (note: "dsk" is defunct)}
 
@@ -69,8 +69,8 @@ and appended to the query)}
 wholly replaced with the one on file?}
 }
 \value{
-If \code{output} is "latlon", "latlona", or "more", a tibble (classed
-data frame). If "all", a list.
+If \code{output} is \code{"latlon"}, \code{"latlona"}, or \code{"more"}, a tibble
+(classed data frame). If \code{"all"}, a list.
 }
 \description{
 Geocodes (finds latitude and longitude of) a location using the Google

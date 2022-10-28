@@ -1,13 +1,13 @@
 #' ggmap Options
 #'
 #' ggmap stores options as a named list in R's global options, i.e.
-#' \code{getOption("ggmap")}. It currently stores two such options, one for
-#' Google credentialing and one to suppress private API information in the URLs
-#' printed to the screen when web queries are placed. For both of those, see
+#' `getOption("ggmap")`. It currently stores two such options, one for Google
+#' credentialing and one to suppress private API information in the URLs printed
+#' to the screen when web queries are placed. For both of those, see
 #' [register_google()].
 #'
 #' @param ... a named listing of options to set
-#' @param option a specific option to query, e.g. \code{"display_api_key"}
+#' @param option a specific option to query, e.g. `"display_api_key"`
 #' @return NULL
 #' @name ggmap_options
 #' @author David Kahle \email{david@@kahle.io}

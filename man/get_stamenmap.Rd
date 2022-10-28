@@ -61,7 +61,7 @@ a ggmap object (a classed raster object with a bounding box
 attribute)
 }
 \description{
-\code{get_stamenmap} accesses a tile server for Stamen Maps and
+\code{\link[=get_stamenmap]{get_stamenmap()}} accesses a tile server for Stamen Maps and
 downloads/stitches map tiles/formats a map image. Note that Stamen maps don't
 cover the entire world.
 }

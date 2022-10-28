@@ -1,7 +1,7 @@
 #' Quick map plot
 #'
-#' \code{qmplot} is the ggmap equivalent to the ggplot2 function qplot and
-#' allows for the quick plotting of maps with data/models/etc.
+#' [qmplot()] is the ggmap equivalent to the ggplot2 function qplot and allows
+#' for the quick plotting of maps with data/models/etc.
 #'
 #'
 #' @param x longitude values
