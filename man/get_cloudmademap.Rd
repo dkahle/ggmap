@@ -50,9 +50,9 @@ attribute)
 \description{
 \code{\link[=get_cloudmademap]{get_cloudmademap()}} accesses a tile server for Stamen Maps and
 downloads/stitches map tiles/formats a map image. This function requires an
-api key which can be obtained for free from \url{http://cloudmade.com/user/show}
-(defunct?). Thousands of maptypes ("styles"), including create-your-own
-options, are available from \url{http://maps.cloudmade.com/editor}.
+api key which can be obtained for free from http://cloudmade.com/user/show,
+now defunct. Thousands of maptypes ("styles"), including create-your-own
+options, are available from http://maps.cloudmade.com/editor (defunct).
 }
 \examples{
 
@@ -69,7 +69,7 @@ options, are available from \url{http://maps.cloudmade.com/editor}.
 
 }
 \seealso{
-\url{http://maps.cloudmade.com/}, \code{\link[=ggmap]{ggmap()}}
+http://maps.cloudmade.com/ (defunct), \code{\link[=ggmap]{ggmap()}}
 }
 \author{
 David Kahle \email{david@kahle.io}

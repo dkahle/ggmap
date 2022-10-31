@@ -146,5 +146,5 @@ ggplot(data = legs_df) +
 }
 \seealso{
 \code{\link[=geom_segment]{geom_segment()}}, \code{\link[=route]{route()}}, inspired by
-\url{http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/}
+http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/, no longer active
 }

@@ -2,9 +2,9 @@
 #'
 #' [get_cloudmademap()] accesses a tile server for Stamen Maps and
 #' downloads/stitches map tiles/formats a map image. This function requires an
-#' api key which can be obtained for free from \url{http://cloudmade.com/user/show}
-#' (defunct?). Thousands of maptypes ("styles"), including create-your-own
-#' options, are available from \url{http://maps.cloudmade.com/editor}.
+#' api key which can be obtained for free from http://cloudmade.com/user/show,
+#' now defunct. Thousands of maptypes ("styles"), including create-your-own
+#' options, are available from http://maps.cloudmade.com/editor (defunct).
 #'
 #' @param bbox a bounding box in the format c(lowerleftlon, lowerleftlat,
 #'   upperrightlon, upperrightlat).
@@ -22,7 +22,7 @@
 #' @return a ggmap object (a classed raster object with a bounding box
 #'   attribute)
 #' @author David Kahle \email{david@@kahle.io}
-#' @seealso \url{http://maps.cloudmade.com/}, [ggmap()]
+#' @seealso http://maps.cloudmade.com/ (defunct), [ggmap()]
 #' @export
 #' @examples
 #'

@@ -5,7 +5,7 @@
 #'
 #' @inheritParams ggplot2::geom_segment
 #' @seealso [geom_segment()], [route()], inspired by
-#'   \url{http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/}
+#'   http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/, no longer active
 #' @details only intended for use in ggmap package.  only designed
 #'   for mercator projection.
 #' @export
