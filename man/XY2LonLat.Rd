@@ -41,7 +41,7 @@ XY2LonLat(0, 0, 255, 255, zoom = 1)
 
 }
 \seealso{
-\url{http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
+\url{https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
 }
 \author{
 David Kahle \email{david@kahle.io}, based on

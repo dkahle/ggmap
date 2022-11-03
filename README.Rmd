@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
   collapse = TRUE, cache = FALSE,
   comment = "# ",
   fig.path = "tools/README-",
-  dpi = 300
+  dpi = 60
 )
 ```
 
@@ -27,7 +27,7 @@ knitr::opts_chunk$set(
 
 # ggmap
 
-__ggmap__ is an R package that makes it easy to retrieve raster map tiles from popular online mapping services like [Google Maps](https://developers.google.com/maps/documentation/static-maps/?hl=en) and [Stamen Maps](http://maps.stamen.com) and plot them using the [__ggplot2__](https://github.com/tidyverse/ggplot2) framework:
+__ggmap__ is an R package that makes it easy to retrieve raster map tiles from popular online mapping services like [Google Maps](https://developers.google.com/maps/documentation/maps-static?hl=en) and [Stamen Maps](http://maps.stamen.com) and plot them using the [__ggplot2__](https://github.com/tidyverse/ggplot2) framework:
 
 ```{r maptypes}
 library("ggmap")
@@ -98,7 +98,7 @@ qmplot(lon, lat, data = violent_crimes, maptype = "toner-background", color = of
 
 ## Google Maps
 
-[Google Maps](http://developers.google.com/maps/terms) can be used just as easily.  However, since Google Maps use a center/zoom specification, their input is a bit different:
+[Google Maps](https://cloud.google.com/maps-platform/terms/) can be used just as easily.  However, since Google Maps use a center/zoom specification, their input is a bit different:
 ```{r google_maps}
 (map <- get_googlemap("waco texas", zoom = 12))
 ggmap(map)
@@ -119,7 +119,7 @@ revgeocode(c(lon = -97.1161, lat = 31.55098))
 
 _Note: `geocode()` uses Google's Geocoding API to geocode addresses. Please take care not to disclose sensitive information. [Rundle, Bader, and Moody (2022)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108/) have considered this issue and suggest various alternative options for such data._
 
-There is also a `mutate_geocode()` that works similarly to [__dplyr__](https://github.com/hadley/dplyr)'s `mutate()` function:
+There is also a `mutate_geocode()` that works similarly to [__dplyr__](https://github.com/tidyverse/dplyr/)'s `mutate()` function:
 ```{r mutate_geocode}
 tibble(address = c("white house", "", "waco texas")) %>% 
   mutate_geocode(address)
@@ -152,7 +152,7 @@ A few years ago Google has [changed its API requirements](https://developers.goo
 
 1. Users must register with Google. You can do this at https://mapsplatform.google.com. While it will require a valid credit card (sorry!), there seems to be a fair bit of free use before you incur charges, and even then the charges are modest for light use.
 
-2. Users must enable the APIs they intend to use. What may appear to __ggmap__ users as one overarching "Google Maps" product, Google in fact has several services that it provides as geo-related solutions. For example, the [Maps Static API](https://developers.google.com/maps/documentation/maps-static/intro) provides map images, while the [Geocoding API](https://developers.google.com/maps/documentation/geocoding/intro) provides geocoding and reverse geocoding services.  Apart from the relevant Terms of Service, generally __ggmap__ users don't need to think about the different services. For example, you just need to remember that `get_googlemap()` gets maps, `geocode()` geocodes (with Google, DSK is done), etc., and __ggmap__ handles the queries for you.  _However_, you do need to enable the APIs before you use them. You'll only need to do that once, and then they'll be ready for you to use. Enabling the APIs just means clicking a few radio buttons on the Google Maps Platform web interface listed above, so it's easy.
+2. Users must enable the APIs they intend to use. What may appear to __ggmap__ users as one overarching "Google Maps" product, Google in fact has several services that it provides as geo-related solutions. For example, the [Maps Static API](https://developers.google.com/maps/documentation/maps-static/overview) provides map images, while the [Geocoding API](https://developers.google.com/maps/documentation/geocoding/overview) provides geocoding and reverse geocoding services.  Apart from the relevant Terms of Service, generally __ggmap__ users don't need to think about the different services. For example, you just need to remember that `get_googlemap()` gets maps, `geocode()` geocodes (with Google, DSK is done), etc., and __ggmap__ handles the queries for you.  _However_, you do need to enable the APIs before you use them. You'll only need to do that once, and then they'll be ready for you to use. Enabling the APIs just means clicking a few radio buttons on the Google Maps Platform web interface listed above, so it's easy.
 
 3. Inside R, after loading the new version of __ggmap__, you'll need provide __ggmap__ with your API key, a [hash value](https://en.wikipedia.org/wiki/Hash_function) (think string of jibberish) that authenticates you to Google's servers. This can be done on a temporary basis with `register_google(key = "[your key]")` or permanently using `register_google(key = "[your key]", write = TRUE)` (note: this will overwrite your `~/.Renviron` file by replacing/adding the relevant line). If you use the former, know that you'll need to re-do it every time you reset R.
   

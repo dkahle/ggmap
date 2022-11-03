@@ -20,13 +20,13 @@ get_openstreetmap(
 upperrightlon, upperrightlat)}
 
 \item{scale}{scale parameter, see
-\url{http://wiki.openstreetmap.org/wiki/MinScaleDenominator}.  smaller
+\url{https://wiki.openstreetmap.org/wiki/MinScaleDenominator}.  smaller
 scales provide a finer degree of detail, where larger scales produce more
 coarse detail. The scale argument is a tricky number to correctly specify.
 In most cases, if you get an error when downloading an openstreetmap the
 error is attributable to an improper scale specification.
 \code{\link[=OSM_scale_lookup]{OSM_scale_lookup()}} can help; but the best way to get in the correct range
-is to go to \url{http://www.openstreetmap.org/}, navigate to the map of
+is to go to \url{https://www.openstreetmap.org/}, navigate to the map of
 interest, click export at the top of the page, click 'map image' and then
 copy down the scale listed.}
 
@@ -51,7 +51,7 @@ attribute)
 \description{
 \code{\link[=get_openstreetmap]{get_openstreetmap()}} accesses a tile server for OpenStreetMap and
 downloads/formats a map image. This is simply a wrapper for the web-based
-version at \url{http://www.openstreetmap.org/}.  If you don't know how to get
+version at \url{https://www.openstreetmap.org/}.  If you don't know how to get
 the map you want, go there, navigate to the map extent that you want, click
 the export tab at the top of the page, and copy the information into this
 function.
@@ -63,7 +63,7 @@ an error message from \code{\link[utils:download.file]{utils::download.file()}} 
 and then entering the URL in a web browser.  the solution is either (1)
 change sources or (2) wait for the OSM servers to come back up.
 
-See \url{http://www.openstreetmap.org/copyright} for license and copyright
+See \url{https://www.openstreetmap.org/copyright/} for license and copyright
 information.
 }
 \examples{
@@ -79,7 +79,7 @@ information.
 
 }
 \seealso{
-\url{http://www.openstreetmap.org/}, \code{\link[=ggmap]{ggmap()}}
+\url{https://www.openstreetmap.org/}, \code{\link[=ggmap]{ggmap()}}
 }
 \author{
 David Kahle \email{david@kahle.io}

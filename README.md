@@ -15,7 +15,7 @@ status](https://ci.appveyor.com/api/projects/status/github/dkahle/ggmap?branch=m
 
 **ggmap** is an R package that makes it easy to retrieve raster map
 tiles from popular online mapping services like [Google
-Maps](https://developers.google.com/maps/documentation/static-maps/?hl=en)
+Maps](https://developers.google.com/maps/documentation/maps-static?hl=en)
 and [Stamen Maps](http://maps.stamen.com) and plot them using the
 [**ggplot2**](https://github.com/tidyverse/ggplot2) framework:
 
@@ -114,9 +114,9 @@ qmplot(lon, lat, data = violent_crimes, maptype = "toner-background", color = of
 
 ## Google Maps
 
-[Google Maps](http://developers.google.com/maps/terms) can be used just
-as easily. However, since Google Maps use a center/zoom specification,
-their input is a bit different:
+[Google Maps](https://cloud.google.com/maps-platform/terms/) can be used
+just as easily. However, since Google Maps use a center/zoom
+specification, their input is a bit different:
 
 ``` r
 (map <- get_googlemap("waco texas", zoom = 12))
@@ -169,7 +169,7 @@ have considered this issue and suggest various alternative options for
 such data.*
 
 There is also a `mutate_geocode()` that works similarly to
-[**dplyr**](https://github.com/hadley/dplyr)’s `mutate()` function:
+[**dplyr**](https://github.com/tidyverse/dplyr/)’s `mutate()` function:
 
 ``` r
 tibble(address = c("white house", "", "waco texas")) %>% 
@@ -215,8 +215,8 @@ mapdist(c("houston, texas", "dallas"), "waco, texas")
 #  # A tibble: 2 × 9
 #    from           to               m    km miles seconds minutes hours mode   
 #    <chr>          <chr>        <int> <dbl> <dbl>   <int>   <dbl> <dbl> <chr>  
-#  1 dallas         waco, texas 155834  156.  96.8    5432    90.5  1.51 driving
-#  2 houston, texas waco, texas 298232  298. 185.    10297   172.   2.86 driving
+#  1 dallas         waco, texas 152474  152.  94.7    5428    90.5  1.51 driving
+#  2 houston, texas waco, texas 298227  298. 185.    10301   172.   2.86 driving
 ```
 
 ## Google Maps API key
@@ -236,9 +236,9 @@ user’s perspective, there are essentially three ramifications of this:
     **ggmap** users as one overarching “Google Maps” product, Google in
     fact has several services that it provides as geo-related solutions.
     For example, the [Maps Static
-    API](https://developers.google.com/maps/documentation/maps-static/intro)
+    API](https://developers.google.com/maps/documentation/maps-static/overview)
     provides map images, while the [Geocoding
-    API](https://developers.google.com/maps/documentation/geocoding/intro)
+    API](https://developers.google.com/maps/documentation/geocoding/overview)
     provides geocoding and reverse geocoding services. Apart from the
     relevant Terms of Service, generally **ggmap** users don’t need to
     think about the different services. For example, you just need to

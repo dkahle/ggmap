@@ -31,13 +31,10 @@
 #' @return If `output` is `"latlon"`, `"latlona"`, or `"more"`, a tibble
 #'   (classed data frame). If `"all"`, a list.
 #' @author David Kahle \email{david@@kahle.io}
-#' @seealso \url{http://code.google.com/apis/maps/documentation/geocoding/},
-#'   \url{https://developers.google.com/maps/documentation/javascript/geocoding},
-#'
-#'
-#'
-#'   \url{https://developers.google.com/maps/documentation/geocoding/usage-limits},
-#'    \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108/}
+#' @seealso \url{https://developers.google.com/maps/documentation/geocoding/},
+#'   \url{https://developers.google.com/maps/documentation/javascript/geocoding/},
+#'   \url{https://developers.google.com/maps/documentation/geocoding/usage-and-billing/},
+#'   \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108/}
 #'
 #'
 #' @name geocode

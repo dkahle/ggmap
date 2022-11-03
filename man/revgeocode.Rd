@@ -56,7 +56,7 @@ str(revgeocode(gc, output = "all"), 3)
 
 }
 \seealso{
-\url{http://code.google.com/apis/maps/documentation/geocoding/}
+\url{https://developers.google.com/maps/documentation/geocoding/}
 }
 \author{
 David Kahle \email{david@kahle.io}

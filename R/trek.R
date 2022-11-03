@@ -20,7 +20,7 @@
 #' @author David Kahle \email{david@@kahle.io} with the key decoding algorithm
 #'   due to Stack Overflow user akhmed
 #' @seealso \url{https://developers.google.com/maps/documentation/directions/},
-#'   \url{http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads},
+#'   \url{https://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads/},
 #'    [route()], [routeQueryCheck()], [register_google()]
 #' @export
 #' @examples
@@ -268,7 +268,7 @@ return_failed_trek <- function (output) {
 
 
 # the following is from @akmed (stackoverflow)
-# see http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads
+# see https://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads
 # https://developers.google.com/maps/documentation/utilities/polylinealgorithm
 decode_google_route <- function(encoded){
 

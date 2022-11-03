@@ -15,7 +15,7 @@
 #' @param ... ...
 #' @return a character(1) address or a list (the parsed json output from Google)
 #' @author David Kahle \email{david@@kahle.io}
-#' @seealso \url{http://code.google.com/apis/maps/documentation/geocoding/}
+#' @seealso \url{https://developers.google.com/maps/documentation/geocoding/}
 #' @export
 #' @examples
 #'

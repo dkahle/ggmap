@@ -6,7 +6,7 @@
 #' @return scale
 #' @details The calculation of an appropriate OSM scale value for a given zoom
 #'   level is a complicated task.  For details, see
-#'   \url{http://wiki.openstreetmap.org/wiki/FAQ}
+#'   \url{https://wiki.openstreetmap.org/wiki/FAQ}
 #' @author David Kahle \email{david@@kahle.io}
 #' @export
 #' @examples

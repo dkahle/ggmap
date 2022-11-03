@@ -2,7 +2,7 @@
 #'
 #' [get_openstreetmap()] accesses a tile server for OpenStreetMap and
 #' downloads/formats a map image. This is simply a wrapper for the web-based
-#' version at \url{http://www.openstreetmap.org/}.  If you don't know how to get
+#' version at \url{https://www.openstreetmap.org/}.  If you don't know how to get
 #' the map you want, go there, navigate to the map extent that you want, click
 #' the export tab at the top of the page, and copy the information into this
 #' function.
@@ -13,19 +13,19 @@
 #' and then entering the URL in a web browser.  the solution is either (1)
 #' change sources or (2) wait for the OSM servers to come back up.
 #'
-#' See \url{http://www.openstreetmap.org/copyright} for license and copyright
+#' See \url{https://www.openstreetmap.org/copyright/} for license and copyright
 #' information.
 #'
 #' @param bbox a bounding box in the format c(lowerleftlon, lowerleftlat,
 #'   upperrightlon, upperrightlat)
 #' @param scale scale parameter, see
-#'   \url{http://wiki.openstreetmap.org/wiki/MinScaleDenominator}.  smaller
+#'   \url{https://wiki.openstreetmap.org/wiki/MinScaleDenominator}.  smaller
 #'   scales provide a finer degree of detail, where larger scales produce more
 #'   coarse detail. The scale argument is a tricky number to correctly specify.
 #'   In most cases, if you get an error when downloading an openstreetmap the
 #'   error is attributable to an improper scale specification.
 #'   [OSM_scale_lookup()] can help; but the best way to get in the correct range
-#'   is to go to \url{http://www.openstreetmap.org/}, navigate to the map of
+#'   is to go to \url{https://www.openstreetmap.org/}, navigate to the map of
 #'   interest, click export at the top of the page, click 'map image' and then
 #'   copy down the scale listed.
 #' @param format character string providing image format - png, jpeg, svg, pdf,
@@ -39,7 +39,7 @@
 #' @return a ggmap object (a classed raster object with a bounding box
 #'   attribute)
 #' @author David Kahle \email{david@@kahle.io}
-#' @seealso \url{http://www.openstreetmap.org/}, [ggmap()]
+#' @seealso \url{https://www.openstreetmap.org/}, [ggmap()]
 #' @export
 #' @examples
 #'

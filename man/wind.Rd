@@ -13,7 +13,7 @@ Powell, M. D., S. H. Houston, L. R. Amat, and N Morisseau-Leroy,
 and Indust. Aerodyn. 77&78, 53-64
 }
 \references{
-\url{http://www.aoml.noaa.gov/hrd/Storm_pages/ike2008/wind.html}
+\url{https://www.aoml.noaa.gov/hrd/Storm_pages/ike2008/wind.html}
 }
 \author{
 Atlantic Oceanographic and Meteorological Laboratory (AOML), a

@@ -120,7 +120,7 @@ qmplot(lon, lat, data = trek_df, geom = "path",
 }
 \seealso{
 \url{https://developers.google.com/maps/documentation/directions/},
-\url{http://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads},
+\url{https://stackoverflow.com/questions/30270011/ggmap-route-finding-doesnt-stay-on-roads/},
 \code{\link[=route]{route()}}, \code{\link[=routeQueryCheck]{routeQueryCheck()}}, \code{\link[=register_google]{register_google()}}
 }
 \author{

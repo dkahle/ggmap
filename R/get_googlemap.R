@@ -39,12 +39,12 @@
 #'   "/")
 #' @param archiving use archived maps.  note: by changing to TRUE you agree to
 #'   the one of the approved uses listed in the Google Maps API Terms of Service
-#'   : \url{http://developers.google.com/maps/terms}.
+#'   : \url{https://cloud.google.com/maps-platform/terms/}.
 #' @param ext domain extension (e.g. `"com"`, `"co.nz"`)
 #' @param inject character string to add to the url
 #' @param region borders to display as a region code specified as a
 #'   two-character ccTLD ("top-level domain") value, see
-#'   \url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}
+#'   \url{https://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}
 #' @param markers data.frame with first column longitude, second column
 #'   latitude, for which google markers should be embedded in the map image, or
 #'   character string to be passed directly to api
@@ -57,16 +57,16 @@
 #' @param style character string to be supplied directly to the api for the
 #'   style argument or a named vector (see examples). this is a powerful complex
 #'   specification, see
-#'   \url{https://developers.google.com/maps/documentation/staticmaps/}
+#'   \url{https://developers.google.com/maps/documentation/maps-static/}
 #' @param ... ...
 #' @return a ggmap object (a classed raster object with a bounding box
 #'   attribute)
 #' @author David Kahle \email{david@@kahle.io}
 #' @seealso
-#' \url{https://developers.google.com/maps/documentation/maps-static/intro},
-#' \url{https://developers.google.com/maps/documentation/maps-static/dev-guide},
-#' \url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
-#' \url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing},
+#' \url{https://developers.google.com/maps/documentation/maps-static/overview/},
+#' \url{https://developers.google.com/maps/documentation/maps-static/start/},
+#' \url{https://developers.google.com/maps/documentation/maps-static/get-api-key/},
+#' \url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing/},
 #' [ggmap()], [register_google()]
 #' @export
 #' @examples

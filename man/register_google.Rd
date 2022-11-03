@@ -99,7 +99,7 @@ since the user has to setup an account with Google, enable the relevant APIs,
 and then tell R about the user's setup.
 
 To obtain an API key and enable services, go to
-\url{https://cloud.google.com/maps-platform/}. This documentation shows you
+\url{https://mapsplatform.google.com/}. This documentation shows you
 how to input the requisite information (e.g. your API key) into R, and it
 also shows you a few tools that can help you work with the credentialing.
 
@@ -162,10 +162,9 @@ scrub_key("client=a_5sS&signature=d_5iD")
 
 }
 \seealso{
-\url{https://cloud.google.com/maps-platform/},
-\url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
-
-\url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing}
+\url{https://mapsplatform.google.com/},
+\url{https://developers.google.com/maps/documentation/maps-static/get-api-key/},
+\url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing/}
 }
 \author{
 David Kahle \email{david@kahle.io}

@@ -129,8 +129,8 @@ mapdist(wh, lm, mode = "walking")
 
 }
 \seealso{
-\url{http://code.google.com/apis/maps/documentation/distancematrix/},
-\url{https://developers.google.com/maps/documentation/distance-matrix/intro}
+\url{https://developers.google.com/maps/documentation/distance-matrix/},
+\url{https://developers.google.com/maps/documentation/distance-matrix/overview/}
 }
 \author{
 David Kahle \email{david@kahle.io}

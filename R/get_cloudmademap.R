@@ -160,7 +160,7 @@ get_cloudmademap <- function(
   # the map is only a covering of the bounding box extent the idea is to get
   # the lower left tile and the upper right tile and compute their bounding boxes
   # tiles are referenced by top left of tile, starting at 0,0
-  # see http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+  # see https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
   bboxOfTile <- function(vXY){
     lonlat_upperleft <- XY2LonLat(vXY[1],vXY[2],zoom)
     lonlat_lowerright <- XY2LonLat(vXY[1]+1,vXY[2]+1,zoom)

@@ -12,7 +12,7 @@
 #' @author David Kahle \email{david@@kahle.io}, based on
 #'   [RgoogleMaps::LatLon2XY()] by Markus Loecher of Sense Networks
 #'   \email{markus@@sensenetworks.com}
-#' @seealso \url{http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
+#' @seealso \url{https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
 #' @export
 #' @examples
 #'

@@ -35,7 +35,7 @@ LonLat2XY(gc$lon, gc$lat, 10)
 
 }
 \seealso{
-\url{http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
+\url{https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
 }
 \author{
 David Kahle \email{david@kahle.io}, based on

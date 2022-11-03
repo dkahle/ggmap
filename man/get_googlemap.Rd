@@ -72,7 +72,7 @@ to format). Default \code{NULL} means a random \code{\link[=tempfile]{tempfile()
 
 \item{archiving}{use archived maps.  note: by changing to TRUE you agree to
 the one of the approved uses listed in the Google Maps API Terms of Service
-: \url{http://developers.google.com/maps/terms}.}
+: \url{https://cloud.google.com/maps-platform/terms/}.}
 
 \item{ext}{domain extension (e.g. \code{"com"}, \code{"co.nz"})}
 
@@ -80,7 +80,7 @@ the one of the approved uses listed in the Google Maps API Terms of Service
 
 \item{region}{borders to display as a region code specified as a
 two-character ccTLD ("top-level domain") value, see
-\url{http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}}
+\url{https://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains}}
 
 \item{markers}{data.frame with first column longitude, second column
 latitude, for which google markers should be embedded in the map image, or
@@ -97,7 +97,7 @@ string addresses which should be visible in map extent}
 \item{style}{character string to be supplied directly to the api for the
 style argument or a named vector (see examples). this is a powerful complex
 specification, see
-\url{https://developers.google.com/maps/documentation/staticmaps/}}
+\url{https://developers.google.com/maps/documentation/maps-static/}}
 
 \item{...}{...}
 }
@@ -186,10 +186,10 @@ ggmap(map)
 
 }
 \seealso{
-\url{https://developers.google.com/maps/documentation/maps-static/intro},
-\url{https://developers.google.com/maps/documentation/maps-static/dev-guide},
-\url{https://developers.google.com/maps/documentation/maps-static/get-api-key},
-\url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing},
+\url{https://developers.google.com/maps/documentation/maps-static/overview/},
+\url{https://developers.google.com/maps/documentation/maps-static/start/},
+\url{https://developers.google.com/maps/documentation/maps-static/get-api-key/},
+\url{https://developers.google.com/maps/documentation/maps-static/usage-and-billing/},
 \code{\link[=ggmap]{ggmap()}}, \code{\link[=register_google]{register_google()}}
 }
 \author{
