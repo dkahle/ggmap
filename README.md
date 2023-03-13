@@ -22,12 +22,3148 @@ and [Stamen Maps](http://maps.stamen.com) and plot them using the
 ``` r
 library("ggmap")
 #  Loading required package: ggplot2
-#  ℹ Google's Terms of Service: <]8;;https://cloud.google.com/maps-platform/terms/https://cloud.google.com/maps-platform/terms/]8;;>
+#  ℹ Google's Terms of Service: ]8;;https://mapsplatform.google.com<https://mapsplatform.google.com>]8;;
 #  ℹ Please cite ggmap if you use it! Use `citation("ggmap")` for details.
 
 us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
 get_stamenmap(us, zoom = 5, maptype = "toner-lite") %>% ggmap() 
 #  ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
 ```
 
 ![](tools/README-maptypes-1.png)
@@ -66,6 +3202,1798 @@ violent_crimes <- crime %>%
 qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", color = I("red"))
 #  ℹ Using `zoom = 14`
 #  ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
 ```
 
 ![](tools/README-qmplot-1.png)
@@ -95,8 +5023,1805 @@ qmplot(lon, lat, data = violent_crimes, geom = "blank",
   scale_fill_viridis_d(option = "A") +
   theme(legend.position = "none")
 #  ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
-#  Warning: Ignoring unknown parameters: contour, contour_var
-#  Warning: Ignoring unknown aesthetics: level
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#362: if (messaging) source_url_msg(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#377: response <- httr::GET(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#381: if (response$status_code != 200L) {
+#      httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
+#      if (messaging) 
+#          message("\n", appendLF = FALSE)
+#      log_stamen_tile_download_fail(url)
+#      tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
+#  } else {
+#      tile <- httr::content(response)
+#      tile <- aperm(tile, c(2, 1, 3))
+#      if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#          "terrain-labels", "terrain-lines")) {
+#          if (color == "color") {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#          else {
+#              tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#                  x[3], x[4]))
+#          }
+#      }
+#      else {
+#          if (color == "color") {
+#              tile <- apply(tile, 2, rgb)
+#          }
+#          else {
+#              tiled <- dim(tile)
+#              tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 
+#                  2] + 0.11 * tile[, , 3])
+#              dim(tile) <- tiled[1:2]
+#          }
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#391: tile <- httr::content(response)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#392: tile <- aperm(tile, c(2, 1, 3))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#395: if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", 
+#      "terrain-labels", "terrain-lines")) {
+#      if (color == "color") {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#      else {
+#          tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], 
+#              x[3], x[4]))
+#      }
+#  } else {
+#      if (color == "color") {
+#          tile <- apply(tile, 2, rgb)
+#      }
+#      else {
+#          tiled <- dim(tile)
+#          tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 
+#              0.11 * tile[, , 3])
+#          dim(tile) <- tiled[1:2]
+#      }
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#405: if (color == "color") {
+#      tile <- apply(tile, 2, rgb)
+#  } else {
+#      tiled <- dim(tile)
+#      tile <- gray(0.3 * tile[, , 1] + 0.59 * tile[, , 2] + 0.11 * 
+#          tile[, , 3])
+#      dim(tile) <- tiled[1:2]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#406: tile <- apply(tile, 2, rgb)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#426: lonlat_upperleft <- XY2LonLat(x, y, zoom)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#427: lonlat_lowerright <- XY2LonLat(x, y, zoom, 255L, 255L)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#429: bbox <- c(left = lonlat_upperleft$lon, bottom = lonlat_lowerright$lat, 
+#      right = lonlat_lowerright$lon, top = lonlat_upperleft$lat)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#436: bb <- tibble(ll.lat = unname(bbox["bottom"]), ll.lon = unname(bbox["left"]), 
+#      ur.lat = unname(bbox["top"]), ur.lon = unname(bbox["right"]))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#445: class(tile) <- c("ggmap", "raster")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#446: attr(tile, "bb") <- bb
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#450: file_drawer_set(url, tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#454: tile
+#  Warning in geom_labeldensity2d(aes(lon, lat, level = stat(probs)), stat =
+#  "hdr_lines"): Ignoring unknown parameters: `contour`, `contour_var`, `h`, and
+#  `adjust`
+#  Warning in geom_labeldensity2d(aes(lon, lat, level = stat(probs)), stat =
+#  "hdr_lines"): Ignoring unknown aesthetics: level
+#  Warning: `stat(probs)` was deprecated in ggplot2 3.4.0.
+#  ℹ Please use `after_stat(probs)` instead.
 ```
 
 ![](tools/README-styling-1.png)
@@ -108,6 +6833,598 @@ qmplot(lon, lat, data = violent_crimes, maptype = "toner-background", color = of
   facet_wrap(~ offense)
 #  ℹ Using `zoom = 14`
 #  ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
+#  Called from: get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, 
+#      messaging = messaging, https = https)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#342: if (missing(url)) {
+#      stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#      stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#      stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#      if (maptype %in% c("watercolor")) 
+#          filetype <- "jpg"
+#      else filetype <- "png"
+#      domain <- if (https) 
+#          "https://stamen-tiles.a.ssl.fastly.net"
+#      else "http://tile.stamen.com"
+#      url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#      tile <- file_drawer_get(url)
+#      if (!is.null(tile) && !force) 
+#          return(tile)
+#      if (messaging) 
+#          source_url_msg(url)
+#  } else {
+#      url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
+#      maptype <- url_pieces[6]
+#      zoom <- url_pieces[7] %>% as.integer()
+#      x <- url_pieces[8] %>% as.integer()
+#      y <- url_pieces[9] %>% as.integer()
+#      filetype <- url_pieces[10]
+#  }
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#345: stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#346: stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#347: stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: if (maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#351: filetype <- "png"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#352: [1] "http://tile.stamen.com"
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#353: url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#357: tile <- file_drawer_get(url)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: if (!is.null(tile) && !force) return(tile)
+#  debug at /Users/david_kahle/Dropbox/dev/ggmap/ggmap/R/get_stamenmap.R#358: return(tile)
 ```
 
 ![](tools/README-faceting-1.png)
@@ -150,8 +7467,8 @@ geocode("1301 S University Parks Dr, Waco, TX 76798")
 revgeocode(c(lon = -97.1161, lat = 31.55098))
 #  ℹ <]8;;https://maps.googleapis.com/maps/api/geocode/json?latlng=31.55098,-97.1161&key=xxxhttps://maps.googleapis.com/maps/api/geocode/json?latlng=31.55098,-97.1161&key=xxx]8;;>
 #  Warning: Multiple addresses found, the first will be returned:
-#  !   55 Baylor Ave, Waco, TX 76706, USA
 #  !   1301 S University Parks Dr, Waco, TX 76706, USA
+#  !   55 Baylor Ave, Waco, TX 76706, USA
 #  !   HV2M+9H Waco, TX, USA
 #  !   Bear Trail, Waco, TX 76706, USA
 #  !   Robinson, TX 76706, USA
@@ -159,7 +7476,7 @@ revgeocode(c(lon = -97.1161, lat = 31.55098))
 #  !   McLennan County, TX, USA
 #  !   Texas, USA
 #  !   United States
-#  [1] "55 Baylor Ave, Waco, TX 76706, USA"
+#  [1] "1301 S University Parks Dr, Waco, TX 76706, USA"
 ```
 
 *Note: `geocode()` uses Google’s Geocoding API to geocode addresses.
@@ -198,6 +7515,8 @@ qmap("college station, texas", zoom = 8) +
   )
 #  ℹ <]8;;https://maps.googleapis.com/maps/api/staticmap?center=college%20station,%20texas&zoom=8&size=640x640&scale=2&maptype=terrain&language=en-EN&key=xxxhttps://maps.googleapis.com/maps/api/staticmap?center=college%20station,%20texas&zoom=8&size=640x640&scale=2&maptype=terrain&language=en-EN&key=xxx]8;;>
 #  ℹ <]8;;https://maps.googleapis.com/maps/api/geocode/json?address=college+station,+texas&key=xxxhttps://maps.googleapis.com/maps/api/geocode/json?address=college+station,+texas&key=xxx]8;;>
+#  Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+#  ℹ Please use `linewidth` instead.
 ```
 
 ![](tools/README-route_trek-1.png)
@@ -215,8 +7534,8 @@ mapdist(c("houston, texas", "dallas"), "waco, texas")
 #  # A tibble: 2 × 9
 #    from           to               m    km miles seconds minutes hours mode   
 #    <chr>          <chr>        <int> <dbl> <dbl>   <int>   <dbl> <dbl> <chr>  
-#  1 dallas         waco, texas 152474  152.  94.7    5428    90.5  1.51 driving
-#  2 houston, texas waco, texas 298227  298. 185.    10301   172.   2.86 driving
+#  1 dallas         waco, texas 155586  156.  96.7    5336    88.9  1.48 driving
+#  2 houston, texas waco, texas 295004  295. 183.    10311   172.   2.86 driving
 ```
 
 ## Google Maps API key

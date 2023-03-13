@@ -1,7 +1,23 @@
 .onAttach <- function(...) {
 
-  cli::cli_alert_info("Google's Terms of Service: {.url https://mapsplatform.google.com}")
-  cli::cli_alert_info("Please cite {.pkg ggmap} if you use it! Use {.code citation(\"ggmap\")} for details.")
+  tos <- paste0(
+    cli::col_green(cli::symbol$info),
+    " ",
+    "Google's Terms of Service: ",
+    cli::col_blue(cli::style_italic(
+      cli::style_hyperlink("<https://mapsplatform.google.com>", "https://mapsplatform.google.com")
+    ))
+  )
+  cite <- paste0(
+    cli::col_green(cli::symbol$info),
+    " ",
+    "Please cite ", cli::col_blue("ggmap"), " if you use it! Use `citation(\"ggmap\")` for details."
+  )
+
+  rlang::inform(
+    paste0(tos, "\n", cite),
+    class = "packageStartupMessage"
+  )
 
   bootstrap_ggmap()
 
