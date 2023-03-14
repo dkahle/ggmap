@@ -1,6 +1,5 @@
-citHeader("To cite ggmap in publications, please use:")
-
-citEntry(entry = "article",
+bibentry(
+  bibtype = "article",
   author = "David Kahle and Hadley Wickham",
   title = "ggmap: Spatial Visualization with ggplot2",
   journal = "The R Journal",
