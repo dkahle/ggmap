@@ -105,7 +105,7 @@ revgeocode <- function (
     if (showing_key()) source_url_msg(url) else source_url_msg(scrub_key(url))
 
     # query server
-    response <- httr::GET(url)
+    response <- httr::RETRY(verb = "GET", url = url)
 
     # deal with bad responses
     if (response$status_code != 200L) {

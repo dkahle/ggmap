@@ -374,7 +374,7 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messag
 
 
   # query server
-  response <- httr::GET(url)
+  response <- httr::RETRY(verb = "GET", url = url)
 
 
   # deal with bad responses
