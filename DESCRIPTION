@@ -15,7 +15,6 @@ Depends:
     R (>= 3.1.0),
     ggplot2 (>= 2.2.0)
 Imports:
-    RgoogleMaps,
     png,
     plyr,
     jpeg,
@@ -35,6 +34,7 @@ Imports:
     cli
 Suggests:
     MASS,
+    RgoogleMaps,
     hexbin,
     testthat
 License: GPL-2
