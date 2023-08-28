@@ -19,10 +19,10 @@
 #' qmap(location, zoom = 14, source = "osm", scale = 20000)
 #' qmap(location, zoom = 14, maptype = "satellite")
 #' qmap(location, zoom = 14, maptype = "hybrid")
-#' qmap(location, zoom = 14, maptype = "toner", source = "stamen")
-#' qmap(location, zoom = 14, maptype = "watercolor", source = "stamen")
-#' qmap(location, zoom = 14, maptype = "terrain-background", source = "stamen")
-#' qmap(location, zoom = 14, maptype = "toner-lite", source = "stamen")
+#' qmap(location, zoom = 14, maptype = "stamen_toner", source = "stadia")
+#' qmap(location, zoom = 14, maptype = "stamen_watercolor", source = "stadia")
+#' qmap(location, zoom = 14, maptype = "stamen_terrain_background", source = "stadia")
+#' qmap(location, zoom = 14, maptype = "stamen_toner_lite", source = "stadia")
 #'
 #' where <- "the white house, washington dc"
 #' wh <- geocode(where)
@@ -96,6 +96,9 @@ qmap <- function(location = "houston", ...){
   if("maptype" %in% names(args)){
     maptype <- eval(args$maptype)
   } else {
+    if(source == "stadia") {
+      maptype <- "stamen_terrain"
+    }
   	if(source != "cloudmade"){
       maptype <- "terrain"
     } else {

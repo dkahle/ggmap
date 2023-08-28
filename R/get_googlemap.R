@@ -1,3 +1,5 @@
+GOOGLE_VALID_MAP_TYPES <- c("terrain", "satellite", "roadmap", "hybrid")
+
 #' Get a Google Map.
 #'
 #' [get_googlemap()] queries the Google Maps Static API version 2 to download
@@ -144,7 +146,7 @@ get_googlemap <- function(
   size = c(640,640),
   scale = 2,
   format = c("png8", "gif", "jpg", "jpg-baseline","png32"),
-  maptype = c("terrain", "satellite", "roadmap", "hybrid"),
+  maptype = GOOGLE_VALID_MAP_TYPES,
   language = "en-EN",
   messaging = FALSE,
   urlonly = FALSE,

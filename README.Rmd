@@ -27,13 +27,23 @@ knitr::opts_chunk$set(
 
 # ggmap
 
-__ggmap__ is an R package that makes it easy to retrieve raster map tiles from popular online mapping services like [Google Maps](https://developers.google.com/maps/documentation/maps-static?hl=en) and [Stamen Maps](http://maps.stamen.com) and plot them using the [__ggplot2__](https://github.com/tidyverse/ggplot2) framework:
+__ggmap__ is an R package that makes it easy to retrieve raster map tiles from popular online mapping services like [Google Maps](https://developers.google.com/maps/documentation/maps-static?hl=en), [Stadia Maps](https://stadiamaps.com/), and [OpenStreetMap](https://openstreetmap.org/), and plot them using the [__ggplot2__](https://github.com/tidyverse/ggplot2) framework.
+
+## Stadia Maps
+
+Stadia Maps offers map tiles in several styles, including updated [tiles from Stamen Design](https://stadiamaps.com/stamen/).
+An API key is required, but no credit card is necessary to [sign up](https://client.stadiamaps.com/signup)
+and there is a free tier for non-commercial use. Once you have your API key, invoke the registration
+function: `register_stadiamaps("YOUR-API-KEY", write = FALSE)`. Note that setting `write = TRUE` will
+update your `~/.Renviron` file by replacing/adding the relevant line. If you use the former, know that you'll need to re-do it every time you reset R.
+  
+Your API key is _private_ and unique to you, so be careful not to share it online, for example in a GitHub issue or saving it in a shared R script file. If you share it inadvertently, just go to client.stadiamaps.com, delete your API key, and create a new one.
 
 ```{r maptypes}
 library("ggmap")
 
 us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
-get_stamenmap(us, zoom = 5, maptype = "toner-lite") %>% ggmap() 
+get_stadiamap(us, zoom = 5, maptype = "alidade_smooth") %>% ggmap() 
 ```
 
 Use `qmplot()` in the same way you'd use `qplot()`, but with a map automatically added in the background:
@@ -58,13 +68,13 @@ violent_crimes <- crime %>%
   )
 
 # use qmplot to make a scatterplot on a map
-qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", color = I("red"))
+qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_lite", color = I("red"))
 ```
 
 All the __ggplot2__ geom's are available.  For example, you can make a contour plot with `geom = "density2d"`:
 
 ```{r qmplot2, eval=FALSE}
-qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", geom = "density2d", color = I("red"))
+qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_lite", geom = "density2d", color = I("red"))
 ```
 
 In fact, since __ggmap__'s built on top of __ggplot2__, all your usual __ggplot2__ stuff (geoms, polishing, etc.) will work, and there are some unique graphing perks __ggmap__ brings to the table, too.
@@ -76,7 +86,7 @@ library("ggdensity")
 library("geomtextpath")
 
 qmplot(lon, lat, data = violent_crimes, geom = "blank", 
-  zoom = 14, maptype = "toner-background"
+  zoom = 14, maptype = "stamen_toner_background"
 ) +
   geom_hdr(aes(fill = stat(probs)), alpha = .3) +
   geom_labeldensity2d(aes(lon, lat, level = stat(probs)), stat = "hdr_lines") +
@@ -87,7 +97,7 @@ qmplot(lon, lat, data = violent_crimes, geom = "blank",
 Faceting works, too:
 
 ```{r faceting}
-qmplot(lon, lat, data = violent_crimes, maptype = "toner-background", color = offense) + 
+qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_background", color = offense) + 
   facet_wrap(~ offense)
 ```
 
@@ -104,7 +114,7 @@ qmplot(lon, lat, data = violent_crimes, maptype = "toner-background", color = of
 ggmap(map)
 ```
 
-Moreover, you can get various different styles of Google Maps with __ggmap__ (just like Stamen Maps):
+Moreover, you can get various different styles of Google Maps with __ggmap__ (just like Stadia Maps):
 ```{r google_styles, eval=FALSE}
 get_googlemap("waco texas", zoom = 12, maptype = "satellite") %>% ggmap()
 get_googlemap("waco texas", zoom = 12, maptype = "hybrid") %>% ggmap()

@@ -8,10 +8,8 @@ get_map(
   location = c(lon = -95.3632715, lat = 29.7632836),
   zoom = "auto",
   scale = "auto",
-  maptype = c("terrain", "terrain-background", "satellite", "roadmap", "hybrid", "toner",
-    "watercolor", "terrain-labels", "terrain-lines", "toner-2010", "toner-2011",
-    "toner-background", "toner-hybrid", "toner-labels", "toner-lines", "toner-lite"),
-  source = c("google", "osm", "stamen"),
+  maptype = c(GOOGLE_VALID_MAP_TYPES, STADIA_VALID_MAP_TYPES),
+  source = c("google", "osm", "stadia"),
   force = ifelse(source == "google", TRUE, FALSE),
   messaging = FALSE,
   urlonly = FALSE,
@@ -28,7 +26,7 @@ left/bottom/right/top bounding box}
 
 \item{zoom}{map zoom, an integer from 3 (continent) to 21 (building), default
 value 10 (city).  openstreetmaps limits a zoom of 18, and the limit on
-stamen maps depends on the maptype.  "auto" automatically determines the
+Stadia Maps depends on the maptype.  "auto" automatically determines the
 zoom for bounding box specifications, and is defaulted to 10 with
 center/zoom specifications.  maps of the whole world currently not
 supported.}
@@ -37,10 +35,14 @@ supported.}
 
 \item{maptype}{character string providing map theme. options available are
 "terrain", "terrain-background", "satellite", "roadmap", and "hybrid"
-(google maps), "terrain", "watercolor", and "toner" (stamen maps)}
+(Google Maps), "stamen_terrain", "stamen_toner", "stamen_toner_lite", "stamen_watercolor",
+"stamen_terrain_background", "stamen_toner_background",
+"stamen_terrain_lines", "stamen_terrain_labels",
+"stamen_toner_lines", "stamen_toner_labels"
+(Stadia Maps)}
 
-\item{source}{Google Maps ("google"), OpenStreetMap ("osm"), Stamen Maps
-("stamen")}
+\item{source}{Google Maps ("google"), OpenStreetMap ("osm"), Stadia Maps
+("stadia")}
 
 \item{force}{force new map (don't use archived version)}
 
@@ -51,7 +53,7 @@ supported.}
 \item{filename}{destination file for download (file extension added according
 to format). Default \code{NULL} means a random \code{\link[=tempfile]{tempfile()}}.}
 
-\item{crop}{(stamen and cloudmade maps) crop tiles to bounding box}
+\item{crop}{(Stadia and cloudmade maps) crop tiles to bounding box}
 
 \item{color}{color ("color") or black-and-white ("bw")}
 
@@ -65,7 +67,7 @@ attribute)
 }
 \description{
 \code{\link[=get_map]{get_map()}} is a smart wrapper that queries the Google Maps,
-OpenStreetMap, Stamen Maps or Naver Map servers for a map.
+OpenStreetMap, and Stadia Maps servers for a map.
 }
 \examples{
 
@@ -79,7 +81,7 @@ OpenStreetMap, Stamen Maps or Naver Map servers for a map.
 str(map)
 ggmap(map)
 
-# bounding boxes default to stamen
+# bounding boxes default to Stadia Maps
 (map <- get_map(c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.559652)))
 ggmap(map)
 
@@ -93,9 +95,9 @@ ggmap(map)
 
 (map <- get_map(maptype = "roadmap"))
 (map <- get_map(source = "osm"))
-(map <- get_map(source = "stamen", maptype = "watercolor"))
+(map <- get_map(source = "stadia", maptype = "stamen_watercolor"))
 
-map <- get_map(location = "texas", zoom = 6, source = "stamen")
+map <- get_map(location = "texas", zoom = 6, source = "stadia")
 ggmap(map, fullpage = TRUE)
 
 }

@@ -5,7 +5,7 @@
 #' top right points of the spatial extent. This function converts
 #' this specification to a named double vector (with names left,
 #' bottom, right, top) specification that is used in some querying
-#' functions (e.g. get_stamenmap).
+#' functions (e.g. get_stadiamap).
 #'
 #' @param bb a bounding box in bb format (see examples)
 #' @return a bounding box in bbox format (see examples)
@@ -21,8 +21,8 @@
 #' (bb <- attr(map, "bb"))
 #' (bbox <- bb2bbox(bb))
 #'
-#' # use the bounding box to get a stamen map
-#' stamMap <- get_stamenmap(bbox)
+#' # use the bounding box to get a Stadia map
+#' stadMap <- get_stadiamap(bbox)
 #'
 #' ggmap(map) +
 #'   geom_point(
@@ -30,7 +30,7 @@
 #'     data = gc, colour = "red", size = 3
 #'   )
 #'
-#' ggmap(stamMap) +
+#' ggmap(stadMap) +
 #'   geom_point(
 #'     aes(x = lon, y = lat),
 #'     data = gc, colour = "red", size = 3

@@ -132,7 +132,7 @@ ggmap(hdf, extent = "normal", maprange = TRUE) +
 
 # again, qmplot is probably more useful
 qmplot(lon, lat, data = points, color = class, darken = .4, alpha = I(.6))
-qmplot(lon, lat, data = points, color = class, maptype = "toner-lite")
+qmplot(lon, lat, data = points, color = class, maptype = "stamen_toner_lite")
 
 ## cool examples
 ##################################################
@@ -190,7 +190,7 @@ ggmap(get_map(maptype = "satellite", zoom = 9),
   scale_size(range = c(1.5,6))
 
 qmplot(lonCent, latCent, data = zipsLabels, geom = "text",
-  label = zip, size = area, maptype = "toner-lite", color = I("red")
+  label = zip, size = area, maptype = "stamen_toner_lite", color = I("red")
 )
 
 
@@ -243,12 +243,12 @@ HoustonMap +
 
 
 # doing it with qmplot is even easier
-qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite",
+qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_lite",
   color = offense, size = offense, legend = "topleft"
 )
 
 # or, with styling:
-qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite",
+qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_lite",
   color = offense, size = offense, legend = "topleft"
 ) +
   scale_colour_discrete("Offense", labels = c("Robbery","Aggravated Assault","Rape","Murder")) +

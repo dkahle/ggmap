@@ -22,9 +22,9 @@ file_drawer()
 dir(file_drawer())
 
 # The first time you run this, the tiles are downloaded from the server
-map <- get_stamenmap()
+map <- get_stadiamap()
 # The second time, the local cache is used so it's much faster
-map <- get_stamenmap()
+map <- get_stadiamap()
 
 dir(file_drawer())
 

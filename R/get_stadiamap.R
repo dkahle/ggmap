@@ -1,15 +1,28 @@
-#' Get a Stamen Map
+# NOTE: Be sure to update the documentation for maptype both in this file and
+# in get_map.R whenever you change this!
+# TODO: Extend with our own styles!
+STADIA_BASEMAP_TYPES <- c("stamen_terrain", "stamen_toner", "stamen_toner_lite",
+                          "stamen_watercolor", "alidade_smooth", "alidade_smooth_dark",
+                          "outdoors")
+STADIA_BACKGROUND_LAYERGROUP_TYPES <- c("stamen_terrain_background", "stamen_toner_background")
+STADIA_TRANSPARENT_LAYERGROUP_TYPES <- c("stamen_terrain_labels", "stamen_terrain_lines",
+                                         "stamen_toner_labels", "stamen_toner_lines")
+STADIA_VALID_MAP_TYPES <- c(STADIA_BASEMAP_TYPES,
+                            STADIA_BACKGROUND_LAYERGROUP_TYPES,
+                            STADIA_TRANSPARENT_LAYERGROUP_TYPES)
+
+#' Get a Map from Stadia Maps
 #'
-#' [get_stamenmap()] accesses a tile server for Stamen Maps and
-#' downloads/stitches map tiles/formats a map image. Note that Stamen maps don't
-#' cover the entire world.
+#' [get_stadiamap()] accesses a tile server for Stadia Maps and
+#' downloads/stitches map tiles/formats a map image.
 #'
 #' @param bbox a bounding box in the format c(lowerleftlon, lowerleftlat,
 #'   upperrightlon, upperrightlat).
 #' @param zoom a zoom level
-#' @param maptype terrain, terrain-background, terrain-labels, terrain-lines,
-#'   toner, toner-2010, toner-2011, toner-background, toner-hybrid,
-#'   toner-labels, toner-lines, toner-lite, or watercolor.
+#' @param maptype stamen_terrain, stamen_toner, stamen_toner_lite, stamen_watercolor,
+#'   stamen_terrain_background, stamen_toner_background,
+#'   stamen_terrain_lines, stamen_terrain_labels,
+#'   stamen_toner_lines, stamen_toner_labels.
 #' @param crop crop raw map tiles to specified bounding box. if FALSE, the
 #'   resulting map will more than cover the bounding box specified.
 #' @param messaging turn messaging on/off
@@ -19,16 +32,14 @@
 #' @param force if the map is on file, should a new map be looked up?
 #' @param where where should the file drawer be located (without terminating
 #'   "/")
-#' @param https if TRUE, queries an https endpoint so that web traffic between
-#'   you and the tile server is ecrypted using SSL.
 #' @param ... ...
 #' @return a ggmap object (a classed raster object with a bounding box
 #'   attribute)
-#' @seealso \url{http://maps.stamen.com/#watercolor}, [ggmap()]
-#' @name get_stamenmap
+#' @seealso \url{https://docs.stadiamaps.com/themes/}, [ggmap()]
+#' @name get_stadiamap
 #' @examples
 #'
-#' \dontrun{ some requires Google API key, see ?register_google; heavy network/time load
+#' \dontrun{ requires a Stadia Maps API key. see ?register_stadiamaps
 #'
 #'
 #' ## basic usage
@@ -36,16 +47,16 @@
 #'
 #' bbox <- c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.559652)
 #'
-#' ggmap(get_stamenmap(bbox, zoom = 13))
-#' ggmap(get_stamenmap(bbox, zoom = 14))
-#' ggmap(get_stamenmap(bbox, zoom = 15))
-#' ggmap(get_stamenmap(bbox, zoom = 17, messaging = TRUE))
+#' ggmap(get_stadiamap(bbox, zoom = 13))
+#' ggmap(get_stadiamap(bbox, zoom = 14))
+#' ggmap(get_stadiamap(bbox, zoom = 15))
+#' ggmap(get_stadiamap(bbox, zoom = 17, messaging = TRUE))
 #'
 #' place <- "mount everest"
 #' (google <- get_googlemap(place, zoom = 9))
 #' ggmap(google)
 #' bbox_everest <- c(left = 86.05, bottom = 27.21, right = 87.81, top = 28.76)
-#' ggmap(get_stamenmap(bbox_everest, zoom = 9))
+#' ggmap(get_stadiamap(bbox_everest, zoom = 9))
 #'
 #'
 #'
@@ -58,64 +69,51 @@
 #'
 #' bbox <- bb2bbox(attr(google, "bb"))
 #'
-#' get_stamenmap(bbox, maptype = "terrain")            %>% ggmap()
-#' get_stamenmap(bbox, maptype = "terrain-background") %>% ggmap()
-#' get_stamenmap(bbox, maptype = "terrain-labels")     %>% ggmap()
-#' get_stamenmap(bbox, maptype = "terrain-lines")      %>% ggmap()
-#' get_stamenmap(bbox, maptype = "toner")              %>% ggmap()
-#' get_stamenmap(bbox, maptype = "toner-2010")         %>% ggmap()
-#' get_stamenmap(bbox, maptype = "toner-2011")         %>% ggmap()
-#' get_stamenmap(bbox, maptype = "toner-background")   %>% ggmap()
-#' get_stamenmap(bbox, maptype = "toner-hybrid")       %>% ggmap()
-#' get_stamenmap(bbox, maptype = "toner-labels")       %>% ggmap()
-#' get_stamenmap(bbox, maptype = "toner-lines")        %>% ggmap()
-#' get_stamenmap(bbox, maptype = "toner-lite")         %>% ggmap()
-#' get_stamenmap(bbox, maptype = "watercolor")         %>% ggmap()
+#' get_stadiamap(bbox, maptype = "stamen_terrain")            %>% ggmap()
+#' get_stadiamap(bbox, maptype = "stamen_terrain_background") %>% ggmap()
+#' get_stadiamap(bbox, maptype = "stamen_terrain_labels")     %>% ggmap()
+#' get_stadiamap(bbox, maptype = "stamen_terrain_lines")      %>% ggmap()
+#' get_stadiamap(bbox, maptype = "stamen_toner")              %>% ggmap()
+#' get_stadiamap(bbox, maptype = "stamen_toner_background")   %>% ggmap()
+#' get_stadiamap(bbox, maptype = "stamen_toner_labels")       %>% ggmap()
+#' get_stadiamap(bbox, maptype = "stamen_toner_lines")        %>% ggmap()
+#' get_stadiamap(bbox, maptype = "stamen_toner_lite")         %>% ggmap()
+#' get_stadiamap(bbox, maptype = "stamen_watercolor")         %>% ggmap()
 #'
 #'
 #' ## zoom levels
 #' ########################################
 #'
-#' get_stamenmap(bbox, maptype = "watercolor", zoom = 11) %>% ggmap(extent = "device")
-#' get_stamenmap(bbox, maptype = "watercolor", zoom = 12) %>% ggmap(extent = "device")
-#' get_stamenmap(bbox, maptype = "watercolor", zoom = 13) %>% ggmap(extent = "device")
-#' # get_stamenmap(bbox, maptype = "watercolor", zoom = 14) %>% ggmap(extent = "device")
-#' # get_stamenmap(bbox, maptype = "watercolor", zoom = 15) %>% ggmap(extent = "device")
-#' # get_stamenmap(bbox, maptype = "watercolor", zoom = 16) %>% ggmap(extent = "device")
-#' # get_stamenmap(bbox, maptype = "watercolor", zoom = 17) %>% ggmap(extent = "device")
-#' # get_stamenmap(bbox, maptype = "watercolor", zoom = 18) %>% ggmap(extent = "device")
-#'
-#'
-#' ## https
-#' ########################################
-#'
-#' bbox <- c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.559652)
-#' get_stamenmap(bbox, zoom = 14, urlonly = TRUE)
-#' get_stamenmap(bbox, zoom = 14, urlonly = TRUE, https = TRUE)
-#' ggmap(get_stamenmap(bbox, zoom = 15, https = TRUE, messaging = TRUE))
-#'
+#' get_stadiamap(bbox, maptype = "stamen_watercolor", zoom = 11) %>% ggmap(extent = "device")
+#' get_stadiamap(bbox, maptype = "stamen_watercolor", zoom = 12) %>% ggmap(extent = "device")
+#' get_stadiamap(bbox, maptype = "stamen_watercolor", zoom = 13) %>% ggmap(extent = "device")
+#' # get_stadiamap(bbox, maptype = "stamen_watercolor", zoom = 14) %>% ggmap(extent = "device")
+#' # get_stadiamap(bbox, maptype = "stamen_watercolor", zoom = 15) %>% ggmap(extent = "device")
+#' # get_stadiamap(bbox, maptype = "stamen_watercolor", zoom = 16) %>% ggmap(extent = "device")
+#' # get_stadiamap(bbox, maptype = "stamen_watercolor", zoom = 17) %>% ggmap(extent = "device")
+#' # get_stadiamap(bbox, maptype = "stamen_watercolor", zoom = 18) %>% ggmap(extent = "device")
 #'
 #' ## more examples
 #' ########################################
 #'
 #' gc <- geocode("rio de janeiro")
 #'
-#' get_stamenmap(bbox, zoom = 10) %>% ggmap() +
+#' get_stadiamap(bbox, zoom = 10) %>% ggmap() +
 #'  geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 #'
-#' get_stamenmap(bbox, zoom = 10, crop = FALSE) %>% ggmap() +
+#' get_stadiamap(bbox, zoom = 10, crop = FALSE) %>% ggmap() +
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 #'
-#' get_stamenmap(bbox, zoom = 10, maptype = "watercolor") %>% ggmap() +
+#' get_stadiamap(bbox, zoom = 10, maptype = "stamen_watercolor") %>% ggmap() +
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 #'
-#' get_stamenmap(bbox, zoom = 10, maptype = "toner") %>% ggmap() +
+#' get_stadiamap(bbox, zoom = 10, maptype = "stamen_toner") %>% ggmap() +
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 2)
 #'
 #'
 #' # continental united states labels
 #' c("left" = -125, "bottom" = 25.75, "right" = -67, "top" = 49) %>%
-#'   get_stamenmap(zoom = 5, maptype = "toner-labels") %>%
+#'   get_stadiamap(zoom = 5, maptype = "stamen_toner_labels") %>%
 #'   ggmap()
 #'
 #'
@@ -127,7 +125,7 @@
 #' qmap("the white house", zoom = 16)  +
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)
 #'
-#' qmap("the white house", zoom = 16, source = "stamen", maptype = "terrain")  +
+#' qmap("the white house", zoom = 16, source = "stadia", maptype = "stamen_terrain")  +
 #'   geom_point(aes(x = lon, y = lat), data = gc, colour = "red", size = 3)
 #'
 #'
@@ -135,47 +133,29 @@
 #' ## known issues
 #' ########################################
 #'
-#' # in some cases stamen's servers will not return a tile for a given map
-#' # this tends to happen in high-zoom situations, but it is not always
-#' # clear why it happens. these tiles will appear as blank parts of the map.
-#'
-#' # ggmap provides some tools to try to recover the missing tiles, but the
-#' # servers seem pretty persistent at not providing the maps.
-#'
-#' bbox <- c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.559652)
-#' ggmap(get_stamenmap(bbox, zoom = 17))
-#' get_stamen_tile_download_fail_log()
-#' retry_stamen_map_download()
-#'
-#'
-#'
-#'
+#' # Stamen's original tilesets were raster renders built up over time, but have not been
+#' # actively rendered for several years. As a consequence, some tiles simply do not exist,
+#' # particularly at high zoom levels.
+#' #
+#' # The newer styles have been redesigned and are now generated live by Stadia Maps, so
+#' # these are complete, but at the time of this writing, the Watercolor style is still incomplete.
 #' }
-#'
-#'
-
-
-
-
 
 
 #' @export
-#' @rdname get_stamenmap
-get_stamenmap <- function(
+#' @rdname get_stadiamap
+get_stadiamap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
-  zoom = 10, maptype = c("terrain","terrain-background","terrain-labels",
-    "terrain-lines", "toner", "toner-2010", "toner-2011", "toner-background",
-    "toner-hybrid", "toner-labels", "toner-lines", "toner-lite", "watercolor"),
+  zoom = 10, maptype = STADIA_VALID_MAP_TYPES,
   crop = TRUE, messaging = FALSE, urlonly = FALSE, color = c("color","bw"), force = FALSE,
-  where = tempdir(), https = FALSE, ...
+  where = tempdir(), ...
 ){
-
   # enumerate argument checking (added in lieu of checkargs function)
   args <- as.list(match.call(expand.dots = TRUE)[-1])
   argsgiven <- names(args)
 
   if ("location" %in% argsgiven) {
-    cli::cli_warn("{.arg location} is not a valid argument to {.fn ggmap::get_stamenmap}; it is ignored.")
+    cli::cli_warn("{.arg location} is not a valid argument to {.fn ggmap::get_stadiamap}; it is ignored.")
   }
 
   if("bbox" %in% argsgiven){
@@ -187,7 +167,7 @@ get_stamenmap <- function(
   if("zoom" %in% argsgiven){
     if(!(is.numeric(zoom) && length(zoom) == 1 &&
     zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
-      cli::cli_abort("{.arg scale} must be a positive integer 0-18, see {.fn ggmap::get_stamenmap.}.")
+      cli::cli_abort("{.arg scale} must be a positive integer 0-18, see {.fn ggmap::get_stadiamap.}.")
     }
   }
 
@@ -200,20 +180,18 @@ get_stamenmap <- function(
 
 
   # argument checking (no checks for language, region, markers, path, visible, style)
-  #args <- as.list(match.call(expand.dots = TRUE)[-1])
-  #if(checkargs) get_stamenmap_checkargs(args)
   maptype <- match.arg(maptype)
   color <- match.arg(color)
   if(is.null(names(bbox))) names(bbox) <- c("left","bottom","right","top")
 
-  # set image type (stamen only)
-  if(maptype %in% c("watercolor")){
+  # set image type (watercolor is JPEG-only)
+  if(maptype %in% c("stamen_watercolor")){
     filetype <- "jpg"
-    cli::cli_alert_info("Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under CC BY SA.")
   } else {
     filetype <- "png"
-    cli::cli_alert_info("Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.")
   }
+
+  cli::cli_alert_info("© Stadia Maps © Stamen Design © OpenMapTiles © OpenStreetMap contributors.")
 
   # determine tiles to get
   fourCorners <- expand.grid(
@@ -231,13 +209,10 @@ get_stamenmap <- function(
     cli::cli_alert_info("{nrow(tilesNeeded)} tiles needed, this may take a while (try a smaller zoom?)")
   }
 
-
-  # make urls - e.g. http://tile.stamen.com/[maptype]/[zoom]/[x]/[y].jpg
-  base_url <- if (https) "https://stamen-tiles.a.ssl.fastly.net/" else "http://tile.stamen.com/"
-  # base_url <- "http://b.b.tile.stamen.com/"
-  base_url <- paste(base_url, maptype, "/", zoom, sep = "")
-  urls <- paste(base_url, apply(tilesNeeded, 1, paste, collapse = "/"), sep = "/")
-  urls <- paste(urls, filetype, sep = ".")
+  # Build up a list of URLs
+  urls <- apply(tilesNeeded, 1, function(row) {
+    get_stamen_url(maptype = maptype, zoom = zoom, x = row['x'], y = row['y'])
+  })
   if(messaging) cli::cli_alert_info("{length(urls)} tiles required.")
   if(urlonly) return(urls)
 
@@ -247,7 +222,7 @@ get_stamenmap <- function(
     split(tilesNeeded, 1:nrow(tilesNeeded)),
     function(v) {
       v <- as.numeric(v)
-      get_stamenmap_tile(maptype, zoom, v[1], v[2], color, force = force, messaging = messaging, https = https)
+      get_stadiamap_tile(maptype, zoom, v[1], v[2], color, force = force, messaging = messaging)
     }
   )
 
@@ -259,7 +234,7 @@ get_stamenmap <- function(
   # format map and return if not cropping
   if(!crop) {
     # additional map meta-data
-    attr(map, "source")  <- "stamen"
+    attr(map, "source")  <- "stadia"
     attr(map, "maptype") <- maptype
     attr(map, "zoom")    <- zoom
 
@@ -305,7 +280,7 @@ get_stamenmap <- function(
   )
 
   # additional map meta-data
-  attr(croppedmap, "source")  <- "stamen"
+  attr(croppedmap, "source")  <- "stadia"
   attr(croppedmap, "maptype") <- maptype
   attr(croppedmap, "zoom")    <- zoom
 
@@ -315,62 +290,36 @@ get_stamenmap <- function(
 }
 
 
+get_stamen_url <- function(maptype, zoom, x, y) {
+  # check arguments
+  stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
+  stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
+  stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messaging = TRUE, where = tempdir(), https = FALSE, url){
-
-  if (missing(url)) {
-
-    # check arguments
-    stopifnot(is.wholenumber(zoom) || !(zoom %in% 1:20))
-    stopifnot(is.wholenumber(x) || !(0 <= x && x < 2^zoom))
-    stopifnot(is.wholenumber(y) || !(0 <= y && y < 2^zoom))
-
-
-    # format url http://tile.stamen.com/[maptype]/[zoom]/[x]/[y].jpg
-    if(maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
-    domain <- if (https) "https://stamen-tiles.a.ssl.fastly.net" else "http://tile.stamen.com"
-    url <- glue("{domain}/{maptype}/{zoom}/{x}/{y}.{filetype}")
-
-
-    # lookup in archive
-    tile <- file_drawer_get(url)
-    if (!is.null(tile) && !force) return(tile)
-
-
-    # message url
-    if (messaging) source_url_msg(url)
-
-  } else {
-
-    url_pieces <- url %>% str_split("[/.]") %>% pluck(1L)
-       maptype <- url_pieces[6]
-          zoom <- url_pieces[7] %>% as.integer()
-             x <- url_pieces[8] %>% as.integer()
-             y <- url_pieces[9] %>% as.integer()
-      filetype <- url_pieces[10]
-
+  if (!has_stadiamaps_key()) {
+    cli::cli_abort("Stadia Maps requires an API key; see {.fn ggmap::register_stadiamaps}.")
   }
+
+  key <- stadiamaps_key()
+
+  # format URL
+  if(maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+  url <- glue("https://tiles.stadiamaps.com/tiles/{maptype}/{zoom}/{x}/{y}.{filetype}?api_key={key}")
+
+  return(url)
+}
+
+
+
+get_stadiamap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messaging = TRUE, where = tempdir()){
+  url <- get_stamen_url(maptype, zoom, x, y)
+
+  # lookup in archive
+  tile <- file_drawer_get(url)
+  if (!is.null(tile) && !force) return(tile)
+
+  # message url
+  if (messaging) source_url_msg(url)
 
 
   # query server
@@ -382,7 +331,6 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messag
 
     httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
     if (messaging) message("\n", appendLF = FALSE)
-    log_stamen_tile_download_fail(url)
     tile <- matrix(rgb(1, 1, 1, 0), nrow = 256L, ncol = 256L)
 
   } else {
@@ -391,8 +339,8 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messag
     tile <- httr::content(response)
     tile <- aperm(tile, c(2, 1, 3))
 
-    # convert to hex color
-    if (maptype %in% c("toner-hybrid", "toner-labels", "toner-lines", "terrain-labels", "terrain-lines")) {
+    # convert to hex color (transparent layers)
+    if (maptype %in% STADIA_TRANSPARENT_LAYERGROUP_TYPES) {
 
       if(color == "color") {
         tile <- apply(tile, 1:2, function(x) rgb(x[1], x[2], x[3], x[4]))
@@ -453,87 +401,6 @@ get_stamenmap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messag
   # return
   tile
 }
-
-
-
-
-
-
-
-
-
-
-
-log_stamen_tile_download_fail <- function(url) {
-
-  if (exists("stamen_tile_download_fail_log", envir = ggmap_environment)) {
-
-    assign(
-      "stamen_tile_download_fail_log",
-      unique(c(
-        get("stamen_tile_download_fail_log", envir = ggmap_environment),
-        url
-      )),
-      envir = ggmap_environment
-    )
-
-  } else {
-
-    assign("stamen_tile_download_fail_log", url, envir = ggmap_environment)
-
-  }
-
-  invisible()
-
-}
-
-
-
-
-
-
-
-
-#' @export
-#' @rdname get_stamenmap
-get_stamen_tile_download_fail_log <- function() {
-
-  if (!exists("stamen_tile_download_fail_log", envir = ggmap_environment)) {
-    assign("stamen_tile_download_fail_log", character(0), envir = ggmap_environment)
-  }
-
-  get("stamen_tile_download_fail_log", envir = ggmap_environment)
-
-}
-
-
-
-
-
-#' @export
-#' @rdname get_stamenmap
-retry_stamen_map_download <- function() {
-
-  if (!exists("stamen_tile_download_fail_log", envir = ggmap_environment)) {
-
-    return(invisible())
-
-  } else {
-
-    get_stamen_tile_download_fail_log() %>%
-      map(~ get_stamenmap_tile("url" = .x, "force" = TRUE))
-
-  }
-
-  invisible()
-
-}
-
-
-
-
-
-
 
 
 stitch <- function(tiles){

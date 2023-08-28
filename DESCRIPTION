@@ -1,5 +1,5 @@
 Package: ggmap
-Version: 3.0.2.9001
+Version: 4.0.0
 Title: Spatial Visualization with ggplot2
 Description: A collection of functions to visualize spatial data and models
     on top of static maps from various online sources (e.g Google Maps and Stamen
@@ -39,6 +39,6 @@ Suggests:
     testthat
 License: GPL-2
 LazyData: true
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8

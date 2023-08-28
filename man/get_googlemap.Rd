@@ -10,7 +10,7 @@ get_googlemap(
   size = c(640, 640),
   scale = 2,
   format = c("png8", "gif", "jpg", "jpg-baseline", "png32"),
-  maptype = c("terrain", "satellite", "roadmap", "hybrid"),
+  maptype = GOOGLE_VALID_MAP_TYPES,
   language = "en-EN",
   messaging = FALSE,
   urlonly = FALSE,

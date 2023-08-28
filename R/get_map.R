@@ -1,28 +1,32 @@
 #' Grab a map.
 #'
 #' [get_map()] is a smart wrapper that queries the Google Maps,
-#' OpenStreetMap, Stamen Maps or Naver Map servers for a map.
+#' OpenStreetMap, and Stadia Maps servers for a map.
 #'
 #' @param location an address, longitude/latitude pair (in that order), or
 #'   left/bottom/right/top bounding box
 #' @param zoom map zoom, an integer from 3 (continent) to 21 (building), default
 #'   value 10 (city).  openstreetmaps limits a zoom of 18, and the limit on
-#'   stamen maps depends on the maptype.  "auto" automatically determines the
+#'   Stadia Maps depends on the maptype.  "auto" automatically determines the
 #'   zoom for bounding box specifications, and is defaulted to 10 with
 #'   center/zoom specifications.  maps of the whole world currently not
 #'   supported.
 #' @param scale scale argument of [get_googlemap()] or [get_openstreetmap()]
 #' @param maptype character string providing map theme. options available are
 #'   "terrain", "terrain-background", "satellite", "roadmap", and "hybrid"
-#'   (google maps), "terrain", "watercolor", and "toner" (stamen maps)
-#' @param source Google Maps ("google"), OpenStreetMap ("osm"), Stamen Maps
-#'   ("stamen")
+#'   (Google Maps), "stamen_terrain", "stamen_toner", "stamen_toner_lite", "stamen_watercolor",
+#'   "stamen_terrain_background", "stamen_toner_background",
+#'   "stamen_terrain_lines", "stamen_terrain_labels",
+#'   "stamen_toner_lines", "stamen_toner_labels"
+#'   (Stadia Maps)
+#' @param source Google Maps ("google"), OpenStreetMap ("osm"), Stadia Maps
+#'   ("stadia")
 #' @param force force new map (don't use archived version)
 #' @param messaging turn messaging on/off
 #' @param urlonly return url only
 #' @param filename destination file for download (file extension added according
 #'   to format). Default `NULL` means a random [tempfile()].
-#' @param crop (stamen and cloudmade maps) crop tiles to bounding box
+#' @param crop (Stadia and cloudmade maps) crop tiles to bounding box
 #' @param color color ("color") or black-and-white ("bw")
 #' @param language language for google maps
 #' @param ... ...
@@ -43,7 +47,7 @@
 #' str(map)
 #' ggmap(map)
 #'
-#' # bounding boxes default to stamen
+#' # bounding boxes default to Stadia Maps
 #' (map <- get_map(c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.559652)))
 #' ggmap(map)
 #'
@@ -57,9 +61,9 @@
 #'
 #' (map <- get_map(maptype = "roadmap"))
 #' (map <- get_map(source = "osm"))
-#' (map <- get_map(source = "stamen", maptype = "watercolor"))
+#' (map <- get_map(source = "stadia", maptype = "stamen_watercolor"))
 #'
-#' map <- get_map(location = "texas", zoom = 6, source = "stamen")
+#' map <- get_map(location = "texas", zoom = 6, source = "stadia")
 #' ggmap(map, fullpage = TRUE)
 #'
 #' }
@@ -67,11 +71,8 @@ get_map <- function(
   location = c(lon = -95.3632715, lat = 29.7632836),
   zoom = "auto",
   scale = "auto",
-  maptype = c("terrain", "terrain-background", "satellite", "roadmap",
-    "hybrid", "toner", "watercolor", "terrain-labels",
-    "terrain-lines", "toner-2010", "toner-2011", "toner-background",
-    "toner-hybrid", "toner-labels", "toner-lines", "toner-lite"),
-  source = c("google","osm","stamen"),
+  maptype = c(GOOGLE_VALID_MAP_TYPES, STADIA_VALID_MAP_TYPES),
+  source = c("google","osm","stadia"),
   force = ifelse(source == "google", TRUE, FALSE),
   messaging = FALSE,
   urlonly = FALSE,
@@ -82,7 +83,7 @@ get_map <- function(
   ...
 ){
 
-  # deprecated syntaxes
+  # deprecated syntax
   args <- as.list(match.call(expand.dots = TRUE)[-1])
   if("verbose" %in% names(args)){
     .Deprecated(msg = "verbose argument deprecated, use messaging.")
@@ -99,26 +100,25 @@ get_map <- function(
   source <- match.arg(source)
   color <- match.arg(color)
   if(missing(maptype)){
+    if(source == "stadia"){
+      maptype <- "stamen_terrain"
+    }
     if(source != "cloudmade"){
       maptype <- "terrain"
     } else {
       maptype <- 1
     }
   }
-  if(source == "stamen"){
-    if(!(maptype %in% c("terrain","terrain-background","terrain-labels",
-      "terrain-lines", "toner", "toner-2010", "toner-2011", "toner-background",
-      "toner-hybrid", "toner-labels", "toner-lines", "toner-lite", "watercolor"))) {
-      cli::cli_abort("Invalid stamen {.arg maptype}, see {.fn get_stamenmap}.")
+  if(source == "stadia"){
+    if(!(maptype %in% STADIA_VALID_MAP_TYPES)) {
+      cli::cli_abort("Invalid Stadia {.arg maptype}, see {.fn get_stadiamap}.")
     }
   }
-  if(source == "google" & (
-    maptype %in% c("terrain-background","terrain-labels",
-      "terrain-lines", "toner", "toner-2010", "toner-2011", "toner-background",
-      "toner-hybrid", "toner-labels", "toner-lines", "toner-lite", "watercolor")
+  if(source == "google" & !(
+    maptype %in% GOOGLE_VALID_MAP_TYPES
   )){
-    cli::cli_alert_warning("{.arg maptype = \"{maptype}\"} is only available with {.arg source = \"stamen\"}; resetting source.")
-    source <- "stamen"
+    cli::cli_alert_warning("{.arg maptype = \"{maptype}\"} is only available with {.arg source = \"stadia\"}; resetting source.")
+    source <- "stadia"
   }
 
 
@@ -157,8 +157,6 @@ get_map <- function(
   if(is.numeric(location) && length(location) == 4){ # bbox
     location_type <- "bbox"
     location_stop <- FALSE
-    # source <- "stamen"
-    # maptype <- "terrain"
 
     # check bounding box
     if(length(names(location)) > 0){
@@ -204,7 +202,7 @@ get_map <- function(
 
 
 
-  # google map
+  # Google Maps
   if(source == "google"){
 
   	# if bounding box given
@@ -251,7 +249,7 @@ get_map <- function(
 
 
 
-  # openstreetmap
+  # OpenStreetMap
   if(source == "osm"){
 
   	if(location_type != "bbox"){
@@ -270,8 +268,8 @@ get_map <- function(
 
 
 
-  # stamen map
-  if(source == "stamen"){
+  # Stadia Maps
+  if(source == "stadia"){
   	if(location_type != "bbox"){
   	  # get bounding box
       gm <- get_googlemap(center = location, zoom = zoom, filename = filename)
@@ -280,7 +278,7 @@ get_map <- function(
 
   	# get map/return
     return(
-      get_stamenmap(bbox = location, zoom = zoom, maptype = maptype, crop = crop,
+      get_stadiamap(bbox = location, zoom = zoom, maptype = maptype, crop = crop,
         messaging = messaging, urlonly = urlonly, filename = filename, force = force,
         color = color)
     )

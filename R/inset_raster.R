@@ -22,10 +22,10 @@
 #'
 #' bbox <- c(left = -97.1268, bottom = 31.536245, right = -97.099334, top = 31.559652)
 #'
-#' terrain_map <- get_stamenmap(bbox, zoom = 14, maptype = "terrain-background", color = "bw")
+#' terrain_map <- get_stadiamap(bbox, zoom = 14, maptype = "stamen_terrain_background", color = "bw")
 #' ggmap(terrain_map)
 #'
-#' lines_map <- get_stamenmap(bbox, zoom = 14, maptype = "toner-lines")
+#' lines_map <- get_stadiamap(bbox, zoom = 14, maptype = "stamen_toner_lines")
 #' ggmap(lines_map)
 #'
 #' ggmap(terrain_map) +

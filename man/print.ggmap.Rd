@@ -19,8 +19,10 @@ Print a console description of a map
 }
 \examples{
 
+\dontrun{ requires a Stadia Maps API key. see ?register_stadiamaps
 
-get_stamenmap(zoom = 9)
+get_stadiamap(zoom = 9)
 
+}
 
 }

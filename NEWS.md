@@ -1,3 +1,25 @@
+# ggmap 4.0.0
+
+## New features
+
+* Adds support for all styles from Stadia Maps.
+
+## Changes
+
+* Stamen map tiles are now hosted by Stadia Maps (see http://maps.stamen.com/stadia-partnership/),
+  which necessitates some breaking changes in ggmap. The existing URLs
+  are expected to be shut off after October 31, 2023. This release
+  renames the Stamen-related functions to Stadia equivalents 
+  (ex: `get_stamenmap()` is now `get_stadiamap()`). Developers will also need to make
+  some minor changes to the style names to include a `stamen_` prefix and
+  convert the names to `snake_case`. For example `toner-lite` becomes
+  `stamen_toner_lite`.
+* Removes the toner hybrid layer group, as well as some other deprecated
+  styles which were not in wide use. Stamen's Toner Hybrid can be
+  recreated by layering the lines and labels on top of each other.
+* Adds styles from Stadia Maps: Alidade Smooth (light and dark) and
+  Outdoors.
+
 # ggmap 3.0.2
 
 ## Changes

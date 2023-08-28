@@ -80,11 +80,11 @@
 #'   color = I("red"), yend = lat + delta_lat, data = seals,
 #'   geom = "segment", zoom = 5)
 #'
-#' qmplot(long, lat, xend = long + delta_long, maptype = "watercolor",
+#' qmplot(long, lat, xend = long + delta_long, maptype = "stamen_watercolor",
 #'   yend = lat + delta_lat, data = seals,
 #'   geom = "segment", zoom = 6)
 #'
-#' qmplot(long, lat, xend = long + delta_long, maptype = "terrain",
+#' qmplot(long, lat, xend = long + delta_long, maptype = "stamen_terrain",
 #'   yend = lat + delta_lat, data = seals,
 #'   geom = "segment", zoom = 6)
 #'
@@ -253,7 +253,7 @@
 #'
 #' } # end dontrun
 #'
-qmplot <- function(x, y, ..., data, zoom, source = "stamen", maptype = "toner-lite",
+qmplot <- function(x, y, ..., data, zoom, source = "stadia", maptype = "stamen_toner_lite",
   extent = "device", legend = "right", padding = .02, force = FALSE,
   darken = c(0, "black"), mapcolor = "color",
   facets = NULL, margins = FALSE, geom = "auto", stat = list(NULL),

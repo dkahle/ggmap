@@ -9,15 +9,17 @@
 #' @export
 #' @examples
 #'
+#'\dontrun{ requires a Stadia Maps API key. see ?register_stadiamaps
 #'
-#' get_stamenmap(zoom = 9)
+#' get_stadiamap(zoom = 9)
 #'
+#'}
 #'
 print.ggmap <- function(x, ...){
 
   source <- switch(attr(x, "source"),
     "google" = "Google Maps",
-    "stamen" = "Stamen Maps",
+    "stadia" = "Stadia Maps",
     "osm" = "OpenStreetMap",
     "cloudmade" = "Cloudmade",
     "naver" = "Naver Map"

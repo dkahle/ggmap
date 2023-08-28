@@ -58,7 +58,7 @@ get_cloudmademap <- function(
   if('zoom' %in% argsgiven){
     if(!(is.numeric(zoom) && length(zoom) == 1 &&
     zoom == round(zoom) && zoom >= 0 && zoom <= 18)){
-      cli::cli_abort("{.arg scale} must be a positive integer 0-18. See {.fn ggmap::get_stamenmap}.")
+      cli::cli_abort("{.arg scale} must be a positive integer 0-18. See {.fn ggmap::get_cloudmademap}.")
     }
   }
 

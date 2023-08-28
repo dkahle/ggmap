@@ -15,19 +15,45 @@ status](https://ci.appveyor.com/api/projects/status/github/dkahle/ggmap?branch=m
 
 **ggmap** is an R package that makes it easy to retrieve raster map
 tiles from popular online mapping services like [Google
-Maps](https://developers.google.com/maps/documentation/maps-static?hl=en)
-and [Stamen Maps](http://maps.stamen.com) and plot them using the
-[**ggplot2**](https://github.com/tidyverse/ggplot2) framework:
+Maps](https://developers.google.com/maps/documentation/maps-static?hl=en),
+[Stadia Maps](https://stadiamaps.com/), and
+[OpenStreetMap](https://openstreetmap.org/), and plot them using the
+[**ggplot2**](https://github.com/tidyverse/ggplot2) framework.
+
+## Stadia Maps
+
+Stadia Maps offers map tiles in several styles, including updated [tiles
+from Stamen Design](https://stadiamaps.com/stamen/). An API key is
+required, but no credit card is necessary to [sign
+up](https://client.stadiamaps.com/signup) and there is a free tier for
+non-commercial use. Once you have your API key, invoke the registration
+function: `register_stadiamaps("YOUR-API-KEY", write = FALSE)`. Note
+that setting `write = TRUE` will update your `~/.Renviron` file by
+replacing/adding the relevant line. If you use the former, know that
+you’ll need to re-do it every time you reset R.
+
+Your API key is *private* and unique to you, so be careful not to share
+it online, for example in a GitHub issue or saving it in a shared R
+script file. If you share it inadvertently, just go to
+client.stadiamaps.com, delete your API key, and create a new one.
 
 ``` r
 library("ggmap")
 #  Loading required package: ggplot2
-#  ℹ Google's Terms of Service: ]8;;https://mapsplatform.google.com<https://mapsplatform.google.com>]8;;
+#  The legacy packages maptools, rgdal, and rgeos, underpinning the sp package,
+#  which was just loaded, will retire in October 2023.
+#  Please refer to R-spatial evolution reports for details, especially
+#  https://r-spatial.org/r/2023/05/15/evolution4.html.
+#  It may be desirable to make the sf package available;
+#  package maintainers should consider adding sf to Suggests:.
+#  The sp package is now running under evolution status 2
+#       (status 2 uses the sf package in place of rgdal)
+#  ℹ Google's Terms of Service: <https://mapsplatform.google.com> Stadia Maps' Terms of Service: <https://stadiamaps.com/terms-of-service/> OpenStreetMap's Tile Usage Policy: <https://operations.osmfoundation.org/policies/tiles/>
 #  ℹ Please cite ggmap if you use it! Use `citation("ggmap")` for details.
 
 us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
-get_stamenmap(us, zoom = 5, maptype = "toner-lite") %>% ggmap() 
-#  ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
+get_stadiamap(us, zoom = 5, maptype = "alidade_smooth") %>% ggmap() 
+#  ℹ © Stadia Maps © Stamen Design © OpenMapTiles © OpenStreetMap contributors.
 ```
 
 ![](tools/README-maptypes-1.png)
@@ -63,9 +89,9 @@ violent_crimes <- crime %>%
   )
 
 # use qmplot to make a scatterplot on a map
-qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", color = I("red"))
+qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_lite", color = I("red"))
 #  ℹ Using `zoom = 14`
-#  ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
+#  ℹ © Stadia Maps © Stamen Design © OpenMapTiles © OpenStreetMap contributors.
 ```
 
 ![](tools/README-qmplot-1.png)
@@ -74,7 +100,7 @@ All the **ggplot2** geom’s are available. For example, you can make a
 contour plot with `geom = "density2d"`:
 
 ``` r
-qmplot(lon, lat, data = violent_crimes, maptype = "toner-lite", geom = "density2d", color = I("red"))
+qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_lite", geom = "density2d", color = I("red"))
 ```
 
 In fact, since **ggmap**’s built on top of **ggplot2**, all your usual
@@ -88,13 +114,13 @@ library("ggdensity")
 library("geomtextpath")
 
 qmplot(lon, lat, data = violent_crimes, geom = "blank", 
-  zoom = 14, maptype = "toner-background"
+  zoom = 14, maptype = "stamen_toner_background"
 ) +
   geom_hdr(aes(fill = stat(probs)), alpha = .3) +
   geom_labeldensity2d(aes(lon, lat, level = stat(probs)), stat = "hdr_lines") +
   scale_fill_viridis_d(option = "A") +
   theme(legend.position = "none")
-#  ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
+#  ℹ © Stadia Maps © Stamen Design © OpenMapTiles © OpenStreetMap contributors.
 #  Warning in geom_labeldensity2d(aes(lon, lat, level = stat(probs)), stat =
 #  "hdr_lines"): Ignoring unknown parameters: `contour`, `contour_var`, `h`, and
 #  `adjust`
@@ -102,6 +128,9 @@ qmplot(lon, lat, data = violent_crimes, geom = "blank",
 #  "hdr_lines"): Ignoring unknown aesthetics: level
 #  Warning: `stat(probs)` was deprecated in ggplot2 3.4.0.
 #  ℹ Please use `after_stat(probs)` instead.
+#  This warning is displayed once every 8 hours.
+#  Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+#  generated.
 ```
 
 ![](tools/README-styling-1.png)
@@ -109,10 +138,10 @@ qmplot(lon, lat, data = violent_crimes, geom = "blank",
 Faceting works, too:
 
 ``` r
-qmplot(lon, lat, data = violent_crimes, maptype = "toner-background", color = offense) + 
+qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_background", color = offense) + 
   facet_wrap(~ offense)
 #  ℹ Using `zoom = 14`
-#  ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
+#  ℹ © Stadia Maps © Stamen Design © OpenMapTiles © OpenStreetMap contributors.
 ```
 
 ![](tools/README-faceting-1.png)
@@ -125,16 +154,16 @@ specification, their input is a bit different:
 
 ``` r
 (map <- get_googlemap("waco texas", zoom = 12))
-#  ℹ <]8;;https://maps.googleapis.com/maps/api/staticmap?center=waco%20texas&zoom=12&size=640x640&scale=2&maptype=terrain&key=xxxhttps://maps.googleapis.com/maps/api/staticmap?center=waco%20texas&zoom=12&size=640x640&scale=2&maptype=terrain&key=xxx]8;;>
-#  ℹ <]8;;https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxxhttps://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx]8;;>
-#  1280x1280 terrain map image from Google Maps; use `]8;;ide:help:ggmap::ggmapggmap::ggmap]8;;()` to plot it.
+#  ℹ <https://maps.googleapis.com/maps/api/staticmap?center=waco%20texas&zoom=12&size=640x640&scale=2&maptype=terrain&key=xxx>
+#  ℹ <https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx>
+#  1280x1280 terrain map image from Google Maps; use `ggmap::ggmap()` to plot it.
 ggmap(map)
 ```
 
 ![](tools/README-google_maps-1.png)
 
 Moreover, you can get various different styles of Google Maps with
-**ggmap** (just like Stamen Maps):
+**ggmap** (just like Stadia Maps):
 
 ``` r
 get_googlemap("waco texas", zoom = 12, maptype = "satellite") %>% ggmap()
@@ -147,13 +176,13 @@ Google’s geocoding and reverse geocoding API’s are available through
 
 ``` r
 geocode("1301 S University Parks Dr, Waco, TX 76798")
-#  ℹ <]8;;https://maps.googleapis.com/maps/api/geocode/json?address=1301+S+University+Parks+Dr,+Waco,+TX+76798&key=xxxhttps://maps.googleapis.com/maps/api/geocode/json?address=1301+S+University+Parks+Dr,+Waco,+TX+76798&key=xxx]8;;>
+#  ℹ <https://maps.googleapis.com/maps/api/geocode/json?address=1301+S+University+Parks+Dr,+Waco,+TX+76798&key=xxx>
 #  # A tibble: 1 × 2
 #      lon   lat
 #    <dbl> <dbl>
 #  1 -97.1  31.6
 revgeocode(c(lon = -97.1161, lat = 31.55098))
-#  ℹ <]8;;https://maps.googleapis.com/maps/api/geocode/json?latlng=31.55098,-97.1161&key=xxxhttps://maps.googleapis.com/maps/api/geocode/json?latlng=31.55098,-97.1161&key=xxx]8;;>
+#  ℹ <https://maps.googleapis.com/maps/api/geocode/json?latlng=31.55098,-97.1161&key=xxx>
 #  Warning: Multiple addresses found, the first will be returned:
 #  !   1301 S University Parks Dr, Waco, TX 76706, USA
 #  !   55 Baylor Ave, Waco, TX 76706, USA
@@ -179,8 +208,8 @@ There is also a `mutate_geocode()` that works similarly to
 ``` r
 tibble(address = c("white house", "", "waco texas")) %>% 
   mutate_geocode(address)
-#  ℹ <]8;;https://maps.googleapis.com/maps/api/geocode/json?address=white+house&key=xxxhttps://maps.googleapis.com/maps/api/geocode/json?address=white+house&key=xxx]8;;>
-#  ℹ <]8;;https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxxhttps://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx]8;;>
+#  ℹ <https://maps.googleapis.com/maps/api/geocode/json?address=white+house&key=xxx>
+#  ℹ <https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx>
 #  # A tibble: 3 × 3
 #    address         lon   lat
 #    <chr>         <dbl> <dbl>
@@ -194,17 +223,20 @@ Treks use Google’s routing API to give you routes (`route()` and
 
 ``` r
 trek_df <- trek("houson, texas", "waco, texas", structure = "route")
-#  ℹ <]8;;https://maps.googleapis.com/maps/api/directions/json?origin=houson,+texas&destination=waco,+texas&key=xxx&mode=driving&alternatives=false&units=metrichttps://maps.googleapis.com/maps/api/directions/json?origin=houson,+texas&destination=waco,+texas&key=xxx&mode=driving&alternatives=false&units=metric]8;;>
+#  ℹ <https://maps.googleapis.com/maps/api/directions/json?origin=houson,+texas&destination=waco,+texas&key=xxx&mode=driving&alternatives=false&units=metric>
 qmap("college station, texas", zoom = 8) +
   geom_path(
     aes(x = lon, y = lat),  colour = "blue",
     size = 1.5, alpha = .5,
     data = trek_df, lineend = "round"
   )
-#  ℹ <]8;;https://maps.googleapis.com/maps/api/staticmap?center=college%20station,%20texas&zoom=8&size=640x640&scale=2&maptype=terrain&language=en-EN&key=xxxhttps://maps.googleapis.com/maps/api/staticmap?center=college%20station,%20texas&zoom=8&size=640x640&scale=2&maptype=terrain&language=en-EN&key=xxx]8;;>
-#  ℹ <]8;;https://maps.googleapis.com/maps/api/geocode/json?address=college+station,+texas&key=xxxhttps://maps.googleapis.com/maps/api/geocode/json?address=college+station,+texas&key=xxx]8;;>
+#  ℹ <https://maps.googleapis.com/maps/api/staticmap?center=college%20station,%20texas&zoom=8&size=640x640&scale=2&maptype=terrain&language=en-EN&key=xxx>
+#  ℹ <https://maps.googleapis.com/maps/api/geocode/json?address=college+station,+texas&key=xxx>
 #  Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
 #  ℹ Please use `linewidth` instead.
+#  This warning is displayed once every 8 hours.
+#  Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+#  generated.
 ```
 
 ![](tools/README-route_trek-1.png)
@@ -217,13 +249,13 @@ Map distances, in both length and anticipated time, can be computed with
 
 ``` r
 mapdist(c("houston, texas", "dallas"), "waco, texas")
-#  ℹ <]8;;https://maps.googleapis.com/maps/api/distancematrix/json?origins=dallas&destinations=waco,+texas&key=xxx&mode=drivinghttps://maps.googleapis.com/maps/api/distancematrix/json?origins=dallas&destinations=waco,+texas&key=xxx&mode=driving]8;;>
-#  ℹ <]8;;https://maps.googleapis.com/maps/api/distancematrix/json?origins=houston,+texas&destinations=waco,+texas&key=xxx&mode=drivinghttps://maps.googleapis.com/maps/api/distancematrix/json?origins=houston,+texas&destinations=waco,+texas&key=xxx&mode=driving]8;;>
+#  ℹ <https://maps.googleapis.com/maps/api/distancematrix/json?origins=dallas&destinations=waco,+texas&key=xxx&mode=driving>
+#  ℹ <https://maps.googleapis.com/maps/api/distancematrix/json?origins=houston,+texas&destinations=waco,+texas&key=xxx&mode=driving>
 #  # A tibble: 2 × 9
 #    from           to               m    km miles seconds minutes hours mode   
 #    <chr>          <chr>        <int> <dbl> <dbl>   <int>   <dbl> <dbl> <chr>  
-#  1 dallas         waco, texas 155586  156.  96.7    5336    88.9  1.48 driving
-#  2 houston, texas waco, texas 295004  295. 183.    10311   172.   2.86 driving
+#  1 dallas         waco, texas 155140  155.  96.4    5313    88.6  1.48 driving
+#  2 houston, texas waco, texas 298220  298. 185.    10217   170.   2.84 driving
 ```
 
 ## Google Maps API key

@@ -6,6 +6,16 @@
     "Google's Terms of Service: ",
     cli::col_blue(cli::style_italic(
       cli::style_hyperlink("<https://mapsplatform.google.com>", "https://mapsplatform.google.com")
+    )),
+    " ",
+    "Stadia Maps' Terms of Service: ",
+    cli::col_blue(cli::style_italic(
+      cli::style_hyperlink("<https://stadiamaps.com/terms-of-service/>", "https://stadiamaps.com/terms-of-service/")
+    )),
+    " ",
+    "OpenStreetMap's Tile Usage Policy: ",
+    cli::col_blue(cli::style_italic(
+      cli::style_hyperlink("<https://operations.osmfoundation.org/policies/tiles/>", "https://operations.osmfoundation.org/policies/tiles/")
     ))
   )
   cite <- paste0(

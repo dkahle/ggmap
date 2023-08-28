@@ -1,0 +1,120 @@
+#' Register a Stadia Maps API Key
+#'
+#' This page contains documentation for tools related to enabling Stadia Maps
+#' services in R. See the Details section of this file for background
+#' information.
+#'
+#' To obtain an API key and enable services, go to
+#' \url{https://client.stadiamaps.com/signup/}. It is completely free for non-commercial
+#' and evaluation use (a license is for commercial use; see \url{https://stadiamaps.com/pricing}
+#' for pricing), and no credit card is required to sign up.
+#'
+#' To tell ggmap about your API key, use [register_stadiamaps()], e.g.
+#' `register_stadiamaps(key = "YOUR-API-KEY")` (that's a
+#' fake key). This will set your API key for the current session, but if you
+#' restart R, you'll need to do it again. You can set it permanently by setting
+#' `write = TRUE`, see the examples. If you set it permanently it will be stored
+#' in your .Renviron file, and that will be accessed by ggmap persistently
+#' across sessions.
+#'
+#' Users should be aware that the API key, is a PRIVATE key - it uniquely identifies and
+#' authenticates you to Stadia Maps' services. If anyone gets your API key, they can
+#' use it to masquerade as you to Stadia Maps and potentially use services that you
+#' have enabled. While Stadia Maps requires you to opt in to additional usage-based billing,
+#' this also means that anyone who obtains your key can potentially incur charges on your behalf
+#' or steal the quota that you have already purchased. So be
+#' sure to not share your API key. To mitigate against users inadvertently
+#' sharing their keys, by default ggmap never displays a user's key in messages
+#' displayed to the console.
+#'
+#' Users should also be aware that ggmap has no mechanism with which to
+#' safeguard the private key once registered with R. That is to say, once you
+#' register your API key, any function R will have access to it. As a
+#' consequence, ggmap will not know if another function, potentially from a
+#' compromised package, accesses the key and uploads it to a third party. For
+#' this reason, when using ggmap we recommend a heightened sense of security and
+#' self-awareness: only use trusted packages, do not save API keys in script
+#' files, routinely cycle keys (regenerate new keys and retire old ones), etc.
+#'
+#' @param key an api key
+#' @param write if TRUE, stores the secrets provided in the .Renviron file
+#' @return NULL
+#' @name register_stadiamaps
+#' @seealso \url{https://docs.stadiamaps.com/authentication/},
+#'   \url{https://stadiamaps.com/pricing},
+#'   \url{https://client.stadiamaps.com/signup/}
+#'
+#'
+#'
+#' @examples
+#'
+#' # this sets your Stadia Maps API key for this session
+#' # register_stadiamaps(key = "YOUR-API-KEY")
+#'
+#' # this sets your Stadia Maps API key permanently
+#' # register_stadiamaps(key = "YOUR-API-KEY", write = TRUE)
+#'
+#' has_stadiamaps_key()
+#' stadiamaps_key()
+
+#' @rdname register_stadiamaps
+#' @export
+register_stadiamaps <- function (key, write = FALSE) {
+  # allow register_stadiamaps to work when ggmap not loaded
+  if (!has_ggmap_options()) bootstrap_ggmap()
+
+  if (write) {
+    # grab .Renviron file path
+    environ_file <- file.path(Sys.getenv("HOME"), ".Renviron")
+
+    # create .Renviron file if it does not exist
+    if(!file.exists(file.path(Sys.getenv("HOME"), ".Renviron"))) {
+      cli::cli_alert_info('Creating file {environ_file}')
+      file.create(environ_file)
+    }
+
+    # read in lines
+    environ_lines <- readLines(environ_file)
+
+    # if no key present, add; otherwise replace old one
+    if (!any(str_detect(environ_lines, "GGMAP_STADIAMAPS_API_KEY="))) {
+
+      cli::cli_alert_info('Adding key to {environ_file}')
+      environ_lines <- c(environ_lines, glue("GGMAP_STADIAMAPS_API_KEY={key}"))
+      writeLines(environ_lines, environ_file)
+
+    } else {
+
+      key_line_index <- which(str_detect(environ_lines, "GGMAP_STADIAMAPS_API_KEY="))
+      old_key <- str_extract(environ_lines[key_line_index], "(?<=GGMAP_STADIAMAPS_API_KEY=)\\w+")
+      cli::cli_alert_info('Replacing old key ({old_key}) with new key in {environ_file}')
+      environ_lines[key_line_index] <- glue("GGMAP_STADIAMAPS_API_KEY={key}")
+      writeLines(environ_lines, environ_file)
+
+    }
+  }
+
+  Sys.setenv("GGMAP_STADIAMAPS_API_KEY" = key)
+
+  # return
+  invisible(NULL)
+}
+
+#' @rdname register_stadiamaps
+#' @export
+stadiamaps_key <- function () {
+
+  key <- Sys.getenv("GGMAP_STADIAMAPS_API_KEY")
+
+  if (key == "") {
+    return(NA_character_)
+  } else {
+    return(key)
+  }
+
+}
+
+
+#' @rdname register_stadiamaps
+#' @export
+has_stadiamaps_key <- function () !is.na(stadiamaps_key())
