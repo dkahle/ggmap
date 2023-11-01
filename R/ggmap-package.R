@@ -1,7 +1,6 @@
 #' @import ggplot2
 #' @docType package
 #' @name ggmap
-#' @importFrom RgoogleMaps XY2LatLon
 #' @importFrom png readPNG
 #' @importFrom jpeg readJPEG
 #' @importFrom plyr arrange compact ddply desc dlply is.discrete is.formula join

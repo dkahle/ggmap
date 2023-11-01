@@ -45,6 +45,6 @@ XY2LonLat(0, 0, 255, 255, zoom = 1)
 }
 \author{
 David Kahle \email{david@kahle.io}, based on
-\code{\link[RgoogleMaps:XY2LatLon]{RgoogleMaps::XY2LatLon()}} by Markus Loecher of Sense Networks
+\code{RgoogleMaps::XY2LatLon()} by Markus Loecher of Sense Networks
 \email{markus@sensenetworks.com}
 }

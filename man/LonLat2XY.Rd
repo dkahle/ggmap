@@ -39,6 +39,6 @@ LonLat2XY(gc$lon, gc$lat, 10)
 }
 \author{
 David Kahle \email{david@kahle.io}, based on
-\code{\link[RgoogleMaps:LatLon2XY]{RgoogleMaps::LatLon2XY()}} by Markus Loecher of Sense Networks
+\code{RgoogleMaps::LatLon2XY()} by Markus Loecher of Sense Networks
 \email{markus@sensenetworks.com}
 }

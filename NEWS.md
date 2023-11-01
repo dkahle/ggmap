@@ -20,6 +20,7 @@
   recreated by layering the lines and labels on top of each other.
 * Adds styles from Stadia Maps: Alidade Smooth (light and dark) and
   Outdoors.
+* ggmap no longer depends on RgoogleMaps (thanks @sanjmeh, #354).
 
 # ggmap 3.0.2
 

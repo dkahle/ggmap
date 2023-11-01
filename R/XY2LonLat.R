@@ -12,7 +12,7 @@
 #' @param ypix length of tile in pixels
 #' @return a data frame with columns lon and lat (in degrees)
 #' @author David Kahle \email{david@@kahle.io}, based on
-#'   [RgoogleMaps::XY2LatLon()] by Markus Loecher of Sense Networks
+#'   `RgoogleMaps::XY2LatLon()` by Markus Loecher of Sense Networks
 #'   \email{markus@@sensenetworks.com}
 #' @seealso \url{https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames}
 #' @export
