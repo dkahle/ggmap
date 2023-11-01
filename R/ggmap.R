@@ -470,7 +470,12 @@ ggmap <- function(ggmap, extent = "panel", base_layer, maprange = FALSE,
 
 
   # make raster plot or tile plot
-  if(missing(base_layer) || base_layer == "auto"){
+
+
+  if(
+    missing(base_layer) ||
+    (is.character(base_layer) && (length(base_layer) == 1) && base_layer == "auto") # safer base_layer == "auto", https://github.com/dkahle/ggmap/issues/334
+  ){
     if(inherits(ggmap, "raster")){ # raster
       # make base layer data.frame
       fourCorners <- expand.grid(
