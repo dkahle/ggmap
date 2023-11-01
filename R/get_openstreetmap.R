@@ -41,24 +41,24 @@
 #' @author David Kahle \email{david@@kahle.io}
 #' @seealso \url{https://www.openstreetmap.org/}, [ggmap()]
 #' @export
-#' @examples
-#'
-#' # get_openstreetmap(urlonly = TRUE)
-#'
-#' # osm servers get overloaded, which can result in
-#' # erroneous failed checks
-#'
-#' # osm <- get_openstreetmap()
-#' # ggmap(osm)
-#'
-#'
+
+#
+# # get_openstreetmap(urlonly = TRUE)
+#
+# # osm servers get overloaded, which can result in
+# # erroneous failed checks
+#
+# # osm <- get_openstreetmap()
+# # ggmap(osm)
+#
+#
 get_openstreetmap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
   scale = 606250, format = c('png', 'jpeg', 'svg', 'pdf', 'ps'), messaging = FALSE,
   urlonly = FALSE, filename = NULL, color = c('color','bw'), ...
 ){
 
-  .Defunct("OSM is at least temporarily not supported, see https://github.com/dkahle/ggmap/issues/117.")
+  .Defunct(msg = "OSM is at least temporarily not supported, see https://github.com/dkahle/ggmap/issues/117.")
 
   # enumerate argument checking (added in lieu of checkargs function)
   args <- as.list(match.call(expand.dots = TRUE)[-1])

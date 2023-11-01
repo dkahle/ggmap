@@ -24,26 +24,27 @@
 #' @author David Kahle \email{david@@kahle.io}
 #' @seealso http://maps.cloudmade.com/ (defunct), [ggmap()]
 #' @export
-#' @examples
-#'
-#'
-#' #api_key <- '<your api key here>'
-#' #api_key <- 'b23b0358e87c4ff99f81029eda25c903'
-#'
-#' #map <- get_cloudmademap(api_key = api_key)
-#' #ggmap(map)
-#'
-#' #map <- get_cloudmademap(maptype = 997, api_key = api_key)
-#' #ggmap(map)
-#'
-#'
+
+#
+# \dontrun{ discontinued service
+#
+# api_key <- '<your api key here>'
+#
+# map <- get_cloudmademap(api_key = api_key)
+# ggmap(map)
+#
+# map <- get_cloudmademap(maptype = 997, api_key = api_key)
+# ggmap(map)
+#
+# }
+#
 get_cloudmademap <- function(
   bbox = c(left = -95.80204, bottom = 29.38048, right = -94.92313, top = 30.14344),
   zoom = 10, api_key, maptype = 1, highres = TRUE, crop = TRUE, messaging = FALSE,
   urlonly = FALSE, filename = NULL, color = c('color','bw'), ...
 ){
 
-  .Defunct("CloudMade discontinued its static maps service.")
+  .Defunct(msg = "CloudMade discontinued its static maps service; try `get_stadiamap()`.")
 
   # enumerate argument checking (added in lieu of checkargs function)
   args <- as.list(match.call(expand.dots = TRUE)[-1])

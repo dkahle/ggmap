@@ -2,7 +2,8 @@
 
 ## New features
 
-* Adds support for all styles from Stadia Maps.
+* Adds support for all styles from Stadia Maps via `get_stadiamap()` (thanks
+  @ianthetechie, #351).
 
 ## Changes
 

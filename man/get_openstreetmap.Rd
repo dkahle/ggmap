@@ -66,18 +66,6 @@ change sources or (2) wait for the OSM servers to come back up.
 See \url{https://www.openstreetmap.org/copyright/} for license and copyright
 information.
 }
-\examples{
-
-# get_openstreetmap(urlonly = TRUE)
-
-# osm servers get overloaded, which can result in
-# erroneous failed checks
-
-# osm <- get_openstreetmap()
-# ggmap(osm)
-
-
-}
 \seealso{
 \url{https://www.openstreetmap.org/}, \code{\link[=ggmap]{ggmap()}}
 }

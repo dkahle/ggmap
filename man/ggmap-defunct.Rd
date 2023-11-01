@@ -15,5 +15,6 @@ The following are defunct ggmap functions:
 \item get_cloudemademap
 \item get_navermap
 \item get_openstreetmap
+\item get_stamenmap
 }
 }

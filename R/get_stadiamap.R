@@ -191,7 +191,7 @@ get_stadiamap <- function(
     filetype <- "png"
   }
 
-  cli::cli_alert_info("© Stadia Maps © Stamen Design © OpenMapTiles © OpenStreetMap contributors.")
+  cli::cli_alert_info("\u00a9 Stadia Maps \u00a9 Stamen Design \u00a9 OpenMapTiles \u00a9 OpenStreetMap contributors.")
 
   # determine tiles to get
   fourCorners <- expand.grid(

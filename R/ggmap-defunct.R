@@ -10,6 +10,7 @@
 #' \item get_cloudemademap
 #' \item get_navermap
 #' \item get_openstreetmap
+#' \item get_stamenmap
 #' }
 #'
 #' @name ggmap-defunct

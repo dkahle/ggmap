@@ -54,20 +54,6 @@ api key which can be obtained for free from http://cloudmade.com/user/show,
 now defunct. Thousands of maptypes ("styles"), including create-your-own
 options, are available from http://maps.cloudmade.com/editor (defunct).
 }
-\examples{
-
-
-#api_key <- '<your api key here>'
-#api_key <- 'b23b0358e87c4ff99f81029eda25c903'
-
-#map <- get_cloudmademap(api_key = api_key)
-#ggmap(map)
-
-#map <- get_cloudmademap(maptype = 997, api_key = api_key)
-#ggmap(map)
-
-
-}
 \seealso{
 http://maps.cloudmade.com/ (defunct), \code{\link[=ggmap]{ggmap()}}
 }

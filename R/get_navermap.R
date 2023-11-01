@@ -46,7 +46,7 @@ get_navermap <- function(
   force = FALSE, where = tempdir(), archiving = TRUE, ...
 ){
 
-  .Defunct("Naver is at least temporarily not supported, as its API has changed.")
+  .Defunct(msg = "Naver is at least temporarily not supported, as its API has changed.")
 
 }
 
