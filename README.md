@@ -123,13 +123,11 @@ Faceting works, too:
 ``` r
 qmplot(
   lon, lat, data = violent_crimes, 
-  maptype = "stamen_toner_background", 
-  geom = "point", shape = I(21), fill = offense, color = I("white"),
-  darken = .3
+  maptype = "stamen_toner_background", darken = .3,
+  geom = "point", shape = I(21), fill = offense, color = I("white")
 ) + 
   facet_wrap(~ offense) +
   theme(
-    legend.position = "bottom",
     panel.border = element_rect(fill = NA, color = "white", linewidth = 1)
   )
 #  ℹ Using `zoom = 14`

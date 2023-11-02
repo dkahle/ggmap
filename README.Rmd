@@ -26,17 +26,28 @@ knitr::opts_chunk$set(
 
 # ggmap
 
-__ggmap__ is an R package that makes it easy to retrieve raster map tiles from popular online mapping services like [Google Maps](https://developers.google.com/maps/documentation/maps-static?hl=en), [Stadia Maps](https://stadiamaps.com/), and [OpenStreetMap](https://openstreetmap.org/), and plot them using the [__ggplot2__](https://github.com/tidyverse/ggplot2) framework.
+__ggmap__ is an R package that makes it easy to retrieve raster map tiles from
+popular online mapping services like [Google
+Maps](https://developers.google.com/maps/documentation/maps-static?hl=en),
+[Stadia Maps](https://stadiamaps.com/), and
+[OpenStreetMap](https://openstreetmap.org/), and plot them using the
+[__ggplot2__](https://github.com/tidyverse/ggplot2) framework.
 
 ## Stadia Maps
 
-Stadia Maps offers map tiles in several styles, including updated [tiles from Stamen Design](https://stadiamaps.com/stamen/).
-An API key is required, but no credit card is necessary to [sign up](https://client.stadiamaps.com/signup)
-and there is a free tier for non-commercial use. Once you have your API key, invoke the registration
-function: `register_stadiamaps("YOUR-API-KEY", write = FALSE)`. Note that setting `write = TRUE` will
-update your `~/.Renviron` file by replacing/adding the relevant line. If you use the former, know that you'll need to re-do it every time you reset R.
+Stadia Maps offers map tiles in several styles, including updated [tiles from
+Stamen Design](https://stadiamaps.com/stamen/). An API key is required, but no
+credit card is necessary to [sign up](https://client.stadiamaps.com/signup) and
+there is a free tier for non-commercial use. Once you have your API key, invoke
+the registration function: `register_stadiamaps("YOUR-API-KEY", write =
+FALSE)`{.R}. Note that setting `write = TRUE`{.R} will update your `~/.Renviron`
+file by replacing/adding the relevant line. If you use the former, know that
+you'll need to re-do it every time you reset R.
   
-Your API key is _private_ and unique to you, so be careful not to share it online, for example in a GitHub issue or saving it in a shared R script file. If you share it inadvertently, just go to client.stadiamaps.com, delete your API key, and create a new one.
+Your API key is _private_ and unique to you, so be careful not to share it
+online, for example in a GitHub issue or saving it in a shared R script file. If
+you share it inadvertently, just go to client.stadiamaps.com, delete your API
+key, and create a new one.
 
 ```{r maptypes}
 library("ggmap")
@@ -45,7 +56,8 @@ us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
 get_stadiamap(us, zoom = 5, maptype = "alidade_smooth") |> ggmap() 
 ```
 
-Use `qmplot()` in the same way you'd use `qplot()`, but with a map automatically added in the background:
+Use `qmplot()`{.R} in the same way you'd use `qplot()`{.R}, but with a map
+automatically added in the background:
 
 ```{r qmplot}
 library("dplyr")
@@ -70,13 +82,16 @@ violent_crimes <- crime |>
 qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_lite", color = I("red"))
 ```
 
-All the __ggplot2__ geom's are available.  For example, you can make a contour plot with `geom = "density2d"`:
+All the __ggplot2__ geom's are available.  For example, you can make a contour
+plot with `geom = "density2d"`{.R}:
 
 ```{r qmplot2, eval=FALSE}
 qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_lite", geom = "density2d", color = I("red"))
 ```
 
-In fact, since __ggmap__'s built on top of __ggplot2__, all your usual __ggplot2__ stuff (geoms, polishing, etc.) will work, and there are some unique graphing perks __ggmap__ brings to the table, too.
+In fact, since __ggmap__'s built on top of __ggplot2__, all your usual
+__ggplot2__ stuff (geoms, polishing, etc.) will work, and there are some unique
+graphing perks __ggmap__ brings to the table, too.
 
 ```{r styling, warning=FALSE}
 robberies <- violent_crimes |> filter(offense == "robbery")
@@ -99,13 +114,11 @@ Faceting works, too:
 ```{r faceting}
 qmplot(
   lon, lat, data = violent_crimes, 
-  maptype = "stamen_toner_background", 
-  geom = "point", shape = I(21), fill = offense, color = I("white"),
-  darken = .3
+  maptype = "stamen_toner_background", darken = .3,
+  geom = "point", shape = I(21), fill = offense, color = I("white")
 ) + 
   facet_wrap(~ offense) +
   theme(
-    legend.position = "bottom",
     panel.border = element_rect(fill = NA, color = "white", linewidth = 1)
   )
 ```
@@ -116,20 +129,24 @@ qmplot(
 
 ## Google Maps
 
-[Google Maps](https://cloud.google.com/maps-platform/terms/) can be used just as easily.  However, since Google Maps use a center/zoom specification, their input is a bit different:
+[Google Maps](https://cloud.google.com/maps-platform/terms/) can be used just as
+easily.  However, since Google Maps use a center/zoom specification, their input
+is a bit different:
 ```{r google_maps}
 (map <- get_googlemap("waco texas", zoom = 12))
 ggmap(map)
 ```
 
-Moreover, you can get various different styles of Google Maps with __ggmap__ (just like Stadia Maps):
+Moreover, you can get various different styles of Google Maps with __ggmap__
+(just like Stadia Maps):
 ```{r google_styles, eval=FALSE}
 get_googlemap("waco texas", zoom = 12, maptype = "satellite") |> ggmap()
 get_googlemap("waco texas", zoom = 12, maptype = "hybrid") |> ggmap()
 get_googlemap("waco texas", zoom = 12, maptype = "roadmap") |> ggmap()
 ```
 
-Google's geocoding and reverse geocoding API's are available through `geocode()` and `revgeocode()`, respectively:
+Google's geocoding and reverse geocoding API's are available through `geocode()`{.R}
+and `revgeocode()`{.R}, respectively:
 ```{r geocode}
 geocode("1301 S University Parks Dr, Waco, TX 76798")
 revgeocode(c(lon = -97.1161, lat = 31.55098))
@@ -137,13 +154,15 @@ revgeocode(c(lon = -97.1161, lat = 31.55098))
 
 _Note: `geocode()` uses Google's Geocoding API to geocode addresses. Please take care not to disclose sensitive information. [Rundle, Bader, and Moody (2022)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108/) have considered this issue and suggest various alternative options for such data._
 
-There is also a `mutate_geocode()` that works similarly to [__dplyr__](https://github.com/tidyverse/dplyr/)'s `mutate()` function:
+There is also a `mutate_geocode()`{.R} that works similarly to
+[__dplyr__](https://github.com/tidyverse/dplyr/)'s `mutate()`{.R} function:
 ```{r mutate_geocode}
 tibble(address = c("white house", "", "waco texas")) |> 
   mutate_geocode(address)
 ```
 
-Treks use Google's routing API to give you routes (`route()` and `trek()` give slightly different results; the latter hugs roads):
+Treks use Google's routing API to give you routes (`route()`{.R} and
+`trek()`{.R} give slightly different results; the latter hugs roads):
 ```{r route_trek}
 trek_df <- trek("houson, texas", "waco, texas", structure = "route")
 qmap("college station, texas", zoom = 8) +
@@ -154,10 +173,12 @@ qmap("college station, texas", zoom = 8) +
   )
 ```
 
-(They also provide information on how long it takes to get from point A to point B.)
+(They also provide information on how long it takes to get from point A to point
+B.)
 
 
-Map distances, in both length and anticipated time, can be computed with `mapdist()`).  Moreover the function is vectorized:
+Map distances, in both length and anticipated time, can be computed with
+`mapdist()`{.R}).  Moreover the function is vectorized:
 ```{r mapdist}
 mapdist(c("houston, texas", "dallas"), "waco, texas")
 ```
@@ -166,17 +187,53 @@ mapdist(c("houston, texas", "dallas"), "waco, texas")
 
 ## Google Maps API key
 
-A few years ago Google has [changed its API requirements](https://developers.google.com/maps/documentation/geocoding/usage-and-billing), and __ggmap__ users are now required to register with Google. From a user's perspective, there are essentially three ramifications of this:
+A few years ago Google has [changed its API
+requirements](https://developers.google.com/maps/documentation/geocoding/usage-and-billing),
+and __ggmap__ users are now required to register with Google. From a user's
+perspective, there are essentially three ramifications of this:
 
-1. Users must register with Google. You can do this at https://mapsplatform.google.com. While it will require a valid credit card (sorry!), there seems to be a fair bit of free use before you incur charges, and even then the charges are modest for light use.
+1. Users must register with Google. You can do this at
+https://mapsplatform.google.com. While it will require a valid credit card
+(sorry!), there seems to be a fair bit of free use before you incur charges, and
+even then the charges are modest for light use.
 
-2. Users must enable the APIs they intend to use. What may appear to __ggmap__ users as one overarching "Google Maps" product, Google in fact has several services that it provides as geo-related solutions. For example, the [Maps Static API](https://developers.google.com/maps/documentation/maps-static/overview) provides map images, while the [Geocoding API](https://developers.google.com/maps/documentation/geocoding/overview) provides geocoding and reverse geocoding services.  Apart from the relevant Terms of Service, generally __ggmap__ users don't need to think about the different services. For example, you just need to remember that `get_googlemap()` gets maps, `geocode()` geocodes (with Google, DSK is done), etc., and __ggmap__ handles the queries for you.  _However_, you do need to enable the APIs before you use them. You'll only need to do that once, and then they'll be ready for you to use. Enabling the APIs just means clicking a few radio buttons on the Google Maps Platform web interface listed above, so it's easy.
+2. Users must enable the APIs they intend to use. What may appear to __ggmap__
+users as one overarching "Google Maps" product, Google in fact has several
+services that it provides as geo-related solutions. For example, the [Maps
+Static
+API](https://developers.google.com/maps/documentation/maps-static/overview)
+provides map images, while the [Geocoding
+API](https://developers.google.com/maps/documentation/geocoding/overview)
+provides geocoding and reverse geocoding services.  Apart from the relevant
+Terms of Service, generally __ggmap__ users don't need to think about the
+different services. For example, you just need to remember that
+`get_googlemap()`{.R} gets maps, `geocode()`{.R} geocodes (with Google, DSK is
+done), etc., and __ggmap__ handles the queries for you.  _However_, you do need
+to enable the APIs before you use them. You'll only need to do that once, and
+then they'll be ready for you to use. Enabling the APIs just means clicking a
+few radio buttons on the Google Maps Platform web interface listed above, so
+it's easy.
 
-3. Inside R, after loading the new version of __ggmap__, you'll need provide __ggmap__ with your API key, a [hash value](https://en.wikipedia.org/wiki/Hash_function) (think string of jibberish) that authenticates you to Google's servers. This can be done on a temporary basis with `register_google(key = "[your key]")` or permanently using `register_google(key = "[your key]", write = TRUE)` (note: this will overwrite your `~/.Renviron` file by replacing/adding the relevant line). If you use the former, know that you'll need to re-do it every time you reset R.
+3. Inside R, after loading the new version of __ggmap__, you'll need provide
+__ggmap__ with your API key, a [hash
+value](https://en.wikipedia.org/wiki/Hash_function) (think string of jibberish)
+that authenticates you to Google's servers. This can be done on a temporary
+basis with `register_google(key = "[your key]")`{.R} or permanently using
+`register_google(key = "[your key]", write = TRUE)`{.R} (note: this will
+overwrite your `~/.Renviron` file by replacing/adding the relevant line). If you
+use the former, know that you'll need to re-do it every time you reset R.
   
-Your API key is _private_ and unique to you, so be careful not to share it online, for example in a GitHub issue or saving it in a shared R script file. If you share it inadvertantly, just get on Google's website and regenerate your key - this will retire the old one. Keeping your key private is made a bit easier by __ggmap__ scrubbing the key out of queries by default, so when URLs are shown in your console, they'll look something like `key=xxx`.  (Read the details section of the `register_google()` documentation for a bit more info on this point.)
+Your API key is _private_ and unique to you, so be careful not to share it
+online, for example in a GitHub issue or saving it in a shared R script file. If
+you share it inadvertantly, just get on Google's website and regenerate your key
+- this will retire the old one. Keeping your key private is made a bit easier by
+__ggmap__ scrubbing the key out of queries by default, so when URLs are shown in
+your console, they'll look something like `key=xxx`{.R}.  (Read the details
+section of the `register_google()`{.R} documentation for a bit more info on this
+point.)
 
-The new version of __ggmap__ is now on CRAN soon, but you can install the latest version, including an important bug fix in `mapdist()`, here with:
+The new version of __ggmap__ is now on CRAN soon, but you can install the latest
+version, including an important bug fix in `mapdist()`{.R}, here with:
 ```{r attn, eval=FALSE}
 if(!requireNamespace("devtools")) install.packages("devtools")
 devtools::install_github("dkahle/ggmap")
@@ -187,7 +244,7 @@ devtools::install_github("dkahle/ggmap")
 
 ## Installation
 
-* From CRAN: `install.packages("ggmap")`
+* From CRAN: `install.packages("ggmap")`{.R}
 
 * From Github: 
 ```{r, eval=FALSE}
