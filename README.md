@@ -114,10 +114,6 @@ qmplot(lon, lat, data = violent_crimes, geom = "blank",
   scale_fill_viridis_d(option = "A") +
   theme(legend.position = "none")
 #  ℹ © Stadia Maps © Stamen Design © OpenMapTiles © OpenStreetMap contributors.
-#  Warning in geom_labeldensity2d(aes(lon, lat, level = after_stat(probs)), :
-#  Ignoring unknown parameters: `contour`, `contour_var`, `h`, and `adjust`
-#  Warning in geom_labeldensity2d(aes(lon, lat, level = after_stat(probs)), :
-#  Ignoring unknown aesthetics: level
 ```
 
 ![](tools/README-styling-1.png)

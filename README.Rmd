@@ -78,8 +78,7 @@ qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_lite", geom = "d
 
 In fact, since __ggmap__'s built on top of __ggplot2__, all your usual __ggplot2__ stuff (geoms, polishing, etc.) will work, and there are some unique graphing perks __ggmap__ brings to the table, too.
 
-```{r styling}
-#| warnings: false
+```{r styling, warning=FALSE}
 robberies <- violent_crimes |> filter(offense == "robbery")
 
 library("ggdensity")
