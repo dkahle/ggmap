@@ -44,7 +44,7 @@ library("ggmap")
 #  ℹ Please cite ggmap if you use it! Use `citation("ggmap")` for details.
 
 us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
-get_stadiamap(us, zoom = 5, maptype = "alidade_smooth") %>% ggmap() 
+get_stadiamap(us, zoom = 5, maptype = "alidade_smooth") |> ggmap() 
 #  ℹ © Stadia Maps © Stamen Design © OpenMapTiles © OpenStreetMap contributors.
 ```
 
@@ -69,12 +69,12 @@ library("forcats")
 `%notin%` <- function(lhs, rhs) !(lhs %in% rhs)
 
 # reduce crime to violent crimes in downtown houston
-violent_crimes <- crime %>% 
+violent_crimes <- crime |> 
   filter(
     offense %notin% c("auto theft", "theft", "burglary"),
     between(lon, -95.39681, -95.34188),
     between(lat, 29.73631, 29.78400)
-  ) %>% 
+  ) |> 
   mutate(
     offense = fct_drop(offense),
     offense = fct_relevel(offense, c("robbery", "aggravated assault", "rape", "murder"))
@@ -100,29 +100,24 @@ In fact, since **ggmap**’s built on top of **ggplot2**, all your usual
 unique graphing perks **ggmap** brings to the table, too.
 
 ``` r
-robberies <- violent_crimes %>% filter(offense == "robbery")
+robberies <- violent_crimes |> filter(offense == "robbery")
 
 library("ggdensity")
 library("geomtextpath")
 
+# warnings disabled
 qmplot(lon, lat, data = violent_crimes, geom = "blank", 
   zoom = 14, maptype = "stamen_toner_background"
 ) +
-  geom_hdr(aes(fill = stat(probs)), alpha = .3) +
-  geom_labeldensity2d(aes(lon, lat, level = stat(probs)), stat = "hdr_lines") +
+  geom_hdr(aes(fill = after_stat(probs)), alpha = .3) +
+  geom_labeldensity2d(aes(lon, lat, level = after_stat(probs)), stat = "hdr_lines") +
   scale_fill_viridis_d(option = "A") +
   theme(legend.position = "none")
 #  ℹ © Stadia Maps © Stamen Design © OpenMapTiles © OpenStreetMap contributors.
-#  Warning in geom_labeldensity2d(aes(lon, lat, level = stat(probs)), stat =
-#  "hdr_lines"): Ignoring unknown parameters: `contour`, `contour_var`, `h`, and
-#  `adjust`
-#  Warning in geom_labeldensity2d(aes(lon, lat, level = stat(probs)), stat =
-#  "hdr_lines"): Ignoring unknown aesthetics: level
-#  Warning: `stat(probs)` was deprecated in ggplot2 3.4.0.
-#  ℹ Please use `after_stat(probs)` instead.
-#  This warning is displayed once every 8 hours.
-#  Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-#  generated.
+#  Warning in geom_labeldensity2d(aes(lon, lat, level = after_stat(probs)), :
+#  Ignoring unknown parameters: `contour`, `contour_var`, `h`, and `adjust`
+#  Warning in geom_labeldensity2d(aes(lon, lat, level = after_stat(probs)), :
+#  Ignoring unknown aesthetics: level
 ```
 
 ![](tools/README-styling-1.png)
@@ -158,9 +153,9 @@ Moreover, you can get various different styles of Google Maps with
 **ggmap** (just like Stadia Maps):
 
 ``` r
-get_googlemap("waco texas", zoom = 12, maptype = "satellite") %>% ggmap()
-get_googlemap("waco texas", zoom = 12, maptype = "hybrid") %>% ggmap()
-get_googlemap("waco texas", zoom = 12, maptype = "roadmap") %>% ggmap()
+get_googlemap("waco texas", zoom = 12, maptype = "satellite") |> ggmap()
+get_googlemap("waco texas", zoom = 12, maptype = "hybrid") |> ggmap()
+get_googlemap("waco texas", zoom = 12, maptype = "roadmap") |> ggmap()
 ```
 
 Google’s geocoding and reverse geocoding API’s are available through
@@ -198,7 +193,7 @@ There is also a `mutate_geocode()` that works similarly to
 [**dplyr**](https://github.com/tidyverse/dplyr/)’s `mutate()` function:
 
 ``` r
-tibble(address = c("white house", "", "waco texas")) %>% 
+tibble(address = c("white house", "", "waco texas")) |> 
   mutate_geocode(address)
 #  ℹ <https://maps.googleapis.com/maps/api/geocode/json?address=white+house&key=xxx>
 #  ℹ <https://maps.googleapis.com/maps/api/geocode/json?address=waco+texas&key=xxx>
