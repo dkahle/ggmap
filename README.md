@@ -3,8 +3,6 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/ggmap)](https://cran.r-project.org/package=ggmap)
-[![Travis build
-status](https://travis-ci.org/dkahle/ggmap.svg?branch=master)](https://travis-ci.org/dkahle/ggmap)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/dkahle/ggmap?branch=master&svg=true)](https://ci.appveyor.com/project/dkahle/ggmap)
 <!-- badges: end -->
@@ -40,15 +38,9 @@ client.stadiamaps.com, delete your API key, and create a new one.
 ``` r
 library("ggmap")
 #  Loading required package: ggplot2
-#  The legacy packages maptools, rgdal, and rgeos, underpinning the sp package,
-#  which was just loaded, will retire in October 2023.
-#  Please refer to R-spatial evolution reports for details, especially
-#  https://r-spatial.org/r/2023/05/15/evolution4.html.
-#  It may be desirable to make the sf package available;
-#  package maintainers should consider adding sf to Suggests:.
-#  The sp package is now running under evolution status 2
-#       (status 2 uses the sf package in place of rgdal)
-#  ℹ Google's Terms of Service: <https://mapsplatform.google.com> Stadia Maps' Terms of Service: <https://stadiamaps.com/terms-of-service/> OpenStreetMap's Tile Usage Policy: <https://operations.osmfoundation.org/policies/tiles/>
+#  ℹ Google's Terms of Service: <https://mapsplatform.google.com>
+#    Stadia Maps' Terms of Service: <https://stadiamaps.com/terms-of-service/>
+#    OpenStreetMap's Tile Usage Policy: <https://operations.osmfoundation.org/policies/tiles/>
 #  ℹ Please cite ggmap if you use it! Use `citation("ggmap")` for details.
 
 us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
@@ -254,8 +246,8 @@ mapdist(c("houston, texas", "dallas"), "waco, texas")
 #  # A tibble: 2 × 9
 #    from           to               m    km miles seconds minutes hours mode   
 #    <chr>          <chr>        <int> <dbl> <dbl>   <int>   <dbl> <dbl> <chr>  
-#  1 dallas         waco, texas 155140  155.  96.4    5313    88.6  1.48 driving
-#  2 houston, texas waco, texas 298220  298. 185.    10217   170.   2.84 driving
+#  1 dallas         waco, texas 155267  155.  96.5    5301    88.4  1.47 driving
+#  2 houston, texas waco, texas 294763  295. 183.    10222   170.   2.84 driving
 ```
 
 ## Google Maps API key
