@@ -121,8 +121,17 @@ qmplot(lon, lat, data = violent_crimes, geom = "blank",
 Faceting works, too:
 
 ``` r
-qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_background", color = offense) + 
-  facet_wrap(~ offense)
+qmplot(
+  lon, lat, data = violent_crimes, 
+  maptype = "stamen_toner_background", 
+  geom = "point", shape = I(21), fill = offense, color = I("white"),
+  darken = .3
+) + 
+  facet_wrap(~ offense) +
+  theme(
+    legend.position = "bottom",
+    panel.border = element_rect(fill = NA, color = "white", linewidth = 1)
+  )
 #  ℹ Using `zoom = 14`
 #  ℹ © Stadia Maps © Stamen Design © OpenMapTiles © OpenStreetMap contributors.
 ```
