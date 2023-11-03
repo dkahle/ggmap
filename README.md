@@ -54,15 +54,7 @@ Use `qmplot()` in the same way you’d use `qplot()`, but with a map
 automatically added in the background:
 
 ``` r
-library("dplyr")
-#  
-#  Attaching package: 'dplyr'
-#  The following objects are masked from 'package:stats':
-#  
-#      filter, lag
-#  The following objects are masked from 'package:base':
-#  
-#      intersect, setdiff, setequal, union
+library("dplyr", warn.conflicts = FALSE)
 library("forcats")
 
 # define helper
@@ -88,50 +80,79 @@ qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_lite", color = I
 
 ![](tools/README-qmplot-1.png)
 
-All the **ggplot2** geom’s are available. For example, you can make a
-contour plot with `geom = "density2d"`:
+Often `qmplot()` is easiest because it automatically computes a nice
+bounding box for you without having to pre-compute it for yourself, get
+a map, and then use `ggmap(map)` in place of where you would ordinarily
+(in a **ggplot2** formulation) use `ggplot()`. Nevertheless, doing it
+yourself is more efficient. In that workflow you get the map first (and
+you can visualize it with `ggmap()`):
 
 ``` r
-qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_lite", geom = "density2d", color = I("red"))
+bbox <- make_bbox(lon, lat, data = violent_crimes)
+map <- get_stadiamap( bbox = bbox, maptype = "stamen_toner_lite", zoom = 14 )
+#  ℹ © Stadia Maps © Stamen Design © OpenMapTiles © OpenStreetMap contributors.
+ggmap(map)
 ```
 
-In fact, since **ggmap**’s built on top of **ggplot2**, all your usual
-**ggplot2** stuff (geoms, polishing, etc.) will work, and there are some
-unique graphing perks **ggmap** brings to the table, too.
+![](tools/README-ggmap-1.png)
+
+And then you layer on geoms/stats as you would with **ggplot2**. The
+only difference is that (1) you need to specify the `data` arguments in
+the layers and (2) the spatial aesthetics `x` and `y` are set to `lon`
+and `lat`, respectively. (If they’re named something different in your
+dataset, just put `mapping = aes(x = longitude, y = latitude))`, for
+example.)
 
 ``` r
+ggmap(map) +
+  geom_point(data = violent_crimes, color = "red")
+```
+
+![](tools/README-ggmap-layers-1.png)
+
+With **ggmap** you’re working with **ggplot2**, so you can add in other
+kinds of layers, use
+[**patchwork**](https://patchwork.data-imaginist.com), etc. All the
+**ggplot2** geom’s are available. For example, you can make a contour
+plot with `geom = "density2d"`:
+
+``` r
+library("patchwork")
+library("ggdensity")
+
 robberies <- violent_crimes |> filter(offense == "robbery")
 
-library("ggdensity")
-library("geomtextpath")
+points_map <- ggmap(map) + geom_point(data = robberies, color = "red")
 
 # warnings disabled
-qmplot(lon, lat, data = violent_crimes, geom = "blank", 
-  zoom = 14, maptype = "stamen_toner_background"
-) +
-  geom_hdr(aes(fill = after_stat(probs)), alpha = .3) +
-  geom_labeldensity2d(aes(lon, lat, level = after_stat(probs)), stat = "hdr_lines") +
-  scale_fill_viridis_d(option = "A") +
+hdr_map <- ggmap(map) + 
+  geom_hdr(
+    aes(lon, lat, fill = after_stat(probs)), data = robberies,
+    alpha = .5
+  ) +
+  geomtextpath::geom_labeldensity2d(
+    aes(lon, lat, level = after_stat(probs)),
+    data = robberies, stat = "hdr_lines", size = 3, boxcolour = NA
+  ) +
+  scale_fill_brewer(palette = "YlOrRd") +
   theme(legend.position = "none")
-#  ℹ © Stadia Maps © Stamen Design © OpenMapTiles © OpenStreetMap contributors.
+
+(points_map + hdr_map) & 
+  theme(axis.title = element_blank(), axis.text = element_blank(), axis.ticks = element_blank())
 ```
 
-![](tools/README-styling-1.png)
+![](tools/README-ggmap-patchwork-1.png)
 
 Faceting works, too:
 
 ``` r
-qmplot(
-  lon, lat, data = violent_crimes, 
-  maptype = "stamen_toner_background", darken = .3,
-  geom = "point", shape = I(21), fill = offense, color = I("white")
-) + 
-  facet_wrap(~ offense) +
-  theme(
-    panel.border = element_rect(fill = NA, color = "white", linewidth = 1)
-  )
-#  ℹ Using `zoom = 14`
-#  ℹ © Stadia Maps © Stamen Design © OpenMapTiles © OpenStreetMap contributors.
+ggmap(map, darken = .3) +
+  geom_point(
+    aes(lon, lat), data = violent_crimes, 
+    shape = 21, color = "gray25", fill = "yellow"
+  ) +
+  facet_wrap(~ offense, nrow = 1) +
+  theme(axis.title = element_blank(), axis.text = element_blank(), axis.ticks = element_blank())
 ```
 
 ![](tools/README-faceting-1.png)

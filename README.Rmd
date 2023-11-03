@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
   collapse = TRUE, cache = FALSE,
   comment = "# ",
   fig.path = "tools/README-",
-  dpi = 300 # 60 on CRAN
+  dpi = 300 # 60 on CRAN; 300 on github
 )
 ```
 
@@ -49,7 +49,7 @@ online, for example in a GitHub issue or saving it in a shared R script file. If
 you share it inadvertently, just go to client.stadiamaps.com, delete your API
 key, and create a new one.
 
-```{r maptypes}
+```{r maptypes, fig.height=4, fig.width=7}
 library("ggmap")
 
 us <- c(left = -125, bottom = 25.75, right = -67, top = 49)
@@ -59,8 +59,8 @@ get_stadiamap(us, zoom = 5, maptype = "alidade_smooth") |> ggmap()
 Use `qmplot()`{.R} in the same way you'd use `qplot()`{.R}, but with a map
 automatically added in the background:
 
-```{r qmplot}
-library("dplyr")
+```{r qmplot, fig.height=5, fig.width=5}
+library("dplyr", warn.conflicts = FALSE)
 library("forcats")
 
 # define helper
@@ -82,45 +82,66 @@ violent_crimes <- crime |>
 qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_lite", color = I("red"))
 ```
 
+Often `qmplot()`{.R} is easiest because it automatically computes a nice
+bounding box for you without having to pre-compute it for yourself, get a map,
+and then use `ggmap(map)`{.R} in place of where you would ordinarily (in a
+**ggplot2** formulation) use `ggplot()`{.R}. Nevertheless, doing it yourself is
+more efficient. In that workflow you get the map first (and you can visualize it
+with `ggmap()`{.R}):
+
+```{r ggmap, fig.height=5, fig.width=5}
+bbox <- make_bbox(lon, lat, data = violent_crimes)
+map <- get_stadiamap( bbox = bbox, maptype = "stamen_toner_lite", zoom = 14 )
+ggmap(map)
+```
+
+And then you layer on geoms/stats as you would with **ggplot2**. The only difference is that (1) you need to specify the `data` arguments in the layers and (2) the spatial aesthetics `x` and `y` are set to `lon` and `lat`, respectively. (If they're named something different in your dataset, just put `mapping = aes(x = longitude, y = latitude))`, for example.)
+
+```{r ggmap-layers, fig.height=5, fig.width=5}
+ggmap(map) +
+  geom_point(data = violent_crimes, color = "red")
+```
+
+
+With **ggmap** you're working with **ggplot2**, so you can add in other kinds of layers, use [**patchwork**](https://patchwork.data-imaginist.com), etc.
 All the __ggplot2__ geom's are available.  For example, you can make a contour
 plot with `geom = "density2d"`{.R}:
 
-```{r qmplot2, eval=FALSE}
-qmplot(lon, lat, data = violent_crimes, maptype = "stamen_toner_lite", geom = "density2d", color = I("red"))
-```
+```{r ggmap-patchwork, warning=FALSE, fig.height=4, fig.width=8}
+library("patchwork")
+library("ggdensity")
 
-In fact, since __ggmap__'s built on top of __ggplot2__, all your usual
-__ggplot2__ stuff (geoms, polishing, etc.) will work, and there are some unique
-graphing perks __ggmap__ brings to the table, too.
-
-```{r styling, warning=FALSE}
 robberies <- violent_crimes |> filter(offense == "robbery")
 
-library("ggdensity")
-library("geomtextpath")
+points_map <- ggmap(map) + geom_point(data = robberies, color = "red")
 
 # warnings disabled
-qmplot(lon, lat, data = violent_crimes, geom = "blank", 
-  zoom = 14, maptype = "stamen_toner_background"
-) +
-  geom_hdr(aes(fill = after_stat(probs)), alpha = .3) +
-  geom_labeldensity2d(aes(lon, lat, level = after_stat(probs)), stat = "hdr_lines") +
-  scale_fill_viridis_d(option = "A") +
+hdr_map <- ggmap(map) + 
+  geom_hdr(
+    aes(lon, lat, fill = after_stat(probs)), data = robberies,
+    alpha = .5
+  ) +
+  geomtextpath::geom_labeldensity2d(
+    aes(lon, lat, level = after_stat(probs)),
+    data = robberies, stat = "hdr_lines", size = 3, boxcolour = NA
+  ) +
+  scale_fill_brewer(palette = "YlOrRd") +
   theme(legend.position = "none")
+
+(points_map + hdr_map) & 
+  theme(axis.title = element_blank(), axis.text = element_blank(), axis.ticks = element_blank())
 ```
 
 Faceting works, too:
 
-```{r faceting}
-qmplot(
-  lon, lat, data = violent_crimes, 
-  maptype = "stamen_toner_background", darken = .3,
-  geom = "point", shape = I(21), fill = offense, color = I("white")
-) + 
-  facet_wrap(~ offense) +
-  theme(
-    panel.border = element_rect(fill = NA, color = "white", linewidth = 1)
-  )
+```{r faceting, fig.height=2.5, fig.width=8}
+ggmap(map, darken = .3) +
+  geom_point(
+    aes(lon, lat), data = violent_crimes, 
+    shape = 21, color = "gray25", fill = "yellow"
+  ) +
+  facet_wrap(~ offense, nrow = 1) +
+  theme(axis.title = element_blank(), axis.text = element_blank(), axis.ticks = element_blank())
 ```
 
 
@@ -132,7 +153,7 @@ qmplot(
 [Google Maps](https://cloud.google.com/maps-platform/terms/) can be used just as
 easily.  However, since Google Maps use a center/zoom specification, their input
 is a bit different:
-```{r google_maps}
+```{r google_maps, fig.height=5, fig.width=5}
 (map <- get_googlemap("waco texas", zoom = 12))
 ggmap(map)
 ```
@@ -163,7 +184,7 @@ tibble(address = c("white house", "", "waco texas")) |>
 
 Treks use Google's routing API to give you routes (`route()`{.R} and
 `trek()`{.R} give slightly different results; the latter hugs roads):
-```{r route_trek}
+```{r route_trek, fig.height=5, fig.width=5}
 trek_df <- trek("houson, texas", "waco, texas", structure = "route")
 qmap("college station, texas", zoom = 8) +
   geom_path(
