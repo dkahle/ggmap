@@ -5,3 +5,4 @@ library.noindex
 data.sqlite
 *.html
 **/
+cloud.noindex
