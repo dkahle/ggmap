@@ -59,7 +59,7 @@ get_stadiamap(us, zoom = 5, maptype = "alidade_smooth") |> ggmap()
 Use `qmplot()`{.R} in the same way you'd use `qplot()`{.R}, but with a map
 automatically added in the background:
 
-```{r qmplot, fig.height=5, fig.width=5}
+```{r qmplot, fig.height=4, fig.width=4}
 library("dplyr", warn.conflicts = FALSE)
 library("forcats")
 
@@ -89,7 +89,7 @@ and then use `ggmap(map)`{.R} in place of where you would ordinarily (in a
 more efficient. In that workflow you get the map first (and you can visualize it
 with `ggmap()`{.R}):
 
-```{r ggmap, fig.height=5, fig.width=5}
+```{r ggmap, fig.height=4, fig.width=4}
 bbox <- make_bbox(lon, lat, data = violent_crimes)
 map <- get_stadiamap( bbox = bbox, maptype = "stamen_toner_lite", zoom = 14 )
 ggmap(map)
@@ -97,7 +97,7 @@ ggmap(map)
 
 And then you layer on geoms/stats as you would with **ggplot2**. The only difference is that (1) you need to specify the `data` arguments in the layers and (2) the spatial aesthetics `x` and `y` are set to `lon` and `lat`, respectively. (If they're named something different in your dataset, just put `mapping = aes(x = longitude, y = latitude))`, for example.)
 
-```{r ggmap-layers, fig.height=5, fig.width=5}
+```{r ggmap-layers, fig.height=4, fig.width=4}
 ggmap(map) +
   geom_point(data = violent_crimes, color = "red")
 ```
@@ -153,7 +153,7 @@ ggmap(map, darken = .3) +
 [Google Maps](https://cloud.google.com/maps-platform/terms/) can be used just as
 easily.  However, since Google Maps use a center/zoom specification, their input
 is a bit different:
-```{r google_maps, fig.height=5, fig.width=5}
+```{r google_maps, fig.height=4, fig.width=4}
 (map <- get_googlemap("waco texas", zoom = 12))
 ggmap(map)
 ```
@@ -184,7 +184,7 @@ tibble(address = c("white house", "", "waco texas")) |>
 
 Treks use Google's routing API to give you routes (`route()`{.R} and
 `trek()`{.R} give slightly different results; the latter hugs roads):
-```{r route_trek, fig.height=5, fig.width=5}
+```{r route_trek, fig.height=4, fig.width=4}
 trek_df <- trek("houson, texas", "waco, texas", structure = "route")
 qmap("college station, texas", zoom = 8) +
   geom_path(
