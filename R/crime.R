@@ -6,5 +6,5 @@
 #' @name crime
 #' @docType data
 #' @author Houston Police Department, City of Houston
-#' @references \url{http://www.houstontx.gov/police/cs/stats2.htm}
+#' @references \url{https://www.houstontx.gov/police/cs/index-2.htm}
 NULL

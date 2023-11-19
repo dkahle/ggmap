@@ -30,7 +30,7 @@ __ggmap__ is an R package that makes it easy to retrieve raster map tiles from
 popular online mapping services like [Google
 Maps](https://developers.google.com/maps/documentation/maps-static?hl=en),
 [Stadia Maps](https://stadiamaps.com/), and
-[OpenStreetMap](https://openstreetmap.org/), and plot them using the
+[OpenStreetMap](https://www.openstreetmap.org/), and plot them using the
 [__ggplot2__](https://github.com/tidyverse/ggplot2) framework.
 
 ## Stadia Maps

@@ -66,5 +66,5 @@ downloads/stitches map tiles/formats a map image. Note that Stamen maps don't
 cover the entire world.
 }
 \seealso{
-\url{http://maps.stamen.com/#watercolor}, \code{\link[=ggmap]{ggmap()}}
+\code{\link[=ggmap]{ggmap()}}
 }

@@ -15,7 +15,7 @@ status](https://ci.appveyor.com/api/projects/status/github/dkahle/ggmap?branch=m
 tiles from popular online mapping services like [Google
 Maps](https://developers.google.com/maps/documentation/maps-static?hl=en),
 [Stadia Maps](https://stadiamaps.com/), and
-[OpenStreetMap](https://openstreetmap.org/), and plot them using the
+[OpenStreetMap](https://www.openstreetmap.org/), and plot them using the
 [**ggplot2**](https://github.com/tidyverse/ggplot2) framework.
 
 ## Stadia Maps
@@ -265,8 +265,8 @@ mapdist(c("houston, texas", "dallas"), "waco, texas")
 #  # A tibble: 2 × 9
 #    from           to               m    km miles seconds minutes hours mode   
 #    <chr>          <chr>        <int> <dbl> <dbl>   <int>   <dbl> <dbl> <chr>  
-#  1 dallas         waco, texas 155267  155.  96.5    5301    88.4  1.47 driving
-#  2 houston, texas waco, texas 294763  295. 183.    10222   170.   2.84 driving
+#  1 dallas         waco, texas 155265  155.  96.5    5303    88.4  1.47 driving
+#  2 houston, texas waco, texas 298224  298. 185.    10217   170.   2.84 driving
 ```
 
 ## Google Maps API key
