@@ -3,7 +3,7 @@
 \docType{package}
 \name{ggmap}
 \alias{ggmap}
-\alias{package-ggmap}
+\alias{ggmap-package}
 \title{Plot a ggmap object}
 \usage{
 ggmap(

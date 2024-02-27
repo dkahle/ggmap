@@ -1,3 +1,12 @@
+# ggmap 4.0.1
+
+## Minor improvements and fixes
+
+* A bug was fixed that prevented using Stamen-style watercolor maps via 
+  `get_stadiamap()` after the last release (thanks @pushing-boulders, #357).
+
+
+
 # ggmap 4.0.0
 
 ## New features
@@ -22,11 +31,15 @@
   Outdoors.
 * ggmap no longer depends on RgoogleMaps (thanks @sanjmeh, #354).
 
+
+
 # ggmap 3.0.2
 
 ## Changes
 
 *   Startup messages can now be suppressed
+
+
 
 # ggmap 3.0.1
 

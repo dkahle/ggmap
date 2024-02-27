@@ -303,7 +303,7 @@ get_stamen_url <- function(maptype, zoom, x, y) {
   key <- stadiamaps_key()
 
   # format URL
-  if(maptype %in% c("watercolor")) filetype <- "jpg" else filetype <- "png"
+  if(maptype %in% c("stamen_watercolor")) filetype <- "jpg" else filetype <- "png"
   url <- glue("https://tiles.stadiamaps.com/tiles/{maptype}/{zoom}/{x}/{y}.{filetype}?api_key={key}")
 
   return(url)
