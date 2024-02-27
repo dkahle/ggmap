@@ -26,5 +26,5 @@
 #' @importFrom magrittr %>%
 #' @importFrom tidyr nest unnest spread
 #' @importFrom cli cli_warn cli_abort cli_alert_info cli_alert_danger
-#' @aliases ggmap package-ggmap
+#' @aliases ggmap ggmap-package
 NULL
