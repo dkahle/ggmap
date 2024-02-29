@@ -302,7 +302,11 @@ get_stamen_url <- function(maptype, zoom, x, y) {
   key <- stadiamaps_key()
 
   # format URL
-  if(maptype %in% c("stamen_watercolor", "alidade_satellite")) filetype <- "jpg" else filetype <- "png"
+  if(maptype %in% c("stamen_watercolor", "alidade_satellite")) {
+    filetype <- "jpg"
+  } else {
+    filetype <- "png"
+  }
   url <- glue("https://tiles.stadiamaps.com/tiles/{maptype}/{zoom}/{x}/{y}.{filetype}?api_key={key}")
 
   return(url)
@@ -327,6 +331,13 @@ get_stadiamap_tile <- function(maptype, zoom, x, y, color, force = FALSE, messag
 
   # deal with bad responses
   if (response$status_code != 200L) {
+    # set image type for logging (we don't log the full URL to avoid exposing API keys accidentally)
+    if(maptype %in% c("stamen_watercolor", "alidade_satellite")){
+      filetype <- "jpg"
+    } else {
+      filetype <- "png"
+    }
+
 
     httr::message_for_status(response, glue("acquire tile /{maptype}/{zoom}/{x}/{y}.{filetype}"))
     if (messaging) message("\n", appendLF = FALSE)
