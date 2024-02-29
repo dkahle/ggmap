@@ -184,13 +184,6 @@ get_stadiamap <- function(
   color <- match.arg(color)
   if(is.null(names(bbox))) names(bbox) <- c("left","bottom","right","top")
 
-  # set image type (watercolor is JPEG-only)
-  if(maptype %in% c("stamen_watercolor")){
-    filetype <- "jpg"
-  } else {
-    filetype <- "png"
-  }
-
   if(grepl("stamen", maptype)){
     cli::cli_alert_info("\u00a9 Stadia Maps \u00a9 Stamen Design \u00a9 OpenMapTiles \u00a9 OpenStreetMap contributors.")
   } else if(grepl("satellite", maptype)){
@@ -309,7 +302,7 @@ get_stamen_url <- function(maptype, zoom, x, y) {
   key <- stadiamaps_key()
 
   # format URL
-  if(maptype %in% c("stamen_watercolor")) filetype <- "jpg" else filetype <- "png"
+  if(maptype %in% c("stamen_watercolor", "alidade_satellite")) filetype <- "jpg" else filetype <- "png"
   url <- glue("https://tiles.stadiamaps.com/tiles/{maptype}/{zoom}/{x}/{y}.{filetype}?api_key={key}")
 
   return(url)
