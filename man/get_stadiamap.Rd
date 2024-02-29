@@ -23,7 +23,8 @@ upperrightlon, upperrightlat).}
 
 \item{zoom}{a zoom level}
 
-\item{maptype}{stamen_terrain, stamen_toner, stamen_toner_lite, stamen_watercolor,
+\item{maptype}{alidade_smooth, alidade_smooth_dark, alidade_satellite, outdoors, osm_bright,
+stamen_terrain, stamen_toner, stamen_toner_lite, stamen_watercolor,
 stamen_terrain_background, stamen_toner_background,
 stamen_terrain_lines, stamen_terrain_labels,
 stamen_toner_lines, stamen_toner_labels.}
@@ -149,7 +150,7 @@ qmap("the white house", zoom = 16, source = "stadia", maptype = "stamen_terrain"
 ## known issues
 ########################################
 
-# Stamen's original tilesets were raster renders built up over time, but have not been
+# Stamen's watercolor tileset was built up over time, but have not been
 # actively rendered for several years. As a consequence, some tiles simply do not exist,
 # particularly at high zoom levels.
 #
