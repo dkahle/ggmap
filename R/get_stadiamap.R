@@ -1,9 +1,8 @@
 # NOTE: Be sure to update the documentation for maptype both in this file and
 # in get_map.R whenever you change this!
-# TODO: Extend with our own styles!
 STADIA_BASEMAP_TYPES <- c("stamen_terrain", "stamen_toner", "stamen_toner_lite",
                           "stamen_watercolor", "alidade_smooth", "alidade_smooth_dark",
-                          "outdoors")
+                          "alidade_satellite", "outdoors", "osm_bright")
 STADIA_BACKGROUND_LAYERGROUP_TYPES <- c("stamen_terrain_background", "stamen_toner_background")
 STADIA_TRANSPARENT_LAYERGROUP_TYPES <- c("stamen_terrain_labels", "stamen_terrain_lines",
                                          "stamen_toner_labels", "stamen_toner_lines")
@@ -19,7 +18,8 @@ STADIA_VALID_MAP_TYPES <- c(STADIA_BASEMAP_TYPES,
 #' @param bbox a bounding box in the format c(lowerleftlon, lowerleftlat,
 #'   upperrightlon, upperrightlat).
 #' @param zoom a zoom level
-#' @param maptype stamen_terrain, stamen_toner, stamen_toner_lite, stamen_watercolor,
+#' @param maptype alidade_smooth, alidade_smooth_dark, alidade_satellite, outdoors, osm_bright,
+#'   stamen_terrain, stamen_toner, stamen_toner_lite, stamen_watercolor,
 #'   stamen_terrain_background, stamen_toner_background,
 #'   stamen_terrain_lines, stamen_terrain_labels,
 #'   stamen_toner_lines, stamen_toner_labels.
@@ -133,7 +133,7 @@ STADIA_VALID_MAP_TYPES <- c(STADIA_BASEMAP_TYPES,
 #' ## known issues
 #' ########################################
 #'
-#' # Stamen's original tilesets were raster renders built up over time, but have not been
+#' # Stamen's watercolor tileset was built up over time, but have not been
 #' # actively rendered for several years. As a consequence, some tiles simply do not exist,
 #' # particularly at high zoom levels.
 #' #
@@ -191,7 +191,13 @@ get_stadiamap <- function(
     filetype <- "png"
   }
 
-  cli::cli_alert_info("\u00a9 Stadia Maps \u00a9 Stamen Design \u00a9 OpenMapTiles \u00a9 OpenStreetMap contributors.")
+  if(grepl("stamen", maptype)){
+    cli::cli_alert_info("\u00a9 Stadia Maps \u00a9 Stamen Design \u00a9 OpenMapTiles \u00a9 OpenStreetMap contributors.")
+  } else if(grepl("satellite", maptype)){
+    cli::cli_alert_info("\u00a9 CNES, Distribution Airbus DS \u00a9 Airbus DS \u00a9 PlanetObserver (Contains Copernicus Data) \u00a9 Stadia Maps \u00a9 OpenMapTiles \u00a9 OpenStreetMap contributors.")
+  } else {
+    cli::cli_alert_info("\u00a9 Stadia Maps \u00a9 OpenMapTiles \u00a9 OpenStreetMap contributors.")
+  }
 
   # determine tiles to get
   fourCorners <- expand.grid(
