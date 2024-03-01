@@ -186,7 +186,7 @@ get_map <- function(
         latlength <- diff(lat_range)
         zoomlon <- ceiling( log2( 360*2 / lonlength) )
         zoomlat <- ceiling( log2( 180*2 / latlength) )
-        zoom <- max(zoomlon, zoomlat)
+        zoom <- min(zoomlon, zoomlat)
       }
     }
   } else if(zoom == "auto" && location_type != "bbox"){
