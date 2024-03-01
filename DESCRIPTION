@@ -34,6 +34,7 @@ Imports:
     cli
 Suggests:
     MASS,
+    RgoogleMaps,
     hexbin,
     testthat
 License: GPL-2
