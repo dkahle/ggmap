@@ -67,7 +67,7 @@ calc_zoom <- function(lon, lat, data, adjust = 0, f = .05){
   latlength <- diff(lat_range)
   zoomlon <- ceiling(log2(360 * 2/lonlength))
   zoomlat <- ceiling(log2(180 * 2/latlength))
-  zoom <- max(zoomlon, zoomlat)
+  zoom <- min(zoomlon, zoomlat)
 
   zoom + adjust
 }
