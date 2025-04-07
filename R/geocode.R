@@ -6,7 +6,7 @@
 #'
 #' Note: [geocode()] uses Google's Geocoding API to geocode addresses. Please
 #' take care not to disclose sensitive information.
-#' \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108} suggest various
+#' \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC8972108/} suggest various
 #' alternative options for such data.
 #'
 #' @param location a character vector of street addresses or place names (e.g.
@@ -33,7 +33,8 @@
 #' @author David Kahle \email{david@@kahle.io}
 #' @seealso \url{https://developers.google.com/maps/documentation/geocoding},
 #'   \url{https://developers.google.com/maps/documentation/javascript/geocoding},
-#'   \url{https://developers.google.com/maps/documentation/geocoding/usage-and-billing}
+#'   \url{https://developers.google.com/maps/documentation/geocoding/usage-and-billing},
+#'   \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC8972108/}
 #'
 #'
 #' @name geocode
