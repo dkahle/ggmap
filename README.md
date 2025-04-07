@@ -159,7 +159,7 @@ ggmap(map, darken = .3) +
 
 ## Google Maps
 
-[Google Maps](https://cloud.google.com/maps-platform/terms/) can be used
+[Google Maps](https://cloud.google.com/maps-platform/terms) can be used
 just as easily. However, since Google Maps use a center/zoom
 specification, their input is a bit different:
 
@@ -197,6 +197,7 @@ revgeocode(c(lon = -97.1161, lat = 31.55098))
 #  Warning: Multiple addresses found, the first will be returned:
 #  !   1301 S University Parks Dr, Waco, TX 76706, USA
 #  !   55 Baylor Ave, Waco, TX 76706, USA
+#  !   1437 S University Parks Dr, Waco, TX 76706, USA
 #  !   HV2M+9H Waco, TX, USA
 #  !   Bear Trail, Waco, TX 76706, USA
 #  !   Robinson, TX 76706, USA
@@ -209,7 +210,7 @@ revgeocode(c(lon = -97.1161, lat = 31.55098))
 
 *Note: `geocode()` uses Google’s Geocoding API to geocode addresses.
 Please take care not to disclose sensitive information. [Rundle, Bader,
-and Moody (2022)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108/)
+and Moody (2022)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8972108)
 have considered this issue and suggest various alternative options for
 such data.*
 
@@ -226,7 +227,7 @@ tibble(address = c("white house", "", "waco texas")) |>
 #    <chr>         <dbl> <dbl>
 #  1 "white house" -77.0  38.9
 #  2 ""             NA    NA  
-#  3 "waco texas"  -97.1  31.5
+#  3 "waco texas"  -97.1  31.6
 ```
 
 Treks use Google’s routing API to give you routes (`route()` and
@@ -265,8 +266,8 @@ mapdist(c("houston, texas", "dallas"), "waco, texas")
 #  # A tibble: 2 × 9
 #    from           to               m    km miles seconds minutes hours mode   
 #    <chr>          <chr>        <int> <dbl> <dbl>   <int>   <dbl> <dbl> <chr>  
-#  1 dallas         waco, texas 155265  155.  96.5    5303    88.4  1.47 driving
-#  2 houston, texas waco, texas 298224  298. 185.    10217   170.   2.84 driving
+#  1 dallas         waco, texas 151451  151.  94.1    5004    83.4  1.39 driving
+#  2 houston, texas waco, texas 293959  294. 183.     9983   166.   2.77 driving
 ```
 
 ## Google Maps API key
