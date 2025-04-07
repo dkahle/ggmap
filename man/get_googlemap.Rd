@@ -72,7 +72,7 @@ to format). Default \code{NULL} means a random \code{\link[=tempfile]{tempfile()
 
 \item{archiving}{use archived maps.  note: by changing to TRUE you agree to
 the one of the approved uses listed in the Google Maps API Terms of Service
-: \url{https://cloud.google.com/maps-platform/terms/}.}
+: \url{https://cloud.google.com/maps-platform/terms}.}
 
 \item{ext}{domain extension (e.g. \code{"com"}, \code{"co.nz"})}
 
@@ -109,7 +109,7 @@ attribute)
 \code{\link[=get_googlemap]{get_googlemap()}} queries the Google Maps Static API version 2 to download
 a static map.  Note that in most cases by using this function you are
 agreeing to the Google Maps API Terms of Service at
-\url{https://cloud.google.com/maps-platform/terms/}. Note that as of mid-2018,
+\url{https://cloud.google.com/maps-platform/terms}. Note that as of mid-2018,
 registering with Google Cloud to obtain an API key is required to use any of
 Google's services, including \code{\link[=get_googlemap]{get_googlemap()}}. Usage and billing may apply,
 see the links under See Also further down in this documentation for more

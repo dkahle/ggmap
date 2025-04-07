@@ -1,5 +1,4 @@
 #' @import ggplot2
-#' @docType package
 #' @name ggmap
 #' @importFrom png readPNG
 #' @importFrom jpeg readJPEG

@@ -10,12 +10,12 @@
     "\n  ",
     "Stadia Maps' Terms of Service: ",
     cli::col_blue(cli::style_italic(
-      cli::style_hyperlink("<https://stadiamaps.com/terms-of-service/>", "https://stadiamaps.com/terms-of-service/")
+      cli::style_hyperlink("<https://stadiamaps.com/terms-of-service>", "https://stadiamaps.com/terms-of-service")
     )),
     "\n  ",
     "OpenStreetMap's Tile Usage Policy: ",
     cli::col_blue(cli::style_italic(
-      cli::style_hyperlink("<https://operations.osmfoundation.org/policies/tiles/>", "https://operations.osmfoundation.org/policies/tiles/")
+      cli::style_hyperlink("<https://operations.osmfoundation.org/policies/tiles>", "https://operations.osmfoundation.org/policies/tiles")
     ))
   )
   cite <- paste0(

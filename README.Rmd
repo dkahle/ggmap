@@ -150,7 +150,7 @@ ggmap(map, darken = .3) +
 
 ## Google Maps
 
-[Google Maps](https://cloud.google.com/maps-platform/terms/) can be used just as
+[Google Maps](https://cloud.google.com/maps-platform/terms) can be used just as
 easily.  However, since Google Maps use a center/zoom specification, their input
 is a bit different:
 ```{r google_maps, fig.height=5, fig.width=5}

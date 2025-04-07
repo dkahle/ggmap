@@ -5,7 +5,7 @@ GOOGLE_VALID_MAP_TYPES <- c("terrain", "satellite", "roadmap", "hybrid")
 #' [get_googlemap()] queries the Google Maps Static API version 2 to download
 #' a static map.  Note that in most cases by using this function you are
 #' agreeing to the Google Maps API Terms of Service at
-#' \url{https://cloud.google.com/maps-platform/terms/}. Note that as of mid-2018,
+#' \url{https://cloud.google.com/maps-platform/terms}. Note that as of mid-2018,
 #' registering with Google Cloud to obtain an API key is required to use any of
 #' Google's services, including [get_googlemap()]. Usage and billing may apply,
 #' see the links under See Also further down in this documentation for more
@@ -41,7 +41,7 @@ GOOGLE_VALID_MAP_TYPES <- c("terrain", "satellite", "roadmap", "hybrid")
 #'   "/")
 #' @param archiving use archived maps.  note: by changing to TRUE you agree to
 #'   the one of the approved uses listed in the Google Maps API Terms of Service
-#'   : \url{https://cloud.google.com/maps-platform/terms/}.
+#'   : \url{https://cloud.google.com/maps-platform/terms}.
 #' @param ext domain extension (e.g. `"com"`, `"co.nz"`)
 #' @param inject character string to add to the url
 #' @param region borders to display as a region code specified as a
