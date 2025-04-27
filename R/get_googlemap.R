@@ -390,6 +390,9 @@ get_googlemap <- function(
     )
   }
 
+  if (!requireNamespace("RgoogleMaps", quietly = TRUE)) {
+    cli::cli_abort("RgoogleMaps is required for XY2LatLon().")
+  }
 
   ## read in map and format, add meta data
   ############################################################
@@ -409,12 +412,12 @@ get_googlemap <- function(
   # map spatial info
   if(is.character(center)) center <- as.numeric(geocode(center, source = "google"))
 
-  ll <- XY2LatLon(
+  ll <- RgoogleMaps::XY2LatLon(
     list(lat = center[2], lon = center[1], zoom = zoom),
     -size[1]/2 + 0.5,
     -size[2]/2 - 0.5
   )
-  ur <- XY2LatLon(
+  ur <- RgoogleMaps::XY2LatLon(
     list(lat = center[2], lon = center[1], zoom = zoom),
     size[1]/2 + 0.5,
     size[2]/2 - 0.5
