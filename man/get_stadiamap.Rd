@@ -26,7 +26,8 @@ upperrightlon, upperrightlat).}
 \item{maptype}{stamen_terrain, stamen_toner, stamen_toner_lite, stamen_watercolor,
 stamen_terrain_background, stamen_toner_background,
 stamen_terrain_lines, stamen_terrain_labels,
-stamen_toner_lines, stamen_toner_labels.}
+stamen_toner_lines, stamen_toner_labels, alidade_smooth, alidade_smooth_dark,
+alidade_bright, and outdoors.}
 
 \item{crop}{crop raw map tiles to specified bounding box. if FALSE, the
 resulting map will more than cover the bounding box specified.}

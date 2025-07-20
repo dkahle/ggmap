@@ -37,8 +37,9 @@ supported.}
 "terrain", "terrain-background", "satellite", "roadmap", and "hybrid"
 (Google Maps), "stamen_terrain", "stamen_toner", "stamen_toner_lite", "stamen_watercolor",
 "stamen_terrain_background", "stamen_toner_background",
-"stamen_terrain_lines", "stamen_terrain_labels",
-"stamen_toner_lines", "stamen_toner_labels"
+"stamen_terrain_lines", "stamen_terrain_labels", "stamen_toner_lines",
+"stamen_toner_labels","alidade_smooth", "alidade_smooth_dark",
+"alidade_bright" and "outdoors"
 (Stadia Maps)}
 
 \item{source}{Google Maps ("google"), OpenStreetMap ("osm"), Stadia Maps
