@@ -558,7 +558,7 @@ retry_stamen_map_download <- function() {
 #   ll.lon <- NULL; rm(ll.lon);
 #
 #   # determine bounding box
-#   bbs <- ldply(tiles, function(x) attr(x, "bb"))
+#   bbs <- bind_rows(lapply(tiles, function(x) attr(x, "bb")))
 #
 #   bigbb <- data.frame(
 #     ll.lat = min(bbs$ll.lat),

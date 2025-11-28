@@ -172,8 +172,8 @@ get_cloudmademap <- function(
       top = lonlat_upperleft$lat
     )
   }
-  tileBboxes <- ldply(split(tilesNeeded,1:nrow(tilesNeeded)),
-    function(df) bboxOfTile(as.numeric(df)))
+  tileBboxes <- bind_rows(lapply(split(tilesNeeded,1:nrow(tilesNeeded)),
+    function(df) bboxOfTile(as.numeric(df))))
   mbbox <- c(
     left = min(tileBboxes$left),
     bottom = min(tileBboxes$bottom),
