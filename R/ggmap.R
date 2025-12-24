@@ -147,7 +147,11 @@
 #'   geom_path(aes(x = lon, y = lat, group = plotOrder),
 #'     data = zips, colour = "white", alpha = .4, size = .4)
 #'
-#' library(plyr)
+#' zips <- zips[!duplicated(names(zips))]
+#' zipsLabels <- zips %>%
+#'   dplyr::slice(1L, .by = zip) %>%
+#'   dplyr::select(area, perimeter, zip, lonCent, latCent) %>%
+#'   dplyr::arrange(zip)
 #' zipsLabels <- ddply(zips, .(zip), function(df){
 #'   df[1,c("area", "perimeter", "zip", "lonCent", "latCent")]
 #' })

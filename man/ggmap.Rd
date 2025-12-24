@@ -178,10 +178,11 @@ ggmap(get_map(maptype = "satellite", zoom = 8), extent = "device") +
   geom_path(aes(x = lon, y = lat, group = plotOrder),
     data = zips, colour = "white", alpha = .4, size = .4)
 
-library(plyr)
-zipsLabels <- ddply(zips, .(zip), function(df){
-  df[1,c("area", "perimeter", "zip", "lonCent", "latCent")]
-})
+zips <- zips[!duplicated(names(zips))]
+zipsLabels <- zips %>%
+  dplyr::slice(1L, .by = zip) %>%
+  dplyr::select(area, perimeter, zip, lonCent, latCent) %>%
+  dplyr::arrange(zip)
 ggmap(get_map(maptype = "satellite", zoom = 9),
     extent = "device", legend = "none", darken = .5) +
   geom_text(aes(x = lonCent, y = latCent, label = zip, size = area),
