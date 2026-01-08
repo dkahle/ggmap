@@ -300,7 +300,7 @@ qmplot <- function(x, y, ..., data, zoom, source = "stadia", maptype = "stamen_t
       geom[geom == "auto"] <- "qq"
     } else if (missing(y)) {
       x <- eval(aesthetics$x, data, env)
-      if (is.discrete(x)) {
+      if (is.factor(x) || is.character(x) || is.logical(x)) {
         geom[geom == "auto"] <- "bar"
       } else {
         geom[geom == "auto"] <- "histogram"
