@@ -407,7 +407,7 @@ qmplot <- function(x, y, ..., data, zoom, source = "stadia", maptype = "stamen_t
 
   if (is.null(facets)) {
     p <- p + facet_null()
-  } else if (is.formula(facets) && length(facets) == 2) {
+  } else if (inherits(facets, "formula") && length(facets) == 2) {
     p <- p + facet_wrap(facets)
   } else {
     p <- p + facet_grid(facets = deparse(facets), margins = margins)
