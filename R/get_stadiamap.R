@@ -420,7 +420,7 @@ stitch <- function(tiles){
   )
 
   # determine positions of tile in slate (aggregate)
-  order <- as.numeric( arrange(bbs, desc(ll.lat), ll.lon)$.id )
+  order <- as.numeric( bbs$.id[order(-bbs$ll.lat, bbs$ll.lon)] )
   tiles <- tiles[order]
   tiles <- lapply(tiles, as.matrix) # essential for cbind/rbind to work properly!
 
