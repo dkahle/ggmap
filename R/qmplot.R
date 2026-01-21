@@ -276,7 +276,7 @@ qmplot <- function(x, y, ..., data, zoom, source = "stadia", maptype = "stamen_t
   if("mapcolour" %in% argsgiven) mapcolor <- eval(args$mapcolour)
 
   .all_aesthetics <- unlist(.all_aesthetics[1:42])
-  aesthetics <- compact(arguments[.all_aesthetics])
+  aesthetics <- Filter(function(x) !is.null(x), arguments[.all_aesthetics])
   aesthetics <- aesthetics[!is.constant(aesthetics)]
   aes_names <- names(aesthetics)
   aesthetics <- rename_aes(aesthetics)
